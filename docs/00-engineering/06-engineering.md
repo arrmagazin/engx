@@ -2,6 +2,7 @@
 
 ![Engineering Fundamentals](/images/01-engineering.svg)
 
+
 ### Solutions and Delivery
 
 | Concept | Definition |
@@ -40,6 +41,7 @@ flowchart LR
 | Concept | Definition |
 | --------- | ------------ |
 | **Engineering** | The disciplined art of delivering solutions grounded in the scientific method, applied science, math, and domain expertise, through appropriate methodologies, technologies, tools, and frameworks |
+| **Paradigm** | A method of using `Knowledge` that enables evaluating and directing the Future for practical success in a given `System`.|
 | **Technology** | A defined way to setup and control processes ensuring effective, reproducible, verified success |
 | **Software Engineering** | Engineering in the field of software delivery on top of computer science and applied math |
 | **Project** | A managed endeavor where the Team pursues Success reaching predefined Goals on top of given paradigms, technologies, and methodology |
