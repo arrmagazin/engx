@@ -11,7 +11,7 @@ Related: [Methodology](../01-methodology/14-methodology.md) · [Scrum](../01-met
 ## Scope
 
 | Dimension | Question it answers | Primary artifact |
-|---|---|---|
+| --- | --- | --- |
 | **Product** | What are we building and why? | Roadmap, backlog |
 | **Delivery** | When will it ship, and at what risk? | Plan, milestones, release train |
 | **People** | Who does it, and are they growing? | Assignments, 1:1s, growth plans |
@@ -101,7 +101,7 @@ graph TD
 ```
 
 | Stage | Input | Output | Cadence |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Strategy** | Business goals, market, constraints | Themes, success metrics | Quarterly / annually |
 | **Roadmap** | Themes | Sequenced initiatives with rough sizing | Quarterly |
 | **Backlog** | Initiatives, bugs, tech debt, requests | Ordered, refined items | Continuous (weekly grooming) |
@@ -119,7 +119,7 @@ graph TD
 Plan with decreasing precision as the horizon extends. Precision beyond the evidence is waste.
 
 | Horizon | Period | Granularity | Confidence |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Strategic** | 6–12 months | Themes, outcomes | Directional |
 | **Tactical** | 1–3 months | Initiatives, epics | Sized, not scheduled |
 | **Operational** | 1–4 weeks | Stories, tasks | Committed |
@@ -127,12 +127,31 @@ Plan with decreasing precision as the horizon extends. Precision beyond the evid
 
 ---
 
+## Delivery Phases
+
+| Phase | Activities |
+| ------- | ------------ |
+| **Initial** | Identifying context; defining customer problems; analyzing situation; acquiring domain knowledge; refining terminology; marketing research; defining strategy; business analysis |
+| **Planning** | Product design and innovation; architecture vision; proof of model; challenging from viewpoints; choosing platforms/paradigms/technologies; estimation; risk assessment |
+| **Pre-Production Setup** | Team staffing; infrastructure setup; defining processes and procedures |
+| **Production** | Crafting/implementation; system integration; task coordination; research; problem solving; QA; security; optimization; documentation |
+| **Post-Production** | Deployment; training; maintenance and support; tracking/measuring; adoption and evolution; lessons learned |
+
+```mermaid
+flowchart LR
+    I[Initial] --> P[Planning]
+    P --> S[Pre-Production Setup]
+    S --> Pr[Production]
+    Pr --> Po[Post-Production]
+    Po -.->|lessons learned| I
+```
+
 ## Prioritization
 
 Pick one framework and apply it consistently; mixing frameworks produces arguments, not order.
 
 | Framework | Formula / Rule | Best for |
-|---|---|---|
+| --- | --- | --- |
 | **RICE** | `(Reach × Impact × Confidence) / Effort` | Product backlogs with comparable items |
 | **WSJF** | `Cost of Delay / Job Duration` | Scaled delivery, competing epics |
 | **MoSCoW** | Must / Should / Could / Won't | Fixed-date releases, scope negotiation |
@@ -142,7 +161,7 @@ Pick one framework and apply it consistently; mixing frameworks produces argumen
 **Reserve capacity explicitly.** A workable default split per cycle:
 
 | Category | Share |
-|---|---|
+| --- | --- |
 | Planned feature work | 60–70% |
 | Tech debt and maintenance | 15–20% |
 | Support, incidents, interrupts | 10–20% |
@@ -174,7 +193,7 @@ graph LR
 ```
 
 | Response | When to use |
-|---|---|
+| --- | --- |
 | **Avoid** | Impact unacceptable, alternative path exists |
 | **Mitigate** | Reduce probability or impact (spike, prototype, phased rollout) |
 | **Transfer** | Another party is better positioned (vendor, insurance, platform team) |
@@ -187,7 +206,7 @@ Keep a short, live risk list (5–10 items). Each entry: description, probabilit
 ## Decision Making
 
 | Decision type | Approach |
-|---|---|
+| --- | --- |
 | **Reversible, low impact** | Delegate. Decide fast, correct later. |
 | **Reversible, high impact** | Decide with input, set an explicit review point. |
 | **Irreversible** | Slow down. Gather data, write it down, review with peers. |
@@ -203,7 +222,7 @@ Use a single accountable decider per decision (`DACI`: Driver, Approver, Contrib
 Delegate the **outcome**, not the steps. Match the level of autonomy to demonstrated competence in that specific area:
 
 | Level | Instruction | Use when |
-|---|---|---|
+| --- | --- | --- |
 | 1 | "Do exactly this" | New to the domain |
 | 2 | "Investigate, report back, I decide" | Learning |
 | 3 | "Recommend an option, then act on approval" | Growing |
@@ -217,7 +236,7 @@ Delegating at too low a level stalls growth; too high a level sets people up to 
 ## Communication Cadence
 
 | Ritual | Frequency | Purpose | Failure mode to avoid |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Standup** | Daily, ≤15 min | Surface blockers | Status theater for the manager |
 | **1:1** | Weekly / bi-weekly, 30 min | Growth, friction, feedback | Cancelled when busy; turned into status |
 | **Planning** | Per cycle | Commit scope to capacity | Committing beyond capacity |
@@ -236,7 +255,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 **Delivery performance (DORA):**
 
 | Metric | Signal |
-|---|---|
+| --- | --- |
 | Deployment frequency | Batch size and pipeline health |
 | Lead time for change | End-to-end flow efficiency |
 | Change failure rate | Quality of the delivery process |
@@ -245,7 +264,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 **Flow:**
 
 | Metric | Signal |
-|---|---|
+| --- | --- |
 | Throughput | Items completed per period — the basis for forecasting |
 | Cycle time | Start → done for one item; watch the distribution, not the mean |
 | WIP | Work started but not finished; the primary lever on cycle time |
@@ -276,7 +295,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 ## Anti-patterns
 
 | Anti-pattern | Why it fails | Correction |
-|---|---|---|
+| --- | --- | --- |
 | Adding people to a late project | Onboarding cost exceeds short-term gain | Cut scope instead |
 | Fixed scope + fixed date + fixed team | Only quality can absorb variance | Make scope the variable |
 | Estimates as commitments | Punishes honest estimation | Forecast with ranges and throughput |
