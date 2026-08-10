@@ -57,7 +57,7 @@ Key SonarQube-style metrics:
 
 ## Managing Technical Debt
 
-Many teams track project health with a RAG (Red/Amber/Green) status:
+Many teams track project health with a Red/Amber/Green status:
 - **Red** — issues must be resolved for successful delivery.
 - **Amber** — potential issues that may need attention later.
 - **Green** — healthy performance.
@@ -92,7 +92,7 @@ Unmanaged debt tends to shift a project's status from green to amber to red over
 - Estimate intentional technical debt explicitly.
 - Regularly allocate time to reduce intentional technical debt.
 
-## Related External Resources Mentioned
+## Related External Resources
 - "Towards an Ontology of Terms on Technical Debt"
 - "Technical Debt Quadrant"
 - "Dealing with Legacy Code and Technical Debt"
