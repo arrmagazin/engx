@@ -1,4 +1,4 @@
-# Unit Testing — Theoretical Summary
+# Unit Testing
 
 ## Core definition
 - A unit test is code that asserts one or more conditions to verify another piece of code behaves as expected, in isolation, without running the full application.
