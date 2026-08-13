@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Application Types
+description: Compares frontend application architectures like SPAs and PWAs and their key characteristics.
+tags: [frontend, spa, pwa, architecture]
+---
+
 # Application Types
 
 ## Single-Page Applications (SPA)

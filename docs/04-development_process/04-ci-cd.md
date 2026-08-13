@@ -1,3 +1,10 @@
+---
+type: Guide
+title: CI/CD
+description: Explains continuous integration and delivery pipelines and the environment stages code moves through before production.
+tags: [devops, ci-cd, development-process]
+---
+
 # CI/CD
 
 Automates integration and deployment: Code → Build → Test → Deploy → Monitor.

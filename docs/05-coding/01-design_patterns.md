@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Design principles
+description: Catalogs core software design principles (encapsulation, DRY, SoC, and more) and the SOLID principles of object-oriented design.
+tags: [coding, design-principles, solid]
+---
+
 # Design principles
 
 **`Component`** := A named piece of code that can be combined with others to build larger components.

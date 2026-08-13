@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Development Process
+description: Indexes the development process sub-topics—code review, version control, debugging, and CI/CD.
+tags: [process, development, methodology]
+---
+
 # Development Process
 
 ![Development Process](/images/12-Development-Process.svg)

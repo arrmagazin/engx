@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Knowledge Sharing — Key Insights & Notes
+description: Explains healthy vs. unhealthy knowledge sharing practices and their impact on team risk and delivery.
+tags: [development-process, knowledge-sharing, team]
+---
+
 # Knowledge Sharing — Key Insights & Notes
 
 Source: EPAM EngX.AI Bootcamp — "Knowledge Sharing" module

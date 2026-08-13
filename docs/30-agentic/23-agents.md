@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Agentic AI
+description: Explains the anatomy of an LLM agent and common agent patterns like ReAct, Plan-and-Execute, and Reflection.
+tags: [ai, agentic-ai, agents, llm]
+---
+
 # Agentic AI
 
 An **Agent** is an LLM placed inside a loop where it can **reason**, **act** through tools, **observe**

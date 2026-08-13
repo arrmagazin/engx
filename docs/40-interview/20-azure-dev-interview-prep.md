@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Azure DevOps/Infrastructure Engineer — Prep Guide
+description: Study checklist covering Azure core services, networking, storage, identity, and DevOps competency areas for interviews.
+tags: [interview, azure, cloud, devops]
+---
+
 # Azure DevOps/Infrastructure Engineer — Prep Guide
 
 A study map organized around the five competency areas from the job description. Use this as a checklist: for each bullet, be ready to explain the concept, name the relevant Azure service, and describe a scenario where you used or would use it.

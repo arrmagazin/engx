@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Technical Debt — Key Insights & Notes
+description: Explains intentional vs. unintentional technical debt, how to recognize it, and how to manage it.
+tags: [development-process, technical-debt, architecture]
+---
+
 # Technical Debt — Key Insights & Notes
 
 Source: EPAM EngX.AI Bootcamp — "Technical Debt" module

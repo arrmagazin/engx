@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Quality Assurance
+description: Covers QA overview, test case management, and defect management processes across the software testing lifecycle.
+tags: [testing, qa, process]
+---
+
 # Quality Assurance 
 
 - QA is a full process (mostly run by test engineers) that gives confidence a product meets client/user expectations; 

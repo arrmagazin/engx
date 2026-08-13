@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Key Quality Attributes
+description: Catalogs design, runtime, system, and user quality attributes used to evaluate software architecture.
+tags: [architecture, quality-attributes, system-design]
+---
+
 # Key Quality Attributes
 
 #### Design Qualities

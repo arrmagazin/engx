@@ -1,26 +1,14 @@
+---
+type: Guide
+title: Frontend
+description: Curated list of core frontend documentation, web standards, and learning roadmaps.
+tags: [frontend, resources, reference]
+---
+
 # Frontend
 
 ![Frontend](/images/21-frontend.svg)
 
----
-
-## Web Application Fundamentals
-
-- [Application Types](01-application-types.md)
-- [Data Formats](02-data-formats.md)
-- [Client-Server Communication](03-client-server-communication.md)
-- [Browser Technologies](04-browser-technologies.md)
-
-## Considerations
-
-- [WCAG (Accessibility)](07-wcag.md)
-- [Performance Optimization](10-performance-optimization.md)
-- [Web Application Security](17-web-application-security.md)
-
-
-## References
-
--
 #### Core Documentation
 
 | Resource | URL |
@@ -62,11 +50,3 @@
 | Web Performance (Google) | <https://web.dev/learn/performance/> |
 | Front-end Guide (Grab) | <https://github.com/grab/front-end-guide> |
 
-#### Practice and Interview Prep
-
-| Resource | URL |
-| --- | --- |
-| LeetCode | <https://leetcode.com/> |
-| Frontend Interview Handbook | <https://frontendinterviewhandbook.com/> |
-| React Interview Questions | <https://github.com/sudheerj/reactjs-interview-questions> |
-| Interviewing.io | <https://interviewing.io/> |

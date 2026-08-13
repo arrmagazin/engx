@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Debugging
+description: Summarizes Chrome DevTools panels, shortcuts, and JavaScript console debugging techniques.
+tags: [debugging, tooling, frontend]
+---
+
 # Debugging
 
 ## Chrome DevTools

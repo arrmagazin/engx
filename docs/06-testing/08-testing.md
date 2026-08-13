@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Frontend Testing
+description: Covers the testing pyramid, F.I.R.S.T. principles, and best practices for frontend test suites.
+tags: [testing, frontend, qa]
+---
+
 # Frontend Testing
 
 ![Frontend Testing](/images/08-testing.svg)

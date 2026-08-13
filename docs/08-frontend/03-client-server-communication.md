@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Client-Server Communication
+description: Covers HTTP methods and status codes, REST API design, and GraphQL query patterns.
+tags: [frontend, http, rest, graphql]
+---
+
 # Client-Server Communication
 
 ## HTTP

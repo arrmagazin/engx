@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Team Lead: Responsibility, Way of Working, Workflow
+description: Describes a team lead's core responsibilities, way of working, and workflow in a hybrid software team.
+tags: [people, leadership, team-lead, management]
+---
+
 # Team Lead: Responsibility, Way of Working, Workflow
 
 A team leader serves as the central hub connecting company strategy with daily operations — bridging upper management and frontline staff by translating high-level business goals into practical, actionable milestones.

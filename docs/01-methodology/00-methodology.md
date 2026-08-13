@@ -1,3 +1,9 @@
+---
+type: Guide
+title: Methodology
+description: Defines core methodology concepts—method, framework, best-practice—and the lifecycle stages by which goals become executed action.
+tags: [methodology, process, terminology]
+---
 
 # Methodology
 

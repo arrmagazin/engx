@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Engineering Management
+description: Frames engineering management as turning goals into delivered outcomes across product, delivery, people, process, and technical scope.
+tags: [management, leadership, process]
+---
+
 # Engineering Management
 
 Management is the discipline of turning **goals into delivered outcomes** through people, process, and priorities — under constraints of time, capacity, and quality.

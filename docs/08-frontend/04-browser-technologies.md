@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Browser Technologies
+description: Covers HTML5 semantic elements and form enhancements, plus CSS fundamentals like the cascade and specificity.
+tags: [frontend, html, css, browser]
+---
+
 # Browser Technologies
 
 ## HTML5

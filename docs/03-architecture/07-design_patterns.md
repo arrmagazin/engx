@@ -1,3 +1,9 @@
+---
+type: Guide
+title: Design Pattern
+description: Defines design patterns and maps the structural, creational, behavioral, and concurrency pattern families.
+tags: [architecture, design-patterns]
+---
 
 # Design Pattern
 

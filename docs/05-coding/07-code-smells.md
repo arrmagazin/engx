@@ -1,3 +1,9 @@
+---
+type: Guide
+title: Code Smells
+description: Catalogs naming, application-, class-, method-, and design-level code smells to watch for during review.
+tags: [coding, code-smells, code-quality]
+---
 
 # Code Smells
 

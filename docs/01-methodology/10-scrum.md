@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Scrum Framework
+description: Summarizes the Scrum framework's roles, ceremonies, and empirical approach to delivering product increments.
+tags: [methodology, agile, scrum]
+---
+
 ## Scrum Framework
 
 ![Scrum Framework](/images/10-scrum.svg)

@@ -1,3 +1,10 @@
+---
+type: Guide
+title: WCAG (Accessibility)
+description: Summarizes the WCAG accessibility principles and provides ARIA markup examples for common patterns.
+tags: [frontend, accessibility, wcag, aria]
+---
+
 # WCAG (Accessibility)
 
 | Principle | Description |

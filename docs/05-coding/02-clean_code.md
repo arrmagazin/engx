@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Clean Code Principles
+description: Lists clean code principles—simplicity, readability, error handling, testing—for writing maintainable code.
+tags: [coding, clean-code, best-practices]
+---
+
 # Clean Code Principles
 
 ![Culture of Coding](/images/06-coding.svg)

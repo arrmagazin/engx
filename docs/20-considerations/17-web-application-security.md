@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Web Application Security
+description: Covers core web security principles and the OWASP Top 10 vulnerability categories.
+tags: [security, web, owasp]
+---
+
 # Web Application Security
 
 ## Security Principles

@@ -1,3 +1,10 @@
+---
+type: Guide
+title: System Design Interview Glossary
+description: Reference glossary of system design terms and named concepts (scaling, sharding, caching, and more) organized by category.
+tags: [architecture, system-design, interview, glossary]
+---
+
 # System Design Interview Glossary
 
 A reference of every concept, term, and named problem covered in prep, organized by category. Use this alongside `system-design-interview-prep.md`.

@@ -1,3 +1,10 @@
+---
+type: Guide
+title: System Architecture
+description: Defines system architecture as a discipline and describes its architectural views (logical, process, deployment, technology).
+tags: [architecture, system-design]
+---
+
 # System Architecture
 
 ![System Architecture](/images/02-architecture.svg)

@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Code Quality — Key Insights
+description: Explains functional vs. structural code quality, why quality matters, and the rising cost of late-found defects.
+tags: [coding, code-quality, maintainability]
+---
+
 # Code Quality — Key Insights
 
 ## Core Concept

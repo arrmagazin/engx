@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Unit Testing
+description: Explains unit testing fundamentals, its role in maintainability, the testing pyramid, and F.I.R.S.T. principles.
+tags: [testing, unit-testing, qa]
+---
+
 # Unit Testing
 
 ## Core definition

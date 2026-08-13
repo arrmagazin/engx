@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Code Review
+description: Explains code review's benefits, types, workflow, key focus areas, and checklist practices.
+tags: [development-process, code-review, quality]
+---
+
 # Code Review
 
 Code review catches bugs early, shares knowledge, and enforces standards.

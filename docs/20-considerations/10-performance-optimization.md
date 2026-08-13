@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Performance Optimization
+description: Covers performance budgets, Core Web Vitals, and rendering optimization techniques for the frontend.
+tags: [frontend, performance, web-vitals]
+---
+
 # Performance Optimization
 
 ## Performance Budgets

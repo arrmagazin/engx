@@ -1,3 +1,10 @@
+---
+type: Guide
+title: System Design Interview Prep (Senior / Staff)
+description: Walks through a standard framework and 10 canonical system design problems for senior/staff-level interviews, organized by bottleneck.
+tags: [architecture, system-design, interview]
+---
+
 # System Design Interview Prep (Senior / Staff)
 
 A comprehensive reference covering 10 canonical system design problems, organized by the *core bottleneck* each one tests. Built for a senior/staff-level interview loop.

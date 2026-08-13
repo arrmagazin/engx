@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Kafka — Core Concepts and Workflow
+description: Explains Kafka's core concepts, end-to-end workflow, delivery semantics, and how it compares to Redis and Temporal.
+tags: [tech-stack, kafka, messaging, streaming]
+---
+
 # Kafka — core concepts and workflow
 
 ## Core concepts

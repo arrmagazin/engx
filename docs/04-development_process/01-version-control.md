@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Version Control
+description: Covers version control system fundamentals and compares centralized vs. distributed VCS approaches like Git.
+tags: [development, git, version-control]
+---
+
 # Version Control
 
 

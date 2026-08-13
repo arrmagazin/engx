@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Programming Paradigms
+description: Surveys programming paradigms—imperative, declarative, and others—and how each treats data and computation.
+tags: [coding, programming-paradigms]
+---
+
 # Programming
 
 ![Programming](/images/05-programming.svg)

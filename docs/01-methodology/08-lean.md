@@ -1,3 +1,10 @@
+---
+type: Guide
+title: Lean Architecture
+description: Explains Lean Architecture's WHY/HOW/BY WHOM/WHAT principles for maximizing value and minimizing waste in system design.
+tags: [methodology, lean, architecture]
+---
+
 ## Lean Architecture
 
 Lean Architecture is derived from principles of Lean Thinking and Lean Manufacturing,
