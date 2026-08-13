@@ -5,7 +5,7 @@ description: Explains Lean Architecture's WHY/HOW/BY WHOM/WHAT principles for ma
 tags: [methodology, lean, architecture]
 ---
 
-## Lean Architecture
+# Lean Architecture
 
 Lean Architecture is derived from principles of Lean Thinking and Lean Manufacturing,
 primarily used in software development, systems design, and enterprise architecture.
@@ -22,15 +22,15 @@ flowchart LR
     WHAT -.feedback.-> WHY
 ```
 
-### Key Principles
+## Key Principles
 
-#### WHY
+### WHY
 
 | Principle | Description |
 | ----------- | ------------- |
 | **Focus on Value** | Prioritize delivery of value to end-user; ensure every aspect of design adds value |
 
-#### HOW
+### HOW
 
 | Principle | Description |
 | ----------- | ------------- |
@@ -38,7 +38,7 @@ flowchart LR
 | **Deliver as Fast as Possible** | Deliver customer value early and continuously; shorten time to market; enable fast feedback loops |
 | **Decide as Late as Possible** | Avoid making decisions too early; remain open to change and new information (Last Responsible Moment) |
 
-#### BY WHOM
+### BY WHOM
 
 | Principle | Description |
 | ----------- | ------------- |
@@ -49,7 +49,7 @@ flowchart LR
 | **Amplify Learning** | Build architecture encouraging fast feedback and learning; involve stakeholders early |
 | **Continuous Improvement** | Encourage culture where feedback and lessons enhance future processes |
 
-#### WHAT
+### WHAT
 
 | Principle | Description |
 | ----------- | ------------- |

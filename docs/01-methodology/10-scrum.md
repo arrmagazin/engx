@@ -5,11 +5,11 @@ description: Summarizes the Scrum framework's roles, ceremonies, and empirical a
 tags: [methodology, agile, scrum]
 ---
 
-## Scrum Framework
+# Scrum Framework
 
 ![Scrum Framework](/images/10-scrum.svg)
 
-### What is Scrum?
+## What is Scrum?
 
 **Scrum** is a lightweight framework that helps to
 generate value through adaptive solutions for complex problems.
@@ -21,7 +21,7 @@ It's about managing the process of development, delivery, and sustaining of prod
 - Employs transparency, inspection, and adaptation to optimize predictability and control risk
 - Emphasizes self-organized, high-performing team that values commitment, courage, focus, openness, and respect
 
-### The Scrum Team
+## The Scrum Team
 
 | Role | Description |
 | ------ | ------------- |
@@ -29,7 +29,7 @@ It's about managing the process of development, delivery, and sustaining of prod
 | **Scrum Master** | Servant-leader helping everyone understand Scrum theory, practices, rules, and values; responsible for process and maximizing benefits |
 | **Development Team** | Cross-functional group working together toward common goals; responsible for delivering Increments at end of every sprint |
 
-### Scrum Ceremonies
+## Scrum Ceremonies
 
 1. **Daily** - Daily standup meeting
 2. **Planning** - Sprint planning session
@@ -53,7 +53,7 @@ sequenceDiagram
     Dev->>PO: Increment
 ```
 
-### Scrum Artifacts
+## Scrum Artifacts
 
 | Artifact | Description |
 | ---------- | ------------- |
@@ -98,7 +98,7 @@ classDiagram
     Sprint "1" --> "1" Increment : produces
 ```
 
-### Estimation Concepts
+## Estimation Concepts
 
 | Concept | Description |
 | --------- | ------------- |

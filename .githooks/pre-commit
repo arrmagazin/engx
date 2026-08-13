@@ -1,0 +1,11 @@
+#!/bin/sh
+# Blocks commits that add/modify docs/*.md files without valid OKF v0.2 frontmatter.
+# See CLAUDE.md ("Frontmatter convention") for the spec this enforces.
+
+files=$(git diff --cached --name-only --diff-filter=ACM -- 'docs/*.md')
+
+if [ -z "$files" ]; then
+    exit 0
+fi
+
+python3 scripts/check_okf_frontmatter.py $files

@@ -24,6 +24,7 @@ tags: [lowercase, kebab-or-single-word, tags]
 - `type` is always `Guide` in this repo (no data/computation assets live here).
 - When adding a new doc or a new H1, add/update this frontmatter block as the very first thing in the file — before the H1.
 - Don't add OKF's optional provenance/trust fields (`sources`, `generated`, `verified`, `status`, etc.) here; this repo doesn't use them.
+- A pre-commit hook (`.githooks/pre-commit`, running `scripts/check_okf_frontmatter.py`) enforces this on every commit that touches `docs/*.md`. Each clone must enable it once via `git config core.hooksPath .githooks`.
 
 ## Working conventions
 

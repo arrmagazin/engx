@@ -1,6 +1,6 @@
 ---
 type: Guide
-title: Databases — Core Concepts
+title: Databases — core concepts
 description: Covers core database concepts, ACID properties, isolation levels, and normalization.
 tags: [tech-stack, databases, sql]
 ---

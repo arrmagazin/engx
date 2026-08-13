@@ -1,6 +1,6 @@
 ---
 type: Guide
-title: Redis — Core Concepts and Workflow
+title: Redis — core concepts and workflow
 description: Explains Redis's core concepts, request workflow, pub/sub vs. streams, and typical use cases.
 tags: [tech-stack, redis, caching, in-memory]
 ---

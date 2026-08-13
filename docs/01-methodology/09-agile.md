@@ -5,7 +5,7 @@ description: Covers Agile's core concepts, values, and the twelve principles of 
 tags: [methodology, agile]
 ---
 
-## Agile Methodology
+# Agile Methodology
 
 ![Agile Methodology](/images/09-agile.svg)
 
@@ -15,7 +15,7 @@ tags: [methodology, agile]
 - through collaboration between self-organizing, cross-functional teams.
 - in way to bring competitive value, satisfying customer's business needs.
 
-### Core Concepts
+## Core Concepts
 
 | Concept | Description |
 | --------- | ------------- |
@@ -29,7 +29,7 @@ flowchart LR
   Adapt --> Reflect --> Plan
 ```
 
-### Agile Values
+## Agile Values
 
 | Value | Description |
 | ------- | ------------- |
@@ -38,7 +38,7 @@ flowchart LR
 | **Customer Collaboration** | Over contract negotiation. Requirements cannot be fully collected at beginning; continuous stakeholder involvement. |
 | **Responding to Change** | Over following a plan. Focused on quick responses to change and continuous development. |
 
-### The Agile Manifesto (12 Principles)
+## The Agile Manifesto (12 Principles)
 
 1. Customer satisfaction by early and continuous delivery of valuable software
 2. Welcome changing requirements, even in late development
@@ -53,7 +53,7 @@ flowchart LR
 11. Best architectures, requirements, and designs emerge from self-organizing teams
 12. Regularly, the team reflects on how to become more effective, and adjusts accordingly
 
-### Agile Practices
+## Agile Practices
 
 | Practice | Description |
 | ---------- | ------------- |
@@ -72,7 +72,7 @@ flowchart LR
 | Timeboxing | - |
 | User Story | Story-driven modeling |
 
-### Agile Methods
+## Agile Methods
 
 - Scrum
 - Kanban
