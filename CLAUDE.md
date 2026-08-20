@@ -28,5 +28,6 @@ tags: [lowercase, kebab-or-single-word, tags]
 
 ## Working conventions
 
+- Prefer standard English, no fancy or rare words or idioms.
 - Keep edits to markdown content itself — no code, no dependencies to install.
 - Preserve the numbered-prefix ordering scheme when adding files; don't renumber existing files without a reason.

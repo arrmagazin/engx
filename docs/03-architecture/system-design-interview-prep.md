@@ -29,21 +29,22 @@ At senior/staff level, interviewers care less about "do you know the buzzwords" 
 5. **Deep dives** — 2-4 of the *actually hard* parts (not everything deserves equal depth).
 6. **Cross-cutting concerns** — failure modes, caching, consistency tradeoffs, cost — named without being asked.
 
-### Summary Table — 10 Systems, 10 Bottleneck Shapes
 
-| System | Core Bottleneck |
-|---|---|
-| URL Shortener | ID generation, sharding, hot key |
-| Blogging Platform | Social graph fan-out, read/write split |
-| Short-Video Platform (TikTok) | Ranking/retrieval at scale, storage+CDN cost |
-| Messaging (Telegram) | Connection state, delivery guarantees, ordering |
-| Ride-hailing (Uber) | Geospatial indexing, high-churn writes |
-| Rate Limiter | Concurrency correctness, tight scope |
-| Web Crawler / Search | Parallel crawl, inverted index, freshness |
-| Payments / Ticketing | Strong consistency, idempotency, sagas |
-| Notification System | Multi-channel fan-out, dedup, retries |
-| Collaborative Editing (Docs/Figma) | Conflict resolution (OT/CRDT) |
-| Metrics / Monitoring | Time-series write volume, rollups |
+## Named Problems / Canonical Systems Covered
+
+| System | Representative Company | Core Bottleneck Tested |
+|---|---|---|
+| URL Shortener | bit.ly | ID generation, sharding, hot key |
+| Blogging Platform | Medium | Social graph fan-out, read/write split |
+| Short-Video Platform | TikTok | Ranking/retrieval at scale, storage + CDN cost |
+| Messaging Platform | Telegram | Connection state, delivery guarantees, ordering |
+| Ride-Hailing / Nearby Search | Uber | Geospatial indexing, high-churn writes |
+| Distributed Rate Limiter | (generic API infra) | Concurrency correctness, tight scope |
+| Web Crawler / Search Engine | Google | Parallel crawling, inverted index, freshness |
+| Payment / Booking System | Ticketmaster / Stripe-like | Strong consistency, idempotency, sagas |
+| Notification System | (generic, multi-channel) | Multi-channel fan-out, dedup, retries |
+| Collaborative Editing | Google Docs / Figma | Conflict resolution (OT/CRDT) |
+| Metrics / Monitoring Infrastructure | Datadog-style | Time-series write volume, rollups |
 
 ---
 

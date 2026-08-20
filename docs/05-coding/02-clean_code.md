@@ -21,16 +21,3 @@ Clean code refers to writing code that is easy to understand and maintain by hum
 | **Refactoring** | Regular refactoring improves structure without changing functionality |
 | **Testing** | Clean code is testable; structure allows easy verification |
 | **Performance/Stability** | Optimize for performance without compromising integrity |
-
-```mermaid
-flowchart LR
-  Write[Write] --> Test[Test]
-  Test -->|Fail-fast| Fix[Fix]
-  Fix --> Test
-  Test -->|Pass| Review[Review]
-  Review --> Smell{Smell?}
-  Smell -->|Yes| Refactor[Refactor]
-  Refactor --> Test
-  Smell -->|No| Ship[Ship]
-```
-

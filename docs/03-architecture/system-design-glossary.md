@@ -26,7 +26,7 @@ A reference of every concept, term, and named problem covered in prep, organized
 
 | Term | Definition |
 |---|---|
-| **Snowflake ID / distributed ID generator** | A scheme for generating globally unique, roughly time-ordered 64-bit IDs across many machines without central coordination per-request. Typically split into timestamp bits + worker/machine ID bits + sequence bits. |
+| **distributed ID generator** | A scheme for generating globally unique, roughly time-ordered 64-bit IDs across many machines without central coordination per-request. Typically split into timestamp bits + worker/machine ID bits + sequence bits. |
 | **Sequence number (in an ID)** | A counter that increments within a single timestamp tick per worker, used to disambiguate multiple IDs generated in the same millisecond by the same machine. |
 | **Clock skew / clock-moves-backward problem** | Risk that a machine's clock jumps backward (e.g., due to NTP correction), potentially causing a previously issued ID/timestamp to be reused. Mitigated by detecting `now < last_timestamp` and refusing to generate IDs until the clock catches up. |
 | **Worker ID assignment** | The problem of giving each ID-generator instance a unique identifier automatically (not hardcoded), including reclaiming the ID when an instance crashes. Solved via a coordination service (etcd/ZooKeeper) with leases. |
@@ -169,24 +169,6 @@ A reference of every concept, term, and named problem covered in prep, organized
 | **Downsampling / rollups** | Aggregating high-granularity historical data into coarser granularity over time (e.g., 10-sec → 1-min → 1-hour → 1-day) to control storage costs, since old data rarely needs full precision. |
 | **Retention window** | The period after which raw, high-granularity data is deleted or archived, keeping only downsampled/rolled-up versions. |
 | **Batched ingestion** | Client-side batching of multiple data points into a single network call before sending to the server, reducing per-point overhead at high write volume. |
-
----
-
-## Named Problems / Canonical Systems Covered
-
-| System | Representative Company | Core Bottleneck Tested |
-|---|---|---|
-| URL Shortener | bit.ly | ID generation, sharding, hot key |
-| Blogging Platform | Medium | Social graph fan-out, read/write split |
-| Short-Video Platform | TikTok | Ranking/retrieval at scale, storage + CDN cost |
-| Messaging Platform | Telegram | Connection state, delivery guarantees, ordering |
-| Ride-Hailing / Nearby Search | Uber | Geospatial indexing, high-churn writes |
-| Distributed Rate Limiter | (generic API infra) | Concurrency correctness, tight scope |
-| Web Crawler / Search Engine | Google | Parallel crawling, inverted index, freshness |
-| Payment / Booking System | Ticketmaster / Stripe-like | Strong consistency, idempotency, sagas |
-| Notification System | (generic, multi-channel) | Multi-channel fan-out, dedup, retries |
-| Collaborative Editing | Google Docs / Figma | Conflict resolution (OT/CRDT) |
-| Metrics / Monitoring Infrastructure | Datadog-style | Time-series write volume, rollups |
 
 ---
 

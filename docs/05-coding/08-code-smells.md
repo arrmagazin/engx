@@ -46,7 +46,7 @@ tags: [coding, code-smells, code-quality]
 
 | Smell | Description |
 | ------- | ------------- |
-| **Missing Abstraction (Primitive Obsession)** | Using clumps of data or encoded strings instead of creating abstraction |
+| **Missing Abstraction** | Using clumps of data or encoded strings instead of creating abstraction |
 | **Multifaceted Abstraction** | Abstraction with multiple responsibilities |
 | **Duplicate Abstraction** | Two or more abstractions with identical names or implementation |
 | **Deficient Encapsulation** | Declared accessibility more permissive than required |

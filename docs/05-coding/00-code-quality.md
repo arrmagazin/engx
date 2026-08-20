@@ -54,7 +54,7 @@ They improve clarity, readability, consistency, maintainability, and reduce comp
 
 Three parts:
 - **Style guide** — visual layout: indentation, whitespace, capitalization, naming style, comments.
-- **Coding principles** — structure: language construct usage (exception handling, goto/break), logical structure (method size, parameter count, naming), and design principles like SOLID and KISS.
+- **Design principles** — structure: language construct usage (exception handling, goto/break), logical structure (method size, parameter count, naming), and design principles like SOLID and KISS.
 - **Project conventions** — project-specific rules that extend or override the above: implementation guidance, feature rules, naming patterns, DOs and DON'Ts. Useful for onboarding.
 
 ### 2. Automated Code Analysis
