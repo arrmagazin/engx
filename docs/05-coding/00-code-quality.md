@@ -1,25 +1,20 @@
 ---
 type: Guide
-title: Code Quality — Key Insights
+title: Code Quality
 description: Explains functional vs. structural code quality, why quality matters, and the rising cost of late-found defects.
 tags: [coding, code-quality, maintainability]
 ---
 
-# Code Quality — Key Insights
+# Code Quality
 
-## Core Concept
+![Culture of Coding](/images/06-coding.svg)
+
 Teams rarely get enough time for code quality, so code becomes messy and buggy. Caring about quality from day one cuts the time to understand code, cuts defects, and improves the odds the project succeeds.
 
 ## Two Dimensions
 
-- **Functional quality** — what the code *does*: does it meet requirements? Checked by unit and functional tests.
-- **Structural quality** — how the code *looks*: clean, no extra detail, follows project guidelines. Checked by static analysis and code review.
-
-## What Good Structural Code Looks Like
-- **Clear**: others can read and edit it. A peer review confirms this.
-- **Easy to maintain**: if a change takes long, maintainability wasn't considered. Simple code is easier to extend.
-- **Follows project guidelines**: shared rules agreed early keep many developers consistent.
-- **Testable**: small, independent behaviors that automated tests can verify. Otherwise thorough testing is impractical.
+- **Functional** — what the code *does*: does it meet functional requirements? Checked by unit and functional tests.
+- **Structural** — how the code is *organized*: clean, no extra detail, follows project guidelines. Checked by static analysis and code review.
 
 ## Why It Matters
 
@@ -35,8 +30,6 @@ Teams rarely get enough time for code quality, so code becomes messy and buggy. 
 - Code may need a full rewrite.
 - More defects.
 
-## Maintainability
-Maintainability is how easily code can be understood, modified, or extended. Code that follows project standards is easier to find, reuse, and update — a large time saving over a project.
 
 ## The Cost of Bugs
 Bugs can do serious damage. In 1996 the EU's Ariane 5 rocket spun out of control 40 seconds after liftoff due to a software failure — roughly $500 million lost.
@@ -47,20 +40,20 @@ The cost of a fix grows sharply the later it is found (Empirical Software Engine
 
 ## Two Supporting Practices
 
-### 1. Coding Standards
+### Coding Standards
 Standards are agreed guidelines for style, practices, and methods. Agreeing up front sets clear expectations. As Harold Abelson put it, "programs are meant to be read by humans and only incidentally for computers to execute."
 
 They improve clarity, readability, consistency, maintainability, and reduce complexity.
 
 Three parts:
-- **Style guide** — visual layout: indentation, whitespace, capitalization, naming style, comments.
-- **Design principles** — structure: language construct usage (exception handling, goto/break), logical structure (method size, parameter count, naming), and design principles like SOLID and KISS.
-- **Project conventions** — project-specific rules that extend or override the above: implementation guidance, feature rules, naming patterns, DOs and DON'Ts. Useful for onboarding.
+- **Style** — visual layout: indentation, whitespace, capitalization, naming style, comments.
+- **Design** — structure: language construct usage (exception handling, goto/break), logical structure (method size, parameter count, naming), and design principles like SOLID and KISS.
+- **Conventions** — project-specific rules that extend or override the above: implementation guidance, feature rules, naming patterns, DOs and DON'Ts. Useful for onboarding.
 
-### 2. Automated Code Analysis
+### Automated Code Analysis
 Automated analysis checks code against a rule set without manual effort, catching security issues, duplication, and style violations at scale. It runs statically, without executing the app; some tools flag violations as you type.
 
-SonarQube is an open-source platform for continuous inspection (Java, C#, C/C++, and more) and is EPAM's recommendation for every project. IntelliJ IDEA and Visual Studio also help.
+SonarQube is an open-source platform for continuous inspection (Java, C#, C/C++, and more). IntelliJ IDEA and Visual Studio also help.
 
 Limits: no business context, can't verify specific requirements, can't catch architecture or design problems tied to developer intent.
 

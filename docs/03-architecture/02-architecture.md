@@ -28,6 +28,18 @@ SA incorporates, captures, and conveys:
 - General **goals**, **constraints**, technical **characteristics**
 - **Measures** to ensure the system satisfies its intended purpose
 
+## Architectural Levels
+
+| Level | Answers | Example |
+| ------- | --------- | --------- |
+| **Value** | Why we care | Changeable software costs less to own |
+| **Principle** | What must hold | Separation of Concerns — cut along axes of change |
+| **Pattern** | A reusable solution shape | Strategy, Repository, Observer |
+| **BestPractice** | A repeatable action | Code review, refactoring, TDD |
+| **Idiom** | A language-local form | RAII, context managers, `defer` |
+
+Confusing the levels is the usual failure: a pattern applied where no principle demanded it is
+accidental complexity, and a principle restated as a rule loses the trade-off that justified it.
 
 ### Architectural Views
 

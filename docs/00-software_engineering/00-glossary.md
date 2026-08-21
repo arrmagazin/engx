@@ -37,6 +37,22 @@ These concepts have covered the essentials every modern software engineer should
 
 | **Management** | A process of organizing/optimizing teams to ensure reaching goals through Governance, Control, Organization, Securing, Tracking, and Growth |
 
+## Information System
+
+**Info-System**: An artificial system designed to perform various complex data transformation flows (hardware, firmware, OS, software, data sources) 
+
+| Component | Definition |
+| ----------- | ------------ |
+| **Hardware (Hw)** | Physically tangible circuits performing transformation and exchange of binary data |
+| **Software (Sw)** | Executable code, configurations, and metadata defining data processing |
+| **Firmware (Fw)** | Code embedded into hardware that directly controls it |
+| **API** | Higher-level abstractions on top of hardware/firmware for software use |
+| **Operating System** | Comprehensive set of protocol implementations and utilities providing interfaces for application programming |
+| **Component** | A named separated piece of code/data that is *composable* - can be combined/used with others to build larger components.|
+| **Application** | Deliverable Software providing functional scope in some business domain |
+| **Platform** | Comprehensive set of technology facilities (languages, protocols, environments, tools, ecosystems) to deliver software |
+| **Database** | Seprate component Means to store, access, and represent structured data |
+
 ## Software Engineering
 
 **Software Engineering**: Engineering in the field of software delivery on top of computer science and applied math.
@@ -58,23 +74,4 @@ Its branches include:
 - Graphic and Web Design
 - Gaming and Metaverses
 - AI Engineeering
-
-## Information System
-
-**Info-System**: An artificial system designed to perform various complex data transformation flows (hardware, firmware, OS, software, data sources) 
-
-| Component | Definition |
-| ----------- | ------------ |
-
-| **Hardware (Hw)** | Physically tangible circuits performing transformation and exchange of binary data |
-| **Software (Sw)** | Executable code, configurations, and metadata defining data processing |
-| **Firmware (Fw)** | Code embedded into hardware that directly controls it |
-| **API** | Higher-level abstractions on top of hardware/firmware for software use |
-| **Operating System** | Comprehensive set of protocol implementations and utilities providing interfaces for application programming |
-| **Database** | Means to store, access, and represent structured data |
-| **Application** | Software created with specific purpose providing particular functionality |
-| **Platform** | Comprehensive set of technology facilities (languages, protocols, environments, tools, ecosystems) to deliver software |
-| **SDLC** | One-pass or iterative cycle of interdependent phases and processes (Software Development Lifecycle) |
-
-
 

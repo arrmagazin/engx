@@ -77,9 +77,7 @@ Be ready to discuss:
 - **Backup & DR**: Azure Backup, Site Recovery, RTO/RPO planning
 - **Patch management**: Update Manager (Azure Automation), image-based patching for immutable approach
 
----
-
-## 3. Automating Infrastructure Changes & Configuration Management
+## Automating Infrastructure Changes & Configuration Management
 
 ### CI/CD for infrastructure
 - **Azure DevOps Pipelines** vs **GitHub Actions**: YAML pipelines, environments, approvals/gates
@@ -100,9 +98,7 @@ Be ready to discuss:
 ### Testing infrastructure code
 - **Terratest**, **Pester** (for ARM/Bicep + PowerShell), linting (`tflint`, `bicep lint`, checkov/tfsec for policy-as-code scanning)
 
----
-
-## 4. Immutable Infrastructure, Automated Infrastructure & Cloud-Native Frameworks
+## Immutable Infrastructure, Automated Infrastructure & Cloud-Native Frameworks
 
 ### Immutable infrastructure concepts
 - **Golden images**: Azure Image Builder, Packer — bake config into the image rather than mutating running servers
@@ -131,9 +127,7 @@ Be ready to discuss:
 5. Post-deploy: automated smoke tests, policy compliance scan
 6. GitOps sync for app-layer changes on AKS
 
----
-
-## 5. Performance, Cost Management & Security Best Practices
+## Performance, Cost Management & Security Best Practices
 
 ### Performance optimization
 - **Right-sizing**: VM SKU selection, AKS node pool sizing, autoscale thresholds
@@ -160,9 +154,7 @@ Be ready to discuss:
 - **Supply chain security**: image scanning, SBOM, signed commits/artifacts, dependency scanning in pipelines
 - **Audit & compliance**: Activity Log, diagnostic settings piped to Log Analytics/SIEM (Sentinel), regulatory compliance dashboard
 
----
-
-## 6. Behavioural Stories (STAR)
+## Behavioural Stories (STAR)
 
 Interviewers for this role mix conceptual questions with "tell me about a time you...". Prepare 2–3 stories per competency area. Reuse the same project across areas — one substantial migration can supply four different stories depending on which angle you emphasise.
 
@@ -215,7 +207,7 @@ Also prepare the two that always come up regardless of role: **a failure you cau
 
 ---
 
-## 7. Diagrams You Should Be Able to Sketch
+## Diagrams You Should Be Able to Sketch
 
 Expect "can you draw how that would look?" on a whiteboard or shared doc. Practise these until you can draw each in ~3 minutes while talking. **Narrate the order you draw in** — it demonstrates how you decompose a problem.
 
@@ -320,7 +312,7 @@ Points to make while drawing:
 
 ---
 
-## 8. Trade-Offs — the "It Depends on X" Answers
+## Trade-Offs — the "It Depends on X" Answers
 
 Definitions get you a pass; trade-offs get you the offer. The pattern that works:
 

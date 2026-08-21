@@ -93,7 +93,7 @@ Examples: HTML, MXML, XAML, XSLT, and other UI markup languages.
 
 A programming paradigm promoting computation as declarative composition and lazy-evaluation of pure (mathematical) functions.
 
-> *"The main difference from imperative programming is the use of lazy evaluation model. Everything else - purity of functions, anonymous functions, higher-order functions, monads, parametric polymorphism - are just consequences."*
+> The main difference from imperative programming is the use of lazy evaluation model. Everything else - purity of functions, anonymous functions, higher-order functions, monads, parametric polymorphism - are just consequences.
 
 #### Key Concepts
 
@@ -234,10 +234,80 @@ that mutate shared state.
 | **Costs** | Steep learning curve, hard debugging (stack traces lost in the graph), memory/space leaks from retained histories |
 | **Applicability** | UI state, animation, telemetry and event processing, robotics and simulation |
 
-### Other Paradigms
 
-- Metaprogramming
-- Single source of truth
+## Metaprogramming
+
+Writing programs that treat other programs (or themselves) as data — reading, generating,
+or transforming code instead of only executing it. The *metaprogram* operates on the
+*object program*; the boundary between them is fixed by **when** the transformation happens.
+
+```mermaid
+flowchart LR
+    GEN[Generator / Schema] -.->|emit source| SRC
+    SRC[Source Text] -->|parse| AST[AST]
+    AST -->|macro expansion| AST2[AST']
+    AST2 -->|compile| BIN[Bytecode / Binary]
+    BIN -->|load, weave| RT[Runtime Objects]
+    RT -->|reflect, proxy, patch| RT
+```
+
+### Key Concepts
+
+| Concept | Definition |
+| --------- | ------------ |
+| **Metalevel vs Base Level** | The metaprogram manipulates representations of code; the object program is the code being manipulated |
+| **Introspection** | Read-only examination of program structure — types, members, signatures, annotations |
+| **Reflection** | Introspection plus *intercession*: invoking, defining, or altering structure dynamically |
+| **Homoiconicity** | Code is represented in the language's own data structures, so manipulating code is ordinary data manipulation (Lisp s-expressions) |
+| **AST** | Tree representation of parsed source; the usual currency of compile-time transformation |
+| **Quoting / Quasiquotation** | Turning code into data (`quote`), with holes for splicing computed fragments back in (`unquote`) |
+| **Macro** | Function from code to code, expanded before evaluation rather than called at runtime |
+| **Hygiene** | Guarantee that names introduced by a macro cannot capture or collide with names at the call site |
+| **Staging** | Explicit separation of computation into phases — what runs now to produce what runs later |
+| **Code Generation** | Emitting source, bytecode, or binaries from a model, schema, or IDL |
+| **Eval** | Evaluating data (a string, an AST) as code inside the running program |
+| **DSL** | Purpose-built notation, *internal* (hosted in the language) or *external* (own parser) |
+
+### Stages
+
+The same goal can be reached at different points in the lifecycle, with sharply different trade-offs.
+
+| Stage | Mechanisms | Character |
+| ------- | ------------ | ----------- |
+| **Compile-time** | Macros, templates, `comptime`/`constexpr`, annotation processors, source generators | No runtime cost, type-checkable, visible to tooling; errors surface as expansion failures |
+| **Load / Link-time** | Bytecode weaving, custom class loaders, generated proxies, instrumentation agents | Applies to code you do not own; invisible in source, so behavior diverges from what is read |
+| **Run-time** | Reflection, dynamic proxies, `eval`, metaclasses, method interception | Maximum flexibility and late binding; costs performance and defeats static analysis |
+
+### Techniques
+
+| Technique | Mechanism | Examples |
+| ----------- | ----------- | ---------- |
+| **Textual Macros** | Token substitution before parsing; unhygienic, unaware of syntax | C/C++ preprocessor |
+| **Syntactic Macros** | Hygienic AST-to-AST functions run by the compiler | Lisp `defmacro`, Rust `macro_rules!` and proc macros, Scala 3 `inline`/quotes, Elixir |
+| **Compile-time Evaluation** | Ordinary code executed by the compiler to specialize or produce declarations | C++ templates and `constexpr`, Zig `comptime`, D CTFE |
+| **Annotation Processing** | Declarative metadata read by a generator that emits companion code | Java APT/Lombok, Kotlin KSP, C# Source Generators, `go:generate` |
+| **Reflection APIs** | Runtime access to the type system and member tables | `java.lang.reflect`, `System.Reflection`, Python `inspect`/`getattr`, JS `Reflect` |
+| **Proxies & Interception** | Synthesized objects forwarding calls through a handler | JDK dynamic proxies, ByteBuddy/CGLIB, JS `Proxy` traps, Python `__getattr__` |
+| **Metaclasses & Open Classes** | Controlling or rewriting class construction and dispatch | Python `type`/`__init_subclass__`, Ruby `class << self` and monkey patching, JS decorators |
+| **Bytecode Manipulation** | Rewriting compiled artifacts directly | ASM, Javassist, ByteBuddy, Mono.Cecil |
+| **Schema-driven Generation** | Deriving clients, models, and serializers from an external contract | Protobuf/gRPC, OpenAPI, GraphQL codegen, ORM entities |
+
+### Trade-offs
+
+| Aspect | Note |
+| -------- | ------ |
+| **Strengths** | Removes boilerplate and duplication, enforces cross-cutting concerns in one place, adapts to schemas and types unknown when the code was written, enables DSLs closer to the domain |
+| **Costs** | Code that is read is no longer the code that runs — debugging, stack traces, IDE navigation, and refactoring all degrade; reflection and `eval` block dead-code elimination, AOT compilation, and security review; expansion errors are reported in generated code |
+| **Applicability** | Serialization, ORM and DI wiring, mocking and test doubles, AOP concerns (logging, transactions, retries), API clients from contracts, builders and derived boilerplate |
+
+*Guidance*: prefer the earliest stage that solves the problem — a generic or template before a macro,
+a macro before an annotation processor, an annotation processor before runtime reflection.
+Push the dynamic option only when the shape of the code genuinely is not known until execution.
+
+*See also*: [Other Paradigms](#other-paradigms) — Aspect-oriented Programming (AOP) is built almost entirely on load-time and runtime metaprogramming.
+
+## Other Paradigms
+
 - Mathematical model
 - Domain-driven design (DDD)
 - SQL
