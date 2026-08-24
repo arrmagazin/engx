@@ -33,13 +33,13 @@ Knowledge sharing is the exchange of information, expertise, and skills across a
 | **Bus Factor** | A bus factor of one: a single absence blocks progress | A bus factor above one: any single member can be away without disrupting delivery |
 | **Onboarding** | Incomplete knowledge transfer makes onboarding long and confusing, so newcomers contribute little and lose motivation | Onboarding takes little effort from the newcomer or the existing team |
 
-The **bus factor** is the number of people who must become unavailable before a system or process stalls — see [Growing and Keeping People](../10-management/04-growing-and-keeping-people.md#core-concepts). At a bus factor of one, a single person holds knowledge nobody else has, and vacation, leave, or departure stops the work.
+The **bus factor** is the number of people who must become unavailable before a system or process stalls — see [Growing and Keeping People](04-growing-and-keeping-people.md#core-concepts). At a bus factor of one, a single person holds knowledge nobody else has, and vacation, leave, or departure stops the work.
 
 ## Four Areas to Improve
 
 ### Software Development Life Cycle
 
-- **Review artifacts with rotating peers** — change reviewers periodically so different people give feedback on different aspects of the solution. See [Code Review](02-code-review.md).
+- **Review artifacts with rotating peers** — change reviewers periodically so different people give feedback on different aspects of the solution. See [Code Review](../04-development-process/02-code-review.md).
 - **Diversify task assignments** — keep more than one person familiar with each area instead of routing the same kind of task to the same person.
 - **Keep notes as you work** — save useful findings while a task is open, and update the knowledge base when something important changes.
 - **Plan time for documentation** — include documentation in task estimates so regular updates stay sustainable.
@@ -52,13 +52,13 @@ Maintain a shared space (wiki, Confluence, or similar) that everyone can reach a
 - The team structure and roles
 - Links to project resources and environments
 - Standards, rules, and conventions for every competency — managers, developers, QA, BAs, DevOps ([Coding Standards](../00-software-engineering/02-standards.md))
-- The development process: branching, release process, and task life cycle ([Version Control](01-version-control.md), [CI/CD](03-ci-cd.md))
+- The development process: branching, release process, and task life cycle ([Version Control](../04-development-process/01-version-control.md), [CI/CD](../04-development-process/03-ci-cd.md))
 
 ### Onboarding Procedures
 
 - Maintain a **newcomer's guidebook** as the first reference for anyone joining the team, linking to project resources, the knowledge base, and environment setup instructions.
 - Treat the guidebook as the whole team's responsibility so it stays current.
-- **Assign a mentor** to every newcomer — one who stays available for questions and takes ownership of helping the new member settle in. See [Roles and the Employee Lifecycle](../10-management/03-roles-and-lifecycle.md).
+- **Assign a mentor** to every newcomer — one who stays available for questions and takes ownership of helping the new member settle in. See [Roles and the Employee Lifecycle](03-roles-and-lifecycle.md).
 
 ### Team Communication
 

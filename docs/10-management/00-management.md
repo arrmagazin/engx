@@ -21,3 +21,4 @@ Outside this folder: [Development Process](../04-development-process/00-developm
 | **[Team Lead](02-team-lead.md)** | The team lead role — its responsibilities, its way of working, and one worked hybrid Scrum workflow |
 | **[Roles and the Employee Lifecycle](03-roles-and-lifecycle.md)** | The accountabilities behind the common engineering titles, and the six stages from hire to offboarding |
 | **[Growing and Keeping People](04-growing-and-keeping-people.md)** | 1:1s, feedback and performance, the growth levers, and the health signals that lead the delivery metrics |
+| **[Knowledge Sharing](05-knowledge-sharing.md)** | Healthy and unhealthy sharing, the bus factor, and the four areas where a team can raise it |

@@ -18,7 +18,7 @@ Application types differ mainly in where HTML is produced: on the server for eve
 
 ## Multi-Page Applications (MPA)
 
-The server returns a complete HTML document for each URL, and every link click is a full page load that discards and rebuilds the page. Shared state lives on the server or in [browser storage](04-browser-technologies.md#browser-storage) rather than in memory.
+The server returns a complete HTML document for each URL, and every link click is a full page load that discards and rebuilds the page. Shared state lives on the server or in [browser storage](02-browser-technologies.md#browser-storage) rather than in memory.
 
 ## Single-Page Applications (SPA)
 
@@ -26,9 +26,9 @@ SPAs update the current page without full reloads, providing app-like navigation
 
 | Characteristic | Description |
 | --- | --- |
-| **Initial Load** | Downloads the application bundle before the first view renders — see [performance optimization](05-performance-optimization.md) for splitting it |
+| **Initial Load** | Downloads the application bundle before the first view renders — see [performance optimization](03-performance-optimization.md) for splitting it |
 | **Navigation** | Client-side routing, no page reloads |
-| **Data Fetching** | [API calls](03-client-server-communication.md) for dynamic content |
+| **Data Fetching** | [API calls](../03-system-design/06-client-server-communication.md) for dynamic content |
 | **SEO** | Content exists only after JavaScript runs, unless paired with [SSR](#server-side-rendering-ssr) or pre-rendering |
 
 ## Server-Side Rendering (SSR)
@@ -46,9 +46,9 @@ A PWA is a capability layer rather than a rendering model: any of the types abov
 | Feature | Implementation |
 | --- | --- |
 | **Installable** | Web App Manifest |
-| **Offline Support** | [Service worker](04-browser-technologies.md#service-workers) intercepting requests |
-| **Push Notifications** | Push API, delivered to the [service worker](04-browser-technologies.md#service-workers) |
-| **Background Sync** | Background Sync API, deferred to the [service worker](04-browser-technologies.md#service-workers) |
+| **Offline Support** | [Service worker](02-browser-technologies.md#service-workers) intercepting requests |
+| **Push Notifications** | Push API, delivered to the [service worker](02-browser-technologies.md#service-workers) |
+| **Background Sync** | Background Sync API, deferred to the [service worker](02-browser-technologies.md#service-workers) |
 | **Secure Context** | HTTPS, required before a service worker can register |
 
 ### Web App Manifest
@@ -69,6 +69,6 @@ A PWA is a capability layer rather than a rendering model: any of the types abov
 
 ## Related Guides
 
-- [Client-Server Communication](03-client-server-communication.md) — the HTTP, REST, and GraphQL calls every type above uses to fetch data
-- [Browser Technologies](04-browser-technologies.md) — service workers, browser storage, and the other APIs a PWA builds on
-- [Performance Optimization](05-performance-optimization.md) — bundle splitting, caching, and the metrics that separate these types in practice
+- [Client-Server Communication](../03-system-design/06-client-server-communication.md) — the HTTP, REST, and GraphQL calls every type above uses to fetch data
+- [Browser Technologies](02-browser-technologies.md) — service workers, browser storage, and the other APIs a PWA builds on
+- [Performance Optimization](03-performance-optimization.md) — bundle splitting, caching, and the metrics that separate these types in practice

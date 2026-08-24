@@ -11,7 +11,7 @@ The browser is the runtime every frontend application ships into. This guide cov
 
 ## DOM
 
-The DOM represents the page as a tree of nodes that JavaScript can read and change. Reading a geometric property (`offsetHeight`, `getBoundingClientRect`) forces the browser to settle any pending layout, so interleaving reads and writes makes it recompute layout on every iteration — [layout thrashing](05-performance-optimization.md#layout-thrashing), where the mechanism and the full list of layout-triggering properties are covered.
+The DOM represents the page as a tree of nodes that JavaScript can read and change. Reading a geometric property (`offsetHeight`, `getBoundingClientRect`) forces the browser to settle any pending layout, so interleaving reads and writes makes it recompute layout on every iteration — [layout thrashing](03-performance-optimization.md#layout-thrashing), where the mechanism and the full list of layout-triggering properties are covered.
 
 | Pattern | Effect |
 | --- | --- |
@@ -31,7 +31,7 @@ for (let i = 0; i < 100; i++) {
 document.body.appendChild(fragment);
 ```
 
-Measuring which of these actually costs you anything belongs to [Performance Optimization](05-performance-optimization.md); the [Performance panel](../04-development-process/06-debugging.md#chrome-devtools) records the layout passes.
+Measuring which of these actually costs you anything belongs to [Performance Optimization](03-performance-optimization.md); the [Performance panel](../04-development-process/06-debugging.md#chrome-devtools) records the layout passes.
 
 ## Events
 
@@ -47,13 +47,13 @@ document.getElementById('list').addEventListener('click', (event) => {
 });
 ```
 
-A `click` handler on a non-interactive element such as a `div` gets no keyboard or screen reader behavior for free. Use a real `button` or `a`, or supply the role, tab order, and key handling yourself — see [Accessibility (WCAG)](06-accessibility-wcag.md).
+A `click` handler on a non-interactive element such as a `div` gets no keyboard or screen reader behavior for free. Use a real `button` or `a`, or supply the role, tab order, and key handling yourself — see [Accessibility (WCAG)](04-accessibility-wcag.md).
 
 ## Browser APIs
 
 ### Fetch API
 
-`fetch` returns a promise that rejects only on network failure. An HTTP error status resolves normally, so check `response.ok` yourself. Methods, status codes, and the rest of the protocol are in [Client-Server Communication](03-client-server-communication.md).
+`fetch` returns a promise that rejects only on network failure. An HTTP error status resolves normally, so check `response.ok` yourself. Methods, status codes, and the rest of the protocol are in [Client-Server Communication](../03-system-design/06-client-server-communication.md).
 
 ```javascript
 // The credential is a parameter, not a free variable the module hopes exists
@@ -210,7 +210,7 @@ self.addEventListener('fetch', (event) => {
 });
 ```
 
-Versioning the cache name, as above, is what lets `activate` delete the previous version. Which assets belong in it is a [performance](05-performance-optimization.md) decision.
+Versioning the cache name, as above, is what lets `activate` delete the previous version. Which assets belong in it is a [performance](03-performance-optimization.md) decision.
 
 ## CSS Resources
 

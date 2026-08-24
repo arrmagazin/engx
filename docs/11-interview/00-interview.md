@@ -13,7 +13,7 @@ This section holds the interview-specific material, kept apart from the referenc
 
 ## What a Loop Asks
 
-Loops for a senior engineering role mix the same kinds of round: behavioral, system design, coding, and a technical round aimed at the specific job. This book covers three of them. [Interview Technique](01-technique.md) is the behavioral round, plus the delivery habits every other round shares. [System Design Loop](02-system-design-loop.md) is the design round, and it draws its worked problems from [Canonical Systems](../03-system-design/06-canonical-systems.md). The role-specific round is whichever reference chapter matches the job description — for an infrastructure role, one of the two cloud prep guides below.
+Loops for a senior engineering role mix the same kinds of round: behavioral, system design, coding, and a technical round aimed at the specific job. This book covers three of them. [Interview Technique](01-technique.md) is the behavioral round, plus the delivery habits every other round shares. [System Design Loop](02-system-design-loop.md) is the design round, and it draws its worked problems from [Canonical Systems](../03-system-design/08-canonical-systems.md). The role-specific round is whichever reference chapter matches the job description — for an infrastructure role, one of the two cloud prep guides below.
 
 The coding round is the gap. Nothing in this book teaches algorithms or data structures, and reading about them is not how that round is passed anyway; it is passed by solving problems under a clock, which is what the first external resource below is for.
 
@@ -28,7 +28,7 @@ The coding round is the gap. Nothing in this book teaches algorithms or data str
 
 | Doc | What it covers |
 | --- | --- |
-| **[Canonical Systems](../03-system-design/06-canonical-systems.md)** | The worked problems a system design loop draws its examples from |
+| **[Canonical Systems](../03-system-design/08-canonical-systems.md)** | The worked problems a system design loop draws its examples from |
 | **[AWS Interview Prep](../07-cloud-aws/02-aws-interview-prep.md)** | The competency areas an AWS infrastructure role is questioned on |
 | **[Azure Interview Prep](../08-cloud-azure/02-azure-interview-prep.md)** | The competency areas an Azure infrastructure role is questioned on |
 

@@ -36,7 +36,7 @@ The thresholds above are published. The numbers below are not: no standard fixes
 | **Total page weight, compressed** | 500 KB | Convention |
 | **Critical CSS, inlined** | 14 KB | Roughly what TCP sends before waiting for the first acknowledgement — the initial congestion window is 10 segments (RFC 6928) |
 
-A request-count budget is no longer worth keeping. Under HTTP/2 one connection multiplexes many streams, bounded by `SETTINGS_MAX_CONCURRENT_STREAMS` (RFC 9113) rather than by the six-connections-per-host convention browsers apply to HTTP/1.1, so the number of requests stopped being a good proxy for latency. See [Client-Server Communication](03-client-server-communication.md) for the connection model.
+A request-count budget is no longer worth keeping. Under HTTP/2 one connection multiplexes many streams, bounded by `SETTINGS_MAX_CONCURRENT_STREAMS` (RFC 9113) rather than by the six-connections-per-host convention browsers apply to HTTP/1.1, so the number of requests stopped being a good proxy for latency. See [Client-Server Communication](../03-system-design/06-client-server-communication.md) for the connection model.
 
 ---
 
@@ -44,7 +44,7 @@ A request-count budget is no longer worth keeping. Under HTTP/2 one connection m
 
 ### Critical Rendering Path
 
-CSS blocks rendering: nothing paints until the CSSOM is built. Scripts block parsing unless marked `async` or `defer`. The [DOM and the browser APIs](04-browser-technologies.md) themselves are covered separately.
+CSS blocks rendering: nothing paints until the CSSOM is built. Scripts block parsing unless marked `async` or `defer`. The [DOM and the browser APIs](02-browser-technologies.md) themselves are covered separately.
 
 ```mermaid
 flowchart LR
@@ -135,9 +135,9 @@ Serve text — HTML, CSS, JavaScript, SVG, JSON — with `Content-Encoding: br` 
 - `s-maxage` overrides `max-age` for shared caches such as a CDN, and is ignored by the browser.
 - `Vary: Accept-Encoding` stops a shared cache from handing a Brotli body to a client that only asked for gzip. `ETag` supplies the validator that revalidation compares.
 
-Header syntax and the rest of HTTP's semantics live in [Client-Server Communication](03-client-server-communication.md); caching as a system-design concept is in [System Design Concepts](../03-system-design/05-concepts.md).
+Header syntax and the rest of HTTP's semantics live in [Client-Server Communication](../03-system-design/06-client-server-communication.md); caching as a system-design concept is in [System Design Concepts](../03-system-design/01-concepts.md).
 
-A [service worker](04-browser-technologies.md) can implement stale-while-revalidate for requests the HTTP cache does not cover:
+A [service worker](02-browser-technologies.md) can implement stale-while-revalidate for requests the HTTP cache does not cover:
 
 ```javascript
 self.addEventListener('fetch', (event) => {

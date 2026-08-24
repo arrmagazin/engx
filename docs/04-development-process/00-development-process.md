@@ -22,7 +22,6 @@ The development process is the lifecycle that turns a stakeholder need into an o
 | **[Testing](05-testing.md)** | The F.I.R.S.T. principles, TDD and BDD, unit testing, test doubles, coverage types, and tests in CI |
 | **[Debugging](06-debugging.md)** | Reproducing, reducing, bisecting and verifying a fix, plus the Chrome DevTools panels and console utilities |
 | **[Technical Debt](07-technical-debt.md)** | Where debt comes from, the signals that expose it, and how to manage repayment |
-| **[Knowledge Sharing](08-knowledge-sharing.md)** | Healthy and unhealthy sharing, bus factor, and four areas to improve |
 
 ## SDLC
 

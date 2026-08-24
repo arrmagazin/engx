@@ -21,7 +21,7 @@ Quality attributes are the properties an architecture is judged by once it does 
 
 | Quality | Description |
 | --------- | ------------- |
-| **Scalability** | Ability to absorb load increases without losing performance, or to be enlarged readily (vertical vs. horizontal scaling, [load balancing](../03-system-design/05-concepts.md#load-balancing), database sharding) |
+| **Scalability** | Ability to absorb load increases without losing performance, or to be enlarged readily (vertical vs. horizontal scaling, [load balancing](../03-system-design/01-concepts.md#load-balancing), database sharding) |
 | **Performance** | Responsiveness measured in latency or throughput (caching, database indexing, asynchronous processing) |
 | **Availability** | Proportion of time the system is functional; affected by errors, infrastructure problems, attacks, and load |
 | **Reliability** | Ability to remain operational over time (fault tolerance, disaster recovery, data replication) |
@@ -43,4 +43,4 @@ Quality attributes are the properties an architecture is judged by once it does 
 | --------- | ------------- |
 | **Usability** | Meeting user needs by being learnable and predictable in use |
 | **i18n / L10n** | Internationalization — building so that language and region can vary — and localization, adapting to one of them |
-| **[Accessibility](../06-frontend/06-accessibility-wcag.md)** | Usable by people with disabilities, including through assistive technology |
+| **[Accessibility](../06-frontend/04-accessibility-wcag.md)** | Usable by people with disabilities, including through assistive technology |

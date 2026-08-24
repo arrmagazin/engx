@@ -9,18 +9,16 @@ tags: [frontend, resources, reference]
 
 ![Frontend](../../images/21-frontend.svg)
 
-Frontend engineering spans the runtime the code ships into, the transports it talks over, and the standards it is measured against — the browser, HTTP, and WCAG rather than any one framework. The guides here stay framework-agnostic; a framework's own documentation is linked below rather than restated. The languages are treated the same way: this book documents the engineering around HTML, CSS, and JavaScript rather than teaching any of them, so the specifications are collected under Web Standards below and the CSS reference material in [Browser Technologies](04-browser-technologies.md#css-resources).
+Frontend engineering spans the runtime the code ships into and the standards it is measured against — the browser and WCAG rather than any one framework. What travels between the browser and the server is a system-design concern, and is treated as one in [Client-Server Communication](../03-system-design/06-client-server-communication.md) and [Data Formats](../03-system-design/07-data-formats.md). The guides here stay framework-agnostic; a framework's own documentation is linked below rather than restated. The languages are treated the same way: this book documents the engineering around HTML, CSS, and JavaScript rather than teaching any of them, so the specifications are collected under Web Standards below and the CSS reference material in [Browser Technologies](02-browser-technologies.md#css-resources).
 
 ## In This Section
 
 | Doc | What it covers |
 | --- | --- |
 | **[Application Types](01-application-types.md)** | Where each kind of application produces its HTML — MPA, SPA, SSR, static generation, and PWA |
-| **[Data Formats](02-data-formats.md)** | JSON, YAML, XML, CSV, Markdown, and Parquet, and the parsing traps each one carries |
-| **[Client-Server Communication](03-client-server-communication.md)** | HTTP semantics, REST and GraphQL design, and the transports that keep a connection open |
-| **[Browser Technologies](04-browser-technologies.md)** | The DOM and its event model, browser storage, and the Fetch, History, Geolocation, and Service Worker APIs |
-| **[Performance Optimization](05-performance-optimization.md)** | Core Web Vitals, performance budgets, and the render, network, and bundle work that moves them |
-| **[Accessibility (WCAG)](06-accessibility-wcag.md)** | The WCAG version and conformance level to build against, the POUR principles, and everyday ARIA patterns |
+| **[Browser Technologies](02-browser-technologies.md)** | The DOM and its event model, browser storage, and the Fetch, History, Geolocation, and Service Worker APIs |
+| **[Performance Optimization](03-performance-optimization.md)** | Core Web Vitals, performance budgets, and the render, network, and bundle work that moves them |
+| **[Accessibility (WCAG)](04-accessibility-wcag.md)** | The WCAG version and conformance level to build against, the POUR principles, and everyday ARIA patterns |
 
 ## Core Documentation
 

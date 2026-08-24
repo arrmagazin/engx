@@ -7,7 +7,7 @@ tags: [architecture, system-design, interview]
 
 # System Design Loop
 
-A framework that applies to any system design question, and the signals that separate a senior or staff answer from a mid-level one. The worked problems it draws on live in [Canonical Systems](../03-system-design/06-canonical-systems.md), which covers eleven of them, each filed under the bottleneck it tests.
+A framework that applies to any system design question, and the signals that separate a senior or staff answer from a mid-level one. The worked problems it draws on live in [Canonical Systems](../03-system-design/08-canonical-systems.md), which covers eleven of them, each filed under the bottleneck it tests.
 
 ## What Interviewers Weigh at Senior and Staff Level
 
@@ -31,6 +31,6 @@ Work these six steps in order, whatever the problem.
 
 ## Prep to Prioritize With Limited Time
 
-1. **Interactive mock mode** on 2-3 of the [canonical systems](../03-system-design/06-canonical-systems.md) — ideally the payment/booking system (biggest mindset gap vs. the read-heavy platforms) and whichever else feels shakiest. Reading is passive; the interview tests whether you can *generate* this reasoning live under mild pressure.
+1. **Interactive mock mode** on 2-3 of the [canonical systems](../03-system-design/08-canonical-systems.md) — ideally the payment/booking system (biggest mindset gap vs. the read-heavy platforms) and whichever else feels shakiest. Reading is passive; the interview tests whether you can *generate* this reasoning live under mild pressure.
 2. Practice **defending your own scale estimates out loud** before being challenged on them — catching an unrealistic number yourself is a stronger signal than being corrected.
 3. For each problem, practice stating **2-3 options before picking one** on the key decision (fan-out strategy, consistency model, sharding key) — this is the single biggest lever separating mid-level from senior/staff performance.

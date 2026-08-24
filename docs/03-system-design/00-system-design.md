@@ -25,12 +25,14 @@ flowchart LR
 
 | Doc | What it covers |
 | --- | --- |
-| **[Databases — Core Concepts](01-database-basics.md)** | Storage models, indexing, transactions, and isolation levels |
-| **[Redis — Core Concepts and Workflow](02-caching-with-redis.md)** | Data structures, eviction, and the caching patterns Redis is used for |
-| **[Kafka — Core Concepts and Workflow](03-messaging-with-kafka.md)** | Partitions, consumer groups, delivery guarantees, and ordering |
-| **[Containers — Core Concepts and Orchestration](04-containers.md)** | Images, isolation, resource limits, and orchestration |
-| **[System Design Glossary](05-concepts.md)** | The vocabulary this chapter uses, grouped by the problem each set of terms addresses |
-| **[Canonical Systems](06-canonical-systems.md)** | Eleven worked problems, each filed under the bottleneck it tests |
+| **[System Design Glossary](01-concepts.md)** | The vocabulary this chapter uses, grouped by the problem each set of terms addresses |
+| **[Databases — Core Concepts](02-database-basics.md)** | Storage models, indexing, transactions, and isolation levels |
+| **[Redis — Core Concepts and Workflow](03-caching-with-redis.md)** | Data structures, eviction, and the caching patterns Redis is used for |
+| **[Kafka — Core Concepts and Workflow](04-messaging-with-kafka.md)** | Partitions, consumer groups, delivery guarantees, and ordering |
+| **[Containers — Core Concepts and Orchestration](05-containers.md)** | Images, isolation, resource limits, and orchestration |
+| **[Client-Server Communication](06-client-server-communication.md)** | HTTP semantics, REST and GraphQL design, and the transports that keep a connection open |
+| **[Data Formats](07-data-formats.md)** | JSON, YAML, XML, CSV, Markdown, and Parquet, and the parsing traps each one carries |
+| **[Canonical Systems](08-canonical-systems.md)** | Eleven worked problems, each filed under the bottleneck it tests |
 
 ## Information System
 
@@ -41,7 +43,7 @@ flowchart LR
 | **Application** | Deliverable Software providing functional scope in some business domain |
 | **Library** | Reusable Component the Application *calls*; it owns no control flow, so the Application decides when, whether, and in what order it runs |
 | **Software Framework** | Component that owns the control flow and *calls* the Application's code through the extension points it defines (*inversion of control*); it dictates structure, so it is chosen once and swapped rarely |
-| **API** | The contract a Component exposes for others to call — operations, inputs, outputs, and errors — stated independently of how it is implemented; see [Client-Server Communication](../06-frontend/03-client-server-communication.md) |
+| **API** | The contract a Component exposes for others to call — operations, inputs, outputs, and errors — stated independently of how it is implemented; see [Client-Server Communication](06-client-server-communication.md) |
 | **Configuration** | Data that *parameterizes* Software without changing it — what varies per environment, tenant, or deployment; versioned like code, but applied without rebuilding |
 
 This chapter says **Software Framework**, never plain *Framework*, because the book already uses that word for something else: [Methodology](../01-methodology/00-methodology.md#core-concepts) defines a Framework as a Method made executable. One is a piece of code, the other a way of running a process.
@@ -71,7 +73,7 @@ This chapter says **Software Framework**, never plain *Framework*, because the b
 | **Data Warehouse** | Database shaped for *analytics*: historical, modeled, read-heavy — schema fixed on write |
 | **Data Lake** | Storage of *raw* data in its original form at scale; the schema is applied on read, by whoever consumes it |
 | **Object Storage** | Component storing immutable *blobs* (files, media, backups) addressed by key, without structure or query over their content |
-| **Cache** | Component holding *derived copies* of data closer to its consumer to trade freshness for speed; never a source of truth — see [Redis](02-caching-with-redis.md) |
+| **Cache** | Component holding *derived copies* of data closer to its consumer to trade freshness for speed; never a source of truth — see [Redis](03-caching-with-redis.md) |
 | **Search Index** | Component storing a *query-optimized projection* of data to answer lookups a Database cannot serve efficiently |
 
 ## Service
@@ -79,6 +81,6 @@ This chapter says **Software Framework**, never plain *Framework*, because the b
 | Component | Definition |
 | --- | --- |
 | **Service** | Component deployed and operated on its own, reached over the Network rather than linked into the Application |
-| **Message Broker** | Service that transfers data between Components *asynchronously*, decoupling producer from consumer in time and availability — see [Kafka](03-messaging-with-kafka.md) |
+| **Message Broker** | Service that transfers data between Components *asynchronously*, decoupling producer from consumer in time and availability — see [Kafka](04-messaging-with-kafka.md) |
 | **Content Management System (CMS)** | Application for authoring, storing, and publishing *unstructured* content (text, media, layout) by non-engineers, separately from the code that renders it |
 | **Identity Provider (IdP)** | Service that authenticates *principals* and issues verifiable *claims* about them, so other Components authorize instead of authenticate |

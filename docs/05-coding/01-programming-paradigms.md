@@ -112,7 +112,7 @@ A programming paradigm promoting computation as the declarative composition of p
 | **Side Effects** | Interactions (reads/writes) with external mutable state |
 | **Higher-Order Function (HOF)** | A function taking a function as argument and/or returning a function |
 | **Immutability** | Inability to destructively change/mutate input parameters, context, or state |
-| **Idempotent** | Property of an operation whose reapplication to its own result changes nothing; see [System Design Concepts](../03-system-design/05-concepts.md) |
+| **Idempotent** | Property of an operation whose reapplication to its own result changes nothing; see [System Design Concepts](../03-system-design/01-concepts.md) |
 
 ### Function Composition
 

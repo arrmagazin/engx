@@ -76,7 +76,7 @@ Be ready to discuss:
 - **Immutable containers**: image tags pinned by digest, no in-place modification of running containers
 
 ### Cloud-Native / CNCF-Aligned Practices
-- **Containerization**: Docker fundamentals, multi-stage builds, and image scanning (Trivy, Defender for Containers) — see [Containers](../03-system-design/04-containers.md)
+- **Containerization**: Docker fundamentals, multi-stage builds, and image scanning (Trivy, Defender for Containers) — see [Containers](../03-system-design/05-containers.md)
 - **Kubernetes on Azure (AKS)**:
   - Deployments, StatefulSets, DaemonSets, Services, and Ingress (AGIC — Application Gateway Ingress Controller)
   - Helm charts for packaging

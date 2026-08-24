@@ -43,7 +43,7 @@ RFC 9110 defines a *safe* method as one whose semantics are read-only, and an *i
 
 Which version you are on is a deployment choice, not an API design choice: the method and status semantics above are identical across all three.
 
-Two adjacent mechanisms have their own homes. Cache headers such as `Cache-Control` and `ETag` are covered in [Performance Optimization](05-performance-optimization.md); the same-origin policy and CORS preflight are covered in [Web Security](../02-architecture/02-security-web.md).
+Two adjacent mechanisms have their own homes. Cache headers such as `Cache-Control` and `ETag` are covered in [Performance Optimization](../06-frontend/03-performance-optimization.md); the same-origin policy and CORS preflight are covered in [Web Security](../02-architecture/02-security-web.md).
 
 ## REST
 
@@ -110,7 +110,7 @@ Return one machine-readable shape for every error, not a different one per endpo
 }
 ```
 
-The `type` URI is the stable field — clients branch on it. `title` and `detail` are for humans. See [Data Formats](02-data-formats.md) for JSON itself.
+The `type` URI is the stable field — clients branch on it. `title` and `detail` are for humans. See [Data Formats](07-data-formats.md) for JSON itself.
 
 ### Versioning
 
@@ -124,7 +124,7 @@ Most changes need no version at all. Adding a field or an optional parameter is 
 
 ### Idempotency and Retries
 
-A client, a proxy, or a browser may retry a request that failed with no response, so safe and idempotent methods must tolerate duplicates. POST does not, which is why a create endpoint should accept a client-generated `Idempotency-Key` header, store the first response against that key, and replay it if the key arrives again. [System Design Concepts](../03-system-design/05-concepts.md) covers idempotency and caching as general design concepts.
+A client, a proxy, or a browser may retry a request that failed with no response, so safe and idempotent methods must tolerate duplicates. POST does not, which is why a create endpoint should accept a client-generated `Idempotency-Key` header, store the first response against that key, and replay it if the key arrives again. [System Design Concepts](01-concepts.md) covers idempotency and caching as general design concepts.
 
 ## GraphQL
 
@@ -226,4 +226,4 @@ A line beginning with a colon is a comment and is ignored. Any other field name 
 | **Server-Sent Events** | Server to client | HTTP, `text/event-stream` | Built in, with `Last-Event-ID` for resumption |
 | **WebSockets** | Both directions | TCP, after an HTTP upgrade | Your code owns it |
 
-Take the simplest option that carries the traffic. Plain requests through the [Fetch API](04-browser-technologies.md) cover most screens; Server-Sent Events add a server-driven stream without a second protocol; WebSockets are worth their operational cost only when the client must push as freely as the server does.
+Take the simplest option that carries the traffic. Plain requests through the [Fetch API](../06-frontend/02-browser-technologies.md) cover most screens; Server-Sent Events add a server-driven stream without a second protocol; WebSockets are worth their operational cost only when the client must push as freely as the server does.

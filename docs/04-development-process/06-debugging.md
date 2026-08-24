@@ -68,9 +68,9 @@ Chrome DevTools is the debugger built into the browser, and it is where a fronte
 | **Elements** | Inspect and edit the live DOM and CSS |
 | **Console** | Run JavaScript against the page and read logged output |
 | **Sources** | Step through JavaScript and set breakpoints |
-| **Network** | Inspect [requests](../06-frontend/03-client-server-communication.md), their headers, timing, and payloads |
-| **Performance** | Record and profile runtime activity, feeding the work in [Performance Optimization](../06-frontend/05-performance-optimization.md) |
-| **Application** | Inspect [browser storage](../06-frontend/04-browser-technologies.md#browser-storage), service workers, and cached resources |
+| **Network** | Inspect [requests](../03-system-design/06-client-server-communication.md), their headers, timing, and payloads |
+| **Performance** | Record and profile runtime activity, feeding the work in [Performance Optimization](../06-frontend/03-performance-optimization.md) |
+| **Application** | Inspect [browser storage](../06-frontend/02-browser-technologies.md#browser-storage), service workers, and cached resources |
 
 ### Opening a Panel
 

@@ -7,7 +7,7 @@ tags: [architecture, system-design, interview]
 
 # Canonical Systems
 
-Eleven system design problems worked end to end, each filed under the bottleneck it tests rather than the product it resembles. The vocabulary used throughout is defined in [System Design Glossary](05-concepts.md).
+Eleven system design problems worked end to end, each filed under the bottleneck it tests rather than the product it resembles. The vocabulary used throughout is defined in [System Design Glossary](01-concepts.md).
 
 | System | Representative Company | Core Bottleneck Tested |
 |---|---|---|

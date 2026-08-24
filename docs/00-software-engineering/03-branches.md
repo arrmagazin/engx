@@ -32,18 +32,18 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Computer Architecture
 - Operating Systems
 - Embedded and Real-Time Systems
-- Distributed Systems — [System Design Glossary](../03-system-design/05-concepts.md)
+- Distributed Systems — [System Design Glossary](../03-system-design/01-concepts.md)
 - Computer Networking
 - Telecommunications
-- Internet and Web Protocols — [Client-Server Communication](../06-frontend/03-client-server-communication.md)
+- Internet and Web Protocols — [Client-Server Communication](../03-system-design/06-client-server-communication.md)
 - Cloud and Platform Engineering — [AWS](../07-cloud-aws/00-aws.md) and [Azure](../08-cloud-azure/00-azure.md)
 
 ## Data and Intelligence
 
 - Information Systems — [System Design](../03-system-design/00-system-design.md)
-- Databases and Storage Engines — [Databases](../03-system-design/01-database-basics.md)
+- Databases and Storage Engines — [Databases](../03-system-design/02-database-basics.md)
 - Data Engineering and Analytics
-- Search and Information Retrieval — [Canonical Systems](../03-system-design/06-canonical-systems.md)
+- Search and Information Retrieval — [Canonical Systems](../03-system-design/08-canonical-systems.md)
 - Machine Learning — [Machine Learning Foundations](../09-ai/01-machine-learning.md)
 - AI Engineering — [Artificial Intelligence](../09-ai/00-ai.md)
 
@@ -58,7 +58,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Human-Computer Interaction
 - Graphic and Web Design
 - Media Content and Visualization
-- Accessibility and Internationalization — [Accessibility (WCAG)](../06-frontend/06-accessibility-wcag.md)
+- Accessibility and Internationalization — [Accessibility (WCAG)](../06-frontend/04-accessibility-wcag.md)
 - Gaming, Metaverses, and Extended Reality
 
 ## Engineering Practice
@@ -68,6 +68,6 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Requirements and Product Design
 - Quality Assurance and Testing — [Quality Assurance](../04-development-process/04-quality-assurance.md) and [Testing](../04-development-process/05-testing.md)
 - DevOps, SRE, and Operations — [CI/CD](../04-development-process/03-ci-cd.md)
-- Performance Engineering — [Performance Optimization](../06-frontend/05-performance-optimization.md)
+- Performance Engineering — [Performance Optimization](../06-frontend/03-performance-optimization.md)
 - Maintenance and Evolution — [Technical Debt](../04-development-process/07-technical-debt.md)
 - Engineering Management and Process — [People Management](../10-management/00-management.md) and [Methodology](../01-methodology/00-methodology.md)

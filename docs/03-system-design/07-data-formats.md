@@ -11,7 +11,7 @@ JSON, YAML, Markdown, XML, CSV, and Parquet trade readability, size, and type fi
 
 ## JSON
 
-The default payload format of web APIs — [Client-Server Communication](03-client-server-communication.md) covers how REST and GraphQL carry it. Values are limited to string, number, boolean, null, object, and array: no comments, no trailing commas, no date type.
+The default payload format of web APIs — [Client-Server Communication](06-client-server-communication.md) covers how REST and GraphQL carry it. Values are limited to string, number, boolean, null, object, and array: no comments, no trailing commas, no date type.
 
 ```json
 {

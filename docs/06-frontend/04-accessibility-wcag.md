@@ -28,7 +28,7 @@ WCAG groups every success criterion under one of four principles, abbreviated PO
 
 ## ARIA Patterns
 
-ARIA attributes annotate the [DOM](04-browser-technologies.md) the browser already exposes: they add names, roles, and states, and nothing else. They add no behavior, so keyboard handling and focus management remain your code's job. Use a native HTML element whenever one carries the semantics you need, and reach for ARIA only when none does. The [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) documents the full keyboard and state contract for each widget pattern.
+ARIA attributes annotate the [DOM](02-browser-technologies.md) the browser already exposes: they add names, roles, and states, and nothing else. They add no behavior, so keyboard handling and focus management remain your code's job. Use a native HTML element whenever one carries the semantics you need, and reach for ARIA only when none does. The [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) documents the full keyboard and state contract for each widget pattern.
 
 | Pattern | Key Attributes | Use When |
 | --- | --- | --- |

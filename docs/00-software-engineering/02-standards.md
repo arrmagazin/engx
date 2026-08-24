@@ -20,7 +20,7 @@ tags: [standards, engineering, code-quality, best-practices]
 
 * Coding Conventions: Standardizing naming formats (e.g., camelCase vs. snake_case) and file directory organization so any developer can read the code.
 * Design Principles: Enforcing heuristics such as [SOLID](../05-coding/02-design-principles.md) to keep systems flexible and modular.
-* Architecture Rules: Using established conventions such as [REST](../06-frontend/03-client-server-communication.md) and interchange formats such as JSON.
+* Architecture Rules: Using established conventions such as [REST](../03-system-design/06-client-server-communication.md) and interchange formats such as JSON.
 
 ### 2. Operations & DevOps
 

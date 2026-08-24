@@ -34,7 +34,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 - **State management**: Terraform remote state in S3 with locking — a DynamoDB lock table is still supported, and S3-native locking arrived as the opt-in `use_lockfile` in Terraform 1.10 (November 2024)
 - **Modules**: CDK constructs vs. Terraform modules — reuse, versioning, private registries, and when a shared module becomes a bottleneck
 - **Drift detection**: `terraform plan`, CloudFormation drift detection, and AWS Config rules
-- **Idempotency**: why declarative tools converge safely on repeated runs — and where AWS APIs make that hard (eventual consistency, non-updatable properties forcing replacement). See [system design concepts](../03-system-design/05-concepts.md)
+- **Idempotency**: why declarative tools converge safely on repeated runs — and where AWS APIs make that hard (eventual consistency, non-updatable properties forcing replacement). See [system design concepts](../03-system-design/01-concepts.md)
 - **Multi-environment strategy**: **account-per-environment** is the AWS-idiomatic answer, not one account with tags
 
 ### Maintaining Infrastructure at Scale
@@ -75,7 +75,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 - **Golden AMIs**: EC2 Image Builder or Packer — bake config into the image rather than mutating running servers
 - **ASG instance refresh / rolling replacement**: replace instances instead of patching in place; ASG lifecycle hooks for graceful drain
 - **Blue/green and canary**: **CodeDeploy** (ECS/Lambda/EC2 blue-green), ALB weighted target groups, Lambda alias traffic shifting, and Argo Rollouts or Flagger on EKS
-- **Immutable containers**: pin images by digest not tag, set ECR immutable tags, and keep `latest` out of production. See [containers](../03-system-design/04-containers.md)
+- **Immutable containers**: pin images by digest not tag, set ECR immutable tags, and keep `latest` out of production. See [containers](../03-system-design/05-containers.md)
 
 ### Cloud-Native / CNCF-Aligned Practices
 - **Containerization**: Docker fundamentals, multi-stage builds, distroless base images, and scanning (ECR enhanced scanning via Inspector, Trivy)
@@ -94,7 +94,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 
 ### Performance Optimization
 - **Right-sizing**: instance family selection (including Graviton) and Compute Optimizer recommendations
-- **Caching layers**: CloudFront, ElastiCache, and DAX for DynamoDB. See [system design concepts](../03-system-design/05-concepts.md)
+- **Caching layers**: CloudFront, ElastiCache, and DAX for DynamoDB. See [system design concepts](../03-system-design/01-concepts.md)
 - **Database tuning**: Aurora read replicas, RDS Proxy for connection storms (especially with Lambda), and Performance Insights
 - **Storage performance**: gp3 IOPS/throughput tuning, and S3 request patterns and prefix parallelism
 - **Load testing** and **X-Ray**/ADOT tracing to find the actual bottleneck before resizing anything
