@@ -1,98 +1,109 @@
 ---
 type: Guide
 title: Version Control
-description: Covers version control system fundamentals and compares centralized vs. distributed VCS approaches like Git.
+description: Explains how version control systems work and how to choose a branching strategy that matches how the team ships.
 tags: [development, git, version-control]
 ---
 
 # Version Control
 
+A version control system records every change made to a codebase and lets a team work on it at once without overwriting each other. This chapter covers what such a system does, how centralized and distributed ones differ, and how to choose a branching strategy.
 
-## 2. Version Control Systems (VCS)
+## Version Control Systems
 
-**VCS**: a system that enables tracking and controlling changes to a document/codebase.
+**Version control system (VCS)**: a system that tracks and controls changes to a document or codebase over time.
 
-Core tasks a VCS supports:
-- **Synchronization** – multiple developers working on the same project at once
-- **Reversal** – reverting to earlier versions of code
-- **Tracking of changes and ownership** – knowing who changed what, and when
-- **Sandboxing** – isolated spaces for dev/test work
-- **Branching** – creating variations of the same base code
-- **Backup** – restorable copies of the source
+A VCS supports six core tasks:
 
-Two fundamental components:
-- **Repository** – the central storage that houses reviewed/edited code
-- **Working copy** – an individual developer's local copy for making edits
+- **Synchronization** — several developers work on the same project at the same time
+- **Reversal** — return the code to an earlier version
+- **Change tracking** — know who changed what, and when
+- **Sandboxing** — isolated space for development and test work
+- **Branching** — keep variations of the same base code
+- **Backup** — restorable copies of the source
 
-Core actions: a developer **commits** finished edits from their working copy to the repository; another developer **updates** their working copy by pulling in the latest repository changes.
+Two components hold the code:
 
-### Centralized VCS (CVCS)
-Everything lives in one shared repository; developers still have local working copies but must upload edits to the single central repo for others to access. Example: **Team Foundation Version Control (TFVC)**.
+- **Repository** — the shared storage that holds reviewed and edited code
+- **Working copy** — a developer's local copy, where edits are made
 
-### Distributed VCS (DVCS)
-Each developer's machine holds a full copy of the codebase plus its own local repository, in addition to a working copy. Extra actions beyond commit/update:
-- **Pull** – bring changes from the remote repository into a local/working copy
-- **Push** – send committed local changes back to the remote repository
+A developer **commits** finished edits from the working copy to the repository, and **updates** the working copy by pulling in the latest repository changes.
 
-Example: **Git**, the most widely used DVCS today, valued for its flexibility.
+### Centralized Version Control
 
-### CVCS vs DVCS — comparison highlights
+A single shared repository holds the history. Developers keep local working copies but must upload their edits to that one repository before anyone else can see them, so most operations need a connection to the server. Team Foundation Version Control (TFVC) is an example.
+
+### Distributed Version Control
+
+Every developer's machine holds a full local repository — the complete history — alongside the working copy. Two actions are added to commit and update:
+
+- **Pull** — bring changes from the remote repository into the local repository and working copy
+- **Push** — send committed local changes to the remote repository
+
+Git is the most widely used distributed system.
+
+### CVCS vs. DVCS
+
 | Aspect | CVCS | DVCS |
-|---|---|---|
-| Focus | Synchronizing/backing up files | Tracking/sharing changes |
-| Learning curve | Easier to learn | Requires more practice |
-| Offline work | Mostly requires connectivity | Most work possible offline |
-| Resilience | Central server failure risks losing history | Local copies preserve full history |
-| Configurability | Simpler but more rigid | Flexible but more complex |
+| --- | --- | --- |
+| **Focus** | Synchronizing and backing up files | Tracking and sharing changes |
+| **Learning curve** | Easier to learn | Requires more practice |
+| **Offline work** | Most operations need connectivity | Most work possible offline |
+| **Resilience** | Losing the central server risks losing history | Every clone preserves the full history |
+| **Configurability** | Simpler, more rigid | Flexible, more complex |
 
+## Branching
 
-## Branching Strategy 
+**Branching**: copying code from the mainline so a developer can edit it without disrupting the work of others.
 
-A branching strategy defines how a team approaches code branching. It works together with a **version control system (VCS)** — the tool used to edit, store, and share code — since different VCS types support different branching approaches.
+| Term | Meaning |
+| --- | --- |
+| **Mainline** | The authoritative codebase, named `main` or `master`, that working copies are taken from |
+| **Branch** | An isolated copy of the mainline, created for a change and expected to pass quality checks before it returns |
+| **Merge** | Integration of a finished, tested branch back into the mainline |
+| **Fork** | A branch that is not intended to be merged back |
 
+A **merge conflict** happens when two branches change the same code in incompatible ways — one developer edits lines that another is deleting. Individually they are quick to resolve; at scale they delay delivery, and the branching strategy is what controls how often they occur.
 
-**Branching**: making a duplicate copy of code from the mainline so developers can edit without disrupting others' work.
+### Branch Lifetime
 
-- **Mainline** ("main"/"master") – the primary, authoritative codebase that working copies are pulled from.
-- **Branch** – an isolated copy created from the mainline for making changes; must pass quality checks before being reintegrated.
-- **Merging** – integrating a completed, tested branch back into the mainline.
-- **Fork** – a branch that isn't intended to ever be merged back.
+How long a branch stays open shapes the cost of merging it more than any naming convention does.
 
-**Merge conflicts** occur when developers make overlapping or contradictory edits (e.g., one edits code another is deleting). Usually easy to fix individually, but at scale they can cause real delays — choosing branching strategy wisely reduces their frequency.
+**Long-lived branches** stay open for weeks and carry the full history of a feature's development. They suit complex work and distributed teams, but the longer a branch runs, the further it drifts from the mainline, and the larger the eventual merge and any rollback become.
+
+**Short-lived branches** are merged back within days. They suit [CI/CD](03-ci-cd.md) workflows and encourage small, frequent commits, at the cost of more discipline around partly finished work, which usually means keeping it behind feature flags.
+
+| Aspect | Long-Lived | Short-Lived |
+| --- | --- | --- |
+| **Merge size** | Larger, harder to review | Smaller, easier to review |
+| **Rollback** | Harder, since more changes unwind together | Easier, since each merge carries less |
+| **Merge conflicts** | More frequent and more demanding | Fewer and smaller |
+| **Automation fit** | Integration is exercised late | Every merge exercises the pipeline |
 
 ### Branching Strategies
 
-Strategies set the concrete rules for how/when branches are created and merged; the right choice often depends on whether the team uses a CVCS or DVCS.
+A branching strategy is the team's rule for when branches are created and when they are merged. The choice follows the release model: a team shipping on a fixed schedule and a team deploying continuously need different rules.
 
-- **Gitflow** – assigns dedicated roles to branches (feature, develop, release, hotfix, master). Well suited to projects with a scheduled release cycle; builds on the long-lived branching pattern and uses servicing branches to isolate releases/hotfixes.
-- **Trunk-based development** – the whole team works from a shared "trunk"; short-lived branches (if used) are merged back quickly. Minimizes merge conflicts and works well with frequent code review and pull requests.
+| Strategy | Rule | Suits |
+| --- | --- | --- |
+| **GitFlow** | A fixed role per branch: `feature`, `develop`, `release`, `hotfix`, and `main` | Explicitly versioned software, or several versions supported at once |
+| **Trunk-based development** | The whole team works from one shared trunk; branches, where used, are short-lived and merged back quickly | Continuous delivery, with review through small pull requests |
+| **Feature isolation** | One branch per feature, held until the feature is ready to merge | Work that must be kept out of the mainline as a unit |
+| **Release isolation** | A release branch is locked and accepts only critical hotfixes, while servicing branches carry patches for versions already released | Supporting software that is already in customers' hands |
 
-- **Feature isolation** – each feature gets its own branch, isolating development until it's ready to merge back to main. Shares the same tradeoffs as long-lived branching.
-- **Servicing & release isolation** – separate branches for ongoing servicing/patches versus a "locked" release branch that should only change for critical hotfixes.
+Record the strategy the team follows somewhere the whole team can find it — see [Knowledge Sharing](08-knowledge-sharing.md).
 
 ### GitFlow
 
-Branching model for features, releases, and hotfixes.
-
-```text
-main (production)
-  │
-  │  develop (integration)
-  │    │
-  │    ├── feature/feature-name → merge back to develop
-  │    │
-  │    └── release/v1.0.0 → tag & merge to main + develop
-  │
-  └── hotfix/urgent-fix → merge to main + develop
-```
+GitFlow gives each branch a fixed role. Its author, Vincent Driessen, later added a note to the original post advising teams that practice continuous delivery to adopt a simpler workflow instead of forcing GitFlow onto it; he still considers the model a fit for software that is explicitly versioned or that must support several released versions at once.
 
 | Branch | Purpose | Lifetime |
 | --- | --- | --- |
-| `main` | Production-ready code | Permanent |
-| `develop` | Integration branch | Permanent |
-| `feature/*` | New features | Until merged |
-| `release/*` | Release preparation | Until released |
-| `hotfix/*` | Urgent production fixes | Until merged |
+| **`main`** | Production-ready code | Permanent |
+| **`develop`** | Integration of finished features | Permanent |
+| **`feature/*`** | New features | Until merged |
+| **`release/*`** | Release preparation | Until released |
+| **`hotfix/*`** | Urgent production fixes | Until merged |
 
 ```mermaid
 gitGraph
@@ -141,29 +152,6 @@ git tag -a v1.0.0 -m "Release v1.0.0"
 git checkout develop && git merge --no-ff release/v1.0.0
 ```
 
-## Branching Patterns
-
-#### Long-lived branching
-Best for complex, longer-term projects with distributed teams. A feature branch stays open for weeks and holds the full history of that feature's development. Increases risk of drift from the mainline and larger, harder merges/rollbacks.
-
-#### Short-lived branching
-Feature updates are integrated within days rather than weeks; suits continuous integration workflows. Encourages small, frequent commits and automation, which reduces integration friction and shortens time-to-production, though it requires more discipline around partially-finished work.
-
-#### Comparison highlights
-| Question | Long-lived | Short-lived |
-|---|---|---|
-| Integration frequency | Low (days/weeks) | High (often daily) |
-| Merge size | Larger, harder | Smaller, easier |
-| Rollbacks | Harder | Easier |
-| Merge conflicts | Common, demanding | Minimal |
-
-## Best Practices (Key Takeaways)
-- Every team should deliberately evaluate which VCS best fits their project rather than defaulting to habit.
-- Branching strategy should be chosen to match the team's VCS (CVCS vs DVCS).
-- Decisions about branching strategy should be documented in a shared knowledge management system so the whole team stays aligned.
-
-
 ## References
 
-1. [GitFlow Workflow](https://nvie.com/posts/a-successful-git-branching-model/)
-
+1. [A Successful Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/) — Vincent Driessen
