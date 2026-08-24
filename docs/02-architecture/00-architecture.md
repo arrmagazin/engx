@@ -29,7 +29,7 @@ SA incorporates, captures, and conveys:
 - **Measures** to ensure the system satisfies its intended purpose
 
 Architecture stops at the decisions; turning them into schemas, endpoints, and algorithms is
-[System Design](../03-system_design/01-overview.md).
+[System Design](../03-system-design/00-system-design.md).
 
 
 ## Architectural Levels
