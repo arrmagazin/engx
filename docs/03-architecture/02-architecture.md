@@ -28,6 +28,10 @@ SA incorporates, captures, and conveys:
 - General **goals**, **constraints**, technical **characteristics**
 - **Measures** to ensure the system satisfies its intended purpose
 
+Architecture stops at the decisions; turning them into schemas, endpoints, and algorithms is
+[System Design](../03-system_design/01-overview.md).
+
+
 ## Architectural Levels
 
 | Level | Answers | Example |
@@ -41,7 +45,7 @@ SA incorporates, captures, and conveys:
 Confusing the levels is the usual failure: a pattern applied where no principle demanded it is
 accidental complexity, and a principle restated as a rule loses the trade-off that justified it.
 
-### Architectural Views
+## Architectural Views
 
 | View | Description |
 | ------ | ------------- |
@@ -68,26 +72,4 @@ mindmap
       Specs
       Prototypes
       Designs
-```
-
-### System Design
-
-**System Design** is the process of creating a detailed architectural specification that can be implemented by developers.
-
-It works at a lower level of abstraction:
-
-- Fleshing out specifics of how architecture will be realized (database schema, API endpoints)
-- Translating high-level requirements into concrete implementation plans
-- Diving into details: algorithms, data structures, interfaces, specific technologies
-
-```mermaid
-flowchart LR
-  Principles --> Architecture
-  Constraints --> Architecture
-  Architecture --> Decisions
-  Decisions --> SystemDesign["System Design"]
-  SystemDesign --> Blueprint
-  Blueprint --> Implementation
-  Implementation --> Measures
-  Measures --> Architecture
 ```

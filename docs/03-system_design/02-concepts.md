@@ -1,15 +1,13 @@
 ---
 type: Guide
-title: System Design Interview Glossary
+title: System Design Glossary
 description: Reference glossary of system design terms and named concepts (scaling, sharding, caching, and more) organized by category.
 tags: [architecture, system-design, interview, glossary]
 ---
 
-# System Design Interview Glossary
+# System Design Glossary
 
-A reference of every concept, term, and named problem covered in prep, organized by category. Use this alongside `system-design-interview-prep.md`.
-
----
+A reference of every concept, term, and named problem covered in prep, organized by category. 
 
 ## Scale & Estimation
 
@@ -181,3 +179,16 @@ A reference of every concept, term, and named problem covered in prep, organized
 | **Tradeoff articulation** | Explicitly naming the pros/cons of a design choice and why it was selected over alternatives, rather than presenting only one option as if it were the only possibility. |
 | **Failure mode** | A specific way a system component can break or degrade under stress (e.g., cache stampede, reconnection storm, shard hotspot) — naming these unprompted is expected at senior/staff level. |
 | **Cost as a design constraint** | Treating infrastructure cost (storage, CDN egress, compute) as a first-class factor in design decisions, not just an afterthought — especially relevant in storage-heavy systems like video platforms. |
+
+
+## Cross-System Patterns Worth Recognizing
+
+These recur across multiple problems above — naming the pattern by name (and why it does/doesn't apply) is a strong senior/staff signal:
+
+- **Fan-out on write vs. read** (blog feed, messaging channels): push is fast to read but breaks on high-fan-out ("celebrity problem"); pull avoids that but costs read latency. Hybrid with a threshold is usually the right answer.
+- **Two-stage narrow-then-rank** (TikTok feed, search query serving): never run an expensive operation over the full corpus — cheaply filter to a candidate set first, then rank precisely.
+- **Async event pipeline for anything non-critical-path** (analytics, counters, search indexing, moderation): keep the hot path (redirect, read, ingest) free of slow/best-effort work; decouple via Kafka + consumers.
+- **Sharding should follow the dominant query pattern, not be applied uniformly**: hash by short_code (URL shortener), hash by follower_id (feeds), geography (ride-hailing), per-document leader (collab editing). Always ask "what's the most common lookup, and does my shard key let that lookup hit one shard?"
+- **Distributed ID/coordination problems** (Snowflake IDs, worker assignment, rate limiter counters) generally resolve to: use an atomic operation (Lua script, CAS) or a coordination service (etcd/ZooKeeper) rather than hoping for the best across independent processes.
+- **Consistency requirements are not uniform across a system**: read-your-writes for the author's own content; eventual consistency for likes/views/counters; strong consistency for payments/inventory. Explicitly identifying *which* pieces of a system need which consistency model — rather than picking one model for everything — is the meta-skill tested across all of these.
+- **Cost as a constraint, not an afterthought**: storage/CDN egress dominates cost in content-heavy systems (video, blog images) — worth naming tiered storage, downsampling, and retention policies unprompted.

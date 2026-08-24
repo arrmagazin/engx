@@ -9,7 +9,7 @@ tags: [frontend, resources, reference]
 
 ![Frontend](/images/21-frontend.svg)
 
-#### Core Documentation
+## Core Documentation
 
 | Resource | URL |
 | --- | --- |
@@ -33,7 +33,7 @@ tags: [frontend, resources, reference]
 | Content Security Policy | <https://content-security-policy.com/> |
 | Same-Origin Policy | <https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy> |
 
-#### Web Standards
+### Web Standards
 
 | Resource | URL |
 | --- | --- |
@@ -41,7 +41,7 @@ tags: [frontend, resources, reference]
 | W3C | <https://www.w3.org/> |
 | TC39 (ECMAScript committee) | <https://tc39.es/> |
 
-#### Roadmaps and Guides
+### Roadmaps and Guides
 
 | Resource | URL |
 | --- | --- |
@@ -50,3 +50,12 @@ tags: [frontend, resources, reference]
 | Web Performance (Google) | <https://web.dev/learn/performance/> |
 | Front-end Guide (Grab) | <https://github.com/grab/front-end-guide> |
 
+
+### Interview Prep
+
+| Resource | URL |
+| --- | --- |
+| LeetCode | <https://leetcode.com/> |
+| Frontend Interview Handbook | <https://frontendinterviewhandbook.com/> |
+| React Interview Questions | <https://github.com/sudheerj/reactjs-interview-questions> |
+| Interviewing.io | <https://interviewing.io/> |

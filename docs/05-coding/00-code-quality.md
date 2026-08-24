@@ -30,14 +30,12 @@ Teams rarely get enough time for code quality, so code becomes messy and buggy. 
 - Code may need a full rewrite.
 - More defects.
 
-
 ## The Cost of Bugs
 Bugs can do serious damage. In 1996 the EU's Ariane 5 rocket spun out of control 40 seconds after liftoff due to a software failure — roughly $500 million lost.
 
 Fixing a defect is more than the fix: reproduce, register, assign, discuss, fix, verify. That can total over an hour for a single defect.
 
-The cost of a fix grows sharply the later it is found (Empirical Software Engineering Journal / NIST): ~1x at Requirements, ~5x at Development, ~15x at Testing, ~30x at Maintenance. EPAM sees the same pattern. Find defects early.
-
+The cost of a fix grows sharply the later it is found (Empirical Software Engineering Journal / NIST): ~1x at Requirements, ~5x at Development, ~15x at Testing, ~30x at Maintenance.
 ## Two Supporting Practices
 
 ### Coding Standards

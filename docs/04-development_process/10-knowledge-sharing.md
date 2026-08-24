@@ -7,8 +7,6 @@ tags: [development-process, knowledge-sharing, team]
 
 # Knowledge Sharing — Key Insights & Notes
 
-Source: EPAM EngX.AI Bootcamp — "Knowledge Sharing" module
-
 ## Core Concept
 
 Knowledge sharing is the exchange of information, expertise, and skills among a team. It happens through conversations, regular meetings, documentation, workshops, videos, and other communication channels. When practiced effectively, it establishes clarity, trust, prioritization, and team alignment.
@@ -98,6 +96,3 @@ Anyone—including newcomers—can and should suggest improvements to their team
 - Keep the technical knowledge base up to date so it properly reflects current project details.
 - Ensure team members pick development tasks evenly across the system to avoid a bus factor of one.
 - Support onboarding with a newcomer's handbook/guide covering the project system, teams, and development setup; keep it updated and pair it with mentoring/coaching throughout onboarding.
-
----
-*Notes compiled from the EPAM EngX.AI Bootcamp "Knowledge Sharing" course page.*

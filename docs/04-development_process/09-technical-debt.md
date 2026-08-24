@@ -7,8 +7,6 @@ tags: [development-process, technical-debt, architecture]
 
 # Technical Debt — Key Insights & Notes
 
-Source: EPAM EngX.AI Bootcamp — "Technical Debt" module
-
 ## Core Concept
 
 Technical debt describes the hidden cost of extra rework that builds up when a team ships a quick, simple solution instead of investing in a more thorough approach. 

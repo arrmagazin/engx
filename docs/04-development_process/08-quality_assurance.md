@@ -76,7 +76,6 @@ graph TD
 - Common defects in test cases to watch for: missing coverage, spelling/grammar, non-standard templates, jargon, duplication, obsolescence.
 - Track coverage via a Requirement Test Coverage Report or Requirement Traceability Matrix.
 - Regression suites: categorize (reusable vs. obsolete) → prioritize by business impact → select cases covering critical/frequent/core/recently-changed functionality.
-- Recommended tools: Zephyr, Rally, Azure DevOps, TestRail, Jama, QaSpace (EPAM's own).
 
 **Best practices:** design cases as discrete verifiable actions; use one specialized tool; prioritize/order regression execution; organize into suites; trace every case to a requirement; have BAs review cases.
 
@@ -113,7 +112,6 @@ graph TD
 - Predictive metrics = derived ratios that flag risk early (e.g., defect containment efficiency, defect leakage, defect reopen ratio, rejection rate, test design efficiency).
 - QA Metrics Life Cycle: Analyze (pick metrics that answer real questions) → Communicate (align data requirements with the team) → Evaluate (collect/automate data) → Report & Analyze (share findings against targets, e.g. defect containment >95%, test coverage 100%, invalid/reopen ratio <10%).
 - PDCA cycle (Plan–Do–Check–Act) used to turn metrics into continuous process improvement.
-- EPAM's PERF Board is cited as an example dashboard pulling data from Jira/Jenkins/SonarQube.
 
 **Best practices:** measure metrics on a defined, automated schedule; always turn results into concrete improvement actions.
 
@@ -141,8 +139,7 @@ graph TD
 - Every QA discipline follows the same rhythm: define/plan → execute → capture data/metrics → review → improve (STLC, Defect Life Cycle, Non-Functional testing steps, QA Metrics Life Cycle, PDCA all mirror this pattern).
 - Documentation (test plan/strategy, test reports, defect reports, dashboards) is treated as a first-class deliverable throughout — not an afterthought.
 - Shift-left and automation-first thinking recur in test case management (reusability), defect management (early discovery), non-functional testing (continuous integration), and automated testing (the pipeline itself).
-- Nearly every lesson closes with an Evolving Engineering Excellence best-practices checklist — these together form EPAM's baseline QA standard for project teams.
-
+- Nearly every lesson closes with an Evolving Engineering Excellence best-practices checklist
 ## Testing Principles (F.I.R.S.T.)
 
 | Principle | Description |

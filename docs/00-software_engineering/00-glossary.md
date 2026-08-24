@@ -9,69 +9,46 @@ tags: [introduction, engineering]
 
 ![Introduction to Modern Software Engineering](/images/welcome.svg)
 
-These concepts have covered the essentials every modern software engineer should understand.
+This documnent brings the essential conceptual basis, that every modern software engineer should understand and use.
 
-## Solutions and Delivery
+## Solution
 
 | Concept | Definition |
 | --------- | ------------ |
-| **Solution** | An artificial phenomenon (product or service) that brings real value to a Stakeholder; intentionally designed by Team; can be defined formally, measured, and verified |
+| **Solution** | An artificial *phenomenon* (Product or Service):<br>- intentionally designed by a Team<br>- has an evolving, measurable State<br>- brings real Value to a Stakeholder |
+| **Stakeholder** | Any *party* <br>- whose *interests* are at stake in the Solution's outcome <br>- and who has some *expectations* about Value of theSolution: <br>sponsor, operator, regulator, user |
+| **Value** | The real *gain* a Stakeholder receives from a Solution according to its *interests*: <br>new capability, time, money, problem solved, risk removed |
+| **Satisfaction** | A Stakeholder's *judgement* that the received Value matched their *expectations*; subjective, therefore elicited rather than measured |
+| **State** | The observable *condition* of Solution at a point in *time*; it evolves, and everything verifiable is read from it |
+| **Goals** | Desired end States where Satisfaction is reached; <br> too coarse to *verify* as stated, so decomposed into Objectives |
+| **Objectives** | Intermediate States, concrete enough to be bounded by Requirements and checked/verified on its own |
+| **Metric** | A formalized, measurable criterion applicable to the State of a Solution |
+| **Requirements** | Boundaries on Metrics that an Objective must hold within; what makes "done" falsifiable |
+| **Success** | The verified State where every Requirement holds and Satisfaction is confirmed — Value delivered, not scope delivered |
+
+## Delivery
+
+| Concept | Definition |
+| --------- | ------------ |
+| **Delivery** | Moving a Solution into the State where a Stakeholder actually receives Value; it ends at Value received, not at handover |
 | **Product** | Any kind of tangible objects or phenomena (property/facility/guidance/accelerator) |
 | **Service** | Facilities that allow getting some outcome from interaction |
-| **Design** | (Abstract/usage view) Inventing, innovation, and research of WHAT product/service should be and WHY |
+| **End-User** | The Stakeholder who directly interacts with the Solution |
+| **Design** | Inventing, innovation, and research of WHAT a Product or Service should be and WHY — all against usability from the End-User perspective |
 | **Estimation** | Anticipated amount of resources needed, made in certain assumptions about constraints, complexity, risks, and contingency |
-| **Metric** | A formalized and measurable criteria applicable to state |
-| **Requirements** | Defined boundaries on metrics enabling verification of success |
-| **Objectives** | Intermediate achievable states supporting reaching goals |
-| **Efficiency** | Ratio of measured values of gain per resources spent |
+| **Efficiency** | Ratio of Value gained to resources spent |
 
-## Engineering and Management
+
+## Engineering
 
 | Concept | Definition |
 | --------- | ------------ |
-| **Engineering** | The disciplined art of delivering solutions grounded in the scientific method, applied science, math, and domain expertise, through appropriate methodologies, technologies, tools, and frameworks |
-| **Project** | A managed endeavor where the Team pursues Success reaching predefined Goals on top of given paradigms, technologies, and methodology |
-| **Team** | An interpersonal creature built on top of a group of individuals around specific goals |
-| **Paradigm** | A method of using applied *knowledge* towards practical success in a given domain. |
-| **Technology** | A defined way to setup and control *processes* ensuring effective, reproducible, verified success |
-
-| **Management** | A process of organizing/optimizing teams to ensure reaching goals through Governance, Control, Organization, Securing, Tracking, and Growth |
-
-## Information System
-
-**Info-System**: An artificial system designed to perform various complex data transformation flows (hardware, firmware, OS, software, data sources) 
-
-| Component | Definition |
-| ----------- | ------------ |
-| **Hardware (Hw)** | Physically tangible circuits performing transformation and exchange of binary data |
-| **Software (Sw)** | Executable code, configurations, and metadata defining data processing |
-| **Firmware (Fw)** | Code embedded into hardware that directly controls it |
-| **API** | Higher-level abstractions on top of hardware/firmware for software use |
-| **Operating System** | Comprehensive set of protocol implementations and utilities providing interfaces for application programming |
-| **Component** | A named separated piece of code/data that is *composable* - can be combined/used with others to build larger components.|
-| **Application** | Deliverable Software providing functional scope in some business domain |
-| **Platform** | Comprehensive set of technology facilities (languages, protocols, environments, tools, ecosystems) to deliver software |
-| **Database** | Seprate component Means to store, access, and represent structured data |
-
-## Software Engineering
-
-**Software Engineering**: Engineering in the field of software delivery on top of computer science and applied math.
-
-Its branches include:
-
-- Information Theory
-- Theory of Computation
-- Systems Theory
-- Operations Research
-- Algorithms
-- Information Systems
-- Software and Systems Engineering
-- Computer Networking
-- Telecommunications
-- Cryptography
-- Internet
-- Media Content and Visualization
-- Graphic and Web Design
-- Gaming and Metaverses
-- AI Engineeering
+| **Engineering** | The disciplined *art* of delivering Solutions |
+| **Project** | A managed *endeavor* where a Team pursues Success against predefined Goals, <br>by choosing, adopting and applying Paradigms, Methodologies, Technologies, and Platforms |
+| **Team** | An interpersonal agent formed from individuals aligned around shared Goals |
+| **Paradigm** | A way of applying *knowledge* ( applied science, math, methods, and domain expertise) <br> toward Success |
+| **Methodology** | A coherent system of *practices* (roles, rituals, artifacts, workflows) <br> a Team adopts to organize its work toward Success |
+| **Technology** | A defined way to set up and control *processes* so that results are effective, reproducible, and verifiable |
+| **Platform** | Comprehensive set of *facilities* (languages, protocols, environments, tools, ecosystems) to deliver software |
+| **Management** | Organizing and optimizing *Teams* to reach Success <br>— through Governance, Control, Organization, Securing, Tracking, and Growth |
 

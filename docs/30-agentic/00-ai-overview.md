@@ -44,20 +44,11 @@ graph TD
 
 ## Machine Learning Foundations
 
-| Paradigm | Description |
-| ---------- | ------------- |
-| **Supervised** | Learn from labeled pairs (input → known output); used for classification and regression |
-| **Unsupervised** | Find structure in unlabeled data (clustering, dimensionality reduction) |
-| **Self-Supervised** | Generate labels from the data itself (e.g. predict the next/masked token) — the engine behind LLMs |
-| **Reinforcement Learning (RL)** | Learn a policy by maximizing cumulative reward through trial and interaction |
+**Machine Learning (ML)** is the branch of AI where behavior is learned from data rather than written
+as explicit rules.
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Model** | A parameterized function whose weights are fitted to data |
-| **Training** | Optimizing weights to minimize a loss function (typically by gradient descent) |
-| **Inference** | Running a trained model to produce predictions on new input |
-| **Generalization** | Performance on unseen data, balancing **underfitting** vs. **overfitting** |
-| **Bias / Variance** | Error from wrong assumptions vs. error from sensitivity to data noise |
+The learning paradigms and the core training/inference concepts live in their own guide:
+[Machine Learning Foundations](22-machine-learning.md).
 
 ---
 
@@ -92,54 +83,10 @@ from raw data, removing the need for hand-crafted features.
 An **LLM** is a transformer-based model trained on vast text corpora to predict the next **token**,
 acquiring broad knowledge and language ability as an emergent side effect of that single objective.
 
-### Core Mechanics
-
-| Concept | Definition |
-| --------- | ------------ |
-| **Token** | The atomic unit of text (sub-word fragment) the model reads and emits |
-| **Tokenizer** | Maps text ↔ tokens (e.g. BPE); affects cost, context limits, and multilingual fairness |
-| **Transformer** | Architecture built on stacked self-attention and feed-forward blocks |
-| **Attention** | Mechanism letting each token weigh the relevance of every other token |
-| **Context Window** | Maximum tokens the model can attend to at once (prompt + output) |
-| **Parameters** | The learned weights; scale correlates with capability |
-| **Logits / Sampling** | Output is a probability distribution over next tokens, sampled to generate text |
-
-### Training Lifecycle
-
-| Stage | Purpose |
-| ------- | --------- |
-| **Pre-training** | Self-supervised next-token prediction on broad corpora — builds general competence |
-| **Fine-tuning** | Adapt to a domain or task on a smaller curated dataset |
-| **Instruction Tuning** | Teach the model to follow natural-language instructions |
-| **RLHF / RLAIF** | Align outputs with human (or AI) preferences via reinforcement learning |
-| **Distillation** | Compress a large model's behavior into a smaller, cheaper one |
-
-### Inference Controls
-
-| Parameter | Effect |
-| ----------- | -------- |
-| **Temperature** | Higher = more random/creative; lower = more deterministic |
-| **Top-p / Top-k** | Restrict sampling to the most probable tokens (nucleus / top-k) |
-| **Max Tokens** | Caps the length of the generated output |
-| **System Prompt** | Persistent instruction shaping role, tone, and constraints |
-| **Stop Sequences** | Strings that halt generation |
-
-### Usage Techniques
-
-| Technique | Description |
-| ----------- | ------------- |
-| **Prompt Engineering** | Crafting input to elicit desired behavior |
-| **Few-Shot / In-Context Learning** | Providing examples in the prompt instead of retraining |
-| **Chain-of-Thought (CoT)** | Prompting step-by-step reasoning to improve accuracy on complex tasks |
-| **RAG** | Retrieval-Augmented Generation — inject relevant external documents into context |
-| **Function / Tool Calling** | Model emits structured calls the host executes and feeds back |
-| **Structured Output** | Constrain responses to JSON/schema for reliable downstream parsing |
-
-> Two failure modes to design around: **hallucination** (confident but false output) and
-> **context limits** (truncation and "lost in the middle" degradation on long inputs).
+Mechanics, training lifecycle, inference controls, and usage techniques live in their own guide:
+[Large Language Models](22-llm.md).
 
 ---
-
 
 ## Glossary
 

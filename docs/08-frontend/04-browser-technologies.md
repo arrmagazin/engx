@@ -7,63 +7,7 @@ tags: [frontend, html, css, browser]
 
 # Browser Technologies
 
-## HTML5
-
-### Semantic Elements
-
-Use `<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`, `<footer>` to describe content meaning.
-
-### Form Enhancements
-
-```html
-<input type="email" required autocomplete="email">
-<input type="url" pattern="https://.*">
-<input type="number" min="0" max="100" step="1">
-<input type="date" min="2024-01-01">
-<input type="file" accept=".pdf,.doc">
-<input type="text" required minlength="3" maxlength="50">
-```
-
-## CSS Fundamentals
-
-### Basic Concepts
-
-CSS (Cascading Style Sheets) describes how HTML elements are presented. A rule is a
-selector plus a declaration block:
-
-```css
-.card {              /* selector */
-    color: #333;     /* property: value */
-    padding: 16px;
-}
-```
-
-| Concept | Meaning |
-| --- | --- |
-| Selector | What the rule targets: type (`p`), class (`.card`), id (`#main`), attribute (`[type="text"]`), pseudo-class (`:hover`), pseudo-element (`::before`) |
-| Cascade | When rules conflict, the winner is decided by origin, then specificity, then source order |
-| Specificity | Weight of a selector: inline > id > class/attribute/pseudo-class > element. Avoid `!important` |
-| Inheritance | Text-related properties (`color`, `font-*`, `line-height`) pass to children; layout properties do not |
-| Units | Absolute (`px`), relative (`em`, `rem`, `%`), viewport (`vw`, `vh`), fractional grid (`fr`) |
-| Custom properties | Variables: `--gap: 16px` declared on a scope, read via `var(--gap)`; inherited and runtime-changeable |
-| Display | Governs layout: `block`, `inline`, `inline-block`, `flex`, `grid`, `none` |
-| Position | `static` (default), `relative`, `absolute`, `fixed`, `sticky` |
-
-### Utility-First CSS: Tailwind CSS
-
-Instead of authoring rules per component, [Tailwind CSS](https://tailwindcss.com/) composes
-styles from single-purpose utility classes in the markup:
-
-```html
-<div class="flex items-center justify-between gap-4 p-4 rounded-lg bg-white">
-```
-
-Each class maps to one declaration (`p-4` → `padding: 1rem`), so the concepts below still
-apply — box model, flexbox, grid, and media queries (`md:`, `lg:` prefixes) are what the
-utilities generate. Unused classes are removed at build time. DaisyUI adds prebuilt
-component classes on top of Tailwind.
-
-### References
+## HTML5/CSS3
 
 | Resource | URL |
 | --- | --- |
@@ -74,66 +18,6 @@ component classes on top of Tailwind.
 | A Complete Guide to Grid | <https://css-tricks.com/snippets/css/complete-guide-grid/> |
 | Tailwind CSS Docs | <https://tailwindcss.com/docs> |
 | DaisyUI | <https://daisyui.com/> |
-
-### Box Model
-
-Each element is a rectangular box: content → padding → border → margin.
-
-Use `box-sizing: border-box` so width/height include padding and border.
-
-### Flexbox
-
-```css
-.container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.item {
-    flex: 1;        /* grow: 1, shrink: 1, basis: 0 */
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: 200px;
-}
-```
-
-### Grid
-
-```css
-.container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    grid-template-areas:
-        "header header header"
-        "sidebar main main"
-        "footer footer footer";
-}
-
-.header { grid-area: header; }
-.sidebar { grid-area: sidebar; }
-```
-
-### Responsive Design (Mobile-First)
-
-```css
-/* Base (mobile) */
-.container { padding: 16px; }
-
-/* Tablet */
-@media (min-width: 768px) {
-    .container { padding: 24px; display: grid; grid-template-columns: 200px 1fr; }
-}
-
-/* Desktop */
-@media (min-width: 1024px) {
-    .container { max-width: 1200px; margin: 0 auto; }
-}
-```
 
 ## DOM
 
