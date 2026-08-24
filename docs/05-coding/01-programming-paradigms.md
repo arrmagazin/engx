@@ -30,9 +30,10 @@ mindmap
       SQL
     Other
       Metaprogramming
-      DDD
       AOP
       FBP
+      Constraint
+      Components
 ```
 
 ## Imperative Programming
@@ -311,17 +312,56 @@ The same goal can be reached at different points in the lifecycle, with sharply 
 a macro before an annotation processor, an annotation processor before runtime reflection.
 Push the dynamic option only when the shape of the code genuinely is not known until execution.
 
-*See also*: [Other Paradigms](#other-paradigms) — Aspect-oriented Programming (AOP) is built almost entirely on load-time and runtime metaprogramming.
+*See also*: [Aspect-Oriented Programming (AOP)](#aspect-oriented-programming-aop) — its join points, advice,
+and weaving are built almost entirely on the load-time and run-time stages described above.
 
 ## Other Paradigms
 
-- Mathematical model
-- Domain-driven design (DDD)
-- SQL
-- Component-based software engineering
-- Flow-based programming (FBP)
-- Constraint programming
-- Logic programming
-- Aspect-oriented Programming (AOP)
-- Agent-oriented programming
-- Modular programming
+The families above cover most production code, but a working engineer still meets the paradigms
+below, usually as a specialized language or framework dropped into an otherwise conventional
+system. Each is described here by the unit it treats as primitive, because that choice is what
+separates it from the paradigms this chapter covers in full.
+
+| Concept | Definition |
+| --------- | ------------ |
+| **Logic Programming** | Declarative style where a program is a set of facts and rules, and running it means asking the engine to search for a proof of a goal rather than prescribing the steps (Prolog, Datalog, answer-set solvers) |
+| **Constraint Programming** | Close relative of Logic Programming in which the program states relations a solution must satisfy and a solver explores the feasible space, so the search strategy belongs to the engine rather than the author (MiniZinc, Choco, OR-Tools) |
+| **Flow-Based Programming (FBP)** | Assembly of black-box processes that exchange fixed-format packets over bounded, named connections owned by the network rather than by any process, which makes the topology data instead of code (NoFlo, Node-RED, LabVIEW) |
+| **Agent-Oriented Programming** | Autonomous entities holding their own beliefs, goals, and plans as first-class program elements, coordinating through messages rather than direct invocation, so control is genuinely decentralized (JADE, Jason/AgentSpeak) |
+| **Component-Based Software Engineering** | Building systems from independently deployable units that expose only contractual interfaces, moving substitution and reuse from the Class boundary out to the packaging boundary (OSGi, COM, .NET assemblies) |
+| **Modular Programming** | Splitting a program into separately compiled units with explicit exported and imported names — the discipline Procedural programming grew out of, and the one that today's packages and namespaces still implement (Modula-2, ML functors, JPMS, ES imports) |
+
+Three names that used to sit in this list are deliberately absent, because calling them paradigms
+would be wrong. SQL is a language, and it already appears above as an example of
+[Declarative Programming](#declarative-programming). Domain-Driven Design is a modeling and design
+approach rather than a view of what computation is, and its tactical patterns belong with
+[Design Patterns](03-design-patterns.md). "Mathematical model" names no paradigm at all; the idea it
+gestures at, computation as the evaluation of pure functions, is
+[Functional Programming](#functional-programming).
+
+### Aspect-Oriented Programming (AOP)
+
+Some requirements — logging, transactions, retries, authorization, tracing — cannot be localized in
+any single Class or Function. They cut across many of them, so expressing them in the dominant
+decomposition means repeating the same lines at every call site and tangling them with the logic
+that actually matters. AOP answers that by making the scattered requirement itself a first-class
+unit, defined once and attached to the places it applies by a declarative rule instead of by an
+explicit call.
+
+| Concept | Definition |
+| --------- | ------------ |
+| **Cross-Cutting Concern** | Requirement whose implementation would otherwise be scattered across many unrelated units and tangled with their primary logic |
+| **Join Point** | Well-defined moment in program execution where extra behavior may be attached: a method call or execution, a field access, an exception being thrown |
+| **Pointcut** | Predicate selecting a set of Join Points by signature, annotation, or type hierarchy, so the targets are described rather than enumerated |
+| **Advice** | Code to run at the selected moments, ordered relative to them as `before`, `after`, `after throwing`, or `around` — the last wrapping the target and free to skip or replace it |
+| **Aspect** | Unit bundling one or more Pointcuts with their Advice and any state they share, playing the role a Class plays in OOP |
+| **Weaving** | Act of merging that extra behavior into the target program, done at compile time, at load time, or at run time through generated proxies |
+| **Introduction** | Adding members or a supertype to an existing Class from outside its own definition, also called an inter-type declaration |
+
+*Implementations*: AspectJ (compile-time and load-time weaving), Spring AOP (runtime proxies, limited
+to method execution on managed beans), PostSharp, and the interceptor chains of most DI containers.
+
+The trade-off is the one [Metaprogramming](#metaprogramming) always carries: because an Aspect
+applies without any mark at the call site, the code that is read is no longer the code that runs.
+Reserve AOP for concerns that are genuinely uniform across many units, and keep the Pointcuts narrow
+enough that a reader can predict where they fire.
