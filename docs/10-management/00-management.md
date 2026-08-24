@@ -11,17 +11,14 @@ People management is the discipline of **building and sustaining the team that d
 
 It is the *People* dimension of [Engineering Management](01-delivery-management.md). Management allocates and sequences work; people management makes sure there is a capable, motivated team to allocate it to. A manager who optimizes only for delivery borrows capacity from this dimension and pays it back as attrition.
 
-Related: [Team Lead](02-team-lead.md) · [Engineering Management](01-delivery-management.md) · [Development Process](../04-development-process/00-development-process.md) · [Methodology](../01-methodology/00-methodology.md)
-
----
+Outside this folder: [Development Process](../04-development-process/00-development-process.md) · [Methodology](../01-methodology/00-methodology.md)
 
 ## In This Section
 
 | Doc | What it covers |
 | --- | --- |
-| [Team Lead](02-team-lead.md) | The team lead role — responsibilities, way of working, and the hybrid Scrum workflow |
-
----
+| **[Engineering Management](01-delivery-management.md)** | Planning, prioritization, estimation, risk, delegation, and the delivery metrics — the work side of the same job |
+| **[Team Lead](02-team-lead.md)** | The team lead role — its responsibilities, its way of working, and one worked hybrid Scrum workflow |
 
 ## Scope
 
@@ -36,61 +33,18 @@ Related: [Team Lead](02-team-lead.md) · [Engineering Management](01-delivery-ma
 
 The six are sequential in a person's experience and simultaneous in a manager's week.
 
----
-
 ## Core Concepts
 
-**`Expectation`** := The observable behavior and output level a person is accountable for, at their level.
-
-> `Expectation := Level × Scope × Observable behavior`
-
-*NOTE*: An expectation nobody has stated cannot be missed — it can only be resented.
-
----
-
-**`Feedback`** := An observation about specific behavior and its effect, delivered close in time to the behavior.
-
-> `Feedback := Situation + Behavior + Impact`
-
-*NOTE*: Feedback describes what happened. Judgement of the person is not feedback.
-
----
-
-**`Growth`** := A durable increase in the scope a person can handle without supervision.
-
-> `Growth := Δ(Autonomy) at constant quality`
-
----
-
-**`Autonomy Level`** := How much decision authority a person holds in one specific area (see the delegation ladder in [Engineering Management](01-delivery-management.md)).
-
-*NOTE*: Autonomy is per-area, not per-person. A staff engineer can be level 5 in architecture and level 2 in incident command.
-
----
-
-**`Motivation`** := The internal driver that makes discretionary effort available — commonly autonomy, mastery, and purpose.
-
-*NOTE*: Managers cannot supply motivation. They can remove what destroys it.
-
----
-
-**`Psychological Safety`** := The shared belief that raising a problem, an error, or a dissenting view carries no personal cost.
-
-*NOTE*: The measurable signal is whether bad news travels upward early. If it only arrives at the deadline, safety is absent.
-
----
-
-**`Retention Risk`** := The probability a person leaves within a period, weighted by the cost of replacing them.
-
-> `Retention Risk := P(leaving) × Replacement cost`
-
----
-
-**`Bus Factor`** := The number of people who must become unavailable before a system or process stalls.
-
-*NOTE*: A bus factor of 1 is a delivery risk recorded as a people problem.
-
----
+| Concept | Definition |
+| --- | --- |
+| **Expectation** | The observable behavior and output level a person is accountable for, at their level<br>*An expectation nobody has stated cannot be missed — only resented* |
+| **Feedback** | An observation about specific behavior and its effect, delivered close in time to the behavior<br>*It describes what happened; judgement of the person is a different thing* |
+| **Growth** | A durable increase in the scope a person can handle without supervision |
+| **Autonomy Level** | How much decision authority a person holds in one specific area; the delegation ladder in [Engineering Management](01-delivery-management.md) grades it<br>*Per-area, not per-person — a staff engineer can be trusted with architecture and still need support in incident command* |
+| **Motivation** | The internal driver that makes discretionary effort available — commonly autonomy, mastery, and purpose<br>*Managers cannot supply it; they can remove what destroys it* |
+| **Psychological Safety** | The shared belief that raising a problem, an error, or a dissenting view carries no personal cost<br>*The measurable signal is whether bad news travels upward early; if it only arrives at the deadline, safety is absent* |
+| **Retention Risk** | The probability a person leaves within a period, weighted by the cost of replacing them |
+| **Bus Factor** | The number of people who must become unavailable before a system or process stalls<br>*A bus factor of 1 is a delivery risk recorded as a people problem* |
 
 ## The Employee Lifecycle
 
@@ -116,8 +70,6 @@ graph LR
 
 **Key property:** every stage is cheaper than the one before it fails into. Onboarding well is cheaper than re-hiring.
 
----
-
 ## Roles
 
 Titles vary by company; the *accountabilities* do not. Confusion here is a common source of dropped work.
@@ -131,8 +83,6 @@ Titles vary by company; the *accountabilities* do not. Confusion here is a commo
 | **Staff / Principal** | Technical scope across teams | Line management |
 
 Two rules: **one accountable person per accountability**, and **the person who runs someone's 1:1s is the person who owns their growth**. If those split across two people, say so explicitly and agree who gives which feedback.
-
----
 
 ## 1:1s
 
@@ -156,8 +106,6 @@ A rotating focus keeps it from decaying into small talk:
 | 2 | Feedback both directions |
 | 3 | Growth and career direction |
 | 4 | Team, process, and how the manager can do better |
-
----
 
 ## Feedback and Performance
 
@@ -184,8 +132,6 @@ Address it early and explicitly; ambiguity is unkind to everyone.
 
 **Nothing in a formal review should ever be a surprise.** If it is, the manager failed at step 1, not the report.
 
----
-
 ## Growth
 
 Growth is assigned, not granted. A person grows by doing work slightly above their current level with a safety net.
@@ -201,8 +147,6 @@ Growth is assigned, not granted. A person grows by doing work slightly above the
 Write down the target level's expectations and the evidence gathered so far. A promotion case assembled the week it is needed is a case that fails.
 
 **Promotion follows demonstrated scope.** Promote for what someone is already doing, not for what they might do.
-
----
 
 ## Team Health
 
@@ -220,8 +164,6 @@ Health metrics **lead** delivery metrics — they degrade first, and they are th
 
 Measure the **system**, not individuals. Individual output metrics get gamed and destroy the trust the rest of this depends on.
 
----
-
 ## Best Practices
 
 - **Hold the 1:1.** A cancelled 1:1 says the person is lower priority than whatever replaced it.
@@ -234,8 +176,6 @@ Measure the **system**, not individuals. Individual output metrics get gamed and
 - **Grow a successor.** If you cannot take two weeks off, you have a bus-factor problem of your own.
 - **Be honest early.** Bad news delivered early is a decision; delivered late it is a failure.
 - **Protect focus time.** Deep work is the job; meetings are overhead that must justify itself.
-
----
 
 ## Anti-patterns
 
@@ -251,8 +191,6 @@ Measure the **system**, not individuals. Individual output metrics get gamed and
 | Hiring for "culture fit" | Selects for sameness; suppresses dissent | Hire for values alignment and skill gap |
 | Onboarding as document dump | Context does not transfer by reading | Buddy plus a small real task in week one |
 | Treating retention as an HR problem | The causes are manager, work, and growth | Manager owns retention risk per person |
-
----
 
 ## Checklists
 
