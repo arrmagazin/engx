@@ -7,13 +7,9 @@ tags: [management, leadership, process]
 
 # Engineering Management
 
-Management is the discipline of turning **goals into delivered outcomes** through people, process, and priorities — under constraints of time, capacity, and quality.
+Management turns **goals into delivered outcomes** through people, process, and priorities, under constraints of time, capacity, and quality. This guide covers the vocabulary an engineering manager plans with, the loops that connect strategy to feedback, and the metrics that show whether the loops are working. Leadership sets direction and motivates; management allocates, sequences, and controls — a working engineering manager does both.
 
-It is not the same as leadership: leadership sets direction and motivates; management allocates, sequences, and controls. A working engineering manager does both.
-
-Related: [Methodology](../01-methodology/14-methodology.md) · [Scrum](../01-methodology/03-scrum.md) · [Development Process](../04-development/12-Development-Process.md) · [Team Lead](02-team-lead.md)
-
----
+Related: [Methodology](../01-methodology/00-methodology.md) · [Scrum](../01-methodology/03-scrum.md) · [Development Process](../04-development-process/00-development-process.md) · [Team Lead](02-team-lead.md)
 
 ## Scope
 
@@ -27,69 +23,19 @@ Related: [Methodology](../01-methodology/14-methodology.md) · [Scrum](../01-met
 
 A manager who covers only *delivery* produces burnout; only *people* produces drift. All five must be held at once.
 
----
-
 ## Core Concepts
 
-**`Goal`** := A desired end state, stated without a solution.
-
-> `Goal := end state, solution-free`
-
----
-
-**`Objective`** := A `SMART`-qualified, measurable outcome scoped to a period.
-
-> `Objective := SMART(Goal) at Period`
-
----
-
-**`Scope`** := The set of work items accepted as in-bounds for an `Objective`.
-
-> `Scope := {WorkItem} ⊆ Objective`
-
-*NOTE*: Scope is the only variable that is cheap to change. Time and quality are not.
-
----
-
-**`Capacity`** := Realistically available effort in a period, after meetings, support, and leave.
-
-> `Capacity := headcount × focus-factor × period`
-
-*NOTE*: Focus factor is typically 0.6–0.7, never 1.0.
-
----
-
-**`Priority`** := A total ordering of work items by value per unit of cost and risk.
-
-> `Priority := sort(WorkItem) by value / (cost × risk)`
-
-*NOTE*: If everything is priority one, nothing is.
-
----
-
-**`Commitment`** := A promise made with known scope, known capacity, and accepted risk.
-
-> `Commitment := Scope ≤ Capacity, with Risk accepted`
-
-*NOTE*: A commitment made without capacity data is a wish.
-
----
-
-**`Risk`** := An uncertain event with impact on `Objective`, characterized by probability and cost.
-
-> `Risk := P(event) × Impact`
-
----
-
-**`Dependency`** := Work whose completion is required by other work, inside or outside the team.
-
-*NOTE*: Cross-team dependencies are the dominant cause of schedule slip. Track them explicitly.
-
----
-
-**`Constraint`** := A fixed boundary — budget, deadline, compliance, headcount — that planning must respect rather than optimize away.
-
----
+| Concept | Definition |
+| --- | --- |
+| **Goal** | Desired end state, stated without naming a solution |
+| **Objective** | Measurable outcome scoped to a period, qualified against the [SMART](../01-methodology/00-methodology.md#smart-goals) criteria |
+| **Scope** | Set of work items accepted as in-bounds for an Objective<br>*The cheapest planning variable to change; time and quality are not* |
+| **Capacity** | Effort realistically available in a period, once meetings, support, and leave are taken out<br>*Always below headcount multiplied by working hours* |
+| **Priority** | Total ordering of work items by value against cost and risk<br>*If everything is priority one, nothing is* |
+| **Commitment** | Promise made with known scope, known capacity, and accepted risk<br>*Without capacity data it is a wish* |
+| **Risk** | Uncertain event that would affect an Objective, sized as probability multiplied by impact |
+| **Dependency** | Work whose completion is required by other work, inside or outside the team<br>*Cross-team ones sit outside the team's control, so track them explicitly* |
+| **Constraint** | Fixed boundary — budget, deadline, compliance, headcount — that planning must respect rather than optimize away |
 
 ## Management Flow
 
@@ -98,7 +44,7 @@ graph TD
     S["Strategy — why"]
     R["Roadmap — what, roughly when"]
     B["Backlog — ordered work items"]
-    P["Plan — scope vs capacity"]
+    P["Plan — scope vs. capacity"]
     E["Execution — daily flow"]
     D["Delivery — release"]
     F["Feedback — metrics, retro, users"]
@@ -111,15 +57,13 @@ graph TD
 | --- | --- | --- | --- |
 | **Strategy** | Business goals, market, constraints | Themes, success metrics | Quarterly / annually |
 | **Roadmap** | Themes | Sequenced initiatives with rough sizing | Quarterly |
-| **Backlog** | Initiatives, bugs, tech debt, requests | Ordered, refined items | Continuous (weekly grooming) |
-| **Plan** | Backlog + capacity | Sprint or cycle commitment | Per sprint / cycle |
+| **Backlog** | Initiatives, bugs, tech debt, requests | Ordered, refined items | Continuous |
+| **Plan** | Backlog and capacity | Sprint or cycle commitment | Per sprint / cycle |
 | **Execution** | Commitment | Working increments | Daily |
 | **Delivery** | Increments | Released, measured change | Per release |
 | **Feedback** | Metrics, retro, user signal | Corrections to backlog and strategy | Per cycle |
 
 **Key property:** the loop must close. A roadmap that is never corrected by feedback is a forecast presented as a plan.
-
----
 
 ## Planning Horizons
 
@@ -132,26 +76,15 @@ Plan with decreasing precision as the horizon extends. Precision beyond the evid
 | **Operational** | 1–4 weeks | Stories, tasks | Committed |
 | **Daily** | 1 day | Sub-tasks, blockers | Certain |
 
----
-
 ## Delivery Phases
 
-| Phase | Activities |
-| ------- | ------------ |
-| **Initial** | Identifying context; defining customer problems; analyzing situation; acquiring domain knowledge; refining terminology; marketing research; defining strategy; business analysis |
-| **Planning** | Product design and innovation; architecture vision; proof of model; challenging from viewpoints; choosing platforms/paradigms/technologies; estimation; risk assessment |
-| **Pre-Production Setup** | Team staffing; infrastructure setup; defining processes and procedures |
-| **Production** | Crafting/implementation; system integration; task coordination; research; problem solving; QA; security; optimization; documentation |
-| **Post-Production** | Deployment; training; maintenance and support; tracking/measuring; adoption and evolution; lessons learned |
+The phases a solution passes through are defined once, as the SDLC, in [Development Process](../04-development-process/00-development-process.md). Management does not need a second lifecycle; it needs the one phase that lifecycle does not name, because its work is about the team rather than the product.
 
-```mermaid
-flowchart LR
-    I[Initial] --> P[Planning]
-    P --> S[Pre-Production Setup]
-    S --> Pr[Production]
-    Pr --> Po[Post-Production]
-    Po -.->|lessons learned| I
-```
+| Phase | Activities |
+| --- | --- |
+| **Pre-production setup** | Staffing the team and covering the required skills; provisioning environments, tooling, and access; agreeing the workflow, the definition of done, and the escalation path |
+
+Complete it before implementation starts. Work that begins without it produces decisions no one can point to later — an undefined done, an unowned environment, an unagreed escalation path.
 
 ## Prioritization
 
@@ -165,35 +98,23 @@ Pick one framework and apply it consistently; mixing frameworks produces argumen
 | **Eisenhower** | Urgent × Important quadrants | Personal and interrupt-driven work |
 | **Cost of Delay** | Value lost per period of delay | Deciding sequence, not selection |
 
-**Reserve capacity explicitly.** A workable default split per cycle:
-
-| Category | Share |
-| --- | --- |
-| Planned feature work | 60–70% |
-| Tech debt and maintenance | 15–20% |
-| Support, incidents, interrupts | 10–20% |
-
-Without an explicit reserve, unplanned work silently consumes the commitment and every sprint "fails".
-
----
+**Reserve capacity explicitly.** Planned feature work, tech debt and maintenance, and interrupt-driven support each need a named share of the cycle. Set the shares from the team's own measured unplanned-work share, and revise them when that measurement moves. Without an explicit reserve, unplanned work silently consumes the commitment and every sprint "fails".
 
 ## Estimation
 
-- Estimate **relatively** (points, sizes), not in hours — relative sizing is more stable across people.
-- Estimate as a **range or distribution**, not a point value. Report `p50` and `p85`.
+- Estimate **relatively** (points, sizes) rather than in hours; relative sizing stays stable when the person doing the work changes.
+- Estimate as a **range**, not a point value, and carry the range through to the plan instead of collapsing it early.
 - Forecast from **historical throughput** (items completed per cycle), not from summed estimates.
 - Re-estimate only when new information arrives, never to fit a desired date.
 - Treat unestimatable work as a **spike**: timebox it, produce knowledge, then estimate.
 
 **Anti-pattern:** negotiating estimates downward. It changes the number, not the work.
 
----
-
 ## Risk Management
 
 ```mermaid
 graph LR
-    ID["Identify"] --> AS["Assess — P × Impact"]
+    ID["Identify"] --> AS["Assess — probability × impact"]
     AS --> PL["Plan response"]
     PL --> MO["Monitor"]
     MO --> ID
@@ -206,23 +127,19 @@ graph LR
 | **Transfer** | Another party is better positioned (vendor, insurance, platform team) |
 | **Accept** | Cost of response exceeds expected loss — record the decision |
 
-Keep a short, live risk list (5–10 items). Each entry: description, probability, impact, owner, response, review date. A risk without an owner is not managed.
-
----
+Keep the risk list short and live. Each entry: description, probability, impact, owner, response, review date. A risk without an owner is not managed.
 
 ## Decision Making
 
 | Decision type | Approach |
 | --- | --- |
-| **Reversible, low impact** | Delegate. Decide fast, correct later. |
-| **Reversible, high impact** | Decide with input, set an explicit review point. |
-| **Irreversible** | Slow down. Gather data, write it down, review with peers. |
+| **Reversible, low impact** | Delegate. Decide fast, correct later |
+| **Reversible, high impact** | Decide with input, set an explicit review point |
+| **Irreversible** | Slow down. Gather data, write it down, review with peers |
 
 Use a single accountable decider per decision (`DACI`: Driver, Approver, Contributors, Informed). Consensus is a nice outcome, not a decision procedure.
 
 **Record decisions.** Every non-trivial technical decision gets an ADR: context, options, decision, consequences. See [Architecture](../02-architecture/00-architecture.md).
-
----
 
 ## Delegation
 
@@ -238,22 +155,20 @@ Delegate the **outcome**, not the steps. Match the level of autonomy to demonstr
 
 Delegating at too low a level stalls growth; too high a level sets people up to fail. Autonomy level is per-area, not per-person.
 
----
-
 ## Communication Cadence
 
 | Ritual | Frequency | Purpose | Failure mode to avoid |
 | --- | --- | --- | --- |
-| **Standup** | Daily, ≤15 min | Surface blockers | Status theater for the manager |
-| **1:1** | Weekly / bi-weekly, 30 min | Growth, friction, feedback | Cancelled when busy; turned into status |
+| **Standup** | Daily | Surface blockers | Status theater for the manager |
+| **1:1** | Weekly / bi-weekly | Growth, friction, feedback | Cancelled when busy; turned into status |
 | **Planning** | Per cycle | Commit scope to capacity | Committing beyond capacity |
 | **Review / Demo** | Per cycle | Show working software | Slides instead of software |
 | **Retrospective** | Per cycle | Improve the process | Repeated actions never done |
 | **Stakeholder update** | Weekly, written | Alignment, expectation control | Only communicating bad news late |
 
-**Default to written and asynchronous.** Meetings are for decisions and disagreements, not for information transfer.
+What these events *are*, and the timeboxes the Scrum Guide sets for them, is covered in [Scrum](../01-methodology/03-scrum.md); the table above covers only how often a manager runs them and how each one fails.
 
----
+**Default to written and asynchronous.** Meetings are for decisions and disagreements, not for information transfer.
 
 ## Metrics
 
@@ -273,16 +188,14 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 | Metric | Signal |
 | --- | --- |
 | Throughput | Items completed per period — the basis for forecasting |
-| Cycle time | Start → done for one item; watch the distribution, not the mean |
+| Cycle time | Start to done for one item; watch the distribution, not the mean |
 | WIP | Work started but not finished; the primary lever on cycle time |
-| Flow efficiency | Active time / total time — usually shockingly low |
+| Flow efficiency | Active time divided by total time |
 | Blocked time | Where dependencies are hurting |
 
 **Health:** attrition, on-call load, unplanned-work share, and 1:1 sentiment. These lead the delivery metrics — they degrade first.
 
 > Little's Law: `Cycle Time = WIP / Throughput`. To go faster, lower WIP before adding people.
-
----
 
 ## Best Practices
 
@@ -297,22 +210,18 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 - **Change one process thing at a time.** Otherwise you cannot attribute the effect.
 - **Manage the interfaces.** Most delay lives between teams, not inside them.
 
----
-
-## Anti-patterns
+## Anti-Patterns
 
 | Anti-pattern | Why it fails | Correction |
 | --- | --- | --- |
 | Adding people to a late project | Onboarding cost exceeds short-term gain | Cut scope instead |
-| Fixed scope + fixed date + fixed team | Only quality can absorb variance | Make scope the variable |
+| Fixed scope, fixed date, and fixed team | Only quality can absorb variance | Make scope the variable |
 | Estimates as commitments | Punishes honest estimation | Forecast with ranges and throughput |
-| Utilization targets near 100% | Queueing theory — latency explodes | Target ~80%, keep slack |
+| Planning for full utilization | Any variability turns into queueing delay | Plan below full utilization and keep the slack |
 | Status meetings for information transfer | Expensive, synchronous, low bandwidth | Written async updates |
 | Hero culture | Single points of failure, burnout | Pair, rotate, document |
-| Retro actions never executed | Retros become ritual | Cap at 1–2 actions with owners and dates |
+| Retro actions never executed | Retros become ritual | Take on only as many actions as the next cycle can finish, each with an owner and a date |
 | Managing individuals by metrics | Gaming, distrust | Measure the system |
-
----
 
 ## Checklists
 
@@ -320,7 +229,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 
 - [ ] Objective stated as an outcome, with a success metric
 - [ ] Scope is ordered, not just listed
-- [ ] Capacity computed with a realistic focus factor
+- [ ] Capacity computed from actual availability, not from headcount
 - [ ] Dependencies identified with named owners and dates
 - [ ] Top risks listed with responses
 - [ ] Reserve for interrupts and tech debt is intact
