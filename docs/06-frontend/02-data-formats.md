@@ -122,7 +122,7 @@ Always parse and generate with a library (e.g. Papa Parse, `csv-parse`) rather t
 
 Columnar binary format for large datasets, built for analytics rather than transport. Not human-readable; used with data tools (Spark, Pandas, DuckDB) rather than in application code.
 
-```
+```text
 row group
 ├── column: id       [1, 2, 3, ...]
 ├── column: name     ["John Doe", "Jane Roe", ...]

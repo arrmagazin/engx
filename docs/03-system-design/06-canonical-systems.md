@@ -89,7 +89,7 @@ Eleven system design problems worked end to end, each filed under the bottleneck
 - Storage: **images dominate text by orders of magnitude** — the bottleneck is blob storage and CDN egress, not the relational data.
 
 ### Architecture — Blogging Platform
-```
+```text
 Client → CDN (static assets, cached public post pages)
        → API Gateway/LB
            → Post Service / User-Auth Service / Feed Service / Comment Service / Search Service
@@ -149,7 +149,7 @@ Blob storage (S3) → post images, served via CDN
 - Bottleneck is storage, transcoding, and CDN egress, not the metadata DB.
 
 ### Architecture — Short-Video Platform
-```
+```text
 Upload: Client → Upload API → Object storage (raw video)
                               → Transcoding pipeline (async, queue-driven)
                                   → Multi-resolution renditions → CDN origin
@@ -209,7 +209,7 @@ Watch: Client → CDN (video segments, cache-fill on miss)
 - **This is a latency/connection-management problem, not a storage problem** — the key framing difference from the content platforms above.
 
 ### Architecture — Messaging Platform
-```
+```text
 Client (persistent WS/TCP) → Connection Gateway (sharded by user)
                             → Presence Service (user_id → gateway_node mapping)
                             → Message Service → Message Store (durable, per-conversation)
@@ -354,7 +354,7 @@ Every prior system could accept eventual consistency, aggressive caching, and ap
 Volume is not the pressure here — a notification system rarely approaches the write rates of the platforms above. The difficulty is that every send leaves through a third party (APNs/FCM, Twilio, SendGrid) with its own latency, failure modes, and retry semantics, so the delivery guarantee is only as good as the weakest provider and cannot be fixed by adding capacity. Meanwhile the triggering events arrive at-least-once from an upstream queue, which means the same notification will be produced more than once as a matter of course. Deduplication, per-user preferences, and batching therefore sit on the critical path rather than being polish: without them a single replayed event or one chatty producer becomes duplicate pushes at 3am, and the user's response is to disable notifications permanently. Correct, restrained delivery sets this design, not throughput.
 
 ### Architecture — Notification System
-```
+```text
 Event source (app services) → Event queue (Kafka)
   → Notification Service (checks prefs, dedups, batches)
     → Channel dispatchers (Push/SMS/Email workers)

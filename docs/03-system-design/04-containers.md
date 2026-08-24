@@ -69,7 +69,7 @@ For the managed implementations of all of this, see [AWS stack overview](../07-c
 
 ## Entities Diagram
 
-```
+```text
 Dockerfile
     │ build (each instruction becomes one cached layer)
     ▼

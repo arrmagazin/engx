@@ -47,7 +47,7 @@ Kafka guarantees order **within a partition only**, not across a topic. For stri
 
 ## Entities Diagram
 
-```
+```text
 Producers (write by key)
       │
       ▼
