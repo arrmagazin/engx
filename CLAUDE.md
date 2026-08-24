@@ -1,42 +1,61 @@
 # Engx
 
-A personal engineering knowledge base written as markdown notes, organized as a numbered-folder "book" under `docs/`. There is no build tooling (no `package.json`, no static-site generator) — the content is the product.
+A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. There is no build step and no site generator — the markdown is the product. The only code is `scripts/`, three checkers that enforce the conventions below.
 
 ## Structure
 
-- `docs/NN-topic/*.md` — numbered top-level folders order the "book" by theme (e.g. `01-methodology`, `03-architecture`, `05-coding`, `06-testing`, `08-frontend`, `30-agentic`, `40-interview`). Files inside a folder are also numbered where order matters.
-- `images/` — images referenced by docs (e.g. `/images/welcome.svg`).
-- `texts/` — scratch/overflow notes not yet folded into `docs/`.
+- `docs/` — the book: twelve numbered folders plus one unnumbered entry point, `docs/welcome.md`.
+- `images/` — images referenced by docs, always by a relative path (`../images/welcome.svg`), never root-absolute.
+- `scripts/` — the three checkers and their tests. `.githooks/` — the hook that runs them. `README.md` — the repository's front page, written for a human, not an agent.
+
+**The numbering rule.** Folder prefixes are dense and unique, `00` through `11`, and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-cloud-aws`, `08-cloud-azure`, `09-ai`, `10-management`, `11-interview`. Inside each folder, exactly one `00-`-prefixed file is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
+
+## Checkers
+
+`.githooks/pre-commit` runs all three over the `docs/*.md` files a commit stages, under an `ACMR` filter so pure renames are checked too. Each clone enables the hook once with `git config core.hooksPath .githooks`. To run one over the whole book:
+
+```sh
+git ls-files 'docs/*.md' | xargs python3 scripts/check_links.py
+```
+
+Pipe through `xargs` rather than `$(...)`: zsh does not word-split unquoted expansions, so the substitution form passes all 58 paths as a single filename.
+
+- `check_okf_frontmatter.py` — the frontmatter convention below.
+- `check_glossary.py` — the glossary convention below.
+- `check_links.py` — every relative link resolves, and every `#anchor` names a heading that exists in the target file. It reads the files it is given *plus their targets*, so staging the referring file catches a broken link; renaming a heading and staging only that file does not. Run it over the whole book after a merge for that reason. Its own tests: `python3 -m unittest discover -s scripts -p 'test_*.py'`.
 
 ## Frontmatter convention
 
-Every file under `docs/` starts with **OKF (Open Knowledge Format) v0.2** YAML frontmatter, kept to the minimal field set:
+Every file under `docs/` starts with **OKF (Open Knowledge Format) v0.2** YAML frontmatter, kept to the minimal field set — these four, in this order, and nothing else:
 
 ```yaml
 ---
 type: Guide
-title: <from the file's H1>
-description: <one sentence, under ~140 chars>
+title: <byte-identical to the file's H1, and never quoted>
+description: <one sentence, at most 140 characters>
 tags: [lowercase, kebab-or-single-word, tags]
 ---
 ```
 
 - `type` is always `Guide` in this repo (no data/computation assets live here).
-- When adding a new doc or a new H1, add/update this frontmatter block as the very first thing in the file — before the H1.
-- Don't add OKF's optional provenance/trust fields (`sources`, `generated`, `verified`, `status`, etc.) here; this repo doesn't use them.
-- A pre-commit hook (`.githooks/pre-commit`, running `scripts/check_okf_frontmatter.py`) enforces this on every commit that touches `docs/*.md`. Each clone must enable it once via `git config core.hooksPath .githooks`.
+- The frontmatter block is the very first thing in the file, and the H1 is the first non-blank line after it.
+- A quoted `title` fails the checker, because the quotes become part of the value and it stops matching the H1.
+- Don't add OKF's optional provenance/trust fields (`sources`, `generated`, `verified`, `status`); the checker rejects them.
+- Field *order* and the "nothing else" rule are conventions the checker does not enforce. Follow them anyway.
 
 ## Working conventions
 
-- Prefer standard English, no fancy or rare words or idioms.
-- Keep edits to markdown content itself — no code, no dependencies to install.
-- Preserve the numbered-prefix ordering scheme when adding files; don't renumber existing files without a reason.
+- Prefer standard English; no fancy or rare words, no idioms.
+- The content is markdown. `scripts/` is the only code, it is stdlib-only Python 3, and it stays that way — no dependencies to install, and no test framework beyond `unittest` (pytest is not available here).
+- Anything asserted in the book should be checkable. Prefer a claim a reader could falsify over one that merely sounds right.
 
 ## Glossary conventions
 
-These apply to any file that defines terms in a `| Concept | Definition |` table, such as `docs/00-software-engineering/01-glossary.md`.
+These apply to any file that defines terms in a `| Concept | Definition |` or `| Component | Definition |` table, such as `docs/00-software-engineering/01-glossary.md`.
 
-`scripts/check_glossary.py <files>` checks the mechanical rules below: broken rows, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. It only looks at tables headed `| Concept | Definition |`, so other tables are unaffected. Indirect loops and oversized tables print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked. The script is not wired into the pre-commit hook.
+`check_glossary.py` checks the mechanical rules below: broken rows, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. It only looks at tables with one of those two header rows, so other tables — ladders, comparisons, nav tables — are unaffected. Indirect loops and oversized tables print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked.
+
+Note also what it cannot see: its duplicate-term check is per file, so the same term defined once in each of two chapters passes. That is a real hazard in a book this size — see the two senses of *Framework* in `01-methodology/00-methodology.md` and `03-system-design/00-system-design.md`, which are disambiguated in prose because no checker could catch them.
 
 ### Shape
 
@@ -58,7 +77,6 @@ These apply to any file that defines terms in a `| Concept | Definition |` table
 ### Grounding
 
 - Chains of definitions must bottom out in something observable — a State, a Metric, a measurable condition — not in another abstraction.
-- Prefer a definition that can be falsified over one that merely sounds right.
 
 ### Restrictions
 
