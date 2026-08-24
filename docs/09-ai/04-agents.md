@@ -7,7 +7,7 @@ tags: [ai, agentic-ai, agents, llm]
 
 # Agentic AI
 
-An **Agent** is an [LLM](02-llm.md) placed inside a loop where it can **reason**, **act** through tools, **observe**
+An **Agent** is an [LLM](03-llm.md) placed inside a loop where it can **reason**, **act** through tools, **observe**
 results, and **iterate** toward a goal — turning a passive text predictor into an autonomous problem
 solver. This guide is for engineers deciding whether a task needs an agent at all, and how to bound one
 that does.

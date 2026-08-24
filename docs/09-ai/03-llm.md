@@ -12,7 +12,7 @@ acquiring broad knowledge and language ability as an emergent side effect of tha
 
 It sits between deep learning and agents in the stack described in
 [Artificial Intelligence](00-ai.md): a transformer is the architecture, an LLM is that
-architecture trained at scale, and an [Agent](03-agents.md) is an LLM wrapped in a loop with tools
+architecture trained at scale, and an [Agent](04-agents.md) is an LLM wrapped in a loop with tools
 and memory. This guide is written for engineers building on an LLM API; the papers and guides behind
 it are collected under [References](00-ai.md#references).
 

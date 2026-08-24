@@ -10,9 +10,9 @@ tags: [ai, machine-learning, training, supervised-learning]
 **Machine Learning (ML)** is the branch of AI where behavior is learned from data rather than written
 as explicit rules: a model's parameters are fitted to examples until it approximates the target function.
 
-It is the layer below deep learning in the stack described in
+It is the layer below [deep learning](02-deep-learning.md) in the stack described in
 [Artificial Intelligence](00-ai.md), and the self-supervised paradigm is the objective that
-[Large Language Models](02-llm.md) are trained on. External reading for this chapter is collected
+[Large Language Models](03-llm.md) are trained on. External reading for this chapter is collected
 under [References](00-ai.md#references).
 
 ## Learning Paradigms
