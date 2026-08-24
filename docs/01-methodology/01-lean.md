@@ -1,59 +1,38 @@
 ---
 type: Guide
-title: Lean Architecture
-description: Explains Lean Architecture's WHY/HOW/BY WHOM/WHAT principles for maximizing value and minimizing waste in system design.
-tags: [methodology, lean, architecture]
+title: Lean Software Development
+description: Presents the seven principles of Lean Software Development and the Lean manufacturing ideas they were adapted from.
+tags: [methodology, agile, lean]
 ---
 
-# Lean Architecture
+# Lean Software Development
 
-Lean Architecture is derived from principles of Lean Thinking and Lean Manufacturing,
-primarily used in software development, systems design, and enterprise architecture.
-
-**Focus**: Maximizing value, minimizing waste, creating systems that are adaptable, scalable, and aligned with business goals.
-
-> *"Think big, act small, fail fast; learn rapidly"*
+**Lean Software Development** applies the ideas of Lean manufacturing — maximize value, remove waste, improve continuously — to building software. Mary and Tom Poppendieck set it out as seven principles in *Lean Software Development: An Agile Toolkit* (2003). It is an [agile method](02-agile.md) rather than an architectural style: it governs how a team works, not how a system is structured.
 
 ```mermaid
 flowchart LR
-    WHY["WHY<br/>Focus on Value"] --> HOW["HOW<br/>Optimize Whole<br/>Deliver Fast<br/>Decide Late"]
-    HOW --> WHOM["BY WHOM<br/>Empower Team<br/>Respect People<br/>Amplify Learning"]
-    WHOM --> WHAT["WHAT<br/>Simplicity<br/>Eliminate Waste<br/>Adaptability<br/>Build Quality In"]
-    WHAT -.feedback.-> WHY
+    Value["Define value<br/>from the customer's view"] --> Waste["Remove work that<br/>does not create it"]
+    Waste --> Fast["Deliver in small,<br/>fast increments"]
+    Fast --> Learn["Learn from what<br/>reached the customer"]
+    Learn -.-> Value
 ```
 
-## Key Principles
+## The Seven Principles
 
-### WHY
+| Principle | What it means |
+| --------- | ------------- |
+| **Eliminate Waste** | Remove whatever does not add value for the customer — unused features, partial work, handoffs, delays, defects, task switching; complexity past what the need requires is waste too |
+| **Amplify Learning** | Treat development as a learning process: short cycles, frequent feedback, and experiments in place of arguments about what will work |
+| **Decide as Late as Possible** | Keep irreversible decisions open until the last responsible moment, when the most is known; this only works if the design stays modular enough to absorb the decision when it comes |
+| **Deliver as Fast as Possible** | Shorten the path from request to working software, so feedback arrives while it can still change the outcome |
+| **Empower the Team** | Give the people doing the work the authority to decide how it is done, the context to decide well, and direct communication with everyone the decision touches |
+| **Build Quality In** | Prevent defects rather than test them out, so quality is a property of the process instead of a phase after it |
+| **Optimize the Whole** | Measure and improve the flow end to end; a local optimum in one team or stage usually costs more somewhere downstream |
 
-| Principle | Description |
-| ----------- | ------------- |
-| **Focus on Value** | Prioritize delivery of value to end-user; ensure every aspect of design adds value |
+## Lean Manufacturing Roots
 
-### HOW
-
-| Principle | Description |
-| ----------- | ------------- |
-| **Optimize the Whole** | Architecture should not be optimized in isolation but as part of a larger system |
-| **Deliver as Fast as Possible** | Deliver customer value early and continuously; shorten time to market; enable fast feedback loops |
-| **Decide as Late as Possible** | Avoid making decisions too early; remain open to change and new information (Last Responsible Moment) |
-
-### BY WHOM
-
-| Principle | Description |
-| ----------- | ------------- |
-| **Empower the Team** | Trust collective wisdom; foster collaboration between architects, developers, operations, and stakeholders |
-| **Respect for People and Culture** | People are at the heart; foster continuous improvement; respect insights of all involved |
-| **Collaboration and Communication** | Promote close collaboration and open communication among all stakeholders |
-| **Integrated Project Delivery (IPD)** | Integrate people, systems, business structures to optimize results and reduce waste |
-| **Amplify Learning** | Build architecture encouraging fast feedback and learning; involve stakeholders early |
-| **Continuous Improvement** | Encourage culture where feedback and lessons enhance future processes |
-
-### WHAT
-
-| Principle | Description |
-| ----------- | ------------- |
-| **Simplicity** | Design systems as simple as possible while meeting business needs; reduce complexity |
-| **Eliminate Waste** | Identify and remove wasteful elements: unnecessary features, redundant systems, overly complex structures |
-| **Flexibility and Adaptability** | Design for change; systems should be modular, decoupled, able to evolve with minimal disruption |
-| **Build Quality In** | Quality embedded from the beginning; systems designed to be robust, maintainable, easy to evolve |
+| Idea | What it means |
+| ---- | ------------- |
+| **Focus on Value** | Value is defined by the customer, not by the people building — Lean Thinking's starting point |
+| **Respect for People** | One of the Toyota Way's two pillars: the people closest to the work understand it best, so decisions belong near them |
+| **Continuous Improvement** | The other pillar, *kaizen* — many small improvements made constantly, rather than occasional large ones |

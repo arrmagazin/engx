@@ -15,7 +15,7 @@ This chapter covers how engineering work gets organized: the vocabulary for turn
 
 | Doc | What it covers |
 | --- | --- |
-| **[Lean Architecture](01-lean.md)** | Maximizing value and minimizing waste, organized as why, how, by whom, and what |
+| **[Lean Software Development](01-lean.md)** | Seven principles for maximizing customer value and removing waste, adapted from Lean manufacturing |
 | **[Agile](02-agile.md)** | The values and twelve principles of the Agile Manifesto |
 | **[Scrum](03-scrum.md)** | The team, events, and artifacts of Scrum, as the 2020 Scrum Guide defines them |
 | **[Shift Left](04-shift-left.md)** | Moving quality work earlier, so defects are found where they are cheapest to fix |
