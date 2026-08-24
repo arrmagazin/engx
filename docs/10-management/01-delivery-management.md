@@ -220,7 +220,7 @@ Keep a short, live risk list (5–10 items). Each entry: description, probabilit
 
 Use a single accountable decider per decision (`DACI`: Driver, Approver, Contributors, Informed). Consensus is a nice outcome, not a decision procedure.
 
-**Record decisions.** Every non-trivial technical decision gets an ADR: context, options, decision, consequences. See [Architecture](../03-architecture/02-architecture.md).
+**Record decisions.** Every non-trivial technical decision gets an ADR: context, options, decision, consequences. See [Architecture](../02-architecture/00-architecture.md).
 
 ---
 
