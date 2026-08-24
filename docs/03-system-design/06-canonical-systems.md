@@ -56,7 +56,7 @@ Eleven system design problems worked end to end, each filed under the bottleneck
 1. LB → stateless routing service.
 2. Cache first (Redis, keyed by short_code) — popular links follow a power law, high hit rate expected.
 3. Miss → hash(short_code) → correct shard → DB → populate cache → redirect.
-4. **301 vs 302**: 301 (permanent) is more cache-friendly but loses per-click analytics and can't update destination. **302 is correct here** given the analytics requirement — explicit tradeoff to state.
+4. **301 vs. 302**: 301 (permanent) is more cache-friendly but loses per-click analytics and can't update destination. **302 is correct here** given the analytics requirement — explicit tradeoff to state.
 
 ### Write Path
 1. App server calls ID generator (or validates custom alias).
@@ -237,7 +237,7 @@ Media storage (blob + CDN) — same pattern as video platform
 
 ### Deep Dive: Group Chats & Channels
 - **Small groups**: fan-out-on-write is fine — push to every online member's gateway, enqueue for offline.
-- **Large broadcast channels**: fan-out-on-write to millions of queues per post is the same celebrity problem as the blog feed — instead, store the channel post once; subscribers pull/sync new posts on connect/poll rather than the server pushing individually. Same push-vs-pull tradeoff as the blog feed, applied to chat — worth explicitly drawing the parallel.
+- **Large broadcast channels**: fan-out-on-write to millions of queues per post is the same celebrity problem as the blog feed — instead, store the channel post once; subscribers pull/sync new posts on connect/poll rather than the server pushing individually. Same push-vs.-pull tradeoff as the blog feed, applied to chat — worth explicitly drawing the parallel.
 
 ### Cross-Cutting — Messaging Platform
 - **At-least-once delivery + client-side dedup** (via message IDs) rather than trying to guarantee exactly-once end-to-end (much harder, rarely worth it).

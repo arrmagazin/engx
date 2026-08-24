@@ -61,7 +61,7 @@ Splitting data to eliminate redundancy, so each fact is stored once.
 
 - A transaction's isolation level determines what locks (or MVCC snapshot rules) it takes on read/write.
 - **Deadlock** — two transactions each hold a lock the other needs; the database detects the cycle and aborts one. Application code must retry.
-- **Optimistic vs pessimistic concurrency** — pessimistic takes a lock upfront (`SELECT ... FOR UPDATE`); optimistic reads without locking and checks a version/timestamp at write time, retrying on conflict.
+- **Optimistic vs. pessimistic concurrency** — pessimistic takes a lock upfront (`SELECT ... FOR UPDATE`); optimistic reads without locking and checks a version/timestamp at write time, retrying on conflict.
 
 ## SQL vs. NoSQL
 

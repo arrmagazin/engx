@@ -126,7 +126,7 @@ Defines the vocabulary the rest of this chapter uses, grouped by the problem eac
 |---|---|
 | **Distributed Transaction** | A single logical operation spanning services that share no database and therefore no commit |
 | **Saga pattern** | Running that operation as an ordered series of local transactions, each with an undo step for when a later one fails |
-| **Compensating action** | The undo step in a saga — a refund, a released hold, a cancelled reservation |
+| **Compensating action** | The undo step in a saga — a refund, a released hold, a canceled reservation |
 
 ## Fan-Out
 

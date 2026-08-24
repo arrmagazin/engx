@@ -23,7 +23,7 @@ The core idea of the approach is:
 decides what should be true. On the right, that decision takes effect — a service answers a request,
 a queue exists, a dashboard shows a number.
 
-This approach moves the *humans themselves*, and then removes them from the right entirely. 
+This approach moves the *humans themselves*, and then removes them from the right entirely.
 
 A person still makes every decision that needs judgement, but makes it once, in one place, in a form a machine can read.
 
@@ -110,7 +110,7 @@ The approach fails quietly when any one of these is missing.
 | **A build step to own** | The generator becomes production infrastructure, needing its own versioning, tests, and rollback story |
 | **Coupling to one cadence** | Every consumer inherits the source's release schedule, and a breaking change to the notation breaks all of them at once |
 | **Debugging through a layer** | Stack traces, editor navigation, and refactoring land in generated code that nobody wrote |
-| **Modelling paid upfront** | The notation must be designed before it returns anything, and a wrong abstraction spreads everywhere once it is canonical |
+| **Modeling paid upfront** | The notation must be designed before it returns anything, and a wrong abstraction spreads everywhere once it is canonical |
 | **An expensive tail** | The last few percent the model cannot express often costs more than the automation saved on the rest |
 
 ### Failure Modes
@@ -154,7 +154,7 @@ between them. Any one can be missed, and a missed one becomes a defect discovere
 rather than in review.
 
 With the record declared once, the same change is a single edit to the schema plus a regeneration.
-The nine artifacts still exist; nobody writes them. What remains for a person is whether the field 
+The nine artifacts still exist; nobody writes them. What remains for a person is whether the field
 belongs at all, which was the only part that ever needed judgement.
 
 ## Tools

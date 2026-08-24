@@ -79,7 +79,7 @@ Layers (bottom→top): Unit → Integration → UI/E2E tests. Width = test count
 
 **Production bugs workflow:** stay calm → reproduce → gather info → find cause → set a resolution timeframe → verify fix → analyze root cause (weighted more heavily than internal defects) → prevent recurrence.
 
-**Metrics:** defect containment (share of defects caught before release), defect rejection ratio, created-vs-resolved trend, quality debt (deferred-fix backlog risk).
+**Metrics:** defect containment (share of defects caught before release), defect rejection ratio, created-versus-resolved trend, quality debt (deferred-fix backlog risk).
 
 **Best practices:** one specialized defect tool (Jira/Bugzilla/Azure DevOps/Rally); link defects to user stories; standard severity/priority definitions and workflow; resolve high/critical defects within the iteration; regular triage meetings; separate defects from change requests; consistent defect submission template; recurring root cause analysis and metrics reporting.
 

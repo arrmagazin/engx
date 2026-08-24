@@ -166,7 +166,7 @@ Measure the **system**, not individuals. Individual output metrics get gamed and
 
 ## Best Practices
 
-- **Hold the 1:1.** A cancelled 1:1 says the person is lower priority than whatever replaced it.
+- **Hold the 1:1.** A canceled 1:1 says the person is lower priority than whatever replaced it.
 - **State expectations in writing.** Level, scope, and what "good" looks like — before the work, not during the review.
 - **Give feedback within days.** Feedback delayed to the review cycle is a complaint, not feedback.
 - **Delegate outcomes, not steps.** Match autonomy to demonstrated competence in that specific area.
@@ -196,7 +196,7 @@ Measure the **system**, not individuals. Individual output metrics get gamed and
 
 **Weekly:**
 
-- [ ] Every 1:1 held, not cancelled
+- [ ] Every 1:1 held, not canceled
 - [ ] Feedback given on at least one specific thing observed this week
 - [ ] Blocked people have an owner and a next action
 - [ ] New joiners checked in on separately

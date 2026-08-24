@@ -160,7 +160,7 @@ Delegating at too low a level stalls growth; too high a level sets people up to 
 | Ritual | Frequency | Purpose | Failure mode to avoid |
 | --- | --- | --- | --- |
 | **Standup** | Daily | Surface blockers | Status theater for the manager |
-| **1:1** | Weekly / bi-weekly | Growth, friction, feedback | Cancelled when busy; turned into status |
+| **1:1** | Weekly / bi-weekly | Growth, friction, feedback | Canceled when busy; turned into status |
 | **Planning** | Per cycle | Commit scope to capacity | Committing beyond capacity |
 | **Review / Demo** | Per cycle | Show working software | Slides instead of software |
 | **Retrospective** | Per cycle | Improve the process | Repeated actions never done |
@@ -242,7 +242,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 - [ ] Blocked items have an owner and a next action
 - [ ] Risk list reviewed
 - [ ] Stakeholder update sent
-- [ ] 1:1s held, not cancelled
+- [ ] 1:1s held, not canceled
 
 **Per cycle:**
 
