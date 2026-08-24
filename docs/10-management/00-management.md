@@ -13,7 +13,7 @@ This chapter keeps the two halves apart, and then splits the people half again: 
 
 Outside this folder: [Development Process](../04-development-process/00-development-process.md) · [Methodology](../01-methodology/00-methodology.md)
 
-## In This Section
+## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |

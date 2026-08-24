@@ -11,7 +11,7 @@ A study map organized around the five competency areas that recur in Azure infra
 
 ## 1. Azure Core Concepts
 
-The service reference lives in [the Azure stack overview](01-azure-stack-overview.md). This section covers only what an interview asks on top of it.
+The service reference lives in [the Azure stack overview](01-azure-stack-overview.md). This guide covers only what an interview asks on top of it.
 
 - **Walk the hierarchy out loud**: Management Group → Subscription → Resource Group → Resource, naming the level each policy assignment, role assignment, and budget belongs at
 - **Subscription vs. resource group**: the subscription is the billing, quota, and hard isolation boundary; the resource group is a lifecycle and RBAC-scoping container inside it

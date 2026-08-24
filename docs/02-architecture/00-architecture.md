@@ -11,7 +11,7 @@ tags: [architecture, system-design]
 
 **System architecture** is the practice of making the decisions about a solution that are expensive to reverse: what its parts are, how they interact, and how it is expected to change. This chapter covers those decisions, the quality attributes they are judged against, and the security constraints that shape them. Architecture stops at the decisions — turning them into schemas, endpoints, and algorithms is [System Design](../03-system-design/00-system-design.md).
 
-## In This Section
+## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |

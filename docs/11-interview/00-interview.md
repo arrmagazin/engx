@@ -7,7 +7,7 @@ tags: [interview, system-design, career]
 
 # Interview Preparation
 
-This section holds the interview-specific material, kept apart from the reference chapters it draws on. Read it beside the chapter covering whatever the loop targets, because the technique here is worth little without the depth there.
+This chapter holds the interview-specific material, kept apart from the reference chapters it draws on. Read it beside the chapter covering whatever the loop targets, because the technique here is worth little without the depth there.
 
 ---
 
@@ -17,7 +17,7 @@ Loops for a senior engineering role mix the same kinds of round: behavioral, sys
 
 The coding round is the gap. Nothing in this book teaches algorithms or data structures, and reading about them is not how that round is passed anyway; it is passed by solving problems under a clock, which is what the first external resource below is for.
 
-## In This Section
+## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |

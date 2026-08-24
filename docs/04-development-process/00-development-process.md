@@ -11,7 +11,7 @@ tags: [process, development, methodology]
 
 The development process is the lifecycle that turns a stakeholder need into an operated solution, together with the practices that keep each phase verifiable. This chapter covers how teams version their work, review it, deliver it, test it, debug it, and keep it maintainable.
 
-## In This Section
+## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |

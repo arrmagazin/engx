@@ -21,7 +21,7 @@ flowchart LR
   Measures --> Architecture
 ```
 
-## In This Section
+## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |

@@ -9,11 +9,11 @@ tags: [coding, design-principles, design-patterns, code-quality]
 
 ![Coding](../../images/06-coding.svg)
 
-This section covers how code is written and how it is judged. It serves the developer making structural decisions in an editor, rather than the architect choosing between systems.
+This chapter covers how code is written and how it is judged. It serves the developer making structural decisions in an editor, rather than the architect choosing between systems.
 
 ---
 
-## In This Section
+## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |
