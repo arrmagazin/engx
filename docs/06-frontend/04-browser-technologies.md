@@ -11,7 +11,7 @@ The browser is the runtime every frontend application ships into. This guide cov
 
 ## DOM
 
-The DOM represents the page as a tree of nodes that JavaScript can read and change. Reading a geometric property (`offsetHeight`, `getBoundingClientRect`) forces the browser to settle any pending layout, so interleaving reads and writes makes it recompute layout on every iteration — layout thrashing.
+The DOM represents the page as a tree of nodes that JavaScript can read and change. Reading a geometric property (`offsetHeight`, `getBoundingClientRect`) forces the browser to settle any pending layout, so interleaving reads and writes makes it recompute layout on every iteration — [layout thrashing](05-performance-optimization.md#layout-thrashing), where the mechanism and the full list of layout-triggering properties are covered.
 
 | Pattern | Effect |
 | --- | --- |
@@ -21,14 +21,7 @@ The DOM represents the page as a tree of nodes that JavaScript can read and chan
 | **`textContent` over `innerHTML`** | No HTML parsing, and no markup injection surface |
 
 ```javascript
-// Bad - multiple reflows
-elements.forEach(el => { const h = el.offsetHeight; el.style.height = (h + 10) + 'px'; });
-
-// Good - batch reads then writes
-const heights = Array.from(elements).map(el => el.offsetHeight);
-elements.forEach((el, i) => { el.style.height = (heights[i] + 10) + 'px'; });
-
-// Use fragment for bulk inserts
+// Use a fragment for bulk inserts: the live tree is touched once, at the end
 const fragment = document.createDocumentFragment();
 for (let i = 0; i < 100; i++) {
     const div = document.createElement('div');
@@ -63,12 +56,13 @@ A `click` handler on a non-interactive element such as a `div` gets no keyboard 
 `fetch` returns a promise that rejects only on network failure. An HTTP error status resolves normally, so check `response.ok` yourself. Methods, status codes, and the rest of the protocol are in [Client-Server Communication](03-client-server-communication.md).
 
 ```javascript
-async function getUsers() {
+// The credential is a parameter, not a free variable the module hopes exists
+async function createUser(token, user) {
     try {
         const response = await fetch('https://api.example.com/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({ name: 'New User' })
+            body: JSON.stringify(user)
         });
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         return await response.json();
@@ -77,7 +71,11 @@ async function getUsers() {
         throw error;
     }
 }
+
+// Usage: const created = await createUser(token, { name: 'New User' });
 ```
+
+The `catch` logs and rethrows rather than returning `null`, so the caller still has to deal with the failure; swallowing it here would turn a rejected request into an `undefined` that surfaces somewhere far less obvious.
 
 ### Location and History API
 
@@ -131,7 +129,7 @@ window.addEventListener('popstate', (event) => {
 Notes:
 
 - `pushState` never fires `popstate` — call the renderer yourself.
-- State must be structured-cloneable and is capped — Firefox rejects a state object over 16 MiB. Keep it small and treat the URL as the source of truth.
+- State must be structured-cloneable and is capped, though no specification fixes the ceiling: Firefox rejects a state object over 16 MiB (its documented limit as of 2026), and Chromium and WebKit enforce their own unpublished limits rather than none. Keep it small and treat the URL as the source of truth.
 - The URL must be same-origin; cross-origin throws a `SecurityError`.
 - Changing only `location.hash` adds a history entry and fires `hashchange`, not a reload — the pre-`pushState` routing technique.
 
@@ -139,12 +137,12 @@ Notes:
 
 | Storage | Capacity | Lifetime | Scope |
 | --- | --- | --- | --- |
-| **Cookie** | About 4 KB per cookie | `Expires` or `Max-Age`; cleared when the session ends if neither is set | Domain and path it was set for; sent from a third-party frame only with `SameSite=None; Secure`, which browsers increasingly block |
+| **Cookie** | About 4 KB per cookie | `Expires` or `Max-Age`; cleared when the session ends if neither is set | Domain and path it was set for; sent from a third-party frame only with `SameSite=None; Secure`, which Safari and Firefox block by default and Chrome still allows, having abandoned its phase-out in July 2024 |
 | **`localStorage`** | Typically around 5 MB per origin; no specification fixes the number | Persists until cleared, except in Safari, where Intelligent Tracking Prevention deletes it after seven days without user interaction with the site | Same origin |
 | **`sessionStorage`** | Typically around 5 MB per origin | Until the tab or window closes | Same origin, one tab |
 | **IndexedDB** | Browser-managed quota against available disk space, reaching gigabytes | Persists until cleared or evicted; Safari's Intelligent Tracking Prevention deletes it on the same seven-day rule | Same origin |
 
-Safari's seven-day rule also removes service worker registrations, so treat script-writable storage as a cache you can lose, not a database of record. The DevTools **Application** panel shows what is stored — see [Chrome DevTools](../04-development-process/06-debugging.md#chrome-devtools).
+Safari's seven-day rule — announced with full third-party cookie blocking in 2020 and still in force as of 2026 — also removes service worker registrations, so treat script-writable storage as a cache you can lose, not a database of record. The DevTools **Application** panel shows what is stored — see [Chrome DevTools](../04-development-process/06-debugging.md#chrome-devtools).
 
 ```javascript
 // localStorage

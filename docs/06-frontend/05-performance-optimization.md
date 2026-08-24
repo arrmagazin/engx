@@ -24,7 +24,7 @@ Google publishes each metric with two boundaries: at or below the good value, an
 LCP, INP, and CLS are the three Core Web Vitals. FCP and TTFB are diagnostics: they tell you whether a bad LCP started at the server or in the browser.
 
 - INP replaced FID (First Input Delay) as a Core Web Vital on 12 March 2024.
-- Time to Interactive was removed from Lighthouse in version 10 (February 2023). Do not budget against it. INP is the field measure of responsiveness, and Total Blocking Time is the lab stand-in.
+- Time to Interactive stopped counting toward the Lighthouse performance score in version 10 (February 2023), which redistributed its weight and raised CLS to 25 percent; the audit itself survived for a while as a report diagnostic and was dropped later. Do not budget against it. INP is the field measure of responsiveness, and Total Blocking Time is the lab stand-in.
 
 ## Performance Budgets
 
@@ -199,7 +199,7 @@ Use `async` for scripts nothing else depends on, and `defer` for application cod
 | Format | Best For |
 | --- | --- |
 | **AVIF** | Photographs, where it usually compresses smallest |
-| **WebP** | Photographs, with broader support than AVIF |
+| **WebP** | Photographs, where reach matters more than the last few kilobytes — both formats are in every major engine as of 2026, but WebP's support in older browsers and in image tooling is still wider |
 | **SVG** | Icons, logos, and line art, which stay sharp at any size |
 
 ```html
@@ -306,21 +306,32 @@ function processInChunks(data) {
     setTimeout(processChunk, 0);
 }
 
-// Work that can wait entirely: run it in idle time
-// requestIdleCallback is not implemented in every browser - feature-detect it
+// Work that can wait entirely: run it in idle time.
+// requestIdleCallback is in every major evergreen engine as of 2026 - WebKit was the
+// last holdout and shipped it in the 2025 Safari cycle - so the detection below is
+// there for older engines, not because the API is broadly missing.
 function processWhenIdle(tasks) {
     let index = 0;
+
+    const whenIdle = typeof requestIdleCallback === 'function'
+        ? (callback) => requestIdleCallback(callback)
+        : (callback) => setTimeout(() => {
+            const start = performance.now();
+            callback({ timeRemaining: () => Math.max(0, 15 - (performance.now() - start)) });
+        }, 1);
 
     function doWork(deadline) {
         while (index < tasks.length && deadline.timeRemaining() > 1) {
             heavyProcessing(tasks[index++]);
         }
-        if (index < tasks.length) requestIdleCallback(doWork);
+        if (index < tasks.length) whenIdle(doWork);
     }
 
-    requestIdleCallback(doWork);
+    whenIdle(doWork);
 }
 ```
+
+The fallback gives `doWork` a real deadline of its own instead of a stub that always reports time remaining, because a stub would let the loop drain the whole queue in one task — the exact problem the idle scheduling is there to avoid. `requestIdleCallback` is wrapped in an arrow rather than assigned directly, since calling it detached from `window` throws in browsers.
 
 ---
 

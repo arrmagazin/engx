@@ -113,7 +113,7 @@ id,name,email,active
 | **Delimiter in value** | `John "Doe", Jr.` splits into extra columns | Quote fields containing the delimiter: `"Doe, Jr."` |
 | **Embedded quotes** | `She said "hi"` breaks quoting | Escape by doubling: `"She said ""hi"""` |
 | **No types** | `"true"`, `"1"`, `"1.10"` are all strings | Cast explicitly after parsing; don't infer |
-| **No standard encoding** | Excel on Windows exports Windows-1252, not UTF-8 | Specify or detect the encoding when reading |
+| **No standard encoding** | Excel's plain CSV export uses the system ANSI code page (1252 in Western Europe, 1251 Cyrillic, 932 Japanese), not UTF-8; its separate "CSV UTF-8" option does | Specify or detect the encoding when reading |
 | **Line endings** | CRLF vs. LF differs by OS and tool | Use a CSV parser, not manual `split("\n")` |
 
 Always parse and generate with a library (e.g. Papa Parse, `csv-parse`) rather than splitting on commas — quoting and escaping rules make naive parsing unsafe.
