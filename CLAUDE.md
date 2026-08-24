@@ -34,7 +34,7 @@ tags: [lowercase, kebab-or-single-word, tags]
 
 ## Glossary conventions
 
-These apply to any file that defines terms in a `| Concept | Definition |` table, such as `docs/00-software_engineering/00-glossary.md`.
+These apply to any file that defines terms in a `| Concept | Definition |` table, such as `docs/00-software-engineering/01-glossary.md`.
 
 `scripts/check_glossary.py <files>` checks the mechanical rules below: broken rows, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. It only looks at tables headed `| Concept | Definition |`, so other tables are unaffected. Indirect loops and oversized tables print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked. The script is not wired into the pre-commit hook.
 
