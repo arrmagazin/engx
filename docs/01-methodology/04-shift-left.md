@@ -45,7 +45,7 @@ flowchart LR
     Run -.what was learned.-> Intent
 ```
 
-In [Lean](01-lean.md) terms this is *Eliminate Waste* aimed at a specific kind of waste — handoffs, partial work, and task switching — and *Build Quality In*, because a machine-readable source can be checked before anything is built from it.
+In [Lean](01-lean.md) terms this is *Eliminate Waste* aimed at a specific kind of waste — handoffs, partial work, and task switching — and *Build Integrity In*, because everything downstream is generated from one source that can be checked before anything is built from it, so the derived pieces cannot drift out of agreement with each other.
 
 ### What Moves
 
