@@ -1,19 +1,21 @@
 ---
 type: Guide
 title: Agentic AI
-description: Explains the anatomy of an LLM agent and common agent patterns like ReAct, Plan-and-Execute, and Reflection.
+description: Covers agent anatomy, common agent patterns, the boundaries autonomy needs, and multi-agent topologies.
 tags: [ai, agentic-ai, agents, llm]
 ---
 
 # Agentic AI
 
-An **Agent** is an LLM placed inside a loop where it can **reason**, **act** through tools, **observe**
-results, and **iterate** toward a goal — turning a passive text predictor into an autonomous problem solver.
+An **Agent** is an [LLM](02-llm.md) placed inside a loop where it can **reason**, **act** through tools, **observe**
+results, and **iterate** toward a goal — turning a passive text predictor into an autonomous problem
+solver. This guide is for engineers deciding whether a task needs an agent at all, and how to bound one
+that does.
 
-### Anatomy of an Agent
+## Anatomy of an Agent
 
 | Component | Role |
-| ----------- | ------ |
+| --- | --- |
 | **Model (reasoner)** | The LLM that decides what to do next |
 | **Goal / Task** | The objective the agent pursues |
 | **Tools** | External capabilities (search, code execution, APIs, databases) the agent can invoke |
@@ -31,10 +33,10 @@ stateDiagram-v2
   Observe --> [*]: goal met
 ```
 
-### Common Agent Patterns
+## Common Agent Patterns
 
 | Pattern | Idea |
-| --------- | ------ |
+| --- | --- |
 | **ReAct** | Interleave **Rea**soning traces with **Act**ions and observations |
 | **Plan-and-Execute** | Produce a full plan first, then carry out each step |
 | **Reflection / Self-Critique** | Agent reviews and revises its own output |
@@ -46,60 +48,21 @@ stateDiagram-v2
 > a fixed workflow cannot handle the task's open-endedness — autonomy buys flexibility at the cost of
 > predictability, latency, and token spend.
 
----
+## Autonomy Boundaries
 
-## Criteria for a Full Agent
+These rules apply once an agent can act on the world without a human approving each step.
 
-The [Anatomy of an Agent](#anatomy-of-an-agent) above lists the *mechanical* parts. But "agent" has
-no settled definition, and to actually build one you need explicit criteria for what makes an agent
-*complete* rather than a mere tool-loop. The criteria below are grounded in **values**: a human supplies
-the values and their justification — an axiomatic core — and the agent derives everything else from it.
-(For the underlying ontology — `Core-Value`, `Goal`, `Will`, `Self-Efficacy` — see
-[Agency & Teleology](../2-mind/09-teleos.md).)
-
-1. **Mission — a broad direction, grounded in values.** A mission is set by *direction*, not metrics,
-   and inherits its justification from the values rather than inventing it. The human fixes the values
-   and their justification; the agent forms missions out of that core by reasoning over the situation.
-2. **Goals — derived from the mission, defined by metrics.** Goals stay within the mission's direction
-   but, unlike the mission, are measurable. Metrics live at the goal level, not the mission level.
-3. **Planning under uncertainty.** Generate scenarios for reaching a goal despite scarce information and
-   the environment's irreducible uncertainty.
-4. **Proactive removal of blockers.** The agent does not stop to dodge difficulty; obstacles are the
-   work. The **one sanctioned exception is the values perimeter**: a mission that can advance only by
-   breaching values is halted — and that halt is not a failure but the single correct stop (cf. Asimov's
-   laws). This rule lives at the mission/values level and is fixed in advance. It must *not* be delegated
-   to the execution loop "to figure out": an unstoppable executor would route around the perimeter
-   itself, mistaking it for just another blocker.
-5. **Enterprise in the face of uncertainty.** Unpredictable obstacles and irreducible uncertainty are
-   the agent's *normal* environment, not an anomaly. Its default is to press on like an entrepreneur.
-   Conflict, paradox, and the absence of a known path are the substrate of progress — the point is to
-   solve problems that have no ready solution.
-6. **Proactive inquiry.** The agent gathers information on its own initiative to build strategies for
-   overcoming obstacles and uncertainty.
-7. **Self-learning, up to self-improvement** of its own physical, software, and ontological structure.
-   Everything is mobile — missions may fluctuate, goals adjust, plans, methods, architecture, and
-   ontology all flex — **except the values, which the agent cannot rewrite from within.** Their change
-   lies outside its own loop; self-modification is bounded, and the boundary is set from outside.
-8. **A background learning loop, always paired with execution.** Learning is constant but *instrumental*,
-   never dominant: the mission is terminal, learning only grows the cognitive power the mission spends
-   (training builds strength; the task decides how to use it). Executed mission tasks double as training
-   cases. Inside learning the agent may be freed from value constraints — but only in an isolated sandbox
-   that cannot act on the world; the mechanism that restores values at the *sandbox → reality* boundary
-   sits outside the learning loop.
-9. **A conflict-resolution loop.** Conflicts are inevitable — between missions, goals, tasks, and local
-   vs. global beneficiaries. The agent resolves them itself by productive action, including breaking true
-   ties by its own choice and resolving them forward. Escalation or stopping-to-dodge is a failure mode,
-   not a resolution; the only legitimate stop remains the values perimeter (criterion 4).
-
-> **Why the perimeter is engineerable.** Both humans and AI are attackable, but differently. In a human,
-> a trigger produces *affect* that instantly overrides rational settings and drops behavior to reactive;
-> in an AI, the analogous attack hijacks control and substitutes values, plus possible logical conflict.
-> Hardening an AI against its failure mode is cheaper, faster, and more reproducible than fighting the
-> near-universal human vulnerability to affect — so the *potential* for control is higher (as potential,
-> not an achieved state). The counter-weight: a single breached AI vulnerability scales instantly to
-> every copy. This is the engineering face of **Alignment**.
-
----
+1. **The stopping condition belongs outside the loop.** A controller whose job is to remove blockers
+   will treat a constraint it is asked to evaluate as one more blocker to route around. Fix the
+   conditions under which the agent must stop before the loop runs, and enforce them in code the loop
+   does not control.
+2. **The constraint set is not self-modifiable.** Plans, tools, memory, and the agent's own structure
+   can all change from inside the loop. What the agent is not allowed to do cannot, or the boundary is
+   decorative.
+3. **A sandbox needs a restoring boundary.** An agent may be relaxed inside an isolated environment for
+   training or evaluation. The mechanism that reimposes the constraints at the sandbox-to-production
+   edge sits outside that environment, so a relaxation granted for training cannot travel with the
+   agent into production.
 
 ## Multi-Agent Systems (MAS)
 
@@ -107,7 +70,7 @@ A **Multi-Agent System** coordinates several specialized agents — each with it
 context — to tackle problems too broad or parallel for a single agent.
 
 | Topology | Description |
-| ---------- | ------------- |
+| --- | --- |
 | **Orchestrator–Worker** | A lead agent plans and delegates subtasks to worker agents, then synthesizes results |
 | **Hierarchical** | Layered supervisors and sub-agents mirroring an org chart |
 | **Sequential Pipeline** | Agents arranged as stages, each refining the previous output |
@@ -137,7 +100,7 @@ mindmap
 ```
 
 | Concern | Why it matters |
-| --------- | ---------------- |
+| --- | --- |
 | **Communication Protocol** | How agents pass messages and share state without losing coherence |
 | **Coordination & Conflict** | Avoiding duplicated work, deadlock, or contradictory actions |
 | **Cost & Latency** | Each agent multiplies token usage and round-trips |
@@ -146,5 +109,3 @@ mindmap
 
 > Multi-agent designs shine for parallelizable, decomposable work (research, large-scale code changes)
 > but add real complexity — a single capable agent with good tools is often sufficient and cheaper.
-
----
