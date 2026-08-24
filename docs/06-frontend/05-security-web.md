@@ -9,15 +9,6 @@ tags: [security, web, owasp]
 
 Web application security is the work of keeping an application's data and actions reachable only by the people entitled to them. This guide covers the principles that hold across attack classes, the OWASP Top 10 as of its 2025 edition, and the concrete defenses that implement them.
 
-## Security Principles
-
-| Principle | Implementation |
-| --- | --- |
-| **Least Privilege** | Minimum permissions; scope tokens narrowly |
-| **Defense in Depth** | Multiple layers: validation + sanitization + CSP |
-| **Fail Secure** | Default to blocking access on error |
-| **Input Validation** | Whitelist approach |
-| **Secure by Default** | HTTPS, secure cookies out of the box |
 
 ## OWASP Top 10 (2025)
 
