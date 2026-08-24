@@ -7,7 +7,7 @@ tags: [devops, ci-cd, development-process]
 
 # CI/CD
 
-Automates integration and deployment: Code → Build → Test → Deploy → Monitor.
+Continuous integration (CI) verifies every commit against the shared mainline; continuous delivery (CD) moves each verified build toward production. This page covers both, and the environment stages a change passes through before it reaches users.
 
 ```mermaid
 flowchart LR
@@ -21,29 +21,19 @@ flowchart LR
 
 | Aspect | CI | CD |
 | --- | --- | --- |
-| Focus | Code integration | Automated deployment |
-| Goal | Detect integration issues | Deploy to production |
-| Frequency | Every commit | After CI passes |
-| Tools | GitHub Actions, Jenkins | Argo CD, Spinnaker |
+| **Focus** | Code integration | Automated deployment |
+| **Goal** | Detect integration issues | Deploy to production |
+| **Frequency** | Every commit | After CI passes |
+| **Tools** | GitHub Actions, Jenkins | Argo CD, Spinnaker |
 
 ## Environment Stages
 
-| Environment | Purpose | Data |
-| --- | --- | --- |
-| Local | Individual development | Mocked/sample |
-| Development | Integration testing | Test database |
-| Staging | Pre-production testing | Production-like |
-| Production | End users | Real data |
-
-Staging mirrors production to catch environment-specific issues before release.
-
-```mermaid
-graph LR
-    Local[Local] -->|push| Development[Development]
-    Development -->|promote| Staging[Staging]
-    Staging -->|release| Production[Production]
-    Production -.->|telemetry| Local
-```
+| Environment | Purpose | Data | Promotion |
+| --- | --- | --- | --- |
+| **Local** | Individual development | Mocked/sample | Push to a shared branch |
+| **Development** | Integration testing | Test database | Promote once CI passes |
+| **Staging** | Pre-production and user acceptance testing | Production-like | Release to production |
+| **Production** | End users | Real data | None — telemetry feeds the next change |
 
 ## References
 

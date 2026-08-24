@@ -111,7 +111,7 @@ Layers (bottom→top): Unit → Integration → UI/E2E tests. Width = test count
 - Feedback time — the faster a suite reports results, the sooner defects are fixed and the more developers trust/run it (e.g., unit tests should complete in seconds).
 - Determinism — a good test always gives the same result for the same code; non-deterministic (flaky) tests erode trust and can mask real bugs.
 
-**Test pipeline (shift left):** Local dev → Commit → Automated Testing → Manual Testing → UAT → Production. Cost of missed defects and verification cost both rise later in the pipeline while remaining defect count should fall — so catching issues as early as possible (shift left) is far cheaper.
+**Test pipeline (shift left):** verification runs at every stage of the [CI/CD environment pipeline](03-ci-cd.md) — Local → Development → Staging → Production — with unit tests before the commit, automated integration and regression suites in Development, and manual exploratory plus user acceptance testing (UAT) in Staging. The cost of a missed defect and the cost of verifying it both rise the later it is caught, while the remaining defect count should fall — which is what makes shifting left cheaper.
 
 **Suite balance:** the Testing Pyramid above applies to the automated suite, topped by a thin layer of manual exploratory testing. Overusing UI-level automation makes suites slow and fragile.
 
