@@ -11,7 +11,7 @@ Management is the discipline of turning **goals into delivered outcomes** throug
 
 It is not the same as leadership: leadership sets direction and motivates; management allocates, sequences, and controls. A working engineering manager does both.
 
-Related: [Methodology](../01-methodology/14-methodology.md) · [Scrum](../01-methodology/10-scrum.md) · [Development Process](../04-development/12-Development-Process.md) · [Team Lead](../80-people/80-team-lead.md)
+Related: [Methodology](../01-methodology/14-methodology.md) · [Scrum](../01-methodology/10-scrum.md) · [Development Process](../04-development/12-Development-Process.md) · [Team Lead](02-team-lead.md)
 
 ---
 

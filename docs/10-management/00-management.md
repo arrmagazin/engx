@@ -9,9 +9,9 @@ tags: [people, management, leadership, growth, feedback]
 
 People management is the discipline of **building and sustaining the team that delivers the work** — hiring the right people, growing them, giving them clarity and feedback, and keeping the team healthy enough to keep going.
 
-It is the *People* dimension of [Engineering Management](../02-management/management.md). Management allocates and sequences work; people management makes sure there is a capable, motivated team to allocate it to. A manager who optimizes only for delivery borrows capacity from this dimension and pays it back as attrition.
+It is the *People* dimension of [Engineering Management](01-delivery-management.md). Management allocates and sequences work; people management makes sure there is a capable, motivated team to allocate it to. A manager who optimizes only for delivery borrows capacity from this dimension and pays it back as attrition.
 
-Related: [Team Lead](80-team-lead.md) · [Engineering Management](../02-management/management.md) · [Development Process](../04-development_process/00-development_process.md) · [Methodology](../01-methodology/00-methodology.md)
+Related: [Team Lead](02-team-lead.md) · [Engineering Management](01-delivery-management.md) · [Development Process](../04-development_process/00-development_process.md) · [Methodology](../01-methodology/00-methodology.md)
 
 ---
 
@@ -19,7 +19,7 @@ Related: [Team Lead](80-team-lead.md) · [Engineering Management](../02-manageme
 
 | Doc | What it covers |
 | --- | --- |
-| [Team Lead](80-team-lead.md) | The team lead role — responsibilities, way of working, and the hybrid Scrum workflow |
+| [Team Lead](02-team-lead.md) | The team lead role — responsibilities, way of working, and the hybrid Scrum workflow |
 
 ---
 
@@ -62,7 +62,7 @@ The six are sequential in a person's experience and simultaneous in a manager's 
 
 ---
 
-**`Autonomy Level`** := How much decision authority a person holds in one specific area (see the delegation ladder in [Engineering Management](../02-management/management.md)).
+**`Autonomy Level`** := How much decision authority a person holds in one specific area (see the delegation ladder in [Engineering Management](01-delivery-management.md)).
 
 *NOTE*: Autonomy is per-area, not per-person. A staff engineer can be level 5 in architecture and level 2 in incident command.
 
@@ -206,7 +206,7 @@ Write down the target level's expectations and the evidence gathered so far. A p
 
 ## Team Health
 
-Health metrics **lead** delivery metrics — they degrade first, and they are the early warning for the DORA and flow numbers in [Engineering Management](../02-management/management.md).
+Health metrics **lead** delivery metrics — they degrade first, and they are the early warning for the DORA and flow numbers in [Engineering Management](01-delivery-management.md).
 
 | Signal | What it reveals | Watch for |
 | --- | --- | --- |
