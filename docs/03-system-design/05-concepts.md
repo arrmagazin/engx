@@ -1,194 +1,204 @@
 ---
 type: Guide
 title: System Design Glossary
-description: Reference glossary of system design terms and named concepts (scaling, sharding, caching, and more) organized by category.
+description: Defines the system design vocabulary this chapter uses, grouped by the problem each set of terms addresses.
 tags: [architecture, system-design, interview, glossary]
 ---
 
 # System Design Glossary
 
-A reference of every concept, term, and named problem covered in prep, organized by category. 
+Defines the vocabulary the rest of this chapter uses, grouped by the problem each set of terms addresses. Worked applications of these concepts are in [Canonical Systems](06-canonical-systems.md).
 
-## Scale & Estimation
+## Capacity Estimation
 
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Back-of-envelope estimation** | Rough, order-of-magnitude calculation of traffic/storage to justify design decisions (e.g., writes/sec × record size × time = storage). Interviewers expect you to defend these numbers against real-world reference points, not invent them. |
-| **Read:write ratio** | The proportion of read to write operations (e.g., 100:1). Determines whether a system should be optimized around caching/CDN (read-heavy) or consistency/throughput on writes (write-heavy). |
-| **QPS (queries per second)** | Standard throughput unit; distinguish average QPS from peak QPS (often 5-10x average). |
-| **Storage growth projection** | Estimating total storage over a time horizon (e.g., 3 years) by multiplying write rate × record size × time, then adjusting for replication factor. |
+| **Capacity Estimation** | Sizing a system's traffic, storage, and bandwidth before designing it, so the design answers to numbers rather than intuition |
+| **Back-of-envelope estimation** | An order-of-magnitude calculation from a few stated assumptions — writes per second times record size times retention |
+| **Read:write ratio** | The proportion of reads to writes; decides whether a design optimizes for caching and delivery or for write throughput and consistency |
+| **QPS (queries per second)** | The standard throughput unit, quoted separately for average and peak load because the two size different components |
+| **Storage growth projection** | Total storage over a stated horizon, from write rate times record size times time, adjusted for the replication factor |
 
----
+## Identifier Generation
 
-## Identifiers & Sharding
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **distributed ID generator** | A scheme for generating globally unique, roughly time-ordered 64-bit IDs across many machines without central coordination per-request. Typically split into timestamp bits + worker/machine ID bits + sequence bits. |
-| **Sequence number (in an ID)** | A counter that increments within a single timestamp tick per worker, used to disambiguate multiple IDs generated in the same millisecond by the same machine. |
-| **Clock skew / clock-moves-backward problem** | Risk that a machine's clock jumps backward (e.g., due to NTP correction), potentially causing a previously issued ID/timestamp to be reused. Mitigated by detecting `now < last_timestamp` and refusing to generate IDs until the clock catches up. |
-| **Worker ID assignment** | The problem of giving each ID-generator instance a unique identifier automatically (not hardcoded), including reclaiming the ID when an instance crashes. Solved via a coordination service (etcd/ZooKeeper) with leases. |
-| **Lease (in coordination services)** | A time-bound claim on a resource (e.g., a worker ID slot) that must be renewed via heartbeat; expires automatically if the holder crashes, freeing the resource. |
-| **Compare-and-swap (CAS)** | An atomic operation that updates a value only if it currently matches an expected value — used to safely claim shared resources (like a worker ID slot) without race conditions. |
-| **Base62 encoding** | Encoding a number using 62 characters (`0-9a-zA-Z`) to produce short, URL-safe strings — used to turn a large integer ID into a compact short code. |
-| **Sharding** | Splitting data across multiple database instances so no single machine holds all of it. |
-| **Shard key** | The field used to determine which shard a piece of data lives on (e.g., hash of short_code, hash of follower_id, geography). Should match the system's dominant query pattern to avoid cross-shard fan-out. |
-| **Hash-based sharding** | Distributing records evenly across shards via a hash function on the shard key — good for uniform load distribution, bad when queries need geographic or relational locality. |
-| **Consistent hashing** | A hashing scheme that minimizes data movement when shards are added/removed, compared to naive `hash % N`. |
-| **Hot shard / hot key** | A single shard or key receiving disproportionate traffic (e.g., a viral short URL or video), causing load imbalance despite otherwise-even sharding. |
+| **Identifier Generation** | Producing unique keys for records across many machines without a central allocator on the request path |
+| **Distributed ID generator** | A scheme yielding globally unique, roughly time-ordered 64-bit IDs from independent machines; typically timestamp bits, worker bits, and sequence bits |
+| **Sequence number** | A counter incremented within one timestamp tick on one worker, disambiguating IDs generated in the same millisecond |
+| **Clock skew** | A machine's clock jumping backward after a correction, risking reuse of an already-issued timestamp; detected by refusing to generate while `now < last_timestamp` |
+| **Worker ID assignment** | Giving each generator instance a unique slot automatically rather than by hand, and reclaiming the slot when the instance dies |
+| **Lease** | A time-bound claim on a resource, renewed by heartbeat and expiring on its own if the holder crashes |
+| **Compare-and-swap (CAS)** | An atomic update applied only if the current value matches an expected one, used to claim a shared slot without a race |
+| **Base62 encoding** | Representing a number in the 62 URL-safe alphanumeric characters, turning a large integer ID into a short code |
 
----
+## Sharding
 
-## Caching & Content Delivery
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Cache-aside pattern** | Application checks cache first; on a miss, reads from the DB and populates the cache for next time. |
-| **Cache stampede / thundering herd** | Many requests simultaneously miss the cache for the same key (e.g., a viral item's TTL expires) and all hit the database at once. Mitigated with request coalescing or jittered TTLs. |
-| **CDN (Content Delivery Network)** | Geographically distributed edge servers that cache and serve static/semi-static content (images, video segments, rendered pages) close to users, reducing latency and origin load. |
-| **Cache invalidation** | Explicitly purging or versioning cached content when the underlying data changes (e.g., busting a CDN-cached post page on edit). |
-| **301 vs. 302 redirect** | 301 = permanent (browsers cache it, reducing server load, but you lose per-click visibility and can't change the destination). 302 = temporary (less cache-friendly, but preserves the ability to track every click and change destinations) — relevant when analytics requirements exist. |
-| **Adaptive bitrate streaming (HLS/DASH)** | Video delivered in small segments at multiple quality levels; the client dynamically switches resolution based on current network conditions. |
+| **Sharding** | Splitting a dataset across database instances so no single machine holds all of it |
+| **Shard key** | The field deciding which shard a record lives on; chosen to match the dominant query so common lookups reach one shard |
+| **Hash-based sharding** | Placing records by a hash of the shard key — even load, at the cost of geographic and relational locality |
+| **Consistent hashing** | A placement scheme that relocates only a small fraction of keys when instances are added or removed, unlike `hash % N` |
+| **Region-based sharding** | Partitioning by geography rather than by hash, used where queries are inherently local |
+| **Hot shard** | One shard or key taking disproportionate traffic, unbalancing a cluster that is otherwise evenly partitioned |
 
----
+## Caching
 
-## Consistency & Correctness
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Eventual consistency** | A model where updates propagate asynchronously; readers may briefly see stale data, but all replicas converge eventually. Acceptable for likes/views/follower counts where exactness isn't critical. |
-| **Strong consistency** | Every read reflects the most recent write immediately. Required for payments, inventory/seat holds, and authentication — the opposite default from most read-heavy systems. |
-| **Read-your-writes consistency** | A guarantee that a user always sees their own recent writes immediately, even if other users might briefly see stale data (e.g., an author sees their own just-published edit right away by reading from primary). |
-| **Idempotency / idempotency key** | A mechanism (typically a client-generated unique key per operation) ensuring that retrying the same request (e.g., after a timeout) doesn't cause duplicate side effects (like double-charging a card). |
-| **Idempotent webhook handling** | Designing a callback handler (e.g., from a payment processor) to safely process the same event delivered more than once, by checking a unique event ID before acting. |
-| **Optimistic concurrency control** | Reading a record's version, then updating conditionally on that version matching (`WHERE version = X`), retrying on conflict. Higher throughput under low contention; degrades under hot-spot contention. |
-| **Pessimistic locking** | Locking a record (`SELECT ... FOR UPDATE`) before modifying it, blocking other transactions until release. Simple and correct, but limits throughput under contention. |
-| **Reservation with TTL** | Placing a short-lived hold on a resource (e.g., a seat) that expires automatically if not confirmed — separates "temporarily held" from "permanently committed" state. |
-| **Saga pattern** | A way to manage a multi-step transaction across independent services (e.g., reserve seat → charge card → confirm booking) without a single distributed ACID transaction, using compensating actions (like a refund) if a later step fails. |
-| **Compensating action** | The "undo" step in a saga — a corrective operation (e.g., refund, release hold) executed when a later step in a multi-step transaction fails. |
-| **At-least-once delivery** | A guarantee that a message will be delivered one or more times (never zero), requiring the receiver to handle possible duplicates — the common practical alternative to the much harder "exactly-once" guarantee. |
-| **Client-side deduplication** | Using a unique message/event ID on the client to discard duplicates received under an at-least-once delivery guarantee. |
-| **Last-write-wins (LWW)** | A conflict resolution strategy where the most recent write overwrites earlier ones — acceptable for simple counters, but breaks collaborative editing (can silently drop concurrent edits). |
+| **Caching** | Keeping a copy of a result closer to its consumer than the system that produced it |
+| **Cache-aside pattern** | The application reading the cache first and, on a miss, loading from the database and populating the cache |
+| **Cache stampede** | Many requests missing the same key at once and all reaching the database together; mitigated by request coalescing or jittered expiry |
+| **Cache invalidation** | Purging or versioning a cached copy when the data behind it changes |
 
----
+## Content Delivery Network
 
-## Fan-Out & Feed Delivery
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Fan-out on write (push model)** | Precomputing and distributing content to all relevant recipients' feeds/queues at write time (e.g., pushing a new post into every follower's feed on publish). Fast reads, but expensive for high-fan-out writers. |
-| **Fan-out on read (pull model)** | Computing a feed on demand by merging content from all followed/relevant sources at read time. Avoids write storms, but costs more at read time (fan-in across shards). |
-| **Celebrity problem** | The scenario where fan-out-on-write becomes prohibitively expensive because a single account has an extremely large follower count, causing a single write to trigger millions of downstream writes. |
-| **Hybrid fan-out** | Using push for most accounts and switching to pull/merge-at-read-time above a follower-count threshold — the standard senior/staff-level answer to the celebrity problem. |
-| **Two-stage candidate generation + ranking** | An architecture for personalized feeds/search: cheaply narrow a massive corpus to a small candidate set (fast, approximate), then apply an expensive precise ranking model only to that small set. Used in both recommendation feeds and search result ranking. |
-| **Cold-start problem** | New content (or new users) has no historical engagement data, so popularity-based ranking can't yet evaluate it — addressed via deliberate exploration traffic. |
-| **Exploration vs. exploitation** | The tradeoff between showing proven, high-performing content (exploitation) versus deliberately surfacing unproven/new content to gather data on its quality (exploration). |
+| **Content Delivery Network (CDN)** | Geographically distributed edge servers holding static and semi-static content close to users, cutting latency and origin load |
+| **301 vs. 302 redirect** | The choice between a permanent redirect browsers cache, which saves requests but hides per-click data, and a temporary one that reaches the server every time |
+| **Adaptive bitrate streaming** | Video published as short segments at several quality levels, with the client switching level as network conditions change; HLS and DASH are the two standards in use |
 
----
+## Consistency Models
 
-## Connection State & Real-Time Delivery
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Persistent connection (WebSocket / long-lived TCP)** | A connection kept open between client and server so the server can push data without the client polling. |
-| **Connection gateway** | A server layer that holds many open persistent client connections, sharded so each user's connection is pinned to one node at a time. |
-| **Presence service** | Tracks which users are currently online and which gateway node holds their live connection — a dynamic routing table (`user_id → gateway_node_id`) that changes on every reconnect. |
-| **Reconnection storm** | A burst of simultaneous reconnect attempts when a gateway node crashes and all its connected clients reconnect at once — requires backoff/jitter to avoid overloading the system further. |
-| **Message ordering via sequence numbers** | Assigning each message a per-conversation monotonic counter (rather than relying on wall-clock time, which suffers from clock skew across servers) to guarantee consistent ordering and enable gap detection. |
-| **Server-authoritative message store** | A model where the server holds the definitive, durable copy of all messages and each device syncs against it (vs. each device independently managing its own queue) — enables clean multi-device sync and read-state propagation. |
-| **Multi-device sync** | Ensuring message state (read/unread, content) is consistent across a user's multiple logged-in devices. |
-| **Backpressure** | Mechanisms to prevent an overwhelmed component (e.g., a reconnecting client with a huge message backlog, or a transcoding queue during upload spikes) from being flooded all at once — typically handled via pagination, incremental sync, or autoscaling. |
+| **Consistency Model** | The guarantee a system gives about when a write becomes visible to a subsequent read |
+| **Eventual consistency** | Updates propagating asynchronously, so replicas may serve stale data briefly but converge |
+| **Strong consistency** | Every read reflecting the most recent write, required wherever a stale answer is a correctness bug rather than a cosmetic one |
+| **Read-your-writes consistency** | A guarantee that a user sees their own recent writes immediately, even while other users may not |
+| **Last-write-wins (LWW)** | Resolving concurrent writes by keeping the most recent — adequate for counters, lossy for collaborative editing |
 
----
+## Idempotency
 
-## Geospatial Systems
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Geohashing** | Encoding latitude/longitude into a string such that geographically nearby points share string prefixes, enabling efficient proximity queries and prefix-based sharding. |
-| **Quadtree** | A tree data structure that recursively subdivides 2D space (denser subdivision where point density is higher) — used for efficient spatial indexing and nearest-neighbor search. |
-| **Google S2 library** | A real-world library for spherical geometry / geospatial indexing, commonly used in production geospatial systems (mentioned as an alternative to geohashing/quadtrees). |
-| **Ring search / radius expansion** | A matching strategy that starts searching in a small area (e.g., a geohash cell) and expands outward until enough candidates are found. |
-| **Region-based sharding** | Partitioning data by geography rather than by hash, appropriate when queries are inherently local (e.g., a rider only ever matches drivers in the same city). |
+| **Idempotency** | The property that applying an operation more than once has the same effect as applying it once |
+| **Idempotency key** | A client-generated unique value per operation, letting the server recognize a retry instead of repeating the side effect |
+| **Idempotent webhook handling** | A callback handler that checks a unique event ID before acting, so a redelivered event takes effect once |
+| **At-least-once delivery** | A guarantee that a message arrives one or more times but never zero, leaving duplicate handling to the receiver |
+| **Client-side deduplication** | Discarding repeats by message ID on the receiving side, the standard counterpart to at-least-once delivery |
 
----
+## Concurrency Control
+
+| Concept | Definition |
+|---|---|
+| **Concurrency Control** | Keeping simultaneous writers from corrupting shared state |
+| **Optimistic concurrency control** | Reading a version, updating only if it still matches, and retrying on conflict; higher throughput until contention concentrates on one record |
+| **Pessimistic locking** | Taking a lock before modifying a record and blocking other writers until release; simple and correct, but throughput-limiting |
+| **Reservation with TTL** | A short-lived hold that expires unless confirmed, separating temporarily held state from committed state |
+
+## Distributed Transactions
+
+| Concept | Definition |
+|---|---|
+| **Distributed Transaction** | A single logical operation spanning services that share no database and therefore no commit |
+| **Saga pattern** | Running that operation as an ordered series of local transactions, each with an undo step for when a later one fails |
+| **Compensating action** | The undo step in a saga — a refund, a released hold, a cancelled reservation |
+
+## Fan-Out
+
+| Concept | Definition |
+|---|---|
+| **Fan-Out** | The multiplication of one write into many downstream writes or reads, one per recipient |
+| **Fan-out on write** | Pushing content into every recipient's feed at publish time; fast reads, expensive for accounts with many followers |
+| **Fan-out on read** | Merging content from followed sources when a feed is requested; cheap writes, costly reads across shards |
+| **Celebrity problem** | One account with a very large follower count making write-time fan-out prohibitive, since a single post triggers millions of writes |
+| **Hybrid fan-out** | Pushing for ordinary accounts and merging at read time above a follower threshold |
+
+## Feed Ranking
+
+| Concept | Definition |
+|---|---|
+| **Feed Ranking** | Ordering candidate items for one user by predicted relevance rather than by recency alone |
+| **Two-stage candidate generation** | Narrowing a large corpus cheaply and approximately, then scoring only the survivors with an expensive model |
+| **Cold-start problem** | New items or users having no engagement history, so popularity-based ranking cannot yet place them |
+| **Exploration vs. exploitation** | The trade-off between serving proven content and deliberately serving unproven content to learn its quality |
+
+## Real-Time Delivery
+
+| Concept | Definition |
+|---|---|
+| **Real-Time Delivery** | Pushing data to a client as it happens, rather than waiting for the client to ask |
+| **Persistent connection** | A connection held open between client and server so the server can send without being polled |
+| **Connection gateway** | A layer holding many open client connections, sharded so each user is pinned to one node |
+| **Presence service** | The mapping from user to the gateway node currently holding their connection, rewritten on every reconnect |
+| **Reconnection storm** | Every client of a failed gateway reconnecting at once, requiring backoff and jitter to avoid toppling the replacement |
+| **Message ordering via sequence numbers** | A per-conversation monotonic counter that fixes order and exposes gaps, avoiding reliance on clocks that differ across servers |
+| **Server-authoritative message store** | The server holding the definitive durable copy that every device syncs against, rather than each device managing its own queue |
+| **Multi-device sync** | Keeping message content and read state consistent across one user's logged-in devices |
+| **Backpressure** | Limiting how fast work is handed to a component that cannot keep up, through pagination, incremental sync, or queueing |
+
+## Geospatial Indexing
+
+| Concept | Definition |
+|---|---|
+| **Geospatial Indexing** | Organizing points on the earth's surface so nearby ones can be found without scanning all of them |
+| **Geohashing** | Encoding latitude and longitude into a string whose shared prefixes mean physical proximity, which also makes it usable as a shard key |
+| **Quadtree** | A tree that recursively subdivides two-dimensional space, subdividing further where points are dense |
+| **Google S2 library** | A production library for spherical geometry and cell-based indexing, used where a rectangular grid distorts |
+| **Ring search** | Querying a small area first and widening it until enough candidates are found |
 
 ## Rate Limiting
 
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Fixed window counter** | Rate-limiting by counting requests in a fixed time window (e.g., per calendar minute); simple, but allows up to 2x burst at window boundaries. |
-| **Sliding window log** | Rate-limiting by storing every request's timestamp and counting how many fall within the trailing window; accurate but memory-heavy at scale. |
-| **Sliding window counter** | An approximation of the sliding window log using a weighted average of the current and previous fixed windows — fixed memory footprint, good accuracy tradeoff. |
-| **Token bucket** | A rate-limiting algorithm where tokens refill at a fixed rate and each request consumes a token; naturally allows controlled bursts up to the bucket size. |
-| **Atomic increment (e.g., Redis INCR + Lua script)** | Performing a check-and-increment as a single atomic operation to avoid race conditions where two concurrent requests both pass a limit check before either updates the counter. |
+| **Rate Limiting** | Capping how many requests a caller may make in a period, to protect capacity and enforce quotas |
+| **Fixed window counter** | Counting requests per calendar window; simple, but permits a double-rate burst across a window boundary |
+| **Sliding window log** | Storing each request's timestamp and counting those inside the trailing window; exact, but memory-heavy |
+| **Sliding window counter** | Approximating the log by weighting the current and previous fixed windows, at constant memory |
+| **Token bucket** | Tokens accruing at a fixed rate and one being spent per request, permitting bursts up to the bucket size |
+| **Atomic increment** | Checking and incrementing a counter in one indivisible step, such as Redis `INCR` inside a Lua script, so two concurrent requests cannot both pass the same limit |
 
----
+## Search Indexing
 
-## Search & Indexing
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Crawl frontier** | The queue of URLs still to be fetched by a web crawler, along with logic for prioritization and deduplication. |
-| **Bloom filter** | A space-efficient probabilistic data structure for set membership testing (e.g., "have we seen this URL before?") — allows false positives but never false negatives, trading a small error rate for large memory savings. |
-| **Politeness policy (crawling)** | Rate-limiting how aggressively a crawler hits any single domain, so it doesn't overwhelm smaller sites while crawling at scale. |
-| **Inverted index** | The core search data structure mapping each term to the list of documents (postings) containing it, enabling fast full-text search instead of scanning every document per query. |
-| **Posting list** | The list of document IDs (and often positions/frequencies) associated with a given term in an inverted index. |
+| **Search Indexing** | Precomputing a structure that answers queries by term, instead of scanning every document per query |
+| **Inverted index** | The mapping from each term to the documents containing it |
+| **Posting list** | The document IDs recorded against one term in an inverted index, often with positions and frequencies |
+| **Crawl frontier** | The queue of URLs a crawler has yet to fetch, with its prioritization and deduplication rules |
+| **Politeness policy** | A per-domain rate limit that keeps a crawler from overwhelming any one site |
+| **Bloom filter** | A compact probabilistic membership test that can report a false positive but never a false negative |
 
----
+## Asynchronous Processing
 
-## Counters & Async Processing
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Write amplification via row-lock contention** | The problem of many concurrent `UPDATE count = count + 1` operations on the same row serializing and slowing down under high concurrency (e.g., a viral post's like count). |
-| **Async event pipeline** | Decoupling non-critical-path work (analytics, counters, search indexing, notifications) from the main request path by publishing events to a queue (e.g., Kafka) and processing them with separate consumers. |
-| **Stream aggregation** | Consuming a high-volume event stream and computing rolling aggregates (e.g., view counts per minute) rather than updating a single row per event. |
-| **Dead-letter queue (DLQ)** | A holding queue for messages/jobs that have repeatedly failed processing, so they can be inspected or cleaned up rather than retried forever. |
+| **Asynchronous Processing** | Moving work off the request path so a caller is not made to wait for it |
+| **Async event pipeline** | Publishing events to a queue and handling them in separate consumers, keeping analytics, counters, and indexing off the hot path |
+| **Stream aggregation** | Computing rolling aggregates from an event stream rather than updating one row per event |
+| **Write amplification via row-lock contention** | Concurrent increments to a single row serializing behind its lock, so throughput falls as traffic on that row rises |
+| **Dead-letter queue (DLQ)** | A holding queue for messages that have failed processing repeatedly, so they can be inspected instead of retried forever |
 
----
+## Conflict Resolution
 
-## Conflict Resolution (Collaborative Systems)
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Operational Transformation (OT)** | A technique for real-time collaborative editing where concurrent operations (inserts/deletes) are mathematically transformed against each other so they can be applied in any order and still converge to the same document state. Used by Google Docs. |
-| **CRDT (Conflict-free Replicated Data Type)** | A data structure designed so that concurrent updates from different replicas always merge deterministically without explicit conflict resolution logic (e.g., each character has a globally unique, ordered ID). Used in systems like Figma. |
-| **Tombstone** | A marker left in place of deleted data (common in CRDTs) so that deletion can be correctly merged/ordered against concurrent operations from other replicas, at the cost of extra storage overhead. |
-| **Document session server / per-document leader** | Pinning all edits for a single active document to one server instance, since conflict resolution logic requires a single point through which all concurrent edits pass — the opposite sharding instinct from hashing by user ID. |
+| **Conflict Resolution** | Reconciling concurrent edits to the same data into one agreed result |
+| **Operational transformation (OT)** | Transforming concurrent operations against each other so they apply in any order and converge; the approach Google Docs uses |
+| **CRDT (conflict-free replicated data type)** | A data type whose concurrent updates merge deterministically without resolution logic, typically by giving every element a unique ordered ID |
+| **Tombstone** | A marker left where data was deleted, so the deletion can be ordered against concurrent operations, at the cost of storage |
+| **Per-document leader** | Pinning every edit for one active document to a single server, because merge logic needs one point all edits pass through |
 
----
+## Time-Series Data
 
-## Time-Series & Monitoring
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Time-series database** | A database optimized for data naturally partitioned by time, enabling efficient writes to "current" time buckets and simplified compaction/archival of old data. |
-| **Downsampling / rollups** | Aggregating high-granularity historical data into coarser granularity over time (e.g., 10-sec → 1-min → 1-hour → 1-day) to control storage costs, since old data rarely needs full precision. |
-| **Retention window** | The period after which raw, high-granularity data is deleted or archived, keeping only downsampled/rolled-up versions. |
-| **Batched ingestion** | Client-side batching of multiple data points into a single network call before sending to the server, reducing per-point overhead at high write volume. |
+| **Time-Series Data** | Measurements stamped with a time, written in time order and queried by range |
+| **Time-series database** | A store partitioned by time, so writes land in the current bucket and old buckets compact or archive whole |
+| **Downsampling** | Replacing fine-grained history with coarser aggregates as it ages, since old data rarely needs full resolution |
+| **Retention window** | The age at which raw points are deleted or archived, leaving only downsampled versions |
+| **Batched ingestion** | Grouping many points into one request before sending, cutting per-point overhead at high write volume |
 
----
+## Design Practice
 
-## Cross-Cutting Meta-Concepts
-
-| Term | Definition |
+| Concept | Definition |
 |---|---|
-| **Requirements scoping (functional / non-functional / out-of-scope)** | The opening phase of any system design answer: explicitly stating what the system must do, its quality attributes (latency, availability, consistency), and what's deliberately excluded from discussion. |
-| **Deep dive** | A focused, detailed exploration of one specific hard sub-problem within a larger design (as opposed to giving equal shallow coverage to every component) — a key differentiator of strong answers. |
-| **Tradeoff articulation** | Explicitly naming the pros/cons of a design choice and why it was selected over alternatives, rather than presenting only one option as if it were the only possibility. |
-| **Failure mode** | A specific way a system component can break or degrade under stress (e.g., cache stampede, reconnection storm, shard hotspot) — naming these unprompted is expected at senior/staff level. |
-| **Cost as a design constraint** | Treating infrastructure cost (storage, CDN egress, compute) as a first-class factor in design decisions, not just an afterthought — especially relevant in storage-heavy systems like video platforms. |
-
-
-## Cross-System Patterns Worth Recognizing
-
-These recur across multiple problems above — naming the pattern by name (and why it does/doesn't apply) is a strong senior/staff signal:
-
-- **Fan-out on write vs. read** (blog feed, messaging channels): push is fast to read but breaks on high-fan-out ("celebrity problem"); pull avoids that but costs read latency. Hybrid with a threshold is usually the right answer.
-- **Two-stage narrow-then-rank** (TikTok feed, search query serving): never run an expensive operation over the full corpus — cheaply filter to a candidate set first, then rank precisely.
-- **Async event pipeline for anything non-critical-path** (analytics, counters, search indexing, moderation): keep the hot path (redirect, read, ingest) free of slow/best-effort work; decouple via Kafka + consumers.
-- **Sharding should follow the dominant query pattern, not be applied uniformly**: hash by short_code (URL shortener), hash by follower_id (feeds), geography (ride-hailing), per-document leader (collab editing). Always ask "what's the most common lookup, and does my shard key let that lookup hit one shard?"
-- **Distributed ID/coordination problems** (Snowflake IDs, worker assignment, rate limiter counters) generally resolve to: use an atomic operation (Lua script, CAS) or a coordination service (etcd/ZooKeeper) rather than hoping for the best across independent processes.
-- **Consistency requirements are not uniform across a system**: read-your-writes for the author's own content; eventual consistency for likes/views/counters; strong consistency for payments/inventory. Explicitly identifying *which* pieces of a system need which consistency model — rather than picking one model for everything — is the meta-skill tested across all of these.
-- **Cost as a constraint, not an afterthought**: storage/CDN egress dominates cost in content-heavy systems (video, blog images) — worth naming tiered storage, downsampling, and retention policies unprompted.
+| **Design Practice** | The habits that apply to any system design, independent of the system being designed |
+| **Requirements scoping** | Stating what the system must do, which quality attributes bound it, and what is deliberately excluded, before any design follows |
+| **Deep dive** | Detailed treatment of one hard sub-problem, rather than equal shallow coverage of every component |
+| **Trade-off articulation** | Naming what a choice costs and what was rejected, instead of presenting one option as the only one |
+| **Failure mode** | A specific way a component breaks or degrades under stress, such as a stampede, a storm, or a hotspot |
+| **Cost as a design constraint** | Treating storage, egress, and compute spend as a factor in the design itself rather than a later concern |

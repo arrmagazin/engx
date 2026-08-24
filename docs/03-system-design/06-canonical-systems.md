@@ -402,3 +402,15 @@ The one place where "eventual consistency, last-write-wins" actually breaks the 
 - **Downsampling/rollups**: raw 10-sec granularity isn't needed/affordable forever — background jobs aggregate old data into coarser granularity (1-min → 1-hour → 1-day), archiving/deleting raw data after a retention window. Frame explicitly: recent data is precise and expensive, old data is coarse and cheap — dashboards/alerting UX must be designed around this (can't zoom into 10-sec granularity on 8-month-old data).
 - **Write path optimized for append-only, batched ingestion** — client-side batching before sending, bulk server writes rather than per-metric inserts.
 - **Alerting** runs as a separate consumer on the same ingest stream in near-real-time (can't wait for rollups) — evaluates threshold rules per incoming point/window, fires alerts async, decoupled from the storage write path so a slow rule never blocks ingestion.
+
+## Cross-System Patterns
+
+These recur across the systems above, wearing a different name in each.
+
+- **Fan-out on write against fan-out on read** (blog feed, messaging channels) — pushing is fast to read but breaks on high fan-out; pulling avoids that at the cost of read latency, and a threshold between the two is usually the workable answer.
+- **Narrow, then rank** (short-video feed, query serving) — never run an expensive operation over the whole corpus; filter cheaply to a candidate set, then rank precisely.
+- **An async pipeline for anything off the critical path** (analytics, counters, indexing, moderation) — keep the hot path free of slow or best-effort work by publishing events and handling them in separate consumers.
+- **Shard along the dominant query, not uniformly** — hash by short code, hash by follower ID, partition by region, pin by document. The question is which lookup is most common, and whether the shard key lets it reach a single shard.
+- **Coordination problems resolve to an atomic operation or a coordination service** (Snowflake IDs, worker assignment, rate-limiter counters) — a Lua script or compare-and-swap where one indivisible operation suffices, etcd or ZooKeeper where it does not.
+- **Consistency requirements differ within one system** — read-your-writes for an author's own content, eventual consistency for likes and view counts, strong consistency for payments and inventory. Picking one model for the whole system is the mistake.
+- **Cost is a constraint, not an afterthought** — storage and CDN egress dominate spend in content-heavy systems, which makes tiered storage, downsampling, and retention policies design decisions rather than operational ones.
