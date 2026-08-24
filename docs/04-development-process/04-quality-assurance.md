@@ -1,17 +1,15 @@
 ---
 type: Guide
 title: Quality Assurance
-description: Covers the testing pyramid, F.I.R.S.T. principles, TDD and BDD, and best practices for frontend test suites.
-tags: [testing, frontend, qa]
+description: Covers QA process and vocabulary, test case and defect management, non-functional testing, metrics, automation, TDD, BDD, and unit testing.
+tags: [testing, qa, tdd]
 ---
 
-# Quality Assurance 
+# Quality Assurance
 
-![Frontend Testing](/images/08-testing.svg)
+![Quality Assurance](/images/08-testing.svg)
 
-**Quality Assurance**is a full process (mostly run by test engineers) that gives confidence a product meets client/user expectations; 
-
-it costs time/money/resources, so its value must be actively communicated to stakeholders.
+Quality assurance is the process, mostly run by test engineers, that gives confidence a product meets what clients and users expect. It costs time, money, and people, so its value has to be argued to stakeholders rather than assumed. This guide covers how QA is organized — test cases, defects, non-functional requirements, metrics, and automation — and the testing practices that carry it out.
 
 ## QA Overview
 
@@ -32,33 +30,23 @@ it costs time/money/resources, so its value must be actively communicated to sta
 
 ### Testing Pyramid
 
-Layers (bottom→top): Unit → Integration → UI/E2E tests. Width = test count, height = scope/complexity/instability.
+Layers (bottom→top): Unit → Integration → UI/E2E tests. Width = test count, height = scope, complexity, and instability. The pyramid prescribes a shape, not a ratio: many fast unit tests, fewer integration tests, and a thin layer of end-to-end tests. The proportion that fits a given system is a team decision, not a constant.
 
 - Unit tests: narrowest scope, cheapest, fastest, most numerous.
 - Integration tests: verify interaction between components/systems (with or without network).
 - UI/E2E tests: broadest scope, slowest, most expensive, most fragile.
 
 
-| Level | Share | Speed | Isolation | Purpose |
-| --- | --- | --- | --- | --- |
-| Unit Tests | 70% | Milliseconds | Full | Component/function logic |
-| Integration Tests | 20% | Seconds | Partial | Component interactions |
-| E2E Tests | 10% | Minutes | None | User journeys |
-
-```mermaid
-graph TD
-    E["E2E Tests — 10%"]
-    I["Integration Tests — 20%"]
-    U["Unit Tests — 70%"]
-    E --> I --> U
-    U -.->|"fast, isolated"| U
-    E -.->|"slow, broad"| E
-```
+| Level | Speed | Isolation | Purpose |
+| --- | --- | --- | --- |
+| **Unit Tests** | Milliseconds | Full | Component/function logic |
+| **Integration Tests** | Seconds | Partial | Component interactions |
+| **E2E Tests** | Minutes | None | User journeys |
 
 - Principle: verify everything at the lowest level possible; push tests down the pyramid.
 - Practical rules: keep short feedback cycles; run the unit test suite on every code addition (fail fast, cheap fixes).
 
-### Unit vs. Integration tests
+### Unit vs. Integration Tests
 
 - Unit: isolated, no external dependencies (mocked/stubbed), fast/cheap, pinpoints exact faulty code.
 - Integration: involves real external dependencies (DB, network, hardware), slower/costlier, only narrows fault to a module/component.
@@ -92,7 +80,7 @@ graph TD
 
 **Production bugs workflow:** stay calm → reproduce → gather info → find cause → set a resolution timeframe → verify fix → analyze root cause (weighted more heavily than internal defects) → prevent recurrence.
 
-**Metrics:** defect containment (target ≥95%), defect rejection ratio, created-vs-resolved trend, quality debt (deferred-fix backlog risk).
+**Metrics:** defect containment (share of defects caught before release), defect rejection ratio, created-vs-resolved trend, quality debt (deferred-fix backlog risk).
 
 **Best practices:** one specialized defect tool (Jira/Bugzilla/Azure DevOps/Rally); link defects to user stories; standard severity/priority definitions and workflow; resolve high/critical defects within the iteration; regular triage meetings; separate defects from change requests; consistent defect submission template; recurring root cause analysis and metrics reporting.
 
@@ -100,7 +88,7 @@ graph TD
 
 - Functional = what the system does (mandatory); Non-functional = how well it does it (performance, usability, scalability, etc. — often negotiable against time/cost).
 - Non-functional testing process (5 steps): Planning → Preparation → Test Execution → Record → Analysis & Improvement — vs. 4 steps for functional testing; results need interpretation rather than a simple pass/fail.
-- Categories to evaluate with stakeholders: compatibility, performance, capacity, security, reliability/availability, scalability, maintainability, usability, accessibility (150+ possible types exist — pick what's relevant).
+- Categories to evaluate with stakeholders: compatibility, performance, capacity, security, reliability/availability, scalability, maintainability, usability, accessibility.
 - Performance testing sub-types: load, endurance, volume, scalability, spike, stress testing.
 - Should be integrated continuously into the SDLC (shift toward automation) rather than left to the end — most non-functional testing (except usability/accessibility) needs automation tools (e.g., JMeter, LoadRunner).
 
@@ -110,7 +98,7 @@ graph TD
 
 - Result metrics = absolute counts (test cases passed/failed/blocked, defects found/accepted/rejected, planned vs. actual hours, post-release bugs).
 - Predictive metrics = derived ratios that flag risk early (e.g., defect containment efficiency, defect leakage, defect reopen ratio, rejection rate, test design efficiency).
-- QA Metrics Life Cycle: Analyze (pick metrics that answer real questions) → Communicate (align data requirements with the team) → Evaluate (collect/automate data) → Report & Analyze (share findings against targets, e.g. defect containment >95%, test coverage 100%, invalid/reopen ratio <10%).
+- QA Metrics Life Cycle: Analyze (pick metrics that answer real questions) → Communicate (align data requirements with the team) → Evaluate (collect/automate data) → Report & Analyze (share findings against the targets the team agreed, and drop targets that no longer change a decision).
 - PDCA cycle (Plan–Do–Check–Act) used to turn metrics into continuous process improvement.
 
 **Best practices:** measure metrics on a defined, automated schedule; always turn results into concrete improvement actions.
@@ -125,21 +113,16 @@ graph TD
 
 **Test pipeline (shift left):** Local dev → Commit → Automated Testing → Manual Testing → UAT → Production. Cost of missed defects and verification cost both rise later in the pipeline while remaining defect count should fall — so catching issues as early as possible (shift left) is far cheaper.
 
-**Testing Pyramid (balanced suite):** Unit → Integration → API → UI tests (bottom layers = fast/cheap/run often; top layers = slow/costly/narrower use), topped by manual exploratory testing. Overusing UI-level automation makes suites slow and fragile.
+**Suite balance:** the Testing Pyramid above applies to the automated suite, topped by a thin layer of manual exploratory testing. Overusing UI-level automation makes suites slow and fragile.
 
 **Test data management:** either generate data per test, maintain a dedicated backed-up test database, or use ingestion/preparation scripts — and ensure data is reloadable/cleaned up to avoid database bloat and slow runs.
 
-**Automated testing metrics:** PBCNT (% of production bugs that spawn new automated tests), PDWT (% of developers writing tests), code coverage (a presence indicator, not a quality guarantee), test coverage (automated vs. total manual test cases), and flaky-test count (target: zero).
+**Automated testing metrics:** share of production bugs that gain a new automated test, share of developers writing tests, code coverage (a presence indicator, not a quality guarantee), test coverage (automated vs. total manual test cases), and flaky-test count (target: zero).
 
 **Reporting:** results should be consolidated (by build/version), transparent (readable by non-engineers), and available to all — typically via a dashboard (version, changelog, results, drill-down links).
 
 **Best practices:** make automation core to the test strategy; automate in-sprint regression; hold automated code to the same standards as production code; run full suites at least weekly and regression suites daily; gate CI/CD with automated smoke tests; use production-like test data; apply and regularly revisit the Testing Pyramid.
 
-## Cross-Cutting Patterns Across the Module
-- Every QA discipline follows the same rhythm: define/plan → execute → capture data/metrics → review → improve (STLC, Defect Life Cycle, Non-Functional testing steps, QA Metrics Life Cycle, PDCA all mirror this pattern).
-- Documentation (test plan/strategy, test reports, defect reports, dashboards) is treated as a first-class deliverable throughout — not an afterthought.
-- Shift-left and automation-first thinking recur in test case management (reusability), defect management (early discovery), non-functional testing (continuous integration), and automated testing (the pipeline itself).
-- Nearly every lesson closes with an Evolving Engineering Excellence best-practices checklist
 ## Testing Principles (F.I.R.S.T.)
 
 | Principle | Description |
@@ -234,58 +217,40 @@ Scenario: Failed login
 
 ## Unit Testing
 
-### Core definition
+### Core Definition
 - A unit test is code that asserts one or more conditions to verify another piece of code behaves as expected, in isolation, without running the full application.
-- Without unit tests: no rapid feedback loop, regression bugs leak to QA or end users.
 
-### Why it matters (maintainability)
+### Why It Matters
 - Maintainability = ability to change, understand, and test code easily; unit tests directly support all three.
 - Early in a project, coding without tests is faster; as the codebase grows, cost of change without tests rises and eventually exceeds the cost of maintaining tests — the two effort curves cross, after which tests pay off.
-
-### Benefits
 - More confidence changing code: tests act as a "contract" of existing behavior, letting you safely rework/refactor structure.
 - Better understanding of component functionality: tests document edge cases/branches the human brain can't hold in memory.
 - Better design: writing testable code forces lower coupling, cleaner interfaces.
 
-### Cost of neglecting tests
-- Empirical claim: "77% of the failures can be reproduced by a unit test" (OSDI '14 study) — most production failures are catchable at unit level.
+### Cost of Neglecting Tests
+- Yuan et al. (OSDI '14) sampled 198 user-reported failures across five distributed data-intensive systems and found 77% of them reproducible by a unit test. That is a finding about that class of system, not about production failures in general, but it sets a high bar for what unit tests can catch.
 - "Legacy code is code without tests" (Feathers) — skipping tests turns fresh code into unmaintainable legacy code quickly.
 - Exceptions where unit tests may be skippable: throwaway POCs/demos, projects under ~3 months.
 
-### Other quality attributes
+### Other Quality Attributes
 - Maintainable — test code held to same quality bar as production code; messy tests become a liability.
 - Isolated — no dependency on DB/filesystem/network/env config; external dependencies cause false failures unrelated to the code under test.
 - Properly Targeted — focus on the core domain logic, not trivial/incidental code.
 
-### Code coverage metric
-- Coverage = (lines executed during tests) / (total lines).
+### Code Coverage Metric
+- Line coverage = lines executed during tests / total lines. Branch coverage counts decision outcomes rather than lines and is the stricter variant, worth tracking wherever the logic branches.
 - Useful for: tracking macro trend, spotting untested areas.
-- Limitation: measures execution, not verification — a suite with 99% coverage and zero assertions proves nothing. 100% coverage ≠ quality guarantee.
+- Limitation: measures execution, not verification — a suite with 99% coverage and zero assertions proves nothing. 100% coverage is not a quality guarantee.
 
-### Common myths, rebutted
+### Common Myths, Rebutted
 - "Can't unit test legacy code" — false; legacy code can be incrementally refactored into testable code.
-- "Unit testing is expensive" — empirical counter: ~62–91% fewer defects for ~15–35% more dev time (Microsoft study).
+- "Unit testing is expensive" — Nagappan, Maximilien, Bhat and Williams (2008) tracked four teams at Microsoft and IBM that adopted TDD and reported 40–90% lower defect density for 15–35% longer initial development time.
 - "Production urgency excludes testing" — under urgent/no-regression-time conditions, unit tests are often the only feasible safety net.
 - "Testing can be done separately from implementation" — like input validation, bolting it on later requires reworking already-shipped code (tech debt).
 - "Production code matters more than test code" — test code quality directly gates production code maintainability; treat both equally.
 
-### Best practices
+### Best Practices
 - Write unit tests as part of the same task/story as the production code, not as a separate phase.
 - Enforce F.I.R.S.T. principles.
 - Wire test execution into CI; fail the build on test failure.
 - Track code coverage in CI to flag under-tested areas (not as a quality proof).
-
-### Scenario reinforcement (TravelerWorks case)
-- Untested code causes cascading regressions: fixing one bug re-breaks a previously "working" unrelated feature — classic symptom of missing isolation/coverage.
-- Stakeholder objection ("tests waste dev time") is addressed by reframing: cost shifts from maintenance-phase firefighting to development-phase investment; net time balances out over the release cycle.
-- Under production-urgency pressure, the tension between "ship now" vs. "write tests" is resolved by still writing tests around the fix — not skipping them for speed.
-- Overly complex/mocked tests that fail for unclear reasons signal an Isolated/FIRST violation — fix by isolating a single assertion, splitting given-when-then, and removing unnecessary mocking.
-- Tests hitting a real local DB but failing in CI signal missing isolation — external-dependency tests need a dedicated test DB, data cleanup after each run, and independence between tests to avoid slow/flaky suites.
-- Team's final robust-test checklist: whole suite runs in seconds, zero external dependencies, F.I.R.S.T.-compliant, same quality bar as production code, present on every mid/long-term project, built into the implementation task (not estimated separately), and run continuously in CI.
-
-## References
-
-1. [Jest Documentation](https://jestjs.io/)
-2. [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-3. [Cypress Documentation](https://docs.cypress.io/)
-4. [Playwright Documentation](https://playwright.dev/)
