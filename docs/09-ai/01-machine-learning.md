@@ -12,7 +12,7 @@ as explicit rules: a model's parameters are fitted to examples until it approxim
 
 It is the layer below deep learning in the stack described in
 [Artificial Intelligence](22-ai-overview.md); the self-supervised paradigm below is the objective that
-[Large Language Models](22-llm.md) are trained on.
+[Large Language Models](02-llm.md) are trained on.
 
 ## Paradigms
 
