@@ -37,7 +37,7 @@ Eleven system design problems worked end to end, each filed under the bottleneck
 - Assume a *popular, successful* service — not the biggest site on the internet.
 - **~1,000 writes/sec**, which is ~86M new URLs/day — already a large service.
 - **~10,000-100,000 reads/sec**, taking redirects at 10-100x creates.
-- Per-record size: short_code + long_url (use a realistic average, ~50-100 bytes, not the 1024-byte max) + user_id + timestamps ≈ ~200-300 bytes realistic, or ~1.1KB if using max-length assumptions.
+- Per-record size: short_code + long_url (use a realistic average, ~50-100 bytes, not the 1,024-byte column width you would pick for the schema) + user_id + timestamps ≈ ~200-300 bytes realistic, or ~1.1KB if you size every row to that column width instead.
 - Over 3 years at 1,000 writes/sec ≈ 94.6B records → tens to ~100TB raw (×3 for replication).
 - **Conclusion: needs sharding.**
 
@@ -172,7 +172,7 @@ Watch: Client → CDN (video segments, cache-fill on miss)
 - **Two-stage architecture**:
   1. **Candidate generation**: cheaply narrow billions of videos to hundreds/thousands of plausible candidates (collaborative filtering, embedding-similarity, recent-popular-in-category). Fast and approximate.
   2. **Ranking**: heavier ML model scores only the pre-filtered candidates precisely. Never rank the entire corpus per request.
-- **Prefetching, not on-scroll computation**: client requests a batch (10-20 videos) ahead of time and prefetches actual video data — the single most important decision for instant first-frame playback.
+- **Prefetching, not on-scroll computation**: the client requests a batch (10-20 videos) ahead of time and prefetches the actual video data, so the first segment of the next video is already on the device when the user swipes. First-frame latency depends on this more than on anything shaved off ranking, because prefetching removes a network round trip from the critical path entirely rather than making it faster.
 - **Freshness vs. cost**: fully real-time ranking per-scroll is expensive; compute candidate pool/ranking periodically or per-session, blend in real-time signals cheaply. Explicit tradeoff of personalization freshness vs. cost.
 
 ### Deep Dive: Video Delivery (CDN)
@@ -303,6 +303,7 @@ A smaller problem than the others, and the one where concurrency correctness rat
 - Build a searchable index; serve ranked results in <200ms.
 
 ### New Bottleneck: Massive Parallel Crawling + Freshness/Completeness Tradeoff
+Fetching pages is embarrassingly parallel; the coordination around it is not. Thousands of workers share one logical view of what has already been seen, so the system needs cheap membership testing over billions of URLs rather than a lookup per fetch. They also share the outside world: a single domain can be linked heavily enough to absorb the whole fleet, so parallelism has to be capped per host even while it stays high in aggregate. And the fetch budget is finite, which forces a standing choice between discovering pages never seen before and re-checking pages that may have changed since the last crawl — completeness against freshness, with no setting that maximizes both. Dedupe, politeness, and priority below are each an answer to one of those three constraints.
 
 ### Crawler Architecture
 - **Frontier (URL queue)**: seed → fetch → extract links → dedupe (Bloom filter — false positives ok, false negatives not, memory-efficient at billions of URLs) → new URLs back to frontier.
@@ -350,6 +351,7 @@ Every prior system could accept eventual consistency, aggressive caching, and ap
 - User preferences (channel choice, opt-outs, quiet hours); avoid spamming via batching/digesting.
 
 ### New Bottleneck: Reliable Multi-Channel Fan-Out With Dedup, Not Raw Scale
+Volume is not the pressure here — a notification system rarely approaches the write rates of the platforms above. The difficulty is that every send leaves through a third party (APNs/FCM, Twilio, SendGrid) with its own latency, failure modes, and retry semantics, so the delivery guarantee is only as good as the weakest provider and cannot be fixed by adding capacity. Meanwhile the triggering events arrive at-least-once from an upstream queue, which means the same notification will be produced more than once as a matter of course. Deduplication, per-user preferences, and batching therefore sit on the critical path rather than being polish: without them a single replayed event or one chatty producer becomes duplicate pushes at 3am, and the user's response is to disable notifications permanently. Correct, restrained delivery sets this design, not throughput.
 
 ### Architecture — Notification System
 ```
