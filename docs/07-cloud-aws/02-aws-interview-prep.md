@@ -119,20 +119,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 
 ## Behavioral Stories (STAR)
 
-Interviewers for this role mix conceptual questions with "tell me about a time you...". Prepare 2–3 stories per competency area. Reuse the same project across areas — one substantial migration can supply four different stories depending on which angle you emphasize.
-
-### The Format
-
-| Part | What Goes Here | Time |
-|---|---|---|
-| **Situation** | Context, scale, and constraints, with numbers | ~15s |
-| **Task** | What *you* specifically owned | ~10s |
-| **Action** | Decisions and trade-offs, not a task list; the bulk of the answer | ~60s |
-| **Result** | Measured outcome, plus what you would do differently | ~20s |
-
-Two rules that separate a strong story from a weak one:
-- **"We" is a red flag.** Say "I" for your decisions, "we" only for team context.
-- **Quantify the Result.** "Deploys went from 4 hours to 12 minutes" beats "deploys got much faster."
+The STAR format itself, the two rules that separate a strong story from a weak one, and the stories every loop asks for whatever the cloud are in [Interview Technique](../11-interview/01-technique.md). What follows is the AWS-specific half.
 
 ### Worked Example — Area 3 (Automation)
 
@@ -170,11 +157,9 @@ The figures here are placeholders too. Substitute your own spend, savings, and t
 | **4. Immutable and cloud-native** | "Tell me about a deployment that went wrong" | A rollback, blue/green, or containerization effort |
 | **5. Performance, cost, and security** | "How have you handled a security or cost problem?" | Cost reduction, incident response, or key elimination |
 
-Also prepare the two that come up regardless of role: **a failure you caused** (own it, show the systemic fix — not "I worked too hard") and **a disagreement with a colleague** (show you changed your mind on evidence, or escalated cleanly).
-
 ## Diagrams You Should Be Able to Sketch
 
-Expect "can you draw how that would look?" on a whiteboard or shared doc. Practice these until you can draw each in ~3 minutes while talking. **Narrate the order you draw in** — it demonstrates how you decompose a problem.
+Rehearsal and narration technique are in [Interview Technique](../11-interview/01-technique.md); these are the AWS diagrams worth being able to draw cold.
 
 ### Multi-Account Landing Zone + Transit Gateway Hub-Spoke
 
@@ -289,11 +274,7 @@ Points to make while drawing:
 
 ## Trade-Offs — The "It Depends on X" Answers
 
-Trade-off questions carry more weight than definition questions. The pattern that works:
-
-> **"It depends on three things: [A], [B], [C]. If [A], I'd pick X — because [reason]. Where I'd flip to Y is [specific condition]."**
-
-Never answer "which is better?" without naming the deciding variable. Also be willing to say "we chose X and it was the wrong call, here's what we learned."
+[Interview Technique](../11-interview/01-technique.md) covers the answer pattern and the phrasing that carries it. The pairs below are the AWS ones to have rehearsed.
 
 ### CloudFormation/CDK vs. Terraform
 
@@ -358,18 +339,10 @@ Never answer "which is better?" without naming the deciding variable. Also be wi
 | **DynamoDB vs. RDS** | Do you know your access patterns up front and need single-digit-ms reads at any scale? → DynamoDB |
 | **Control Tower vs. roll-your-own org** | Speed and guardrails out of the box vs. full control; Control Tower is opinionated and hard to un-adopt |
 
-### Three Phrases That Read as Senior
-
-- *"I'd want to know X before answering"* — then answer both branches. Better than guessing.
-- *"We chose X and it was wrong, because we underestimated Y."* — one of these, ready to go.
-- *"The technical answer is X, but the organizational answer is Y."* — shows you've operated the thing, not just built it.
-
 ## Final Prep Checklist
 
-- [ ] 10 STAR stories written out — 2 per competency area, with numbers in the Result
-- [ ] Failure story and disagreement story prepared
-- [ ] Can sketch the multi-account landing zone and the IaC CI/CD pipeline in 3 minutes each, talking while drawing
-- [ ] Can give the three trade-off answers above without notes
+The items that hold whatever the cloud are in [Interview Technique](../11-interview/01-technique.md). The AWS-specific ones:
+
 - [ ] Can explain IAM policy evaluation (explicit deny → SCP → allow → implicit deny) cleanly
 - [ ] Know your own worst AWS bill line item story and what you did about it
-- [ ] 3–4 questions ready for them (their IaC tool and why; who owns EKS/cluster upgrades; how they handle prod access; how many accounts and why; what broke most recently)
+- [ ] Have the AWS-specific questions ready for them: how many accounts and why, and who owns EKS cluster upgrades

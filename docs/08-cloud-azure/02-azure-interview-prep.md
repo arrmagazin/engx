@@ -126,20 +126,7 @@ Be ready to discuss:
 
 ## Behavioral Stories (STAR)
 
-Interviewers for this role mix conceptual questions with "tell me about a time you...". Prepare 2–3 stories per competency area. Reuse the same project across areas — one substantial migration can supply four different stories depending on which angle you emphasize.
-
-### The Format
-
-| Part | What Goes Here | Time |
-|---|---|---|
-| **Situation** | Context, scale, and constraints, with the numbers | ~15s |
-| **Task** | What *you* specifically owned | ~10s |
-| **Action** | Decisions and trade-offs rather than a task list, and the bulk of the answer | ~60s |
-| **Result** | Measured outcome plus what you would do differently | ~20s |
-
-Two rules that separate a strong story from a weak one:
-- **"We" is a red flag.** Say "I" for your decisions, "we" only for team context.
-- **Quantify the Result.** "Deploys went from 4 hours to 12 minutes" beats "deploys got much faster."
+Story structure, the two rules for telling one, and the two stories asked in every loop whatever the cloud are in [Interview Technique](../11-interview/01-technique.md). Everything below is particular to Azure.
 
 ### Worked Example — Area 3 (Automation)
 
@@ -177,11 +164,9 @@ The figures here are placeholders too: replace the growth rate, the split, and t
 | **4. Immutable/cloud-native** | "Tell me about a deployment that went wrong" | A rollback, blue/green, or containerization effort |
 | **5. Perf/cost/security** | "How have you handled a security or cost problem?" | Cost reduction, incident response, or secret elimination |
 
-Also prepare the two that always come up regardless of role: **a failure you caused** (own it, show the systemic fix — not "I worked too hard") and **a disagreement with a colleague** (show you changed your mind on evidence, or escalated cleanly).
-
 ## Diagrams You Should Be Able to Sketch
 
-Expect "can you draw how that would look?" on a whiteboard or shared doc. Practice these until you can draw each in ~3 minutes while talking. **Narrate the order you draw in** — it demonstrates how you decompose a problem.
+How to practice a sketch and narrate it while drawing is in [Interview Technique](../11-interview/01-technique.md). The diagrams themselves are Azure-specific.
 
 ### Landing Zone / Hub-Spoke
 
@@ -284,11 +269,7 @@ Points to make while drawing:
 
 ## Trade-Offs — The "It Depends on X" Answers
 
-Definitions get you a pass; trade-offs get you the offer. The pattern:
-
-> **"It depends on three things: [A], [B], [C]. If [A], I'd pick X — because [reason]. Where I'd flip to Y is [specific condition]."**
-
-Never answer "which is better?" without naming the deciding variable. Also be willing to say "we chose X and it was the wrong call, here's what we learned."
+The shape of a good trade-off answer, and the phrases that carry one, are in [Interview Technique](../11-interview/01-technique.md). These are the Azure pairs to have ready.
 
 ### Bicep vs. Terraform
 
@@ -350,16 +331,9 @@ Azure Machine Configuration is the successor to PowerShell DSC and Azure Automat
 | **Hub-spoke vs. Virtual WAN** | Number of regions and branch sites; vWAN is managed transit at the cost of control |
 | **Blue/green vs. canary** | Can you tolerate two full environments (cost), or do you need a metric-driven gradual rollout? |
 
-### Three Phrases That Read as Senior
-
-- *"I'd want to know X before answering"* — then answer both branches. Better than guessing.
-- *"We chose X and it was wrong, because we underestimated Y."* — one of these, ready to go.
-- *"The technical answer is X, but the organizational answer is Y."* — shows you've operated the thing, not just built it.
-
 ## Final Prep Checklist
 
-- [ ] 10 STAR stories written out — 2 per competency area, with numbers in the Result
-- [ ] Failure story and disagreement story prepared
-- [ ] Can sketch hub-spoke and IaC CI/CD in 3 minutes each, talking while drawing
-- [ ] Can give the three trade-off answers above without notes
-- [ ] 3–4 questions ready for them (their IaC tool and why; who owns cluster upgrades; how they handle prod access; what broke most recently)
+The cloud-independent items are in [Interview Technique](../11-interview/01-technique.md). The Azure-specific ones:
+
+- [ ] Can walk the management group → subscription → resource group → resource hierarchy out loud, naming what belongs at each level
+- [ ] Can explain Azure RBAC vs. Entra ID directory roles as two separate assignment systems
