@@ -1,30 +1,42 @@
 ---
 type: Guide
 title: Performance Optimization
-description: Covers performance budgets, Core Web Vitals, and rendering optimization techniques for the frontend.
+description: Covers Core Web Vitals, performance budgets, caching headers, bundling, and profiling for the frontend.
 tags: [frontend, performance, web-vitals]
 ---
 
 # Performance Optimization
 
-## Performance Budgets
+Frontend performance work splits into three places: the render path, the network, and the bundle. This guide covers what to measure in each, what to aim for, and the techniques that move the number; it is this book's home for Core Web Vitals, budgets, caching headers, bundling, and profiling. The DevTools panels that produce these measurements are covered in [Debugging With Chrome DevTools](../04-development-process/06-debugging.md).
 
-| Metric | Target |
-| --- | --- |
-| Total page weight | <500KB compressed |
-| HTTP requests | <50 |
-| JavaScript bundle | <200KB gzipped |
-| Time to Interactive | <3.5s |
-| First Contentful Paint | <1.8s |
-| Critical CSS | <14KB |
+## Core Web Vitals
 
-Core Web Vitals - Google's key metrics for user experience and search ranking.
+Google publishes each metric with two boundaries: at or below the good value, and above the poor value. The band between them is "needs improvement".
 
 | Metric | Measures | Good | Poor |
 | --- | --- | --- | --- |
-| **LCP** (Largest Contentful Paint) | Render time of largest visible element | ≤2.5s | >4s |
-| **INP** (Interaction to Next Paint) | Responsiveness to interactions | ≤200ms | >500ms |
-| **CLS** (Cumulative Layout Shift) | Visual stability during load | ≤0.1 | ≥0.25 |
+| **LCP** (Largest Contentful Paint) | Render time of the largest element visible in the viewport | ≤ 2.5 s | > 4.0 s |
+| **INP** (Interaction to Next Paint) | Delay between an interaction and the next frame drawn | ≤ 200 ms | > 500 ms |
+| **CLS** (Cumulative Layout Shift) | Visual stability — how much content moves on its own | ≤ 0.1 | > 0.25 |
+| **FCP** (First Contentful Paint) | Time until the first text or image is painted | ≤ 1.8 s | > 3.0 s |
+| **TTFB** (Time to First Byte) | Time until the first byte of the response arrives | ≤ 800 ms | > 1.8 s |
+
+LCP, INP, and CLS are the three Core Web Vitals. FCP and TTFB are diagnostics: they tell you whether a bad LCP started at the server or in the browser.
+
+- INP replaced FID (First Input Delay) as a Core Web Vital on 12 March 2024.
+- Time to Interactive was removed from Lighthouse in version 10 (February 2023). Do not budget against it. INP is the field measure of responsiveness, and Total Blocking Time is the lab stand-in.
+
+## Performance Budgets
+
+The thresholds above are published. The numbers below are not: no standard fixes them. They are common starting points, and their value comes from being chosen once and then enforced in [CI](../04-development-process/03-ci-cd.md) — a budget nobody fails is not a budget.
+
+| Budget | Starting Target | Basis |
+| --- | --- | --- |
+| **JavaScript, compressed** | 200 KB | Convention; JavaScript costs more than its transfer size, because it is also parsed and executed |
+| **Total page weight, compressed** | 500 KB | Convention |
+| **Critical CSS, inlined** | 14 KB | Roughly what TCP sends before waiting for the first acknowledgement — the initial congestion window is 10 segments (RFC 6928) |
+
+A request-count budget is no longer worth keeping. Under HTTP/2 one connection multiplexes many streams, bounded by `SETTINGS_MAX_CONCURRENT_STREAMS` (RFC 9113) rather than by the six-connections-per-host convention browsers apply to HTTP/1.1, so the number of requests stopped being a good proxy for latency. See [Client-Server Communication](03-client-server-communication.md) for the connection model.
 
 ---
 
@@ -32,9 +44,7 @@ Core Web Vitals - Google's key metrics for user experience and search ranking.
 
 ### Critical Rendering Path
 
-Browser steps: HTML parsing → DOM → CSSOM → Render tree → Layout → Paint → Composite.
-
-CSS is render-blocking; scripts block parsing unless `async`/`defer`.
+CSS blocks rendering: nothing paints until the CSSOM is built. Scripts block parsing unless marked `async` or `defer`. The [DOM and the browser APIs](04-browser-technologies.md) themselves are covered separately.
 
 ```mermaid
 flowchart LR
@@ -48,32 +58,34 @@ flowchart LR
     JS[JS] -.blocks parsing.-> HTML
 ```
 
-```javascript
-// Inline critical CSS for above-fold content
-const criticalCSS = `
-    .header { display: flex; background: #fff; }
-    .hero { min-height: 100vh; }
-`;
+Inline the CSS the first screen needs, and load the rest without blocking the render:
 
-// Defer non-critical CSS
+```html
+<!-- Critical CSS, inlined in <head> -->
+<style>
+  .header { display: flex; background: #fff; }
+  .hero { min-height: 100vh; }
+</style>
+
+<!-- Everything else: fetched at high priority, applied once it lands -->
 <link rel="preload" href="/styles/main.css" as="style"
-      onload="this.onload=null;this.rel='stylesheet'">
+      onload="this.onload=null; this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="/styles/main.css"></noscript>
 ```
 
 ### Layout Thrashing
 
-Occurs when the browser recalculates layout repeatedly because reads and writes interleave.
+The browser recalculates layout repeatedly because reads and writes interleave: every read after a write forces the pending layout to be flushed.
 
 ```javascript
-// Bad - read/write alternating causes repeated reflows
-elements.forEach(element => {
-    const height = element.offsetHeight;    // Read (triggers layout)
-    element.style.height = (height + 10) + 'px'; // Write
+// Bad - alternating read/write forces a reflow per iteration
+elements.forEach((element) => {
+    const height = element.offsetHeight;         // read, flushes layout
+    element.style.height = (height + 10) + 'px'; // write, invalidates it again
 });
 
-// Good - batch reads then batch writes
-const heights = Array.from(elements).map(el => el.offsetHeight);
+// Good - all reads, then all writes: one layout pass
+const heights = Array.from(elements, (el) => el.offsetHeight);
 elements.forEach((element, i) => {
     element.style.height = (heights[i] + 10) + 'px';
 });
@@ -81,57 +93,69 @@ elements.forEach((element, i) => {
 
 | Category | Layout-Triggering Properties |
 | --- | --- |
-| Dimensions | width, height, padding, margin, border |
-| Position | top, right, bottom, left |
-| Metrics | offsetWidth, offsetHeight, getBoundingClientRect |
+| **Dimensions** | `width`, `height`, `padding`, `margin`, `border` |
+| **Position** | `top`, `right`, `bottom`, `left` |
+| **Metrics read from JavaScript** | `offsetWidth`, `offsetHeight`, `getBoundingClientRect()` |
 
 ### Paint and Composite
 
-Only animate `transform` and `opacity` — they skip layout and paint, running on the GPU.
+Animate `transform` and `opacity` where you can: they skip layout and paint, and run on the compositor.
 
 ```css
-/* Good - GPU-accelerated */
-.animated { transform: translateX(100px); opacity: 0.5; }
+/* Cheap - compositor only */
+.slide-in { transform: translateX(100px); opacity: 0.5; }
 
-/* Bad - triggers layout */
-.animated { width: 200px; left: 100px; background-color: red; }
+/* Expensive - every frame re-runs layout and paint */
+.slide-in-slow { left: 100px; width: 200px; background-color: red; }
 
-/* Promote to own layer for complex animations */
-.hero { will-change: transform; }
+/* Promote a layer just before a complex animation, then drop the hint */
+.hero.is-animating { will-change: transform; }
 ```
+
+Leaving `will-change` on an element permanently keeps its layer alive and costs memory, so scope it to a class you add and remove.
 
 ---
 
 ## Network Optimization
 
+### Compression
+
+Serve text — HTML, CSS, JavaScript, SVG, JSON — with `Content-Encoding: br` or `gzip`, selected from the client's `Accept-Encoding`. Already-compressed binaries (WebP, AVIF, MP4, WOFF2) do not shrink further and should be excluded: the CPU cost buys nothing. This is server or CDN configuration, not application code.
+
 ### HTTP Caching
 
-| Resource Type | Cache Policy | Max Age |
+| Resource | Example `Cache-Control` | Reason |
 | --- | --- | --- |
-| HTML | No-cache (validate) | 0, must-revalidate |
-| CSS/JS (versioned) | Long-term | 1 year |
-| Images (versioned) | Long-term | 1 year |
-| API responses | Short | 60–300 seconds |
-| User-specific data | No cache | 0 |
+| **HTML** | `no-cache` | Stored, but revalidated every time, so a deploy is picked up at once |
+| **Versioned CSS, JS, images** | `public, max-age=31536000, immutable` | The filename changes when the bytes change, so the old URL never needs revalidating |
+| **API responses** | `max-age=60, stale-while-revalidate=300` | Short freshness, then a window where the stale copy is served while the refresh runs in the background |
+| **User-specific data** | `no-store` | Never written to any cache, shared or private |
 
-```http
-Cache-Control: max-age=3600, s-maxage=86400, stale-while-revalidate=60
-ETag: "abc123"
-Vary: Accept-Encoding
-```
+- `no-cache` does not mean "do not cache". It means "cache it, but revalidate before each use". `no-store` is the directive that forbids storage.
+- `s-maxage` overrides `max-age` for shared caches such as a CDN, and is ignored by the browser.
+- `Vary: Accept-Encoding` stops a shared cache from handing a Brotli body to a client that only asked for gzip. `ETag` supplies the validator that revalidation compares.
 
-**Service Worker stale-while-revalidate:**
+Header syntax and the rest of HTTP's semantics live in [Client-Server Communication](03-client-server-communication.md); caching as a system-design concept is in [System Design Concepts](../03-system-design/05-concepts.md).
+
+A [service worker](04-browser-technologies.md) can implement stale-while-revalidate for requests the HTTP cache does not cover:
 
 ```javascript
 self.addEventListener('fetch', (event) => {
+    if (event.request.method !== 'GET') return; // cache.put rejects on non-GET
+
     event.respondWith(
         caches.open(CACHE_NAME).then(async (cache) => {
             const cached = await cache.match(event.request);
-            const fetchPromise = fetch(event.request).then(response => {
+            const fresh = fetch(event.request).then((response) => {
                 cache.put(event.request, response.clone());
                 return response;
             });
-            return cached || fetchPromise;
+
+            if (cached) {
+                fresh.catch(() => {}); // a failed background refresh is not fatal
+                return cached;         // ...but an unhandled rejection is noisy
+            }
+            return fresh;
         })
     );
 });
@@ -140,58 +164,57 @@ self.addEventListener('fetch', (event) => {
 ### Resource Hints
 
 ```html
-<!-- Preload critical resources -->
+<!-- Preload resources this page needs but the parser finds late -->
 <link rel="preload" href="/scripts/main.js" as="script">
 <link rel="preload" href="/fonts/inter.woff2" as="font" crossorigin>
-
-<!-- DNS prefetch for third-party domains -->
+<!-- Preload the LCP image and raise its priority -->
+<link rel="preload" href="/hero.avif" as="image" fetchpriority="high">
+<!-- Resolve DNS early for a third-party domain -->
 <link rel="dns-prefetch" href="https://api.example.com">
-
-<!-- Preconnect to origins -->
+<!-- Full connection setup (DNS, TCP, TLS) for an origin used immediately -->
 <link rel="preconnect" href="https://cdn.example.com" crossorigin>
-
-<!-- Prefetch likely next pages -->
+<!-- Fetch a likely next page at low priority -->
 <link rel="prefetch" href="/dashboard" as="document">
 ```
+
+Preload what the current page needs; prefetch what the next one probably needs. Preloading something the page does not use costs bandwidth and pushes real work later.
 
 ### Script Loading
 
 ```html
-<!-- Default (blocks parsing) -->
+<!-- Default: blocks the parser while it downloads and runs -->
 <script src="main.js"></script>
-
-<!-- Async - downloads in parallel, executes immediately -->
+<!-- async: downloads in parallel, runs as soon as it arrives, order not guaranteed -->
 <script src="analytics.js" async></script>
-
-<!-- Defer - executes after HTML parsing -->
+<!-- defer: downloads in parallel, runs after parsing, in document order -->
 <script src="app.js" defer></script>
-
-<!-- Module (implicitly deferred) -->
+<!-- Modules are deferred by default -->
 <script type="module" src="module.js"></script>
 ```
+
+Use `async` for scripts nothing else depends on, and `defer` for application code that must run in order.
 
 ### Image Optimization
 
 | Format | Best For |
 | --- | --- |
-| WebP | General use (lossy/lossless) |
-| AVIF | Next-gen, better compression |
-| SVG | Icons and graphics |
+| **AVIF** | Photographs, where it usually compresses smallest |
+| **WebP** | Photographs, with broader support than AVIF |
+| **SVG** | Icons, logos, and line art, which stay sharp at any size |
 
 ```html
-<!-- Responsive with srcset -->
+<!-- Responsive: the browser picks a candidate using srcset and sizes.
+     width and height reserve the space, which is what prevents layout shift. -->
 <img
     src="image-800.jpg"
     srcset="image-400.jpg 400w, image-800.jpg 800w, image-1200.jpg 1200w"
     sizes="(max-width: 600px) 400px, (max-width: 1200px) 800px, 1200px"
+    width="800" height="600"
     alt="Description"
     loading="lazy"
 >
 
-<!-- Explicit dimensions prevent CLS -->
-<img src="image.jpg" width="800" height="600" alt="...">
-
-<!-- Format fallback -->
+<!-- Format fallback: the first source the browser understands wins -->
 <picture>
     <source srcset="image.avif" type="image/avif">
     <source srcset="image.webp" type="image/webp">
@@ -199,25 +222,29 @@ self.addEventListener('fetch', (event) => {
 </picture>
 ```
 
+Never put `loading="lazy"` on the LCP image. It delays the fetch until layout has run, which is exactly the element whose render time is being measured.
+
 ---
 
 ## JavaScript Performance
 
 ### Code Splitting
 
-```javascript
-// Static import (bundled upfront)
-import HeavyComponent from './HeavyComponent';
+A dynamic `import()` returns a promise and puts its target in a separate chunk, fetched the first time the code path runs.
 
-// Dynamic import (loaded on demand)
-const HeavyComponent = () => import('./HeavyComponent');
+```jsx
+import { lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-// React.lazy with Suspense
+// Static import: always in the initial bundle
+import Sidebar from './Sidebar';
+
+// Dynamic import: its own chunk, fetched on first render of the route
 const Dashboard = lazy(() => import('./Dashboard'));
 
 function App() {
     return (
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<p>Loading…</p>}>
             <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
@@ -226,15 +253,18 @@ function App() {
 }
 ```
 
+Route boundaries are the natural split point, because the user has already accepted a wait there.
+
 ### Memory Leaks
 
 ```javascript
-// Forgotten event listener
-class Component {
+// Forgotten event listener: the listener keeps the instance reachable
+class Widget {
     constructor() {
         this.handler = this.handleResize.bind(this);
         window.addEventListener('resize', this.handler);
     }
+    handleResize() { /* ... */ }
     destroy() {
         window.removeEventListener('resize', this.handler); // required cleanup
     }
@@ -242,24 +272,28 @@ class Component {
 
 // Closure retaining large data
 function createLeak() {
-    const largeData = new Array(1000000);
-    return () => console.log(largeData[0]); // holds reference
+    const largeData = new Array(1_000_000);
+    return () => console.log(largeData[0]); // holds the whole array
 }
 let fn = createLeak();
 fn();
-fn = null; // release
+fn = null; // last reference dropped; the array can now be collected
 ```
+
+`removeEventListener` needs the same function reference that was added, which is why the bound handler is stored on the instance rather than bound inline.
 
 ### Breaking Up Long Tasks
 
+A task that occupies the main thread for a long time blocks input handling, which is what INP measures. Split the work and yield between the pieces.
+
 ```javascript
-// Bad - blocks main thread
-function processLargeArray(data) {
+// Bad - one task, main thread blocked until it finishes
+function processAll(data) {
     for (const item of data) heavyProcessing(item);
 }
 
-// Good - chunked with setTimeout
-function processLargeArray(data) {
+// Good - fixed-size chunks, yielding to the event loop between them
+function processInChunks(data) {
     const CHUNK_SIZE = 100;
     let index = 0;
 
@@ -272,8 +306,9 @@ function processLargeArray(data) {
     setTimeout(processChunk, 0);
 }
 
-// Using requestIdleCallback
-function processWithIdleCallback(tasks) {
+// Work that can wait entirely: run it in idle time
+// requestIdleCallback is not implemented in every browser - feature-detect it
+function processWhenIdle(tasks) {
     let index = 0;
 
     function doWork(deadline) {
@@ -293,13 +328,15 @@ function processWithIdleCallback(tasks) {
 
 ### Tree Shaking
 
+Tree shaking drops exports nothing imports. It needs static `import`/`export` — a `require()` call or a re-export computed at runtime defeats it.
+
 ```javascript
 // webpack.config.js
 module.exports = {
+    // production mode already enables usedExports and sideEffects detection;
+    // setting optimization.sideEffects to false turns that detection off
     mode: 'production',
     optimization: {
-        usedExports: true,
-        sideEffects: false,
         splitChunks: {
             chunks: 'all',
             cacheGroups: {
@@ -308,10 +345,22 @@ module.exports = {
         }
     }
 };
-
-// package.json
-{ "sideEffects": false }
 ```
+
+The bigger win comes from the `sideEffects` flag, which lets the bundler skip a whole module instead of reasoning about individual statements:
+
+```json
+{
+  "name": "your-package",
+  "sideEffects": ["*.css"]
+}
+```
+
+`false` claims no module in the package does anything on import. That is a claim about your own code, and it is wrong the moment a file registers a polyfill or imports a stylesheet for effect — list those files instead, as above.
+
+### Minification
+
+Minifiers strip whitespace and comments and shorten local identifiers; they run automatically in a production build and need no configuration. Removing unused CSS is the manual one: the tool scans your templates for the selectors actually used, so class names assembled at runtime through string concatenation are invisible to it and get deleted. Either safelist them or stop building class names by concatenation.
 
 ---
 
@@ -320,14 +369,18 @@ module.exports = {
 ### Performance API
 
 ```javascript
-// Navigation timing
+// Navigation timing. PerformanceNavigationTiming has startTime === 0,
+// so every field is already a duration from the start of navigation;
+// there is no navigationStart property to subtract.
 const nav = performance.getEntriesByType('navigation')[0];
 console.log('DNS:', nav.domainLookupEnd - nav.domainLookupStart);
-console.log('Page Load:', nav.loadEventEnd - nav.navigationStart);
+console.log('Page load:', nav.loadEventEnd); // same as nav.duration
 
-// LCP
-const lcpEntries = performance.getEntriesByType('largest-contentful-paint');
-console.log('LCP:', lcpEntries.at(-1)?.startTime);
+// LCP: the last entry before the first interaction is the final value
+new PerformanceObserver((list) => {
+    const last = list.getEntries().at(-1);
+    console.log('LCP:', last.startTime);
+}).observe({ type: 'largest-contentful-paint', buffered: true });
 
 // CLS
 let clsValue = 0;
@@ -338,36 +391,27 @@ new PerformanceObserver((list) => {
 }).observe({ type: 'layout-shift', buffered: true });
 ```
 
+`buffered: true` replays entries recorded before the observer existed, which matters because LCP and the first layout shifts happen before your script runs. The CLS snippet sums every shift, whereas the reported metric is the largest burst within a session window — use Google's `web-vitals` library when the number has to match what field tools report. To read the same data interactively, use the Performance panel described in [Debugging With Chrome DevTools](../04-development-process/06-debugging.md).
+
 ### Lighthouse CI
 
+Lighthouse runs in a lab, on a simulated network and device, so its numbers are reproducible but not what real users see. It reports no INP; Total Blocking Time is its stand-in. Wire it into the [pipeline](../04-development-process/03-ci-cd.md) so a regression fails the build:
+
 ```javascript
-// lighthouse-ci.config.js
+// .lighthouserc.js
 module.exports = {
     ci: {
         collect: { numberOfRuns: 3, url: ['http://localhost:3000'] },
         assert: {
             assertions: {
                 'categories:performance': ['error', { minScore: 0.9 }],
-                'first-contentful-paint': ['error', { maxNumericValue: 2000 }],
-                'interactive': ['error', { maxNumericValue: 3500 }]
+                'first-contentful-paint': ['error', { maxNumericValue: 1800 }],
+                'largest-contentful-paint': ['error', { maxNumericValue: 2500 }],
+                'cumulative-layout-shift': ['error', { maxNumericValue: 0.1 }]
             }
         }
     }
 };
 ```
 
----
-
-## Quick Wins Checklist
-
-| Optimization | Impact | Effort |
-| --- | --- | --- |
-| Enable gzip/brotli compression | High | Low |
-| Optimize images (WebP, sizing) | High | Medium |
-| Implement HTTP caching | High | Low |
-| Defer non-critical JS | Medium | Low |
-| Minify CSS/JS | Medium | Low |
-| Remove unused CSS | Medium | Medium |
-| Code splitting | High | Medium |
-| Service worker caching | High | Medium |
-| Lazy loading | Medium | Low |
+The timing assertions are in milliseconds and CLS is unitless; all three are set to the published "good" thresholds. `numberOfRuns: 3` is there because a single run is noisy — Lighthouse reports the median.
