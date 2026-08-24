@@ -66,7 +66,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 - [Software and Systems Engineering](01-glossary.md)
 - [Software Architecture](../02-architecture/00-architecture.md)
 - Requirements and Product Design
-- [Quality Assurance and Testing](../04-development-process/04-quality-assurance.md)
+- Quality Assurance and Testing — [Quality Assurance](../04-development-process/04-quality-assurance.md) and [Testing](../04-development-process/05-testing.md)
 - [DevOps, SRE, and Operations](../04-development-process/03-ci-cd.md)
 - [Performance Engineering](../06-frontend/05-performance-optimization.md)
 - [Maintenance and Evolution](../04-development-process/07-technical-debt.md)

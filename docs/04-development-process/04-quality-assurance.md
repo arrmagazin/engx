@@ -1,7 +1,7 @@
 ---
 type: Guide
 title: Quality Assurance
-description: Covers QA process and vocabulary, test case and defect management, non-functional testing, metrics, automation, TDD, BDD, and unit testing.
+description: Covers QA process and vocabulary, test case and defect management, non-functional requirement testing, metrics, and test automation.
 tags: [testing, qa, tdd]
 ---
 
@@ -9,7 +9,7 @@ tags: [testing, qa, tdd]
 
 ![Quality Assurance](../../images/08-testing.svg)
 
-Quality assurance is the process, mostly run by test engineers, that gives confidence a product meets what clients and users expect. It costs time, money, and people, so its value has to be argued to stakeholders rather than assumed. This guide covers how QA is organized — test cases, defects, non-functional requirements, metrics, and automation — and the testing practices that carry it out.
+Quality assurance is the process, mostly run by test engineers, that gives confidence a product meets what clients and users expect. It costs time, money, and people, so its value has to be argued to stakeholders rather than assumed. This guide covers how QA is organized — test cases, defects, non-functional requirements, metrics, and automation; the practices that carry it out, including test principles, TDD, BDD, and unit testing, are in [Testing](05-testing.md).
 
 ## QA Overview
 
@@ -35,7 +35,6 @@ Layers (bottom→top): Unit → Integration → UI/E2E tests. Width = test count
 - Unit tests: narrowest scope, cheapest, fastest, most numerous.
 - Integration tests: verify interaction between components/systems (with or without network).
 - UI/E2E tests: broadest scope, slowest, most expensive, most fragile.
-
 
 | Level | Speed | Isolation | Purpose |
 | --- | --- | --- | --- |
@@ -122,135 +121,3 @@ Layers (bottom→top): Unit → Integration → UI/E2E tests. Width = test count
 **Reporting:** results should be consolidated (by build/version), transparent (readable by non-engineers), and available to all — typically via a dashboard (version, changelog, results, drill-down links).
 
 **Best practices:** make automation core to the test strategy; automate in-sprint regression; hold automated code to the same standards as production code; run full suites at least weekly and regression suites daily; gate CI/CD with automated smoke tests; use production-like test data; apply and regularly revisit the Testing Pyramid.
-
-## Testing Principles (F.I.R.S.T.)
-
-| Principle | Description |
-| --- | --- |
-| **Fast** | Mock external dependencies; tests must run quickly |
-| **Independent** | No shared state between tests; clean setup/teardown |
-| **Repeatable** | Same result every run; no flakiness |
-| **Self-Validating** | Pass or fail automatically |
-| **Timely** | Write tests alongside code (TDD or same PR) |
-
-**Best practices:**
-
-- Test behavior, not implementation details
-- Use descriptive names: `it('returns correct total when items are added')`
-- Follow Arrange → Act → Assert
-- One assertion per test where possible
-- Mock external dependencies (APIs, databases, file system)
-
-## Test-Driven Development (TDD)
-
-Write a failing test first, make it pass with the simplest code that works, then improve the design. The test defines the contract before the implementation exists, so the code is testable by construction and no line ships without a test that was *seen* to fail.
-
-```mermaid
-graph LR
-    R["Red — write a failing test"] --> G["Green — make it pass"]
-    G --> F["Refactor — clean it up"]
-    F --> R
-```
-
-| Step | Goal | Rule |
-| --- | --- | --- |
-| **Red** | Write the smallest test that expresses the next behavior | Run it and watch it fail — a test that never failed proves nothing |
-| **Green** | Make it pass as directly as possible | No speculative features; duplication is acceptable at this step |
-| **Refactor** | Improve naming, structure, and duplication | Tests stay green; no new behavior is added |
-
-**Red** — the test fails because `total()` does not exist yet:
-
-```ts
-it('returns the total of all items in the cart', () => {
-  const cart = createCart();
-  cart.addItem({ id: 'sku-1', price: 10, quantity: 2 });
-  expect(cart.total()).toBe(20);
-});
-```
-
-**Green** — the simplest code that satisfies the test:
-
-```ts
-export const createCart = () => {
-  const items: CartItem[] = [];
-  return {
-    addItem: (item: CartItem) => items.push(item),
-    total: () => items.reduce((sum, i) => sum + i.price * i.quantity, 0),
-  };
-};
-```
-
-**Refactor** — extract, rename, and remove duplication once the test protects you.
-
-**Practices:**
-
-- Keep cycles short — minutes, not hours; a long red phase means the step was too big
-- Let the test drive the API: if a test is awkward to write, the design is awkward to use
-- Add a failing test for every bug before fixing it, so regressions stay caught
-- Refactor only on green, and never mix a refactor with a behavior change
-- Assert on observable behavior so refactoring does not break the suite
-
-**Trade-offs:** TDD pays off most on logic with real branching — pricing, validation, state machines, reducers. It pays off least on exploratory spikes and purely visual markup, where the design is not yet stable enough for a test to pin down.
-
-TDD and BDD are complements, not alternatives: BDD frames *what* the system should do for the user, TDD drives *how* each unit is built to get there.
-
-## Behavior-Driven Development (BDD)
-
-Describes expected behavior from the user's perspective using natural language.
-
-```gherkin
-Feature: User Login
-
-Scenario: Successful login with valid credentials
-    Given the user is on the login page
-    When the user enters valid email "user@example.com"
-    And the user enters valid password "password123"
-    And clicks the login button
-    Then the user is redirected to the dashboard
-
-Scenario: Failed login
-    Given the user is on the login page
-    When the user enters invalid credentials
-    Then the user sees an error message
-```
-
-
-## Unit Testing
-
-### Core Definition
-- A unit test is code that asserts one or more conditions to verify another piece of code behaves as expected, in isolation, without running the full application.
-
-### Why It Matters
-- Maintainability = ability to change, understand, and test code easily; unit tests directly support all three.
-- Early in a project, coding without tests is faster; as the codebase grows, cost of change without tests rises and eventually exceeds the cost of maintaining tests — the two effort curves cross, after which tests pay off.
-- More confidence changing code: tests act as a "contract" of existing behavior, letting you safely rework/refactor structure.
-- Better understanding of component functionality: tests document edge cases/branches the human brain can't hold in memory.
-- Better design: writing testable code forces lower coupling, cleaner interfaces.
-
-### Cost of Neglecting Tests
-- Yuan et al. (OSDI '14) sampled 198 user-reported failures across five distributed data-intensive systems and found 77% of them reproducible by a unit test. That is a finding about that class of system, not about production failures in general, but it sets a high bar for what unit tests can catch.
-- "Legacy code is code without tests" (Feathers) — skipping tests turns fresh code into unmaintainable legacy code quickly.
-- Exceptions where unit tests may be skippable: throwaway POCs/demos, projects under ~3 months.
-
-### Other Quality Attributes
-- Maintainable — test code held to same quality bar as production code; messy tests become a liability.
-- Isolated — no dependency on DB/filesystem/network/env config; external dependencies cause false failures unrelated to the code under test.
-- Properly Targeted — focus on the core domain logic, not trivial/incidental code.
-
-### Code Coverage Metric
-- Line coverage = lines executed during tests / total lines. Branch coverage counts decision outcomes rather than lines and is the stricter variant, worth tracking wherever the logic branches.
-- Useful for: tracking macro trend, spotting untested areas.
-- Limitation: measures execution, not verification — a suite with 99% coverage and zero assertions proves nothing. 100% coverage is not a quality guarantee.
-
-### Common Myths, Rebutted
-- "Can't unit test legacy code" — false; legacy code can be incrementally refactored into testable code.
-- "Unit testing is expensive" — Nagappan, Maximilien, Bhat and Williams (2008) tracked four teams at Microsoft and IBM that adopted TDD and reported 40–90% lower defect density for 15–35% longer initial development time.
-- "Production urgency excludes testing" — under urgent/no-regression-time conditions, unit tests are often the only feasible safety net.
-- "Testing can be done separately from implementation" — like input validation, bolting it on later requires reworking already-shipped code (tech debt).
-- "Production code matters more than test code" — test code quality directly gates production code maintainability; treat both equally.
-
-### Best Practices
-- Write unit tests as part of the same task/story as the production code, not as a separate phase.
-- Enforce F.I.R.S.T. principles.
-- Wire test execution into CI; fail the build on test failure.
-- Track code coverage in CI to flag under-tested areas (not as a quality proof).

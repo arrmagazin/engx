@@ -56,15 +56,15 @@ These summarize the twelve principles published alongside the Manifesto; the aut
 | Practice | What it is |
 | ---------- | ------------- |
 | **Acceptance Test-Driven Development (ATDD)** | Agreeing acceptance criteria as executable tests before the work starts, written by business and developers together |
-| **[Behavior-Driven Development (BDD)](../04-development-process/04-quality-assurance.md)** | Specification by example: describing behavior in a shared language that doubles as the test |
+| **[Behavior-Driven Development (BDD)](../04-development-process/05-testing.md)** | Specification by example: describing behavior in a shared language that doubles as the test |
 | **Iterative and Incremental Development (IID)** | Building in repeated cycles, each adding working functionality rather than one more partial layer |
-| **[Test-Driven Development (TDD)](../04-development-process/04-quality-assurance.md)** | Writing a failing test before the code that satisfies it, in short red-green-refactor cycles |
+| **[Test-Driven Development (TDD)](../04-development-process/05-testing.md)** | Writing a failing test before the code that satisfies it, in short red-green-refactor cycles |
 | **[Pair Programming](../04-development-process/02-code-review.md)** | Two developers at one keyboard, so the code is reviewed as it is written |
 | **Agile Modeling** | Keeping models and documents only as detailed as the work in hand requires |
 | **Cross-Functional Team** | One team holding every skill needed to deliver, so work does not queue between departments |
 | **[Continuous Integration (CI)](../04-development-process/03-ci-cd.md)** | Merging to a shared mainline frequently, with an automated build and test on every merge |
 | **Information Radiators** | Displays that make progress visible without anyone asking: scrum board, task board, burndown chart |
-| **[Refactoring](../04-development-process/04-quality-assurance.md)** | Changing the structure of code without changing its behavior, to keep it workable as it grows |
+| **[Refactoring](../04-development-process/05-testing.md)** | Changing the structure of code without changing its behavior, to keep it workable as it grows |
 | **Agile Testing** | Testing continuously through the iteration rather than as a separate phase after it |
 | **Timeboxing** | Fixing the time available and adjusting scope to fit, rather than moving the deadline |
 | **User Story** | A requirement stated from the user's point of view, small enough to finish inside one iteration |

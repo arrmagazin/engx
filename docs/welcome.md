@@ -21,7 +21,7 @@ This book collects the vocabulary, practices, and reference material an engineer
 | **[Methodology](01-methodology/00-methodology.md)** | How work is organized — lean, agile, scrum, and moving quality earlier |
 | **[System Architecture](02-architecture/00-architecture.md)** | Architecture as a discipline, its views, its quality attributes, and web security |
 | **[System Design](03-system-design/00-system-design.md)** | Databases, caching, messaging, containers, and worked designs of canonical systems |
-| **[Development Process](04-development-process/00-development-process.md)** | Version control, code review, CI/CD, quality assurance, debugging, and technical debt |
+| **[Development Process](04-development-process/00-development-process.md)** | Version control, code review, CI/CD, quality assurance, testing, debugging, and technical debt |
 | **[Coding](05-coding/00-coding.md)** | Paradigms, design principles, design patterns, code smells, and code quality |
 | **[Frontend](06-frontend/00-frontend.md)** | Application types, data formats, client-server communication, performance, and accessibility |
 | **[AWS](07-cloud-aws/00-aws.md)** | The AWS service catalog and the competencies an AWS infrastructure role is hired against |

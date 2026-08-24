@@ -18,7 +18,8 @@ The development process is the lifecycle that turns a stakeholder need into an o
 | **[Version Control](01-version-control.md)** | Centralized and distributed systems, branch lifetime, and branching strategies |
 | **[Code Review](02-code-review.md)** | Review types and workflow, checklists, and how to give feedback |
 | **[CI/CD](03-ci-cd.md)** | Continuous integration and delivery, and the environment stages a change passes through |
-| **[Quality Assurance](04-quality-assurance.md)** | Test and defect management, QA metrics, automation, TDD, BDD, and unit testing |
+| **[Quality Assurance](04-quality-assurance.md)** | Test case and defect management, QA metrics, and the test automation strategy |
+| **[Testing](05-testing.md)** | The F.I.R.S.T. principles, TDD and BDD, unit testing, test doubles, coverage types, and tests in CI |
 | **[Debugging With Chrome DevTools](06-debugging.md)** | DevTools panels, conditional breakpoints, and console utilities |
 | **[Technical Debt](07-technical-debt.md)** | Where debt comes from, the signals that expose it, and how to manage repayment |
 | **[Knowledge Sharing](08-knowledge-sharing.md)** | Healthy and unhealthy sharing, bus factor, and four areas to improve |
