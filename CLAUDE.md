@@ -18,7 +18,7 @@ A personal engineering knowledge base written as markdown, organized as a number
 git ls-files 'docs/*.md' | xargs python3 scripts/check_links.py
 ```
 
-Pipe through `xargs` rather than `$(...)`: zsh does not word-split unquoted expansions, so the substitution form passes all 61 paths as a single filename.
+Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `python3 scripts/check_links.py $files` passes all 61 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
 
 - `check_okf_frontmatter.py` — the frontmatter convention below.
 - `check_glossary.py` — the glossary convention below.
