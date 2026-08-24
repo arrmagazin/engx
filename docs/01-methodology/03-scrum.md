@@ -1,11 +1,11 @@
 ---
 type: Guide
-title: Scrum Framework
+title: Scrum
 description: Summarizes Scrum as the 2020 Scrum Guide defines it — the team, the five events, the three artifacts, and the practices built around them.
 tags: [methodology, agile, scrum]
 ---
 
-# Scrum Framework
+# Scrum
 
 ![Scrum Framework](../../images/10-scrum.svg)
 

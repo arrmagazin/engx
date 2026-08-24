@@ -1,11 +1,11 @@
 ---
 type: Guide
-title: AWS DevOps/Infrastructure Engineer — Prep Guide
+title: AWS Interview Prep
 description: Study checklist covering AWS core services, networking, storage, identity, and DevOps competency areas for interviews.
 tags: [interview, aws, cloud, devops]
 ---
 
-# AWS DevOps/Infrastructure Engineer — Prep Guide
+# AWS Interview Prep
 
 A study map organized around the five competency areas that recur in AWS infrastructure job descriptions. For each bullet, be ready to explain the concept, name the relevant AWS service, and describe a scenario where you used or would use it.
 

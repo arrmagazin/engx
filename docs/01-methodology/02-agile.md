@@ -1,11 +1,11 @@
 ---
 type: Guide
-title: Agile Methodology
+title: Agile
 description: Covers Agile's core concepts, the Manifesto values, the twelve principles behind it, and the practices and methods that apply them.
 tags: [methodology, agile]
 ---
 
-# Agile Methodology
+# Agile
 
 ![Agile Methodology](../../images/09-agile.svg)
 
