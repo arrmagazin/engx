@@ -1,74 +1,100 @@
 ---
 type: Guide
 title: Code Review
-description: Explains code review's benefits, types, workflow, key focus areas, and checklist practices.
+description: Covers code review's value, types, workflow, what reviewers check, checklists, and feedback practices.
 tags: [development-process, code-review, quality]
 ---
 
 # Code Review
 
-Code review catches bugs early, shares knowledge, and enforces standards.
+Code review is the practice of having teammates read new code before it merges. This guide covers the review types, the workflow, what reviewers check, how to build a review checklist, and how to write useful feedback — for the developers submitting code and for the peers reviewing it.
 
-# Code Review — Key Insights
+## Why It Matters
 
-## Core Concept
-Code review is a systematic software engineering practice in which a development team examines newly written code to improve quality by finding and fixing bugs before it reaches production. Without a regular code review process, teams risk missing critical business logic and information, leading to rework and lower code quality. Practiced regularly, code review improves knowledge sharing, grows technical competence, and strengthens both functional and structural code quality.
+| Dimension | With Review | Without Review |
+| --- | --- | --- |
+| **Defects** | An outside reader catches logic, algorithm, and architecture errors before the change merges | Errors survive into production and degrade the correctness of the product |
+| **Maintainability** | Code stays readable because it is written to be read by someone else first | Code becomes harder to follow and harder to change, so every later edit costs more |
+| **Knowledge Sharing** | Domain knowledge, business logic, and refactoring techniques spread across the team | Developers duplicate work instead of reusing solutions, and miss business functionality that already exists |
+| **Consistent Standards** | The team converges on one agreed [style guide](../00-software-engineering/02-standards.md), so any developer can pick up any file | Technical approaches diverge and have to be reconciled later, at cost and sometimes with friction between authors |
+| **Security and Compliance** | Missing authorization checks, weak configuration, and dependencies with unsuitable licenses or known vulnerabilities are caught before release | Vulnerabilities reach end users, exposing customer data and the company's reputation |
 
-## Benefits of Code Review
-- **Fewer Defects**: An outside perspective from a reviewer often makes it easier to catch structural errors (dead code, logic/algorithm bugs, architecture concerns) and functional errors. Even short, informal reviews can meaningfully reduce bug frequency.
-- **Knowledge Sharing**: Reviews spread valuable knowledge about an application's functionality, domain, business logic, and coding/refactoring techniques, keeping the whole team aligned and strengthening cooperation.
-- **Consistent Standards**: Reviews help ensure the team follows an agreed style guide, making code easier to read, less bug-prone, and easier for both regular and newly rotated developers to work with.
-- **Compliance**: Reviews help catch common technical traps, such as missed security/compliance requirements or newly introduced dependencies with inappropriate licenses or known vulnerabilities.
+## Review Types
 
-## Risks of Neglecting Code Review
-- **Lower Structural Code Quality**: Skipped reviews make code less readable and harder to maintain.
-- **Lower Functional Code Quality**: Poor quality code resulting from skipped review can also degrade the functional correctness of the product.
-- **Lack of Knowledge Sharing**: Team members may miss important information, leading to duplicated efforts instead of reused solutions, and missed reusable business functionality.
-- **Possible Rework**: Lack of transparency and early feedback can require costly rework later, for example when multiple developers use inconsistent technical approaches that must later be reconciled — sometimes causing interpersonal friction.
-- **Possible Technical Issues**: Without review, security vulnerabilities are more likely to reach end users, potentially causing data breaches, ransomware exposure, or other harm to customers and the company's reputation.
+| Type | How It Works | When to Use |
+| --- | --- | --- |
+| **Peer Review** | The author publishes a branch and opens a pull or merge request; peers review asynchronously while the author moves on to another task | The default for every change. Internal peers spread product knowledge, external reviewers bring in expertise the team lacks |
+| **Specialist Review** | A named expert in architecture, security, or performance reviews one fragment of code, often from outside the delivery team | Critical or high-risk code, periodically or on request |
+| **Pair Programming** | Two developers write and review the code together, line by line, in one session | Peers of similar level working through a complex problem, senior-to-junior mentoring, and onboarding |
 
-## Code Review Types
-- **Peer Review**: The most common and convenient type. Using a version control system, the author makes code available for peers to review while working on other tasks; peer review can be internal (great for knowledge sharing) or external (bringing in outside expertise).
-- **Specialist's Review**: A cross-team practice where a fragment of code is reviewed by someone with specific, in-depth expertise (e.g., an architectural, security, or performance specialist) who may not be part of the regular dev team; used periodically or upon request.
-- **Instant Code Review**: Several team members review code simultaneously, typically through pair programming where two people write and review code together line by line. It's useful for developers of similar skill level tackling a complex problem, senior developers mentoring juniors, or onboarding newcomers.
+## Review Workflow
 
-## Code Review Workflow
-A universal three-step cycle applies regardless of review type: (1) once a team member finishes a coding task, others are notified to review it, providing feedback via comments on specific lines or the whole piece of code; (2) if the feedback is positive with nothing to change, the review is complete and the code merges into the main codebase; (3) if changes are requested, the author addresses the feedback and resubmits the code for final approval.
+Every review type follows the same three-step cycle:
 
-## Key Areas of Code Review
-- **Functional Correctness/Business Logic**: New changes should not break existing business logic, and the author should implement all requested behaviors.
-- **Structural Correctness/Design**: Reviewers should evaluate whether the code handles enough edge cases, could be shorter, faster, or safer, could be replaced by a more effective equivalent, uses appropriate patterns, eliminates redundancy, avoids unnecessary dependencies, and follows clean code principles.
-- **Readability/Complexity**: Reviewers should check whether concepts are graspable in reasonable time, whether flow and naming are logical, whether multi-file/function tracking is manageable, whether naming is consistent, whether the code matches project style/API conventions, and whether TODO comments remain.
-- **Test Correctness**: Reviewers should read the tests (and request them if missing), check that tests cover edge cases and are readable, consider how the code could break, verify consistency of test style, and confirm sufficient documentation/coverage of business logic use cases.
-- **Non-Functional Hidden Implications**: Reviewers should verify the absence of security vulnerabilities (proper authorization/authentication, no weak configuration or malicious input handling), consulting an application security expert and OWASP guidance when in doubt, and watch for issues like unobvious behaviors, unsupported standards/features, or improperly licensed libraries.
+1. **Notify** — the author finishes the change and requests review; reviewers leave feedback on specific lines or on the change as a whole.
+2. **Approve** — if there is nothing to change, the review ends and the code merges into the main codebase.
+3. **Revise** — if changes are requested, the author addresses the feedback and resubmits for final approval.
 
-## Code Review Checklist
-A code review checklist is a shared project artifact that both authors and reviewers reference, and should be part of onboarding materials. It ensures reviewers don't skip steps, keeps review quality consistent regardless of reviewer background, helps newcomers follow the full process, and makes new practices easier to remember when documented.
+Agree on a turnaround time, or reviews stall the board. [the team lead guide](../10-management/02-team-lead.md) documents one concrete version: opening a pull request moves the ticket to a *Code Review* column automatically, the author assigns a peer, and pull requests are reviewed within four business hours.
 
-**Creating a checklist** generally involves three steps: securing approval from the project or account manager to create it; describing the existing (even undocumented) review process in detail, including scope of changes, required checks, tools, number/selection of reviewers, process steps, time limits, and how non-critical notes are handled; and proposing improvement suggestions as a list to discuss with the team rather than rushing to change the process unilaterally.
+## What Reviewers Check
 
-Tips for tailoring a checklist: match reviewer count and expertise to the review goal (more reviewers, including juniors, for knowledge sharing; senior specialists for quality/security); make peer review mandatory for every change while reserving specialist review for critical parts; pay special attention to high-risk code (critical business logic, performance-critical, sensitive data, code from new team members, or large-scale refactors); treat checklists as living documents reviewed periodically (e.g., during retrospectives); and keep checklists accessible in a shared space such as Confluence or Teams, pinned in the team's communication channel.
+Five areas span both dimensions of [code quality](../05-coding/05-code-quality.md) — what the code does, and how it is organized.
 
-**Developers' checklist** (self-check before submitting code) typically confirms: code compiles and passes linting/tests/quality gates; code is developer-tested with unit tests; code is well-documented and tidy (correct indentation, no commented-out code or typos); unused imports/warnings are removed; the team's coding standards are followed; no hardcoded development-only details remain; performance and security were considered; and no code could be replaced by existing reusable components or libraries.
+| Area | What to Verify |
+| --- | --- |
+| **Functional Correctness** | The change implements every requested behavior and does not break existing business logic |
+| **Design** | Edge cases are handled, patterns suit the problem, redundancy and unnecessary dependencies are gone, and no shorter or safer equivalent exists |
+| **Readability** | Naming and control flow are logical and consistent, the change can be followed across files and functions, project and API conventions are respected, and no leftover TODO comments remain |
+| **Tests** | Tests exist, are readable, cover the edge cases and the business use cases, and match the project's test style |
+| **Non-Functional Implications** | Authorization and authentication are correct, configuration and untrusted input are handled safely, behavior holds no surprises, and no library arrives with an unsuitable license |
 
-**Reviewers' checklist** covers the same five key areas as above (functional correctness, structural correctness, readability, test correctness, non-functional implications) and is agreed upon by the whole team during project initiation, evolving as the project matures.
+For anything touching authentication, authorization, or untrusted input, check the change against the [OWASP Top Ten](https://owasp.org/www-project-top-ten/) and consult an application security specialist when in doubt.
 
-## Tips for Implementing Code Review
-- **Use time optimization tips**: limit changes per merge request so each one addresses a single issue, and set a fixed time limit/slot for review (e.g., one hour each morning) to keep it regular and prevent it from being postponed to the end of an iteration.
-- **Introduce a main reviewer role for each iteration (sprint)**: designate one person with reduced workload as the primary reviewer for all requests in a sprint; that person can select additional reviewers based on peers' workload and expertise, rotating the role each iteration.
-- **Run static code analysis before code review**: automate part of the process with tools like SonarQube or Codacy (including newer machine-learning-based tools) so human reviewers can focus on higher-level concerns.
-- **Run tests before the code review**: a strong branching strategy and CI/CD pipeline ensures only code that has passed automated checks and tests reaches review, saving reviewer time and enforcing the "all tests should pass" quality gate.
-- **Use appropriate tools**: manual review can be supported with the Web UI of GitHub/GitLab, IDE plugins (VSCode, JetBrains), and similar tools that let reviewers highlight changes, mark checked sections, and add inline notes.
+## Review Checklists
 
-## Best Practices for Conducting Ethical Code Reviews
-- **Comment on the code, not the author**: keep feedback courteous and focused strictly on the code itself rather than the person who wrote it, especially for contentious issues.
-- **Personalize your comment**: frame subjective feedback as your own opinion using "I" statements rather than stating it as fact.
-- **Provide reasoning**: give a specific rationale for a comment so the author understands the concern rather than just being told something is wrong.
-- **Avoid blaming**: phrase feedback as a question or request to open a conversation rather than an accusation.
-- **Avoid judgments**: avoid phrases like "it's obvious" or "why didn't you check," which can feel dismissive; favor neutral, respectful language instead.
+A review checklist is a shared project artifact that both authors and reviewers work from, and it belongs in the onboarding materials. It keeps review quality stable regardless of who reviews and stops steps from being skipped. Its reviewer half is the five areas above, agreed by the whole team at project initiation and revised as the project matures.
 
-## Best Practices for Code Review (Summary)
-- Practice mandatory peer code review on every pull/merge request.
-- Identify how to choose and assign reviewers as part of your project's code review strategy.
-- Work with your team to develop and regularly reference a shared code review checklist.
-- Ensure that during code review, all team members follow the coding standards, validate business logic, and validate unit tests for changed logic as part of the review process.
+### Building One
+
+1. Get agreement from the project or account manager to create it.
+2. Write down the review process the team already follows, including the undocumented parts: the scope of a reviewable change, required checks, tools, how many reviewers and how they are chosen, the process steps, time limits, and how non-critical notes are handled.
+3. Propose improvements as a list to discuss with the team, rather than changing the process alone.
+
+### Tailoring It
+
+- **Match reviewers to the goal** — more reviewers, juniors included, when the goal is knowledge sharing; senior specialists when the goal is quality or security.
+- **Make peer review mandatory** for every change, and reserve specialist review for the critical parts.
+- **Weight high-risk code** — critical business logic, performance-sensitive paths, code handling sensitive data, changes from new team members, and large refactors.
+- **Treat the checklist as a living document** — revisit it periodically, for example at a retrospective.
+- **Keep it where the team already looks** — a shared wiki page, pinned in the team's chat channel.
+
+### Developer Self-Check
+
+Before requesting review, the author confirms that:
+
+- The code compiles and passes linting, tests, and quality gates.
+- Unit tests exist and the change has been tested by the developer.
+- The code is documented and tidy: consistent indentation, no commented-out blocks, no typos.
+- Unused imports and compiler warnings are gone.
+- The team's coding standards are followed.
+- No development-only values are hardcoded.
+- Performance and security implications were considered.
+- Nothing in the change duplicates an existing reusable component or library.
+
+## Making Review Efficient
+
+- **Keep changes small** — one merge request per issue, so a reviewer can hold the whole change in mind.
+- **Book a fixed slot** — a set time each day, for example one hour each morning, keeps review regular and stops it from being postponed to the end of the iteration.
+- **Rotate a main reviewer** — one person per sprint carries a reduced delivery workload and takes first look at every request, pulling in extra reviewers based on their workload and expertise.
+- **Run static analysis first** — [SonarQube](https://www.sonarsource.com/products/sonarqube/) or [Codacy](https://www.codacy.com/) catch style and defect patterns automatically, leaving reviewers the higher-level concerns.
+- **Run tests first** — a branching strategy plus a [CI/CD](03-ci-cd.md) pipeline ensures only code that has already passed automated checks reaches a reviewer.
+- **Use the tools reviewers already have** — the [GitHub](https://docs.github.com/en/pull-requests) and [GitLab](https://docs.gitlab.com/) web interfaces and IDE plugins for VS Code and JetBrains let reviewers highlight changes, mark checked sections, and add inline notes.
+
+## Giving Feedback
+
+- **Comment on the code, not the author** — keep feedback about the change itself, especially when the point is contentious.
+- **Own subjective opinions** — phrase a preference as your own view rather than as fact.
+- **Give the reason** — state why something is a concern, so the author can weigh it instead of only being told it is wrong.
+- **Ask instead of accusing** — a question opens a conversation, an accusation closes it.
+- **Drop dismissive phrasing** — "it's obvious" and "why didn't you check" read as judgments; neutral wording makes the same point.
