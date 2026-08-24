@@ -9,7 +9,7 @@ tags: [frontend, resources, reference]
 
 ![Frontend](../../images/21-frontend.svg)
 
-Frontend engineering spans the runtime the code ships into, the transports it talks over, and the standards it is measured against — the browser, HTTP, and WCAG rather than any one framework. The guides here stay framework-agnostic; a framework's own documentation is linked below rather than restated.
+Frontend engineering spans the runtime the code ships into, the transports it talks over, and the standards it is measured against — the browser, HTTP, and WCAG rather than any one framework. The guides here stay framework-agnostic; a framework's own documentation is linked below rather than restated. The languages are treated the same way: this book documents the engineering around HTML, CSS, and JavaScript rather than teaching any of them, so the specifications are collected under Web Standards below and the CSS reference material in [Browser Technologies](04-browser-technologies.md#css-resources).
 
 ## In This Section
 
