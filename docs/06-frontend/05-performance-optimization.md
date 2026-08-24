@@ -7,7 +7,7 @@ tags: [frontend, performance, web-vitals]
 
 # Performance Optimization
 
-Frontend performance work splits into three places: the render path, the network, and the bundle. This guide covers what to measure in each, what to aim for, and the techniques that move the number; it is this book's home for Core Web Vitals, budgets, caching headers, bundling, and profiling. The DevTools panels that produce these measurements are covered in [Debugging With Chrome DevTools](../04-development-process/06-debugging.md).
+Frontend performance work splits into three places: the render path, the network, and the bundle. This guide covers what to measure in each, what to aim for, and the techniques that move the number; it is this book's home for Core Web Vitals, budgets, caching headers, bundling, and profiling. The DevTools panels that produce these measurements are covered in [Chrome DevTools](../04-development-process/06-debugging.md#chrome-devtools).
 
 ## Core Web Vitals
 
@@ -391,7 +391,7 @@ new PerformanceObserver((list) => {
 }).observe({ type: 'layout-shift', buffered: true });
 ```
 
-`buffered: true` replays entries recorded before the observer existed, which matters because LCP and the first layout shifts happen before your script runs. The CLS snippet sums every shift, whereas the reported metric is the largest burst within a session window — use Google's `web-vitals` library when the number has to match what field tools report. To read the same data interactively, use the Performance panel described in [Debugging With Chrome DevTools](../04-development-process/06-debugging.md).
+`buffered: true` replays entries recorded before the observer existed, which matters because LCP and the first layout shifts happen before your script runs. The CLS snippet sums every shift, whereas the reported metric is the largest burst within a session window — use Google's `web-vitals` library when the number has to match what field tools report. To read the same data interactively, use the Performance panel described in [Chrome DevTools](../04-development-process/06-debugging.md#chrome-devtools).
 
 ### Lighthouse CI
 

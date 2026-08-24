@@ -38,7 +38,7 @@ for (let i = 0; i < 100; i++) {
 document.body.appendChild(fragment);
 ```
 
-Measuring which of these actually costs you anything belongs to [Performance Optimization](05-performance-optimization.md); the [Performance panel](../04-development-process/06-debugging.md) records the layout passes.
+Measuring which of these actually costs you anything belongs to [Performance Optimization](05-performance-optimization.md); the [Performance panel](../04-development-process/06-debugging.md#chrome-devtools) records the layout passes.
 
 ## Events
 
@@ -144,7 +144,7 @@ Notes:
 | **`sessionStorage`** | Typically around 5 MB per origin | Until the tab or window closes | Same origin, one tab |
 | **IndexedDB** | Browser-managed quota against available disk space, reaching gigabytes | Persists until cleared or evicted; Safari's Intelligent Tracking Prevention deletes it on the same seven-day rule | Same origin |
 
-Safari's seven-day rule also removes service worker registrations, so treat script-writable storage as a cache you can lose, not a database of record. The DevTools **Application** panel shows what is stored — see [Debugging With Chrome DevTools](../04-development-process/06-debugging.md).
+Safari's seven-day rule also removes service worker registrations, so treat script-writable storage as a cache you can lose, not a database of record. The DevTools **Application** panel shows what is stored — see [Chrome DevTools](../04-development-process/06-debugging.md#chrome-devtools).
 
 ```javascript
 // localStorage
