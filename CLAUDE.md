@@ -63,7 +63,7 @@ Note also what it cannot see: its duplicate-term check is per file, so the same 
 - Definitions are noun phrases, not sentences. Never restate the term inside its own definition.
 - Keep them terse: the definition, plus at most one `;` or `—` clause saying why the term matters or how it is used.
 - Never put a raw newline inside a table cell — it terminates the row and breaks the table. Use `<br>` when a cell genuinely needs a list.
-- Every `##` section defines the term it is named after, as the first row of its table (`## Delivery` → `**Delivery**`).
+- Where a `##` section is named after a term the table defines, put that definition in the first row (`## Delivery` → `**Delivery**`). Sections named after a grouping rather than a term have no such row.
 
 ### References between terms
 

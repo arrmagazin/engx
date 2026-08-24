@@ -48,7 +48,7 @@ They improve clarity, readability, consistency, and maintainability, and hold co
 
 Automated analysis checks code against a rule set with no manual effort, catching security issues, duplication, and style violations at a scale review cannot reach. It runs statically, without executing the application; some tools flag violations as you type.
 
-[SonarQube](https://www.sonarsource.com/products/sonarqube/) from SonarSource is a widely used platform for continuous inspection. Its Community Edition is open source; analysis of C, C++, and several other languages is available only in the commercial editions. IntelliJ IDEA and Visual Studio ship their own inspections.
+[SonarQube](https://www.sonarsource.com/products/sonarqube/) from SonarSource is a widely used platform for continuous inspection. Its open-source edition was renamed Community Build in late 2024; analysis of C, C++, and several other languages is available only in the commercial editions. IntelliJ IDEA and Visual Studio ship their own inspections.
 
 Static analysis has limits. It has no business context, cannot confirm that code meets a specific requirement, and cannot catch architecture or design problems that depend on developer intent — which is what review and the [Code Smells](04-code-smells.md) catalog are for.
 
@@ -62,14 +62,14 @@ Quality judgments are subjective; metrics make part of the judgment measurable a
 | **Class coupling** | How many other classes a class depends on. Lower coupling makes a class easier to reuse and to change in isolation |
 | **Depth of inheritance tree** | How many levels a class sits below its root ancestor. Deeper hierarchies make behavior harder to trace |
 | **Code duplication** | Repeated code sequences. A change to one copy can miss the others |
-| **Method cohesion** | Whether a class's methods serve one clear purpose. Low cohesion produces large classes that do several unrelated things |
+| **LCOM (Lack of Cohesion of Methods)** | Whether a class's methods serve one clear purpose; defined by Chidamber and Kemerer in their 1994 metrics suite. Low cohesion produces large classes that do several unrelated things |
 
 ## Best Practices
 
-- Write coding standards the whole team follows
+Writing the standards and enforcing them with tooling are covered above, under [Coding Standards](#coding-standards) and [Automated Code Analysis](#automated-code-analysis). What keeps both of them working:
+
 - Keep the standards current in the knowledge base
 - Include them in onboarding for every newcomer
-- Enforce them with static analysis and style checkers rather than by reminder
 - Extend the tool's default rule set with project-specific rules
 - Keep CI quality gates green, and never leave a gate broken
 - Measure the metrics on a regular schedule and act where one falls short

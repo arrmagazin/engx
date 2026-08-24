@@ -208,7 +208,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 - **Separate the estimate from the commitment.** An estimate is data; a commitment is a choice made with that data.
 - **Give feedback continuously.** Nothing in a performance review should be a surprise.
 - **Change one process thing at a time.** Otherwise you cannot attribute the effect.
-- **Manage the interfaces.** Most delay lives between teams, not inside them.
+- **Manage the interfaces.** Work waiting on another team sits outside either team's board, so the wait goes unmeasured until someone counts it.
 
 ## Anti-Patterns
 

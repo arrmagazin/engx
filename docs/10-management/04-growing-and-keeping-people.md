@@ -65,7 +65,7 @@ Use **Situation → Behavior → Impact**, then agree on the change. Skip the "c
 Address it early and explicitly; ambiguity is unkind to everyone.
 
 1. **Name the gap** — specific expectation, specific observed behavior, specific difference.
-2. **Rule out the system first** — unclear expectations, missing context, wrong task fit, a personal situation, or a broken process cause more underperformance than lack of ability.
+2. **Rule out the system first** — unclear expectations, missing context, wrong task fit, a personal situation, or a broken process each produce the same visible symptoms as lack of ability, and each is cheaper to fix.
 3. **Agree a written plan** — what changes, by when, how it will be measured.
 4. **Support and check in** — weekly, with written evidence either way.
 5. **Decide** — improved, reassigned, or exited. Do not let step 4 run indefinitely.
@@ -113,7 +113,7 @@ Read these as properties of the system rather than as scores for the people in i
 - **Give feedback within days.** Feedback delayed to the review cycle is a complaint, not feedback.
 - **Let people fail safely.** Reversible mistakes are the cheapest training available.
 - **Rotate the unglamorous work.** On-call, support, and release duty go to everyone, including the seniors.
-- **Fix the system before blaming the person.** Most repeated individual failures are process failures with a name attached.
+- **Fix the system before blaming the person.** When the same failure keeps repeating, look for the process that allows it before concluding the person is the problem.
 - **Grow a successor.** If you cannot take two weeks off, you have a bus-factor problem of your own.
 - **Protect focus time.** Deep work is the job; meetings are overhead that must justify itself.
 
