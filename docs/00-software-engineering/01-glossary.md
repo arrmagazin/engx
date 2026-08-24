@@ -7,23 +7,21 @@ tags: [introduction, engineering]
 
 # Glossary
 
-![Introduction to Modern Software Engineering](/images/welcome.svg)
-
-This documnent brings the essential conceptual basis, that every modern software engineer should understand and use.
+These are the foundational terms the rest of the book uses without redefining them: the solution and its stakeholders, the delivery that carries value to them, and the engineering that organizes the work.
 
 ## Solution
 
 | Concept | Definition |
 | --------- | ------------ |
 | **Solution** | An artificial *phenomenon* (Product or Service):<br>- intentionally designed by a Team<br>- has an evolving, measurable State<br>- brings real Value to a Stakeholder |
-| **Stakeholder** | Any *party* <br>- whose *interests* are at stake in the Solution's outcome <br>- and who has some *expectations* about Value of theSolution: <br>sponsor, operator, regulator, user |
+| **Stakeholder** | Any *party* <br>- whose *interests* are at stake in the Solution's outcome <br>- and who has some *expectations* about Value of the Solution: <br>sponsor, operator, regulator, user |
 | **Value** | The real *gain* a Stakeholder receives from a Solution according to its *interests*: <br>new capability, time, money, problem solved, risk removed |
 | **Satisfaction** | A Stakeholder's *judgement* that the received Value matched their *expectations*; subjective, therefore elicited rather than measured |
 | **State** | The observable *condition* of Solution at a point in *time*; it evolves, and everything verifiable is read from it |
-| **Goals** | Desired end States where Satisfaction is reached; <br> too coarse to *verify* as stated, so decomposed into Objectives |
-| **Objectives** | Intermediate States, concrete enough to be bounded by Requirements and checked/verified on its own |
 | **Metric** | A formalized, measurable criterion applicable to the State of a Solution |
 | **Requirements** | Boundaries on Metrics that an Objective must hold within; what makes "done" falsifiable |
+| **Objectives** | Intermediate States, concrete enough to be bounded by Requirements and checked/verified on its own |
+| **Goals** | Desired end States where Satisfaction is reached; <br> too coarse to *verify* as stated, so decomposed into Objectives |
 | **Success** | The verified State where every Requirement holds and Satisfaction is confirmed — Value delivered, not scope delivered |
 
 ## Delivery
@@ -38,17 +36,15 @@ This documnent brings the essential conceptual basis, that every modern software
 | **Estimation** | Anticipated amount of resources needed, made in certain assumptions about constraints, complexity, risks, and contingency |
 | **Efficiency** | Ratio of Value gained to resources spent |
 
-
 ## Engineering
 
 | Concept | Definition |
 | --------- | ------------ |
 | **Engineering** | The disciplined *art* of delivering Solutions |
-| **Project** | A managed *endeavor* where a Team pursues Success against predefined Goals, <br>by choosing, adopting and applying Paradigms, Methodologies, Technologies, and Platforms |
 | **Team** | An interpersonal agent formed from individuals aligned around shared Goals |
 | **Paradigm** | A way of applying *knowledge* ( applied science, math, methods, and domain expertise) <br> toward Success |
 | **Methodology** | A coherent system of *practices* (roles, rituals, artifacts, workflows) <br> a Team adopts to organize its work toward Success |
 | **Technology** | A defined way to set up and control *processes* so that results are effective, reproducible, and verifiable |
 | **Platform** | Comprehensive set of *facilities* (languages, protocols, environments, tools, ecosystems) to deliver software |
-| **Management** | Organizing and optimizing *Teams* to reach Success <br>— through Governance, Control, Organization, Securing, Tracking, and Growth |
-
+| **Project** | A managed *endeavor* where a Team pursues Success against predefined Goals, <br>by choosing, adopting and applying Paradigms, Methodologies, Technologies, and Platforms |
+| **Management** | Organizing and optimizing *Teams* to reach Success <br>— through governance, control, organization, securing, tracking, and growth |
