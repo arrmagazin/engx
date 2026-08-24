@@ -240,7 +240,7 @@ that mutate shared state.
 | -------- | ------ |
 | **Strengths** | Explicit data flow, composability, no manual subscription bookkeeping, testable as pure transformations |
 | **Costs** | Steep learning curve, hard debugging (stack traces lost in the graph), memory/space leaks from retained histories |
-| **Applicability** | UI state, animation, telemetry and event processing, robotics and simulation |
+| **Applicability** | UI state, animation, telemetry, event processing, robotics, and simulation |
 
 ## Metaprogramming
 
@@ -295,7 +295,7 @@ The same goal can be reached at different points in the lifecycle, with sharply 
 | **Annotation Processing** | Declarative metadata read by a generator that emits companion code | Java APT/Lombok, Kotlin KSP, C# Source Generators, `go:generate` |
 | **Reflection APIs** | Runtime access to the type system and member tables | `java.lang.reflect`, `System.Reflection`, Python `inspect`/`getattr`, JS `Reflect` |
 | **Proxies & Interception** | Synthesized objects forwarding calls through a handler | JDK dynamic proxies, ByteBuddy/CGLIB, JS `Proxy` traps, Python `__getattr__` |
-| **Metaclasses & Open Classes** | Controlling or rewriting class construction and dispatch | Python `type`/`__init_subclass__`, Ruby `class << self` and monkey patching, JS decorators |
+| **Metaclasses & Open Classes** | Controlling or rewriting class construction and dispatch | Python `type`/`__init_subclass__`, Ruby `class << self` and monkey patching, and JS decorators |
 | **Bytecode Manipulation** | Rewriting compiled artifacts directly | ASM, Javassist, ByteBuddy, Mono.Cecil |
 | **Schema-driven Generation** | Deriving clients, models, and serializers from an external contract | Protobuf/gRPC, OpenAPI, GraphQL codegen, ORM entities |
 
@@ -305,7 +305,7 @@ The same goal can be reached at different points in the lifecycle, with sharply 
 | -------- | ------ |
 | **Strengths** | Removes boilerplate and duplication, enforces cross-cutting concerns in one place, adapts to schemas and types unknown when the code was written, enables DSLs closer to the domain |
 | **Costs** | Code that is read is no longer the code that runs — debugging, stack traces, IDE navigation, and refactoring all degrade; reflection and `eval` block dead-code elimination, AOT compilation, and security review; expansion errors are reported in generated code |
-| **Applicability** | Serialization, ORM and DI wiring, mocking and test doubles, AOP concerns (logging, transactions, retries), API clients from contracts, builders and derived boilerplate |
+| **Applicability** | Serialization, ORM and DI wiring, mocking and test doubles, AOP concerns (logging, transactions, retries), builders and derived boilerplate, and API clients from contracts |
 
 *Guidance*: prefer the earliest stage that solves the problem — a generic or template before a macro,
 a macro before an annotation processor, an annotation processor before runtime reflection.

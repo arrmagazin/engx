@@ -124,7 +124,7 @@ A unit test is code that asserts one or more conditions to verify another piece 
 ### Common Myths, Rebutted
 
 - "Can't unit test legacy code" — false; legacy code can be incrementally refactored into testable code.
-- "Unit testing is expensive" — Nagappan, Maximilien, Bhat and Williams (2008) tracked four teams at Microsoft and IBM that adopted TDD and reported 40–90% lower defect density for 15–35% longer initial development time.
+- "Unit testing is expensive" — Nagappan, Maximilien, Bhat, and Williams (2008) tracked four teams at Microsoft and IBM that adopted TDD and reported 40–90% lower defect density for 15–35% longer initial development time.
 - "Production urgency excludes testing" — under urgent/no-regression-time conditions, unit tests are often the only feasible safety net.
 - "Testing can be done separately from implementation" — like input validation, bolting it on later requires reworking already-shipped code (tech debt).
 - "Production code matters more than test code" — test code quality directly gates production code maintainability; treat both equally.

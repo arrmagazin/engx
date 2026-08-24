@@ -46,5 +46,5 @@ These are the foundational terms the rest of the book uses without redefining th
 | **Methodology** | A coherent system of *practices* (roles, rituals, artifacts, workflows) <br> a Team adopts to organize its work toward Success |
 | **Technology** | A defined way to set up and control *processes* so that results are effective, reproducible, and verifiable |
 | **Platform** | Comprehensive set of *facilities* (languages, protocols, environments, tools, ecosystems) to deliver software |
-| **Project** | A managed *endeavor* where a Team pursues Success against predefined Goals, <br>by choosing, adopting and applying Paradigms, Methodologies, Technologies, and Platforms |
+| **Project** | A managed *endeavor* where a Team pursues Success against predefined Goals, <br>by choosing, adopting, and applying Paradigms, Methodologies, Technologies, and Platforms |
 | **Management** | Organizing and optimizing *Teams* to reach Success <br>— through governance, control, organization, securing, tracking, and growth |
