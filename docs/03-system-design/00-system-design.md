@@ -40,9 +40,11 @@ flowchart LR
 | **Component** | A named unit of code or data with a declared interface, replaceable by any other unit honoring that interface without changing its callers |
 | **Application** | Deliverable Software providing functional scope in some business domain |
 | **Library** | Reusable Component the Application *calls*; it owns no control flow, so the Application decides when, whether, and in what order it runs |
-| **Framework** | Component that owns the control flow and *calls* the Application's code through the extension points it defines (*inversion of control*); it dictates structure, so it is chosen once and swapped rarely |
+| **Software Framework** | Component that owns the control flow and *calls* the Application's code through the extension points it defines (*inversion of control*); it dictates structure, so it is chosen once and swapped rarely |
 | **API** | The contract a Component exposes for others to call — operations, inputs, outputs, and errors — stated independently of how it is implemented; see [Client-Server Communication](../06-frontend/03-client-server-communication.md) |
 | **Configuration** | Data that *parameterizes* Software without changing it — what varies per environment, tenant, or deployment; versioned like code, but applied without rebuilding |
+
+This chapter says **Software Framework**, never plain *Framework*, because the book already uses that word for something else: [Methodology](../01-methodology/00-methodology.md#core-concepts) defines a Framework as a Method made executable. One is a piece of code, the other a way of running a process.
 
 ## Hardware
 
