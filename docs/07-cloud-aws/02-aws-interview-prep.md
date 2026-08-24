@@ -165,7 +165,7 @@ Rehearsal and narration technique are in [Interview Technique](../11-interview/0
 
 Draw order: org and OUs top-down → the network account and TGW → workload VPCs → the routes last.
 
-```
+```text
         ┌──────────────────── AWS Organization (Management acct) ────────────────────┐
         │   SCPs applied at OU level ─ billing ─ Control Tower                        │
         └───┬───────────────────┬────────────────────┬──────────────────┬────────────┘
@@ -219,7 +219,7 @@ Points to make **while** drawing:
 
 Draw order: left-to-right, PR path on top, main path on the bottom, auth arrows last.
 
-```
+```text
    ┌──────────┐
    │ Feature  │
    │  branch  │

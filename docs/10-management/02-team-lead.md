@@ -61,7 +61,7 @@ For this team, Jira is the single source of truth: a task that is not in Jira do
 
 **Board columns:**
 
-```
+```text
 Backlog ➔ Selected for Development ➔ In Progress ➔ Code Review (PR) ➔ QA/Testing ➔ Done
 ```
 

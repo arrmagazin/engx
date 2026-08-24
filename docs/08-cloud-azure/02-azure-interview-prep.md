@@ -172,7 +172,7 @@ How to practice a sketch and narrate it while drawing is in [Interview Technique
 
 Draw order: management groups top-down → hub → spokes → the connections last.
 
-```
+```text
               ┌──────────────── Tenant Root MG ────────────────┐
               │                                                │
         ┌─────┴─────┐    ┌───────────┐    ┌───────────┐  ┌─────┴─────┐
@@ -219,7 +219,7 @@ Points to make **while** drawing:
 
 Draw order: left-to-right, PR path on top, main path on the bottom.
 
-```
+```text
    ┌──────────┐
    │ Feature  │
    │  branch  │

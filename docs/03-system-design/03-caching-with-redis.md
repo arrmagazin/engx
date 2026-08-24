@@ -52,7 +52,7 @@ Redis was BSD-licensed for most of its life, and it is not any more. In March 20
 
 ## Entities Diagram
 
-```
+```text
 Clients (commands)
       │
       ▼
