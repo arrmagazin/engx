@@ -25,7 +25,7 @@ git status --porcelain | head
 
 Now start the loop: invoke the `ralph-loop:ralph-loop` skill, passing the
 pointer prompt below plus two flags. Use `$ARGUMENTS` as the iteration count,
-or `120` if `$ARGUMENTS` is empty.
+or `20` if `$ARGUMENTS` is empty.
 
 Prompt text (one line, verbatim):
 
