@@ -25,7 +25,7 @@ Quality attributes are the properties an architecture is judged by once it does 
 | **Performance** | Responsiveness measured in latency or throughput (caching, database indexing, asynchronous processing) |
 | **Availability** | Proportion of time the system is functional; affected by errors, infrastructure problems, attacks, and load |
 | **Reliability** | Ability to remain operational over time (fault tolerance, disaster recovery, data replication) |
-| **[Security](02-security-web.md)** | Capability to prevent malicious actions and protect assets (authentication, authorization, encryption, HTTPS, firewalls) |
+| **[Security](../06-frontend/05-security-web.md)** | Capability to prevent malicious actions and protect assets (authentication, authorization, encryption, HTTPS, firewalls) |
 
 ## System Qualities
 

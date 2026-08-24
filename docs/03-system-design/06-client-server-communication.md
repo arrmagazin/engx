@@ -43,7 +43,7 @@ RFC 9110 defines a *safe* method as one whose semantics are read-only, and an *i
 
 Which version you are on is a deployment choice, not an API design choice: the method and status semantics above are identical across all three.
 
-Two adjacent mechanisms have their own homes. Cache headers such as `Cache-Control` and `ETag` are covered in [Performance Optimization](../06-frontend/03-performance-optimization.md); the same-origin policy and CORS preflight are covered in [Web Security](../02-architecture/02-security-web.md).
+Two adjacent mechanisms have their own homes. Cache headers such as `Cache-Control` and `ETag` are covered in [Performance Optimization](../06-frontend/03-performance-optimization.md); the same-origin policy and CORS preflight are covered in [Web Security](../06-frontend/05-security-web.md).
 
 ## REST
 

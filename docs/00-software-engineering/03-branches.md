@@ -50,7 +50,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 ## Security and Trust
 
 - Cryptography
-- Application and Infrastructure Security — [Web Application Security](../02-architecture/02-security-web.md)
+- Application and Infrastructure Security — [Web Application Security](../06-frontend/05-security-web.md)
 - Identity, Privacy, and Compliance
 
 ## Human-Facing Systems

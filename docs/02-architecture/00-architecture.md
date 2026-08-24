@@ -9,14 +9,13 @@ tags: [architecture, system-design]
 
 ![System Architecture](../../images/02-architecture.svg)
 
-**System architecture** is the practice of making the decisions about a solution that are expensive to reverse: what its parts are, how they interact, and how it is expected to change. This chapter covers those decisions, the quality attributes they are judged against, and the security constraints that shape them. Architecture stops at the decisions — turning them into schemas, endpoints, and algorithms is [System Design](../03-system-design/00-system-design.md).
+**System architecture** is the practice of making the decisions about a solution that are expensive to reverse: what its parts are, how they interact, and how it is expected to change. This chapter covers those decisions and the quality attributes they are judged against. Architecture stops at the decisions — turning them into schemas, endpoints, and algorithms is [System Design](../03-system-design/00-system-design.md), and the attack classes a web application is built to withstand are [Web Application Security](../06-frontend/05-security-web.md).
 
 ## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |
 | **[Key Quality Attributes](01-quality-attributes.md)** | The design, runtime, system, and user properties an architecture is evaluated against |
-| **[Web Application Security](02-security-web.md)** | Core web security principles and the OWASP Top 10 categories |
 
 ## What Architecture Captures
 
