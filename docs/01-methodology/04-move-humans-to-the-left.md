@@ -7,7 +7,7 @@ tags: [methodology, automation, ssot, code-generation]
 
 # Move Humans to the Left
 
-## Idea
+## Authoring on the Left, Deriving on the Right
 
 The core idea of the approach is:
 
@@ -16,8 +16,6 @@ The core idea of the approach is:
 - that covers the gaps in the process where humans have to do things by hand, keep them in sync, and apply the same change repeatedly, when a program could do it instead
 
 > To move Humans to the Left!
-
-## Explanation
 
 *Left* and *right* describe a pipeline running from intent to a running system. On the left, someone
 decides what should be true. On the right, that decision takes effect — a service answers a request,

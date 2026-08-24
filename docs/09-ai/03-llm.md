@@ -18,6 +18,11 @@ it are collected under [References](00-ai.md#references).
 
 ## Core Mechanics
 
+Everything later in this guide is bounded by the mechanics below. The model has no unit of work
+smaller than a token, nothing it can attend to beyond the context window, and no output that was not
+drawn from a distribution — which is why cost, truncation, and non-determinism are properties of the
+architecture rather than quirks of a particular API.
+
 | Concept | Definition |
 | --- | --- |
 | **Token** | The atomic unit of text (sub-word fragment) the model reads and emits |
@@ -30,6 +35,12 @@ it are collected under [References](00-ai.md#references).
 
 ## Training Lifecycle
 
+Those mechanics describe the machinery; the stages below are how a particular model acquires the
+behavior you call. Each stage after pre-training narrows a general next-token predictor into
+something that follows instructions and answers the way its owners intended. For an engineer the
+lifecycle matters mostly as a boundary: whatever these stages put into the weights is settled by the
+time you hold an API key, and everything still adjustable happens at inference.
+
 | Stage | Purpose |
 | --- | --- |
 | **Pre-training** | Self-supervised next-token prediction on broad corpora — builds general competence |
@@ -39,6 +50,11 @@ it are collected under [References](00-ai.md#references).
 | **Distillation** | Compress a large model's behavior into a smaller, cheaper one |
 
 ## Inference Controls
+
+Inference is where the adjustable part starts, and these parameters are the cheapest thing in it to
+change. None of them alters what the model knows; they shape how it draws on that — how much of the
+distribution the next token may come from, how long generation runs, and what instruction stands
+over every turn. Reach for them before reaching for anything more elaborate.
 
 | Parameter | Effect |
 | --- | --- |
@@ -50,6 +66,11 @@ it are collected under [References](00-ai.md#references).
 
 ## Usage Techniques
 
+When the controls are not enough, what is left is the prompt and what you put around it. The
+techniques below differ in what they add — examples, intermediate reasoning, retrieved documents, a
+schema, the result of a tool call — but they work through the same channel, because the context
+window is the only route by which anything training did not supply reaches the model.
+
 | Technique | Description |
 | --- | --- |
 | **Prompt Engineering** | Crafting input to elicit desired behavior |
@@ -58,6 +79,10 @@ it are collected under [References](00-ai.md#references).
 | **RAG** | Retrieval-Augmented Generation — inject relevant external documents into context |
 | **Function / Tool Calling** | Model emits structured calls the host executes and feeds back |
 | **Structured Output** | Constrain responses to JSON/schema for reliable downstream parsing |
+
+Routing everything through that one channel is also what leaves two failures standing, both of them
+traceable to the mechanics at the top of this guide rather than to any technique above — which is
+why they are budgeted for rather than removed.
 
 > Two failure modes to design around: **hallucination** (confident but false output) and
 > **context limits** (truncation and "lost in the middle" degradation on long inputs).

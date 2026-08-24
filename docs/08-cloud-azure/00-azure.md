@@ -7,11 +7,11 @@ tags: [azure, cloud, devops, interview]
 
 # Azure
 
-This section covers Microsoft Azure: the managed building blocks the platform offers, and the competencies an Azure infrastructure role is hired against. Read the stack overview when choosing services, and the prep guide when preparing to be questioned on them.
+Microsoft Azure appears here in two forms: as a catalog of managed building blocks to pick from, and as the body of knowledge an infrastructure role is hired against. Each form asks for a different kind of reading. Use the service material as reference — reach for it while a design is open, and take only the section the decision needs. Use the prep material as rehearsal — go through it end to end before a loop, since what is tested is whether you can say the answer out loud, not whether it looks familiar. Anyone arriving from AWS has a shortcut into both, noted at the foot of this page.
 
 ---
 
-## In This Section
+## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |

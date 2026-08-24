@@ -7,11 +7,11 @@ tags: [aws, cloud, devops, interview]
 
 # AWS
 
-This section covers Amazon Web Services: the managed building blocks the platform offers, and the competencies an AWS infrastructure role is hired against. Read the stack overview when choosing services, and the prep guide when preparing to be questioned on them.
+This chapter treats Amazon Web Services twice over: as a catalog of managed building blocks to choose between, and as the body of knowledge an infrastructure role is hired against. The two readings want different handling. Take the service material as reference — open it against a design that is already in front of you and read only the part that applies. Take the prep material as rehearsal — work through it in order before a loop, because what is tested is whether you can produce an answer, not whether you recognize one. Anyone arriving from Azure has a shortcut into both, noted at the foot of this page.
 
 ---
 
-## In This Section
+## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |

@@ -7,15 +7,7 @@ tags: [development-process, knowledge-sharing, team]
 
 # Knowledge Sharing
 
-Knowledge sharing is the exchange of information, expertise, and skills across a team — through conversations, regular meetings, documentation, workshops, and recorded sessions. This guide describes what healthy and unhealthy sharing look like, what each one costs or saves a project, and the practices that keep project knowledge findable. It serves everyone on a delivery team, newcomers included.
-
-## Goals
-
-- Keep projects up and running.
-- Communicate project standards and practices.
-- Keep the team's effort on the right priorities.
-- Make necessary information readily available.
-- Reduce the time team members spend on recurring activities, such as onboarding.
+Knowledge sharing is the exchange of information, expertise, and skills across a team — through conversations, regular meetings, documentation, workshops, and recorded sessions. Done well it keeps a project running, and it stops recurring work such as onboarding from costing the team the same hours over again. This guide describes what healthy and unhealthy sharing look like, what each one costs or saves a project, and the practices that keep project knowledge findable. It serves everyone on a delivery team, newcomers included.
 
 ## Healthy vs. Unhealthy Knowledge Sharing
 
