@@ -1,19 +1,19 @@
 ---
 type: Guide
-title: Programming
+title: Programming Paradigms
 description: Surveys programming paradigms—imperative, declarative, and others—and how each treats data and computation.
 tags: [coding, programming-paradigms]
 ---
 
-# Programming
+# Programming Paradigms
 
-![Programming](/images/05-programming.svg)
+![Programming Paradigms](/images/05-programming.svg)
 
-## Programming Paradigms
-
-A **Programming Paradigm** is an opinionated vision of
-what data computation is in terms of its core concepts,
-dictating how data and code are treated, organized, accessed, and manipulated.
+A **programming paradigm** is an opinionated view of what computation is, dictating how data and
+code are organized, accessed, and manipulated. This guide surveys the imperative, object-oriented,
+declarative, functional, reactive, and metaprogramming families, and serves engineers choosing a
+style for a component or reading code written in an unfamiliar one. It is also the canonical home
+for the OOP pillars.
 
 ```mermaid
 mindmap
@@ -35,7 +35,7 @@ mindmap
       FBP
 ```
 
-### Imperative Programming
+## Imperative Programming
 
 | Paradigm | Description |
 | ---------- | ------------- |
@@ -43,33 +43,36 @@ mindmap
 | **Structured** | A style of imperative programming with more logical program structure. Features: structograms, indentation, limited use of `goto` |
 | **Procedural** | Derived from structured programming, based on modular programming or the procedure call |
 
-### Object-Oriented Programming (OOP)
+## Object-Oriented Programming (OOP)
 
 A prominent approach that considers computation as a side-effect from interacting stateful objects along their lifecycle.
 
-#### OOP Design Principles
+### OOP Pillars
 
 | Principle | Description |
 | ----------- | ------------- |
-| **Abstraction** | Representing a real object by its particular properties only (important in matters of problem) |
+| **Abstraction** | Representing a real object by only the properties that matter to the problem |
 | **Encapsulation** | Mechanism to prevent access to state of object from outside (hide internal complexity) |
 | **Inheritance** | Mechanism allowing ones to borrow/extend state and behavior from a basic one |
 | **Polymorphism** | Mechanism to override method implementations in descendants while preserving signatures and semantics |
 
-#### OOP Concepts
+For language-agnostic design heuristics such as SOLID, GRASP, and DRY, see
+[Design Principles](02-design-principles.md).
+
+### OOP Concepts
 
 | Concept | Definition |
 | --------- | ------------ |
-| **Object** | A single instance in program code with its own state and behavior |
-| **Class** | Specification of state and behavior used to create new objects |
-| **Model** | Bundle of interdependent classes that a system consists of |
-| **State** | Internal data structure belonging to and accessed by a given object |
-| **Behavior** | Set of methods belonging to an object implementing specific logic relied on its state |
-| **Method** | Certain way to handle specific input messages received from outside |
-| **Implementation** | Code defining how to actually handle input signals; has access to input and state, may update state, produce results, fire events |
-| **Invocation** | Act of performing instructions of method along input arguments, scope, and context |
-| **Interaction** | Process of sending signals (events) between objects, responded by invocation of appropriate methods |
-| **Event-Driven Flow** | Indirect way of interaction as sending unified event messages via centralized dispatcher (bus) |
+| **Object** | A single instance in program code with its own State and Behavior |
+| **Class** | Specification of State and Behavior used to create new Objects |
+| **Model** | Bundle of interdependent Classes that a system consists of |
+| **State** | Internal data structure private to one instance |
+| **Behavior** | Set of Methods implementing logic over the State they share |
+| **Method** | Named way of handling one specific input message |
+| **Implementation** | Code defining how an input message is actually handled; reads input and State, and may update State, produce results, or send further messages |
+| **Invocation** | Act of performing the instructions of a Method with given arguments, scope, and context |
+| **Interaction** | Process of sending messages between Objects, each answered by Invocation of the matching Method |
+| **Event-Driven Flow** | Indirect Interaction in which uniform events travel through a centralized dispatcher (bus) |
 
 ```mermaid
 sequenceDiagram
@@ -83,54 +86,59 @@ sequenceDiagram
     Bus-->>Sender: dispatch Event
 ```
 
-### Declarative Programming
+## Declarative Programming
 
 A style building program structure that expresses the logic of computation without describing its control flow. Many languages minimize or eliminate side effects by describing WHAT the runtime engine must accomplish rather than HOW.
 
-Examples: HTML, MXML, XAML, XSLT, and other UI markup languages.
+Examples: SQL, Prolog, Datalog, and regular expressions; XSLT for XML transformation; HTML, XAML, and MXML for user interfaces.
 
-### Functional Programming
+## Functional Programming
 
-A programming paradigm promoting computation as declarative composition and lazy-evaluation of pure (mathematical) functions.
+A programming paradigm promoting computation as the declarative composition of pure (mathematical) functions.
 
-> The main difference from imperative programming is the use of lazy evaluation model. Everything else - purity of functions, anonymous functions, higher-order functions, monads, parametric polymorphism - are just consequences.
-
-#### Key Concepts
+### Functions and Purity
 
 | Concept | Definition |
 | --------- | ------------ |
-| **Lazy Evaluation** | Call-by-need evaluation delaying expression evaluation until value is needed; allows structures like infinite lists |
 | **Operation** | Correspondence of input with unambiguous output: (x..., y1) & (x..., y2) => y1 ≡ y2 |
 | **Parameter** | Reference to elementary piece of input data structure, by name or index |
-| **Argument** | Input data value applied to corresponding parameter when operation is performed |
+| **Argument** | Input data value applied to the corresponding Parameter when an Operation is performed |
 | **Function** | Operation providing mapping from elements of domain to elements of codomain |
 | **Arity** | Dimension of domain space: unary, binary, n-ary, variadic |
-| **Partial Function** | Function not defined for all possible values of its domain |
-| **Deterministic Function** | Function always producing same results for same input |
-| **Pure Function** | Deterministic function without side effects |
+| **Partial Function** | Mapping not defined for all possible values of its domain |
+| **Deterministic Function** | Mapping always producing the same results for the same input |
+| **Pure Function** | Deterministic Function without side effects |
 | **Side Effects** | Interactions (reads/writes) with external mutable state |
 | **Higher-Order Function (HOF)** | A function taking a function as argument and/or returning a function |
+| **Immutability** | Inability to destructively change/mutate input parameters, context, or state |
+| **Idempotent** | Property of an operation whose reapplication to its own result changes nothing; see [System Design Concepts](../03-system-design/05-concepts.md) |
 
-#### Advanced FP Concepts
+### Function Composition
 
 | Concept | Definition |
 | --------- | ------------ |
 | **Function Pipe** | Putting list of functions together where output of previous is input of next |
-| **Fun-Arg Problem** | How to preserve references to environment variables after function is executed |
+| **Fun-Arg Problem** | Difficulty of keeping a function's free variables alive after the scope that defined them has returned |
 | **Closure** | Function retaining a reference to its free variables (from outer scope) |
 | **Point-Free Style** | Writing functions where definition doesn't explicitly identify arguments used |
 | **Partial Application** | Creating a new function by pre-filling some arguments to the original function |
-| **Currying** | Generation of derived function doing same as original but with partially applied arguments |
+| **Currying** | Transformation of an n-ary function into a chain of unary functions, each taking one Argument |
 | **Auto Currying** | Transforming a multi-argument function into one that returns a function taking the rest if given fewer arguments |
-| **Continuation** | The part of code yet to be executed at any given point |
-| **Memoization** | Storing and reusing results of function instead of actual re-execution |
-| **Immutability** | Inability to destructively change/mutate input parameters, context, or state |
-| **Idempotent** | Reapplying to result does not produce different result |
-| **Recursion** | Function calling itself during execution |
 | **Fixed-point Combinator** | Function Y returning fixed point for its argument function: Y(f) == f(Y(f)) |
+
+### Evaluation Strategy
+
+Evaluation order is independent of the paradigm: Haskell is lazy by default, while Standard ML, OCaml, Scheme, Clojure, and Erlang are strict.
+
+| Concept | Definition |
+| --------- | ------------ |
+| **Lazy Evaluation** | Call-by-need strategy that defers computing an expression until its value is demanded, allowing infinite data structures |
+| **Continuation** | The part of code yet to be executed at any given point |
+| **Memoization** | Cache of previously computed results, reused instead of recomputing |
+| **Recursion** | Function calling itself during execution |
 | **Tail Recursion** | A function call where there is nothing to do after the function returns except return its value; essentially equivalent to looping |
 
-### Reactive Programming
+## Reactive Programming
 
 Programming as defining reactions on sequences of incoming events (data streams) that can be combined and observed asynchronously.
 
@@ -140,28 +148,28 @@ to whoever declared interest, and change propagates automatically through the de
 ```mermaid
 flowchart LR
     P[Producer] -->|push| S1[Stream]
-    S1 -->|map| S2[Stream']
-    S2 -->|filter| S3[Stream'']
+    S1 -->|map| S2["Stream'"]
+    S2 -->|filter| S3["Stream''"]
     S3 --> O1[Observer A]
     S3 --> O2[Observer B]
 ```
 
-#### Key Concepts
+### Stream Concepts
 
 | Concept | Definition |
 | --------- | ------------ |
 | **Stream (Observable)** | Time-ordered sequence of values, plus terminal completion or error signals |
 | **Observer (Subscriber)** | Consumer declaring handlers for the three channels: `next`, `error`, `complete` |
 | **Subscription** | The live link between producer and consumer; must be disposed to stop the flow and free resources |
-| **Push vs Pull** | Reactive sources push values at their own pace; iterators/generators are pulled by the consumer |
-| **Cold vs Hot** | Cold streams start producing per subscriber (each gets the full sequence); hot streams broadcast a shared, already-running sequence |
+| **Push vs. Pull** | Which side sets the pace: a source emitting on its own schedule, or a consumer requesting the next value (iterators, generators) |
+| **Cold vs. Hot** | Whether each subscriber triggers its own execution from the beginning, or joins one already-running sequence shared by all |
 | **Subject** | Object that is both observer and observable — the usual bridge from imperative code into a stream |
-| **Propagation of Changes** | A change in a source automatically recomputes everything derived from it |
+| **Propagation of Changes** | Automatic recomputation of every value derived from a source when that source updates |
 | **Glitch** | Transient inconsistent state where a dependent observes partially updated inputs |
 | **Backpressure** | Protocol for a slow consumer to limit a fast producer (request-n, buffer, drop, sample, or block) |
 | **Scheduler** | Policy deciding on which thread/tick emissions and subscriptions run |
 
-#### Operator Categories
+### Operator Categories
 
 | Category | Examples | Purpose |
 | ---------- | ---------- | --------- |
@@ -174,7 +182,7 @@ flowchart LR
 | **Error Handling** | `catchError`, `retry`, `timeout` | Recover from or bound failures without breaking the pipeline |
 | **Multicasting** | `share`, `publish`, `refCount` | Convert cold to hot, sharing one execution among subscribers |
 
-#### Rate Control
+### Rate Control
 
 | Technique | Behavior |
 | ----------- | ---------- |
@@ -183,7 +191,7 @@ flowchart LR
 | **Sample** | Emit the latest value at a fixed clock, regardless of source rate (polling a signal) |
 | **Buffer / Window** | Batch values into arrays or sub-streams by count or time |
 
-#### Reactive Systems
+### Reactive Systems
 
 The *Reactive Manifesto* applies the same idea at architecture scale:
 
@@ -194,17 +202,17 @@ The *Reactive Manifesto* applies the same idea at architecture scale:
 | **Elastic** | Stays responsive under varying load by scaling resources |
 | **Message-Driven** | Built on asynchronous, non-blocking message passing with explicit boundaries |
 
-*Implementations*: RxJS/RxJava/Rx.NET, Project Reactor, Akka Streams, Kafka Streams, Reactive Streams (JDK `Flow`)
+*Implementations*: RxJS/RxJava/Rx.NET, Project Reactor, Akka Streams, Kafka Streams, Reactive Streams (`java.util.concurrent.Flow`, added in Java 9)
 
 *See also*: [Functional Reactive Programming](#functional-reactive-programming-frp) — the pure-function, time-explicit formulation of these ideas
 
-### Functional Reactive Programming (FRP)
+## Functional Reactive Programming (FRP)
 
 A combination of functional and reactive paradigms: values that change over time are modeled
 as first-class citizens and transformed by pure functions, instead of being updated by callbacks
 that mutate shared state.
 
-#### Key Concepts
+### FRP Concepts
 
 | Concept | Definition |
 | --------- | ------------ |
@@ -217,7 +225,7 @@ that mutate shared state.
 | **Accumulation (`scan`/`fold`)** | Deriving state from a stream by folding past occurrences — the only sanctioned form of state |
 | **Glitch-Freedom** | Guarantee that dependents observe a consistent snapshot; no intermediate values from partial propagation |
 
-#### Variants
+### Variants
 
 | Variant | Description |
 | --------- | ------------- |
@@ -226,14 +234,13 @@ that mutate shared state.
 | **Discrete / "RX-style"** | Push-based streams without continuous time; pragmatic and widely deployed (RxJS, Reactor, Combine) |
 | **Signal-based UI** | Fine-grained dependency graph of signals with automatic recomputation (SolidJS, Svelte runes, Angular signals) |
 
-#### Trade-offs
+### FRP Trade-offs
 
 | Aspect | Note |
 | -------- | ------ |
 | **Strengths** | Explicit data flow, composability, no manual subscription bookkeeping, testable as pure transformations |
 | **Costs** | Steep learning curve, hard debugging (stack traces lost in the graph), memory/space leaks from retained histories |
 | **Applicability** | UI state, animation, telemetry and event processing, robotics and simulation |
-
 
 ## Metaprogramming
 
@@ -245,17 +252,17 @@ or transforming code instead of only executing it. The *metaprogram* operates on
 flowchart LR
     GEN[Generator / Schema] -.->|emit source| SRC
     SRC[Source Text] -->|parse| AST[AST]
-    AST -->|macro expansion| AST2[AST']
+    AST -->|macro expansion| AST2["AST'"]
     AST2 -->|compile| BIN[Bytecode / Binary]
     BIN -->|load, weave| RT[Runtime Objects]
     RT -->|reflect, proxy, patch| RT
 ```
 
-### Key Concepts
+### Metaprogramming Concepts
 
 | Concept | Definition |
 | --------- | ------------ |
-| **Metalevel vs Base Level** | The metaprogram manipulates representations of code; the object program is the code being manipulated |
+| **Metalevel vs. Base Level** | The metaprogram manipulates representations of code; the object program is the code being manipulated |
 | **Introspection** | Read-only examination of program structure — types, members, signatures, annotations |
 | **Reflection** | Introspection plus *intercession*: invoking, defining, or altering structure dynamically |
 | **Homoiconicity** | Code is represented in the language's own data structures, so manipulating code is ordinary data manipulation (Lisp s-expressions) |
@@ -283,7 +290,7 @@ The same goal can be reached at different points in the lifecycle, with sharply 
 | Technique | Mechanism | Examples |
 | ----------- | ----------- | ---------- |
 | **Textual Macros** | Token substitution before parsing; unhygienic, unaware of syntax | C/C++ preprocessor |
-| **Syntactic Macros** | Hygienic AST-to-AST functions run by the compiler | Lisp `defmacro`, Rust `macro_rules!` and proc macros, Scala 3 `inline`/quotes, Elixir |
+| **Syntactic Macros** | AST-to-AST functions run by the compiler; hygiene depends on the macro system | Scheme `syntax-rules`/`syntax-case` (hygienic), Common Lisp `defmacro` (unhygienic, hence `gensym`), Rust `macro_rules!` and proc macros, Scala 3 `inline`/quotes, Elixir |
 | **Compile-time Evaluation** | Ordinary code executed by the compiler to specialize or produce declarations | C++ templates and `constexpr`, Zig `comptime`, D CTFE |
 | **Annotation Processing** | Declarative metadata read by a generator that emits companion code | Java APT/Lombok, Kotlin KSP, C# Source Generators, `go:generate` |
 | **Reflection APIs** | Runtime access to the type system and member tables | `java.lang.reflect`, `System.Reflection`, Python `inspect`/`getattr`, JS `Reflect` |
@@ -292,7 +299,7 @@ The same goal can be reached at different points in the lifecycle, with sharply 
 | **Bytecode Manipulation** | Rewriting compiled artifacts directly | ASM, Javassist, ByteBuddy, Mono.Cecil |
 | **Schema-driven Generation** | Deriving clients, models, and serializers from an external contract | Protobuf/gRPC, OpenAPI, GraphQL codegen, ORM entities |
 
-### Trade-offs
+### Metaprogramming Trade-offs
 
 | Aspect | Note |
 | -------- | ------ |
