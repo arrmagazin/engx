@@ -10,7 +10,7 @@
 # headings from the working tree. That catches a bad link the moment the referring file is
 # staged. It does NOT catch the mirror case: renaming a heading in A.md breaks anchors in
 # B.md, and a commit staging only A.md passes. The complement is a periodic full-tree run,
-#     python3 scripts/check_links.py $(git ls-files 'docs/*.md' 'docs/**/*.md')
+#     git ls-files 'docs/*.md' | xargs python3 scripts/check_links.py
 # which is also how to check the repo after a merge.
 
 files=$(git diff --cached --name-only --diff-filter=ACMR -- 'docs/*.md')
