@@ -1,19 +1,17 @@
 ---
 type: Guide
-title: Design principles
-description: Catalogs core software design principles (encapsulation, DRY, SoC, and more) plus the SOLID and GRASP principles of object-oriented design.
+title: Design Principles
+description: Core software design principles (DRY, SSOT, SoC, and more) plus the SOLID and GRASP principles of object-oriented design.
 tags: [coding, design-principles, solid, grasp]
 ---
 
-# Design principles
+# Design Principles
 
-A **Design Principle** is a general, technology-agnostic heuristic constraint to *structural* decisions about code.
-
-Design principle refers to a force to optimize against some Design Criteria.
+A **design principle** is a general, technology-agnostic constraint on *structural* decisions about code: a force to optimize against one of the design criteria below. This page is the canonical home for SOLID, GRASP, DRY, and Single Source of Truth.
 
 | Property | Meaning |
 | ---------- | --------- |
-| **Prescriptive, not procedural** | Design principle comes without the concrete constructs that achieves it. States what a design must be true of, not the steps to get there |
+| **Prescriptive, not procedural** | Comes without the concrete constructs that achieve it; states what must be true of a design, not the steps to get there |
 | **Justified by consequence** | Its authority comes from a predicted cost, usually the cost of future change; a principle with no consequence attached is a style rule |
 | **Non-absolute** | Principles conflict by design (DRY against premature normalization, SSOT against its own coupling cost) — applying them is trade-off resolution, not compliance |
 | **Falsifiable in review** | Concrete code can be pointed at and argued a violation; if no code could ever violate it, it is a value, not a principle |
@@ -23,61 +21,59 @@ A principle's practical test must tell you which of two designs is better *befor
 
 ## Design Criteria
 
-Criteria for code that is easy to *understand by human, assure, evolve and maintain*.
+Properties of code that a person can *understand, assure, evolve, and maintain* without difficulty.
 
 | Criterion | Description |
 | ----------- | ------------- |
-| **Composability** | Ability of code to be combined into new, more complex code. The state of the art: system design should follow correct Contracts around Separation, Ownership, and Responsibility |
-| **Maintainability** | How easily code can be understood, modified, or extended — the aggregate the criteria below serve. The test is elapsed time: if a change takes long, maintainability wasn't considered |
+| **Composability** | Ability of code to be combined into larger code without modifying the parts being combined; it depends on each part exposing a contract that states what it owns and what it leaves to callers |
+| **Maintainability** | How easily code can be understood, modified, or extended; the remaining criteria are the specific properties that produce it |
 | **Simplicity** | Code should be as simple as possible; avoid unnecessary complexity — simple code is easier to extend |
 | **Readability** | Code should be easily understandable using meaningful names and logical organization, so that others can read and edit it; a peer review confirms this |
-| **Consistency** | Follow one coding style, set of design principles, patterns and best practices across the codebase; shared rules agreed early keep many developers aligned, and standard-conforming code is easier to find, reuse, and update |
+| **Consistency** | Follow one coding style, set of design principles, patterns, and best practices across the codebase; shared rules agreed early keep many developers aligned, and standard-conforming code is easier to find, reuse, and update |
 | **Comments/Documentation** | Explain WHY certain decisions were made, not HOW code works |
 | **Error Handling** | Handle errors gracefully; anticipate potential failures (**Fail-fast**) |
 | **Observability** | Runtime behavior can be understood from what the code already emits — structured logs, metrics, traces — so a failure can be diagnosed without shipping new code to reproduce it |
 | **Testability** | Clean code is testable: small, independent behaviors that automated tests can verify, otherwise thorough testing is impractical |
 
-## Prominent Design principles
+## Prominent Design Principles
 
 | Principle | Description |
 | ----------- | ------------- |
-| **Single Level of Abstraction (SLAP)** | Operate on well-defined glossary concepts providing a single layer of abstraction and scope |
-| **Rule of Least Power** | Use the least powerful language suitable for the purpose |
-| **KISS** | Keep It Stupid Simple |
+| **Single Level of Abstraction (SLAP)** | Every statement in a routine sits at the same level of abstraction; a routine that mixes high-level policy with low-level detail is the violation, and extracting the detail into named calls is the fix |
+| **Rule of Least Power** | Use the least powerful language suitable for the purpose, because the less a notation can express the more can be inferred from it (W3C TAG finding, Berners-Lee) |
+| **KISS** | "Keep It Simple, Stupid" — prefer the simplest design that meets the need (attributed to Kelly Johnson) |
 | **Separation of Concerns (SoC)** | Cut the system along axes of change, so each concern lives in one place and can be changed without touching the others |
-| **Abstraction (DRY)** | Every piece of knowledge/instructions has a single, unambiguous representation — each significant piece of functionality is implemented in just one place |
-| **Delegation** | Focus on one whole thing, delegate all other outside |
-| **Inversion of Control**(Hollywood) | Custom code receives flow of control from a generic framework — "Don't call us, we'll call you"  |
-| **Uniform Access** | All services should be available through uniform notation |
-| **Least Astonishment** | Component should behave as most users expect it to |
+| **DRY (Don't Repeat Yourself)** | Every piece of knowledge must have a single, unambiguous, authoritative representation within a system (Hunt & Thomas, *The Pragmatic Programmer*) |
+| **Delegation** | Do one thing yourself and hand the rest to the object that owns it |
+| **Inversion of Control** | Custom code receives the flow of control from a generic framework — "Don't call us, we'll call you", also known as the Hollywood Principle |
+| **Uniform Access** | All services offered by a module should be available through a uniform notation, which does not betray whether they are implemented through storage or through computation |
+| **Least Astonishment** | A component should behave the way most of its users expect it to |
 | **Law of Demeter** | A method should only call methods of its immediate collaborators |
-| **Worse is Better** | Simple implementation is more important than complete functionality |
+| **Worse is Better** | A simple implementation is more valuable than complete functionality, because the simple one spreads first (Richard P. Gabriel) |
 | **YAGNI** | You Aren't Gonna Need It — don't implement until necessary |
 
-## SOLID Principles of object-oriented design 
+## SOLID Principles of Object-Oriented Design
 
-SOLID principles aim to reduce module changes to addition and removal, supporting deferring technical decisions and dividing labor.
+Five principles formulated by Robert C. Martin; the acronym is Michael Feathers'. Together they aim to reduce module change to addition and removal, which supports deferring technical decisions and dividing labor.
 
-| Letter | Principle | Description |
-| -------- | ----------- | ------------- |
-| **S** | Single Responsibility | An entity should be concerned with only one function; should have only one reason to change from a single business role |
-| **O** | Open/Closed | An entity should be open for extension, but closed for modification |
-| **L** | Liskov Substitution | A typed object should be replaceable with instances of their subtypes without altering correctness |
-| **I** | Interface Segregation | Make fine-grained interfaces that are client specific |
-| **D** | Dependency Inversion | One should depend upon abstractions, not concretions; Dependency Injection is its common implementation |
+| Principle | Description |
+| ----------- | ------------- |
+| **Single Responsibility (S)** | An entity should be concerned with one function and have one reason to change, answering to a single business role |
+| **Open/Closed (O)** | An entity should be open for extension but closed for modification |
+| **Liskov Substitution (L)** | An object must be replaceable by an instance of any of its subtypes without altering the correctness of the program: a subtype may not strengthen the preconditions of an inherited operation, may not weaken its postconditions, and must preserve the invariants its base type guarantees. A subtype that throws where the base type returns, or that narrows an accepted input range, breaks substitutability even where the compiler accepts it |
+| **Interface Segregation (I)** | Make fine-grained interfaces that are client-specific, so no client depends on methods it does not use |
+| **Dependency Inversion (D)** | Depend upon abstractions, not concretions; Dependency Injection is its common implementation |
 
 ## GRASP — General Responsibility Assignment Software Patterns
 
-Where SOLID governs the *shape* of a module, GRASP answers the prior question: **who should own this responsibility?** 
-
-Those two are the goals, the other seven are the moves that achieve them. 
+Nine patterns for assigning responsibilities to types, formulated by Craig Larman. Where SOLID governs the *shape* of a module, GRASP answers the prior question: **who should own this responsibility?** Two of the nine name the goals; the other seven are the moves that achieve them.
 
 | Goal | Description |
 | -------- | ------------- |
 | **Low Coupling** | Assign duties so dependencies between elements stay few and stable |
 | **High Cohesion** | Keep duties that change together in one place |
 
-Each pattern is a rationale for placing a duty on one type rather than another.
+Each of the remaining patterns is a rationale for placing a duty on one type rather than another.
 
 | Pattern | Description |
 | -------- | ------------- |
@@ -91,8 +87,9 @@ Each pattern is a rationale for placing a duty on one type rather than another.
 
 ## Single Source of Truth (SSOT)
 
-A design principle stating that every piece of knowledge has exactly one authoritative
-representation, and everything else is *derived* from it rather than restated alongside it.
+**Single Source of Truth (SSOT)** is the design principle that every piece of knowledge has exactly
+one authoritative representation, and everything else is *derived* from it rather than restated
+alongside it.
 
 Duplication is not forbidden — uncontrolled duplication is. A copy that a machine regenerates
 is a cache; a copy that a human maintains is a future contradiction.
@@ -107,11 +104,15 @@ independently editable, the arrow reverses and the guarantee is gone.
 | **Canonical Source** | The one representation designated as authoritative; conflicts are resolved in its favor by definition, not by negotiation |
 | **Derived Artifact** | Any representation reproducible from the source by a deterministic transformation |
 | **Projection** | A read-optimized view built from the source — denormalized on purpose, never edited in place |
-| **Idempotent Derivation** | Regenerating from an unchanged source yields an unchanged artifact, making drift detectable by diff |
+| **Idempotent Derivation** | Regeneration that yields an unchanged artifact from an unchanged source, making drift detectable by diff |
 | **Drift** | Divergence between source and copy; the failure mode SSOT exists to prevent |
 | **Reconciliation** | Continuously re-deriving actual state toward declared state (the control loop behind IaC and Kubernetes) |
 | **Controlled Duplication** | Copies that are generated, checked, or expired — caches, indexes, materialized views, replicas |
-| **DRY vs SSOT** | DRY is about *knowledge*, not text: two identical lines expressing unrelated decisions are not a violation, and two divergent expressions of one decision are |
+
+DRY and SSOT are not the same rule. DRY is about *knowledge*, not text: two identical lines
+expressing unrelated decisions are not a violation, and two divergent expressions of one decision
+are. SSOT is the stronger claim — where copies of one piece of knowledge must exist, it names which
+of them is authoritative and requires the rest to be derived from it.
 
 ### Where It Applies
 
