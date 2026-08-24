@@ -1,16 +1,31 @@
 ---
 type: Guide
-title: Introduction to Modern Software Engineering
-description: Introduces this engineering knowledge base and defines foundational concepts of solutions, delivery, and engineering.
-tags: [methodology, introduction, engineering]
+title: Engineering Knowledge Base
+description: The book's entry point — a table of contents naming what each chapter covers.
+tags: [engineering, handbook, overview]
 ---
 
-# Introduction to Modern Software Engineering
+# Engineering Knowledge Base
 
-![Introduction to Modern Software Engineering](/images/welcome.svg)
+![Engineering Knowledge Base](../images/welcome.svg)
 
-This book is designed to give every engineer a *foundation* to grow with excellence in their daily work.
+This book collects the vocabulary, practices, and reference material an engineer uses across a project — from the terms in a requirements discussion to the services running in production. Each chapter stands on its own, so read them in order if the field is new to you, or go straight to the one you came for.
 
-The journey of learning never ends. 
+---
 
-> Stay curious, stay humble, and keep building.
+## In This Book
+
+| Chapter | What it covers |
+| --- | --- |
+| **[Software Engineering](00-software-engineering/00-software-engineering.md)** | The shared vocabulary, the published standards, and the map of engineering disciplines |
+| **[Methodology](01-methodology/00-methodology.md)** | How work is organized — lean, agile, scrum, and moving quality earlier |
+| **[System Architecture](02-architecture/00-architecture.md)** | Architecture as a discipline, its views, its quality attributes, and web security |
+| **[System Design](03-system-design/00-system-design.md)** | Databases, caching, messaging, containers, and worked designs of canonical systems |
+| **[Development Process](04-development-process/00-development-process.md)** | Version control, code review, CI/CD, quality assurance, debugging, and technical debt |
+| **[Coding](05-coding/00-coding.md)** | Paradigms, design principles, design patterns, code smells, and code quality |
+| **[Frontend](06-frontend/00-frontend.md)** | Application types, data formats, client-server communication, performance, and accessibility |
+| **[AWS](07-cloud-aws/00-aws.md)** | The AWS service catalog and the competencies an AWS infrastructure role is hired against |
+| **[Azure](08-cloud-azure/00-azure.md)** | The Azure service catalog and the competencies an Azure infrastructure role is hired against |
+| **[Artificial Intelligence](09-ai/00-ai.md)** | The layered stack from machine learning through large language models to agents |
+| **[People Management](10-management/00-management.md)** | Delivery management, leading a team, and the people side of engineering leadership |
+| **[Interview Preparation](11-interview/00-interview.md)** | Material specific to interview loops, starting with the system design framework |
