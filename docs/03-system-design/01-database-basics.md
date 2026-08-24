@@ -1,13 +1,15 @@
 ---
 type: Guide
-title: Databases — core concepts
-description: Covers core database concepts, ACID properties, isolation levels, and normalization.
+title: Databases — Core Concepts
+description: Covers relational and document database vocabulary, ACID and isolation levels, indexing, normalization, scaling, and migrations.
 tags: [tech-stack, databases, sql]
 ---
 
-# Databases — core concepts
+# Databases — Core Concepts
 
-## Core concepts
+A working vocabulary for relational and document databases: what the pieces are called, what guarantees a transaction gives, how a schema is kept honest, and what breaks first when the data outgrows one machine.
+
+## Core Concepts
 
 - **Table / collection** — a set of records with a shared shape (rigid schema in SQL, flexible/per-document in NoSQL).
 - **Row / document** — one record.
@@ -25,16 +27,18 @@ tags: [tech-stack, databases, sql]
 - **Isolation** — concurrent transactions don't see each other's uncommitted changes. Enforced with varying strictness — see isolation levels below.
 - **Durability** — once committed, a write survives a crash (written to disk / WAL before acknowledging).
 
-## Isolation levels (strongest to weakest guarantee, in practice weakest to strongest below)
+## Isolation Levels
+
+The four levels below are defined by the SQL standard, in order of increasing strictness: each prevents everything the one before it prevents, plus one more anomaly.
 
 | Level | Prevents | Allows |
 | --- | --- | --- |
-| Read uncommitted | Nothing | Dirty reads (seeing another transaction's uncommitted writes) |
-| Read committed | Dirty reads | Non-repeatable reads (same query, different result, within one transaction) |
-| Repeatable read | Dirty + non-repeatable reads | Phantom reads (new rows matching a filter appear on re-query) |
-| Serializable | All of the above | Transactions behave as if run one at a time — highest cost |
+| **Read uncommitted** | Nothing | Dirty reads (seeing another transaction's uncommitted writes) |
+| **Read committed** | Dirty reads | Non-repeatable reads (same query, different result, within one transaction) |
+| **Repeatable read** | Dirty and non-repeatable reads | Phantom reads (new rows matching a filter appear on re-query) |
+| **Serializable** | All of the above | Transactions behave as if run one at a time — the highest cost |
 
-Most databases default to **read committed** (Postgres, Oracle) or **repeatable read** (MySQL/InnoDB). Higher isolation reduces write throughput under contention — pick the weakest level the application's correctness actually requires.
+Engines do not implement these names identically. Most default to **read committed** (Postgres, Oracle) or **repeatable read** (MySQL/InnoDB); Postgres implements `REPEATABLE READ` as snapshot isolation, and InnoDB's consistent non-locking reads prevent phantoms that the standard permits at that level. Read the engine's documentation rather than the level's name. Higher isolation reduces write throughput under contention, so pick the weakest level the application's correctness actually requires.
 
 ## Normalization
 
@@ -46,39 +50,39 @@ Splitting data to eliminate redundancy, so each fact is stored once.
 
 **Denormalization** — deliberately duplicating data (e.g. storing a `customerName` alongside `customerId`) to avoid joins on hot read paths. Trades write complexity/storage for read speed — a deliberate choice, not a mistake, when read volume dominates.
 
-## Indexing, in practice
+## Indexing in Practice
 
 - An index speeds up `WHERE`, `JOIN`, and `ORDER BY` on the indexed column(s), at the cost of slower writes and extra storage.
 - A **composite index** on `(a, b)` serves queries filtering on `a` alone or on `a` and `b` together, but not on `b` alone — column order matters.
-- An index that isn't used by the query planner (e.g. wrapping the column in a function, or the table being too small to bother) is dead weight — verify with `EXPLAIN`.
+- An index that isn't used by the query planner (e.g. wrapping the column in a function, or the table being too small to bother) costs writes and storage and returns nothing — verify with `EXPLAIN`.
 - Unique indexes double as constraints (enforce no duplicates) as well as speeding up lookups.
 
-## Transactions and locking
+## Transactions and Locking
 
 - A transaction's isolation level determines what locks (or MVCC snapshot rules) it takes on read/write.
 - **Deadlock** — two transactions each hold a lock the other needs; the database detects the cycle and aborts one. Application code must retry.
 - **Optimistic vs pessimistic concurrency** — pessimistic takes a lock upfront (`SELECT ... FOR UPDATE`); optimistic reads without locking and checks a version/timestamp at write time, retrying on conflict.
 
-## SQL vs NoSQL
+## SQL vs. NoSQL
 
-| | SQL (relational) | NoSQL (document/KV/wide-column) |
+| Aspect | SQL (relational) | NoSQL (document/KV/wide-column) |
 | --- | --- | --- |
-| Schema | Fixed, enforced at write | Flexible, enforced by application (if at all) |
-| Relationships | Joins across normalized tables | Usually denormalized/embedded to avoid joins |
-| Consistency | Strong (ACID transactions) by default | Often tunable; many default to eventual consistency across replicas |
-| Scaling | Vertical first; horizontal (sharding) is hard and often manual | Built for horizontal scaling from the start |
-| Fit | Structured data with relationships and invariants to enforce (orders, accounts, inventory) | High write volume, flexible/evolving shape, denormalized read patterns (logs, sessions, catalogs) |
+| **Schema** | Fixed, enforced at write | Flexible, enforced by application (if at all) |
+| **Relationships** | Joins across normalized tables | Usually denormalized/embedded to avoid joins |
+| **Consistency** | Strong (ACID transactions) by default | Often tunable; many default to eventual consistency across replicas |
+| **Scaling** | Vertical first; horizontal (sharding) is hard and often manual | Built for horizontal scaling from the start |
+| **Fit** | Structured data with relationships and invariants to enforce (orders, accounts, inventory) | High write volume, flexible/evolving shape, denormalized read patterns (logs, sessions, catalogs) |
 
-The line has blurred — Postgres has JSONB columns for schema-flexible data; MongoDB supports multi-document ACID transactions. Choose based on the dominant access pattern and consistency needs, not the label.
+The distinction is no longer clean: Postgres has JSONB columns for schema-flexible data, and MongoDB supports multi-document ACID transactions. Choose based on the dominant access pattern and consistency needs, not the label.
 
-## Scaling a database
+## Scaling a Database
 
 - **Vertical scaling** — bigger machine (more CPU/RAM/disk). Simple, has a ceiling.
 - **Read replicas** — copies of the primary that serve reads, replicated asynchronously (usually). Scales read throughput; replicas can lag, so reads from them may be stale.
 - **Sharding / partitioning** — splitting data across multiple database instances by key range or hash. Scales writes, but cross-shard joins/transactions become expensive or impossible — the shard key choice is a long-term commitment.
 - **Caching in front of the database** (Redis, etc.) — reduces load for hot reads; introduces cache-invalidation problems.
 
-## N+1 queries — the detail people get wrong
+## N+1 Queries
 
 Fetching a list, then issuing one additional query per row to fetch related data (e.g. loading 50 orders, then querying each order's customer separately) — 1 query becomes 51. Fix by joining, or by batching the related fetch (`WHERE id IN (...)`) instead of looping. ORMs are the most common source of this, since the extra queries are hidden behind attribute access.
 
