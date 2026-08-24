@@ -1,11 +1,13 @@
 ---
 type: Guide
 title: Web Application Security
-description: Covers core web security principles and the OWASP Top 10 vulnerability categories.
+description: Covers core web security principles, the OWASP Top 10 (2025 edition), and the defenses that implement them.
 tags: [security, web, owasp]
 ---
 
 # Web Application Security
+
+Web application security is the work of keeping an application's data and actions reachable only by the people entitled to them. This guide covers the principles that hold across attack classes, the OWASP Top 10 as of its 2025 edition, and the concrete defenses that implement them.
 
 ## Security Principles
 
@@ -17,45 +19,42 @@ tags: [security, web, owasp]
 | **Input Validation** | Whitelist approach |
 | **Secure by Default** | HTTPS, secure cookies out of the box |
 
----
-
-## OWASP Top 10 (2021)
+## OWASP Top 10 (2025)
 
 | Rank | Category | Description |
 | --- | --- | --- |
-| A01 | Broken Access Control | Unauthorized resource access |
-| A02 | Cryptographic Failures | Weak or missing encryption |
-| A03 | Injection | Malicious input interpreted as code |
-| A04 | Insecure Design | Missing security in design phase |
-| A05 | Security Misconfiguration | Insecure defaults |
-| A06 | Vulnerable Components | Outdated dependencies |
-| A07 | Authentication Failures | Weak passwords, no rate limiting |
-| A08 | Data Integrity Failures | Software/serialization vulnerabilities |
-| A09 | Logging Failures | Missing or inadequate logging |
-| A10 | SSRF | Server-side request forgery |
+| **A01** | Broken Access Control | Users reach resources or actions their permissions do not cover |
+| **A02** | Security Misconfiguration | Insecure defaults, unnecessary features, missing hardening |
+| **A03** | Software Supply Chain Failures | Compromised or unvetted dependencies, build systems, and distribution |
+| **A04** | Cryptographic Failures | Weak, missing, or misapplied encryption |
+| **A05** | Injection | Untrusted input interpreted as code or query syntax |
+| **A06** | Insecure Design | Security controls missing or inadequate in the design itself |
+| **A07** | Authentication Failures | Weak credentials, missing rate limiting, broken session handling |
+| **A08** | Software or Data Integrity Failures | Unverified updates, insecure deserialization, tampered artifacts |
+| **A09** | Security Logging and Alerting Failures | Logging that is missing, inadequate, or never monitored |
+| **A10** | Mishandling of Exceptional Conditions | Errors and edge cases handled in ways that leak data or fail open |
+
+The 2025 edition retired SSRF as a standalone category and added Mishandling of Exceptional Conditions. Supply chain risk grew from the 2021 edition's Vulnerable and Outdated Components into its own category at A03.
 
 ```mermaid
 mindmap
-  root((OWASP Top 10))
+  root((OWASP Top 10 2025))
     Access
       A01 Broken Access Control
-      A07 Auth Failures
-    Data
-      A02 Cryptographic Failures
-      A08 Data Integrity
-    Input
-      A03 Injection
-      A10 SSRF
-    Design
-      A04 Insecure Design
-      A05 Misconfiguration
-    Supply
-      A06 Vulnerable Components
-    Observe
-      A09 Logging Failures
+      A07 Authentication Failures
+    Design and configuration
+      A02 Security Misconfiguration
+      A06 Insecure Design
+    Supply chain and integrity
+      A03 Software Supply Chain Failures
+      A08 Data Integrity Failures
+    Data and input
+      A04 Cryptographic Failures
+      A05 Injection
+    Operations
+      A09 Logging and Alerting Failures
+      A10 Exceptional Conditions
 ```
-
----
 
 ## Common Vulnerabilities
 
@@ -79,10 +78,10 @@ import DOMPurify from 'dompurify';
 
 | Technique | Priority |
 | --- | --- |
-| Content escaping (React default) | Always |
-| Input validation (whitelist) | High |
-| CSP headers | High |
-| Sanitization with DOMPurify | When rendering HTML |
+| **Content escaping (React default)** | Always |
+| **Input validation (whitelist)** | High |
+| **CSP headers** | High |
+| **Sanitization with DOMPurify** | When rendering HTML |
 
 ### Cross-Site Request Forgery (CSRF)
 
@@ -116,7 +115,8 @@ fetch('/api/action', {
 // 2. SameSite Cookie
 // Set-Cookie: sessionid=abc123; SameSite=Strict; Secure; HttpOnly
 
-// 3. Custom header (browsers can't set these cross-origin)
+// 3. Custom header - a cross-origin <form> cannot set one at all, and a
+//    fetch/XHR that does triggers a CORS preflight the server must approve
 fetch('/api/action', {
     method: 'POST',
     headers: { 'X-Requested-With': 'XMLHttpRequest' }
@@ -131,10 +131,10 @@ Origin = protocol + host + port. Any difference = different origin.
 
 | URL | Same Origin? | Reason |
 | --- | --- | --- |
-| `https://example.com/other` | Yes | Different path only |
-| `http://example.com/page` | No | Different protocol |
-| `https://api.example.com/page` | No | Different subdomain |
-| `https://example.com:8080/page` | No | Different port |
+| **`https://example.com/other`** | Yes | Different path only |
+| **`http://example.com/page`** | No | Different protocol |
+| **`https://api.example.com/page`** | No | Different subdomain |
+| **`https://example.com:8080/page`** | No | Different port |
 
 ```javascript
 // Express CORS setup
@@ -160,8 +160,6 @@ db.execute(query, [userId]);
 // Good - ORM
 const user = await User.findById(userId);
 ```
-
----
 
 ## Authentication and Sessions
 
@@ -189,11 +187,11 @@ const token = {
 
 | Practice | Implementation |
 | --- | --- |
-| Minimum length | 8+ characters |
-| Hashing | bcrypt with appropriate work factor |
-| Rate limiting | Prevent brute force |
-| Account lockout | Temporary lock after failures |
-| 2FA | Multi-factor authentication |
+| **Minimum length** | At least 8 characters, 15 recommended (NIST SP 800-63B) |
+| **Hashing** | bcrypt with appropriate work factor |
+| **Rate limiting** | Prevent brute force |
+| **Account lockout** | Temporary lock after failures |
+| **2FA** | Multi-factor authentication |
 
 ### Session Configuration
 
@@ -211,8 +209,6 @@ const sessionConfig = {
     }
 };
 ```
-
----
 
 ## Transport Layer Security
 
@@ -233,11 +229,9 @@ Permissions-Policy: geolocation=(), microphone=(), camera=()
 
 | Aspect | Recommendation |
 | --- | --- |
-| Algorithm | RSA 2048+ or ECDSA 256+ |
-| Validity | 90 days (automate with ACME/Let's Encrypt) |
-| CA | Trusted CA (Let's Encrypt, DigiCert) |
-
----
+| **Algorithm** | RSA 2048+ or ECDSA 256+ |
+| **Validity** | Bounded by the CA/Browser Forum maximum: 200 days since March 2026, 100 days from March 2027, 47 days from March 2029 (ballot SC-081v3); automate renewal with ACME |
+| **CA** | Trusted CA (Let's Encrypt, DigiCert) |
 
 ## Content Security Policy (CSP)
 
@@ -245,24 +239,24 @@ Restricts which content sources the browser may load.
 
 | Directive | Purpose | Example |
 | --- | --- | --- |
-| `default-src` | Fallback | `'self'` |
-| `script-src` | JavaScript | `'self' 'nonce-abc123'` |
-| `style-src` | CSS | `'self' 'unsafe-inline'` |
-| `img-src` | Images | `'self' data: https:` |
-| `connect-src` | Fetch/XHR targets | `'self' https://api.example.com` |
-| `frame-ancestors` | Who can embed this page | `'none'` |
+| **`default-src`** | Fallback | `'self'` |
+| **`script-src`** | JavaScript | `'self' 'nonce-vDhTrNNbrS+dqXsjj+z1Sg=='` |
+| **`style-src`** | CSS | `'self' 'unsafe-inline'` |
+| **`img-src`** | Images | `'self' data: https:` |
+| **`connect-src`** | Fetch/XHR targets | `'self' https://api.example.com` |
+| **`frame-ancestors`** | Who can embed this page | `'none'` |
 
 ```http
 Content-Security-Policy:
     default-src 'self';
-    script-src 'self' 'nonce-abc123';
+    script-src 'self' 'nonce-vDhTrNNbrS+dqXsjj+z1Sg==';
     img-src 'self' data: https:;
     connect-src 'self' https://api.example.com;
     frame-ancestors 'none';
     upgrade-insecure-requests;
 ```
 
-**Nonce for inline scripts:**
+**Nonce for inline scripts.** A nonce must be freshly generated per response and unpredictable; a fixed string in the source defeats it entirely.
 
 ```javascript
 const nonce = crypto.randomBytes(16).toString('base64');
@@ -270,7 +264,9 @@ res.setHeader('Content-Security-Policy', `script-src 'self' 'nonce-${nonce}'`);
 ```
 
 ```html
-<script nonce="abc123">console.log('Allowed');</script>
+<!-- The same nonce must be templated into the tag on every response.
+     A hardcoded value can never match a freshly generated one. -->
+<script nonce="{{nonce}}">console.log('Allowed');</script>
 ```
 
 **Violation reporting:**
@@ -284,8 +280,6 @@ document.addEventListener('securitypolicyviolation', (e) => {
 });
 ```
 
----
-
 ## Dependency Security
 
 ```bash
@@ -297,21 +291,21 @@ npm outdated       # Check for updates
 
 | Tool | Purpose |
 | --- | --- |
-| npm audit | Built-in vulnerability scanner |
-| Snyk | Comprehensive database, CLI + IDE |
-| Dependabot | GitHub automatic updates |
+| **npm audit** | Built-in vulnerability scanner |
+| **Snyk** | Comprehensive database, CLI + IDE |
+| **Dependabot** | GitHub automatic updates |
 
 **Third-party scripts — use Subresource Integrity (SRI):**
 
 ```html
+<!-- Generate the digest from the exact file being served:
+     openssl dgst -sha384 -binary script.js | openssl base64 -A -->
 <script
     src="https://cdn.example.com/script.js"
-    integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9sr7RgN"
+    integrity="sha384-BASE64_SHA384_DIGEST_OF_THE_SERVED_FILE"
     crossorigin="anonymous"
 ></script>
 ```
-
----
 
 ## Client-Side Security
 
@@ -341,13 +335,14 @@ sessionStorage.setItem('tempData', data);
 <!-- X-Frame-Options: DENY -->
 <!-- Content-Security-Policy: frame-ancestors 'none' -->
 ```
+
 ### JSON Vulnerabilities
 
 | Vulnerability | Prevention |
 | --- | --- |
-| JSON Injection | Input validation |
-| DoS via large payload | Size limits |
-| Prototype Pollution | Deep clone, freeze objects |
-| XSS via `eval()` | Always use `JSON.parse()` |
+| **JSON Injection** | Input validation |
+| **DoS via large payload** | Size limits |
+| **Prototype Pollution** | Deep clone, freeze objects |
+| **XSS via `eval()`** | Always use `JSON.parse()` |
 
 Use CORS instead of JSONP (JSONP is XSS-vulnerable).
