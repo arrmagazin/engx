@@ -150,4 +150,4 @@ of them is authoritative and requires the rest to be derived from it.
 makes the source authoritative. Where derivation is impossible, make the duplication loud: a test
 that fails when the two disagree is a weaker but honest substitute.
 
-*See also*: [Metaprogramming](#metaprogramming) — schema-driven code generation is the usual mechanism for enforcing SSOT across languages and services.
+*See also*: [Metaprogramming](01-programming-paradigms.md#metaprogramming) — schema-driven code generation is the usual mechanism for enforcing SSOT across languages and services.
