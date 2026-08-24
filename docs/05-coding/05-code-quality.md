@@ -1,73 +1,75 @@
 ---
 type: Guide
 title: Code Quality
-description: Explains functional vs. structural code quality, why quality matters, and the rising cost of late-found defects.
+description: Explains functional vs. structural code quality, what late-found defects cost, and the standards, tools, and metrics that hold quality up.
 tags: [coding, code-quality, maintainability]
 ---
 
 # Code Quality
 
-![Culture of Coding](/images/06-coding.svg)
-
-Teams rarely get enough time for code quality, so code becomes messy and buggy. Caring about quality from day one cuts the time to understand code, cuts defects, and improves the odds the project succeeds.
+Code quality has two sides: whether the code does the right thing, and how it is built. This guide covers both dimensions, what a late-found defect costs, the standards and analysis tools that keep quality up, and the metrics that make it measurable — for the developers writing code and the peers reviewing it.
 
 ## Two Dimensions
 
-- **Functional** — what the code *does*: does it meet functional requirements? Checked by unit and functional tests.
-- **Structural** — how the code is *organized*: clean, no extra detail, follows project guidelines. Checked by static analysis and code review.
+- **Functional** — what the code *does*: does it meet the functional requirements? Checked by unit and functional tests, covered in [Quality Assurance](../04-development-process/04-quality-assurance.md)
+- **Structural** — how the code is *organized*: readable, free of extra detail, consistent with project guidelines. Checked by static analysis and [code review](../04-development-process/02-code-review.md)
 
 ## Why It Matters
 
-**High quality:**
-- Easy-to-edit code saves developer time.
-- Fewer defects.
-- The code works.
-- Faster onboarding.
+| Aspect | High Quality | Poor Quality |
+| --- | --- | --- |
+| **Cost of change** | Code is quick to read, so a change lands where it was meant to | Code takes longer to understand, so changes are more likely to be wrong |
+| **Defects** | Fewer defects reach users | More defects reach users |
+| **New features** | New work builds on what is already there | Each feature costs more than the last |
+| **Onboarding** | Newcomers become productive sooner | Newcomers need longer before they can be trusted with changes |
+| **End state** | The system keeps evolving | The system accumulates [technical debt](../04-development-process/07-technical-debt.md) until a rewrite looks cheaper |
 
-**Poor quality:**
-- Takes longer to understand, so changes are more likely to be wrong.
-- New features cost more.
-- Code may need a full rewrite.
-- More defects.
+## The Cost of Defects
 
-## The Cost of Bugs
-Bugs can do serious damage. In 1996 the EU's Ariane 5 rocket spun out of control 40 seconds after liftoff due to a software failure — roughly $500 million lost.
+A defect can destroy the system it runs on. On 4 June 1996 the European Space Agency's Ariane 5 was destroyed less than a minute after launch on its first flight, Flight 501. The inquiry traced the failure to an unprotected conversion of a 64-bit floating-point value to a 16-bit signed integer in inertial reference software reused from Ariane 4, where a value that large could not arise.
 
-Fixing a defect is more than the fix: reproduce, register, assign, discuss, fix, verify. That can total over an hour for a single defect.
+Fixing a defect costs far more than the edit itself. Reproducing it, logging it, assigning it, discussing it, changing the code, and verifying the change each take time, usually from more than one person.
 
-The cost of a fix grows sharply the later it is found (Empirical Software Engineering Journal / NIST): ~1x at Requirements, ~5x at Development, ~15x at Testing, ~30x at Maintenance.
+That cost rises the later the defect is found — cheapest while requirements are still being written, most expensive once the software is in production and maintenance. Barry Boehm set out this curve in *Software Engineering Economics* (1981), and it is the argument behind every early-feedback practice: static analysis, [code review](../04-development-process/02-code-review.md), and [CI/CD](../04-development-process/03-ci-cd.md) quality gates.
+
 ## Two Supporting Practices
 
 ### Coding Standards
-Standards are agreed guidelines for style, practices, and methods. Agreeing up front sets clear expectations. As Harold Abelson put it, "programs are meant to be read by humans and only incidentally for computers to execute."
 
-They improve clarity, readability, consistency, maintainability, and reduce complexity.
+Standards are agreed guidelines for style, practice, and method. Agreeing on them up front sets one expectation for everyone instead of one per developer. Abelson and Sussman state the goal in *Structure and Interpretation of Computer Programs*: "Programs must be written for people to read, and only incidentally for machines to execute."
 
-Three parts:
-- **Style** — visual layout: indentation, whitespace, capitalization, naming style, comments.
-- **Design** — structure: language construct usage (exception handling, goto/break), logical structure (method size, parameter count, naming), and design principles like SOLID and KISS.
-- **Conventions** — project-specific rules that extend or override the above: implementation guidance, feature rules, naming patterns, DOs and DON'Ts. Useful for onboarding.
+They improve clarity, readability, consistency, and maintainability, and hold complexity down. The broader industry and regulatory layer above a team's own rules is covered in [Software Engineering Standards](../00-software-engineering/02-standards.md).
+
+- **Style** — visual layout: indentation, whitespace, capitalization, naming style, comments
+- **Design** — structure: use of language constructs (exception handling, `goto`/`break`), logical structure (method size, parameter count, naming), and the [design principles](02-design-principles.md) the team follows, such as SOLID and KISS
+- **Conventions** — project-specific rules that extend or override the above: implementation guidance, feature rules, naming patterns, and explicit do-nots
 
 ### Automated Code Analysis
-Automated analysis checks code against a rule set without manual effort, catching security issues, duplication, and style violations at scale. It runs statically, without executing the app; some tools flag violations as you type.
 
-SonarQube is an open-source platform for continuous inspection (Java, C#, C/C++, and more). IntelliJ IDEA and Visual Studio also help.
+Automated analysis checks code against a rule set with no manual effort, catching security issues, duplication, and style violations at a scale review cannot reach. It runs statically, without executing the application; some tools flag violations as you type.
 
-Limits: no business context, can't verify specific requirements, can't catch architecture or design problems tied to developer intent.
+[SonarQube](https://www.sonarsource.com/products/sonarqube/) from SonarSource is a widely used platform for continuous inspection. Its Community Edition is open source; analysis of C, C++, and several other languages is available only in the commercial editions. IntelliJ IDEA and Visual Studio ship their own inspections.
+
+Static analysis has limits. It has no business context, cannot confirm that code meets a specific requirement, and cannot catch architecture or design problems that depend on developer intent — which is what review and the [Code Smells](04-code-smells.md) catalog are for.
 
 ## Metrics
-Quality judgments are subjective; metrics make them objective and surface risk early.
-- **Cyclomatic complexity** — number of decision points. Higher = more complex.
-- **Class coupling** — how many other classes a class depends on. Lower = more reusable and maintainable.
-- **Depth of inheritance tree** — how deeply classes derive from others. Deeper = more complex.
-- **Code duplication** — repeated code sequences. Hard to maintain, since updates can miss copies.
-- **Method cohesion** — do a class's methods serve one clear purpose? Low cohesion gives large, confusing classes.
+
+Quality judgments are subjective; metrics make part of the judgment measurable and surface risk early.
+
+| Metric | What It Measures |
+| --- | --- |
+| **Cyclomatic complexity** | The number of linearly independent paths through a piece of code, derived from its decision points; defined by Thomas McCabe in 1976. Higher values mean more branches to read, test, and get wrong |
+| **Class coupling** | How many other classes a class depends on. Lower coupling makes a class easier to reuse and to change in isolation |
+| **Depth of inheritance tree** | How many levels a class sits below its root ancestor. Deeper hierarchies make behavior harder to trace |
+| **Code duplication** | Repeated code sequences. A change to one copy can miss the others |
+| **Method cohesion** | Whether a class's methods serve one clear purpose. Low cohesion produces large classes that do several unrelated things |
 
 ## Best Practices
-- Write coding standards everyone follows.
-- Keep a current coding-standards section in the knowledge base.
-- Include standards in onboarding for every newcomer.
-- Enforce them with static analysis and style checkers.
-- Extend the tool's default rules with custom ones as needed.
-- Keep CI quality gates green — never let them stay broken.
-- Measure metrics regularly and act where any metric falls short.
+
+- Write coding standards the whole team follows
+- Keep the standards current in the knowledge base
+- Include them in onboarding for every newcomer
+- Enforce them with static analysis and style checkers rather than by reminder
+- Extend the tool's default rule set with project-specific rules
+- Keep CI quality gates green, and never leave a gate broken
+- Measure the metrics on a regular schedule and act where one falls short
