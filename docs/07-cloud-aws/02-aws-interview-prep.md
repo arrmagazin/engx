@@ -112,7 +112,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 - **SCPs as guardrails**: deny leaving the org, deny disabling CloudTrail, and restrict regions — guardrails that no admin in a member account can override
 - **GuardDuty** (threat detection), **Security Hub** (findings aggregation and standards), **Inspector** (vulnerability scanning), and **Macie** (sensitive data in S3)
 - **Network segmentation**: private subnets by default, VPC endpoints so traffic to S3/ECR never hits the internet, and SGs referencing SGs
-- **Encryption**: KMS CMKs with key policies, S3 default encryption, and TLS enforced via bucket policy `aws:SecureTransport`. Automatic key rotation is configurable from 90 to 2560 days and defaults to 365
+- **Encryption**: KMS CMKs with key policies, S3 default encryption, and TLS enforced via bucket policy `aws:SecureTransport`. Automatic key rotation has been configurable from 90 to 2,560 days since 2024, where the period used to be fixed at the 365-day default
 - **Secrets**: Secrets Manager with rotation; never in environment variables checked into Git
 - **Supply chain security**: image scanning, SBOM, signed artifacts, and dependency scanning in pipelines
 - **Audit and compliance**: organization CloudTrail to a locked-down log archive account, Config aggregator, and Security Hub standards (CIS, AWS FSBP)
@@ -301,13 +301,13 @@ Points to make while drawing:
 |---|---|---|
 | **You manage** | Task definitions only | Cluster add-ons, node lifecycle, and version upgrades |
 | **Control plane cost** | None | A per-cluster hourly charge, plus nodes |
-| **Upgrade cadence** | AWS handles it | Roughly quarterly Kubernetes versions; 14 months of standard support per version, then 12 months of extended support at a higher price |
+| **Upgrade cadence** | AWS handles it | Roughly quarterly Kubernetes versions; as of 2025, 14 months of standard support per version and then 12 months of extended support at a higher price. AWS has already revised those windows once, so read the EKS Kubernetes version lifecycle page before you plan an upgrade calendar around them |
 | **Ecosystem** | AWS-native only | Full CNCF: operators, CRDs, Helm, and service mesh |
 | **IAM integration** | Task roles — simple and clean | IRSA / Pod Identity — more moving parts |
 | **Portability** | Locked to AWS | Manifests move; the surrounding glue mostly does not |
 | **Ops burden** | Low | Real — needs a named owner |
 
-**Sample answer:** *"Default to ECS on Fargate. Task roles, ALB integration, and CloudWatch are already wired together, there are no nodes to patch, and a small team can run it without a platform engineer. I move to EKS when I hit something ECS structurally can't do — operators and CRDs, DaemonSets for node-level agents, a service mesh, or a team that already has years of Kubernetes experience and a library of Helm charts. The honest deciding question is usually organizational, not technical: does someone own cluster upgrades? EKS gives each Kubernetes version 14 months of standard support and then 12 months of extended support at a higher price, so a cluster with no named owner drifts into paying for support it never planned for. If nobody owns upgrades, ECS is the right call even where EKS would technically fit. And I'd push back on 'we need Kubernetes for portability' — the manifests port; the IAM, the load balancer controller, and the storage classes don't."*
+**Sample answer:** *"Default to ECS on Fargate. Task roles, ALB integration, and CloudWatch are already wired together, there are no nodes to patch, and a small team can run it without a platform engineer. I move to EKS when I hit something ECS structurally can't do — operators and CRDs, DaemonSets for node-level agents, a service mesh, or a team that already has years of Kubernetes experience and a library of Helm charts. The honest deciding question is usually organizational, not technical: does someone own cluster upgrades? Last time I checked the EKS version lifecycle page — and those numbers have moved before, so I'd check it again — each Kubernetes version got 14 months of standard support and then 12 months of extended support at a higher price, so a cluster with no named owner drifts into paying for support it never planned for. If nobody owns upgrades, ECS is the right call even where EKS would technically fit. And I'd push back on 'we need Kubernetes for portability' — the manifests port; the IAM, the load balancer controller, and the storage classes don't."*
 
 ### SSM State Manager vs. Ansible
 

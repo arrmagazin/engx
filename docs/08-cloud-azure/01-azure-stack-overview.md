@@ -1,8 +1,8 @@
 ---
 type: Guide
 title: Azure Services Overview
-description: Azure core services, networking, storage, identity, and DevOps.
-tags: [interview, azure, cloud, devops]
+description: A service-by-service Azure catalog — foundations, compute, networking, storage, messaging, identity, and monitoring — plus an AWS mapping.
+tags: [azure, cloud, services, devops]
 ---
 
 # Azure Services Overview
@@ -103,7 +103,7 @@ A software-defined network you own, defined by an address space.
 | **Front Door** | 7 (HTTP) | **Global** | Anycast edge, caching, WAF at the edge, global failover, split-TCP acceleration |
 | **Traffic Manager** | DNS | Global | DNS-level steering (priority, weighted, performance, geographic) — including to non-Azure endpoints |
 
-- **Know cold:** Front Door is the CDN answer for new work — **Azure CDN from Edgio** retired on 15 January 2025, and **Azure CDN Standard from Microsoft** has a separate, later announced retirement date. **Front Door Premium** can reach an origin over **Private Link**, so the backend needs no public IP at all. Traffic Manager resolves names and then steps out of the path, so it fails over at DNS TTL speed, not instantly.
+- **Know cold:** Front Door is the CDN answer for new work — **Azure CDN from Edgio** was announced for retirement on 15 January 2025, with service reportedly extended for some customers past that date, so check the Microsoft retirement notice rather than assuming any particular profile is already gone. **Azure CDN Standard from Microsoft** has a separate, later announced retirement date. **Front Door Premium** can reach an origin over **Private Link**, so the backend needs no public IP at all. Traffic Manager resolves names and then steps out of the path, so it fails over at DNS TTL speed, not instantly.
 - **Trap:** Application Gateway v2 needs its **own dedicated subnet** with room to scale, and WAF in *Prevention* mode will block legitimate traffic until you have tuned exclusions — run *Detection* first.
 
 ### Azure DNS & Private DNS Zones

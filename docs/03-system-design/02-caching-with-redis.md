@@ -9,6 +9,10 @@ tags: [tech-stack, redis, caching, in-memory]
 
 Redis holds its dataset in memory and executes commands one at a time, which is what makes single commands atomic without locking and what makes it the default choice for caches, sessions, rate limiters, and leaderboards. This guide covers the data structures, how a command travels through persistence and replication, the two messaging primitives, and the patterns built on top.
 
+## Licensing — Redis, Valkey, and the 2024 Fork
+
+Redis was BSD-licensed for most of its life, and it is not any more. In March 2024 Redis Ltd. moved the source to a dual RSALv2 / SSPLv1 license, neither of which is OSI-approved and both of which forbid offering Redis itself as a managed service without a commercial agreement. The Linux Foundation forked the last BSD-licensed release as **Valkey**, which is why cloud catalogs now list Redis and Valkey side by side — AWS ElastiCache is the one most readers meet first. Redis 8, released in 2025, added AGPLv3 as a third option, which restores an OSI-approved license without restoring a permissive one. Everything else in this guide applies unchanged to both projects, because the fork inherited the same data structures, the same command set, and the same wire protocol. Know it anyway, because for anyone choosing a cache today the license is a first-order input rather than trivia: it decides whether you may embed the server in a product you ship, whether legal has to review the dependency at all, and which of the two names your managed provider will actually sell you.
+
 ## Core Concepts
 
 - **In-memory data store** — key-value at its core, with rich structures: strings, hashes, lists, sets, sorted sets (ZSETs), streams, bitmaps, HyperLogLog, geospatial.

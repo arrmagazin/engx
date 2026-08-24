@@ -101,7 +101,7 @@ Be ready to discuss:
 
 ### Performance Optimization
 - **Right-sizing**: VM SKU selection, AKS node pool sizing, and autoscale thresholds
-- **Caching layers**: Front Door caching for new edge work, Azure Cache for Redis for application data — Azure CDN from Edgio was retired on 15 January 2025, and Azure CDN Standard from Microsoft has a separate, later announced retirement date
+- **Caching layers**: Front Door caching for new edge work, Azure Cache for Redis for application data — Azure CDN from Edgio was announced for retirement on 15 January 2025, with service reportedly extended for some customers past that date, so check the Microsoft retirement notice before assuming a given profile is gone; Azure CDN Standard from Microsoft has a separate, later announced retirement date
 - **Database tuning**: DTU vs. vCore models, query performance insights, and read replicas
 - **Application Insights** profiling, and load testing (**Azure Load Testing** service)
 - **Availability Zones + zone-redundant SKUs** for resilience without heavy overhead
@@ -130,29 +130,29 @@ Story structure, the two rules for telling one, and the two stories asked in eve
 
 ### Worked Example — Area 3 (Automation)
 
-Every figure below is a placeholder: substitute your own fleet sizes, timings, and outcomes, and keep the shape of the answer.
+Every figure below is a placeholder: substitute your own resource counts, timings, and outcomes, and keep the shape of the answer.
 
-> **S:** "We had 60-odd VMs across three environments, all configured by hand. Environments had drifted so far apart that a release passing in test would fail in prod maybe one time in three."
+> **S:** "Three environments, about 200 resources, all built in the portal over two years and described by nothing but a wiki page. Deployments ran from an Azure DevOps variable group holding one service principal secret that was Owner on every subscription and had not been rotated since the pipeline was written."
 >
-> **T:** "I owned bringing config under version control without a big-bang rewrite — the team had releases to ship."
+> **T:** "I owned getting the estate into code and getting that standing secret out of the pipeline, without freezing delivery while I did it."
 >
-> **A:** "I started with an audit rather than code: ran Ansible in check mode against prod to get a factual inventory of what was actually installed versus what we thought. That surfaced 14 undocumented packages. I codified the *current* prod state first, so day one had zero behavioral change and no risk — then converged test and dev up to it. I chose Ansible over DSC because a third of the fleet was Linux and the team already knew YAML from the pipelines. Roles went into a private Git repo with tagged versions so environments could adopt changes on their own schedule."
+> **A:** "I didn't start by writing Bicep. I exported the existing resource groups to ARM templates and ran `what-if` against them until the diff came back empty, which told me what the portal had actually created rather than what the wiki claimed — six resources nobody could name an owner for, and two NSG rules that existed only in prod. Then I rewrote that as Bicep modules, one per resource group, and adopted environments into the code one at a time instead of in a single pass. I chose Bicep over Terraform deliberately: the estate was Azure-only, the team already read ARM JSON in the portal, and I didn't want to hand people with no prior state-file experience a Terraform backend to operate on top of a new language. Separately I replaced the variable-group secret with workload identity federation on the service connection, scoped per environment, and cut the identity from Owner down to Contributor plus an explicit User Access Administrator assignment only where role assignments were genuinely needed. Those two changes went in as separate pull requests so a rollback of one couldn't block the other."
 >
-> **R:** "Environment-drift incidents went to zero over the next two quarters, and rebuilding a box dropped from a half-day of tribal knowledge to a 20-minute playbook run. In hindsight I'd have pushed for immutable images sooner — we kept patching mutable VMs for a year longer than we needed to."
+> **R:** "Within two quarters every environment deployed from `main`, the drift that had made prod special was either codified or deleted, and there was no secret left in the pipeline to rotate or leak. What I'd do differently is turn on the Azure Policy `DeployIfNotExists` for diagnostic settings in month one rather than month four — half the resources I adopted had never emitted a log anywhere, and I only found that out at the point I needed the logs."
 
-Note what that does: names a **decision with an alternative rejected and a reason** (Ansible over DSC, because mixed OS + existing skills), shows **risk management** (codify current state first), and closes with **honest hindsight** — which reads as senior, not as weakness.
+Note what that does: it names a **decision with an alternative rejected and a reason** (Bicep over Terraform, because the estate was Azure-only and nobody was ready to own state), shows **risk management** (reconcile with `what-if` before writing a line; keep the two changes in separate PRs), and closes with **honest hindsight** — which reads as senior, not as weakness.
 
 ### Worked Example — Area 5 (Cost)
 
-The figures here are placeholders too: replace the growth rate, the split, and the saving with your own before you use this in an interview.
+The figures here are placeholders too: replace the spend, the split, and the saving with your own before you use this in an interview.
 
-> **S:** "Azure spend was growing ~8% month over month while traffic was flat. Nobody could attribute it — one subscription, no tags."
+> **S:** "One subscription, and about 40% of the monthly bill sat on resources with no owner tag at all. Finance had asked twice which team owned which half of the spend and nobody could answer, so the bill had never really been questioned."
 >
-> **T:** "I was asked to find the cause and stop the growth without degrading service."
+> **T:** "I was asked to cut the run-rate without a migration and without resizing production on guesswork."
 >
-> **A:** "First I made cost *visible*: enforced a tagging policy via Azure Policy with a `Deny` effect on new resources, then a remediation task for existing ones. Cost analysis by tag showed non-prod was 40% of spend and ran 24/7. I moved dev/test to auto-shutdown schedules and swapped the batch pool to Spot VMs — safe because those jobs were already idempotent and checkpointed. Separately, orphaned disks and idle public IPs from old experiments were costing us every month with nothing running on them, so I added a weekly Advisor-driven cleanup report. I deliberately did *not* touch prod SKUs first even though they were the biggest line item, because right-sizing prod without load-test evidence is how you cause an incident."
+> **A:** "I went after attribution before savings: a Cost Management export into a Log Analytics workspace, plus an Azure Resource Graph query listing every resource missing the owner and environment tags. Two weeks of asking the teams who recognised the resource names got the untagged share under 5%, and only then did I look at what to cut — in a deliberate order. Azure Hybrid Benefit turned out to be switched off across the whole Windows fleet, which was the single largest line and a licence-entitlement conversation with procurement rather than an engineering change; I mention it first because engineers rarely look there first. Then three App Service Plans were each running one app at P2v3, so consolidating them onto one plan was two hours of work. Then an Azure Firewall sat in the non-prod hub billing its fixed hourly charge around the clock for workloads that ran office hours. I held reservations back until the resizing had settled, because a reservation bought against a SKU you're about to change stops being a saving and becomes a stranded commitment."
 >
-> **R:** "About 31% reduction in monthly spend within two billing cycles, with no change to prod latency. The tagging policy is the part that lasted — it means the next person can answer 'why did this go up' in ten minutes."
+> **R:** "About 28% off the monthly run-rate over two billing cycles, with no production change at all. The durable part is the tagging: budgets are scoped per team now and the alert goes to that team rather than to me. In hindsight I'd have checked Hybrid Benefit in week one — I spent a month in infrastructure detail while the biggest lever was a licensing setting."
 
 ### Story Bank by Area
 
@@ -294,13 +294,13 @@ The shape of a good trade-off answer, and the phrases that carry one, are in [In
 | Aspect | Container Apps | AKS |
 |---|---|---|
 | **You manage** | Containers only | Cluster, node pools, upgrades, and patching |
-| **Scale to zero** | Yes, built in | No (nodes cost money at idle) |
+| **Scale to zero** | Yes, built in | User node pools can; the **System** pool cannot, so a cluster always costs something at idle |
 | **Built in** | KEDA, Dapr, and Envoy | You install them |
 | **Extensibility** | No CRDs, no DaemonSets, no custom controllers | Full ecosystem |
 | **Networking** | Simplified | Network policies, CNI modes, full control |
 | **Ops burden** | Low | Real — needs a named owner |
 
-**Sample answer:** *"Default to Container Apps. It's KEDA, Dapr, and Envoy already wired together, and it scales to zero, which matters for spiky or non-prod workloads. I move to AKS when I hit something Container Apps structurally can't do — CRDs and operators, DaemonSets for a node-level agent, network policies for tenant isolation, or a service mesh. The honest deciding question is usually organizational, not technical: does someone own cluster upgrades? AKS gives roughly 12 months of community support per Kubernetes minor version, extended to two years by Long-Term Support on the Premium tier, so an unowned cluster falls off a supported version on a clock you don't control. If nobody owns upgrades, Container Apps is the right call even where AKS would technically fit."*
+**Sample answer:** *"Default to Container Apps. It's KEDA, Dapr, and Envoy already wired together, and it scales to zero, which matters for spiky or non-prod workloads. I move to AKS when I hit something Container Apps structurally can't do — CRDs and operators, DaemonSets for a node-level agent, network policies for tenant isolation, or a service mesh. The honest deciding question is usually organizational, not technical: does someone own cluster upgrades? Last time I checked the AKS version support policy — and Microsoft has moved these windows before, so I'd re-read it — a Kubernetes minor version got roughly 12 months of community support, then a further year of *platform* support where Azure keeps supporting the cluster but upstream Kubernetes fixes are no longer backported, with Long-Term Support on the Premium tier stretching the whole thing to two years. That middle window is the one people forget: the cluster is still supported, and it is quietly no longer getting Kubernetes patches. Either way an unowned cluster falls off a supported version on a clock you don't control. If nobody owns upgrades, Container Apps is the right call even where AKS would technically fit."*
 
 ### Machine Configuration vs. Ansible
 
@@ -322,7 +322,7 @@ Azure Machine Configuration is the successor to PowerShell DSC and Azure Automat
 
 | Pair | The Deciding Variable |
 |---|---|
-| **Azure DevOps vs. GitHub Actions** | Where the code already lives; ADO's release gates and approvals are still richer, while GitHub Actions has the bigger ecosystem |
+| **Azure DevOps vs. GitHub Actions** | Where the code already lives; ADO ships more built-in gate types out of the box (query work items, invoke a REST endpoint, wait on an Azure Monitor alert) while GitHub Actions has the bigger ecosystem — both are actively developed, so re-check the gap rather than quoting it |
 | **Service endpoint vs. private endpoint** | Do you need a private IP in your VNet and on-prem reachability? → private endpoint (costs more, needs DNS) |
 | **VMSS vs. AKS** | Are you running containers, or an app that needs identical instances? |
 | **Managed identity vs. service principal** | Is the workload running *in* Azure? → managed identity. External CI → service principal with OIDC federation, never a secret |

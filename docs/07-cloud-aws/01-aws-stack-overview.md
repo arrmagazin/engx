@@ -189,7 +189,7 @@ Single-digit millisecond reads regardless of table size, if and only if you mode
 
 ### ElastiCache & OpenSearch — The Supporting Data Stores
 
-- **ElastiCache:** managed **Redis/Valkey** or Memcached. Entry point is a **cluster endpoint**; *cluster mode disabled* is one shard with replicas, *enabled* is sharded across many. **Valkey** is the cheaper post-fork default. Used for cache-aside, sessions, rate limits, and distributed locks.
+- **ElastiCache:** managed **Redis/Valkey** or Memcached. Entry point is a **cluster endpoint**; *cluster mode disabled* is one shard with replicas, *enabled* is sharded across many. **Valkey** is the cheaper post-fork default — the fork, and the 2024 relicensing that caused it, are explained in [Redis — Core Concepts and Workflow](../03-system-design/02-caching-with-redis.md). Used for cache-aside, sessions, rate limits, and distributed locks.
 - **OpenSearch:** managed search and log analytics, the Elasticsearch fork. Entry point is a **domain** (a cluster you size) or a **serverless collection**. Reach for it when CloudWatch Logs Insights is no longer enough — full-text search, dashboards, and long retention.
 
 ## Messaging & Events
@@ -255,7 +255,7 @@ Formerly AWS SSO. The replacement for long-lived IAM users with access keys.
 
 - **Entry point:** a **customer-managed key (CMK)** and its **key policy**. Unlike most services, the *key policy is the root of trust* — IAM permissions alone are not enough unless the key policy delegates to IAM.
 - **Envelope encryption:** services call `GenerateDataKey`, encrypt the payload locally with the plaintext data key, store the *encrypted* data key alongside the ciphertext, and discard the plaintext. That is how S3, EBS, and RDS encrypt terabytes with a key that never leaves KMS.
-- **Also:** **grants** for temporary programmatic delegation, **automatic key rotation** (configurable from 90 to 2,560 days, defaulting to 365), **multi-Region keys** for cross-region replicas, and a mandatory **7–30 day waiting period** on key deletion — there is no immediate delete, by design.
+- **Also:** **grants** for temporary programmatic delegation, **automatic key rotation** (a configurable 90 to 2,560 days since 2024, where the period used to be fixed at the 365-day default), **multi-Region keys** for cross-region replicas, and a mandatory **7–30 day waiting period** on key deletion — there is no immediate delete, by design.
 
 ## Monitoring & Management
 
