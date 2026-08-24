@@ -11,7 +11,7 @@ People management is the discipline of **building and sustaining the team that d
 
 It is the *People* dimension of [Engineering Management](01-delivery-management.md). Management allocates and sequences work; people management makes sure there is a capable, motivated team to allocate it to. A manager who optimizes only for delivery borrows capacity from this dimension and pays it back as attrition.
 
-Related: [Team Lead](02-team-lead.md) · [Engineering Management](01-delivery-management.md) · [Development Process](../04-development_process/00-development_process.md) · [Methodology](../01-methodology/00-methodology.md)
+Related: [Team Lead](02-team-lead.md) · [Engineering Management](01-delivery-management.md) · [Development Process](../04-development-process/00-development-process.md) · [Methodology](../01-methodology/00-methodology.md)
 
 ---
 
