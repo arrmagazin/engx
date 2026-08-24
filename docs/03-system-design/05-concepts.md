@@ -43,6 +43,22 @@ Defines the vocabulary the rest of this chapter uses, grouped by the problem eac
 | **Region-based sharding** | Partitioning by geography rather than by hash, used where queries are inherently local |
 | **Hot shard** | One shard or key taking disproportionate traffic, unbalancing a cluster that is otherwise evenly partitioned |
 
+## Load Balancing
+
+| Concept | Definition |
+|---|---|
+| **Load Balancing** | Spreading incoming requests across a pool of interchangeable servers, so capacity grows by adding machines rather than by enlarging one |
+| **Layer 4 balancing** | Forwarding at the transport level on address and port without reading the request; cheap and protocol-agnostic, but blind to paths, headers, and cookies |
+| **Layer 7 balancing** | Routing on application data such as path, header, or cookie, which buys per-route pools and content-aware policy at the cost of terminating and parsing every request |
+| **Balancing algorithm** | The rule picking the next server — round robin where requests cost the same, least connections where they do not, and a hash of a chosen key where a caller must keep landing on one node |
+| **Backend pool** | The set of interchangeable servers a balancer distributes across, whose membership changes as instances are added, drained, or removed |
+| **Health check** | A periodic probe deciding whether a server stays in the pool, so a failing instance is taken out before users meet its errors |
+| **Sticky session** | Pinning a client to the server holding its state, which keeps that state reachable but unbalances the pool and loses the state outright when that server dies |
+| **Cache affinity** | Routing every request for one key to the same backend so its local copy stays warm, using consistent hashing so that adding a node moves few keys |
+| **Connection draining** | Letting in-flight requests finish on a server already removed from rotation, so a deploy or scale-in does not cut live work short |
+| **Single point of failure** | A component whose loss takes down everything behind it — the balancer's own exposure, answered by a redundant pair sharing a failover address |
+| **DNS round robin** | Distributing at name resolution by handing out different addresses in turn; free, but with no view of server health and with client caches that outlive a failure |
+
 ## Caching
 
 | Concept | Definition |
@@ -69,6 +85,8 @@ Defines the vocabulary the rest of this chapter uses, grouped by the problem eac
 | **Strong consistency** | Every read reflecting the most recent write, required wherever a stale answer is a correctness bug rather than a cosmetic one |
 | **Read-your-writes consistency** | A guarantee that a user sees their own recent writes immediately, even while other users may not |
 | **Last-write-wins (LWW)** | Resolving concurrent writes by keeping the most recent — adequate for counters, lossy for collaborative editing |
+| **CAP theorem** | The result that a distributed system split by a network partition can either keep its replicas in agreement or keep answering requests, but not both while the split lasts; partition tolerance is not a third option a designer trades away, because partitions happen whether or not they were chosen |
+| **PACELC** | An extension of the CAP theorem that also names the else-case: with no partition, the standing trade-off is between lower latency and a stronger guarantee, which is the choice a healthy system actually makes every day |
 
 ## Idempotency
 
@@ -88,6 +106,19 @@ Defines the vocabulary the rest of this chapter uses, grouped by the problem eac
 | **Optimistic concurrency control** | Reading a version, updating only if it still matches, and retrying on conflict; higher throughput until contention concentrates on one record |
 | **Pessimistic locking** | Taking a lock before modifying a record and blocking other writers until release; simple and correct, but throughput-limiting |
 | **Reservation with TTL** | A short-lived hold that expires unless confirmed, separating temporarily held state from committed state |
+
+## Service Decomposition
+
+| Concept | Definition |
+|---|---|
+| **Service Decomposition** | Dividing a system into independently deployable units and deciding where the lines between them fall |
+| **Monolith** | One deployable unit holding the whole application, where calls between modules are in-process and a release ships every part at once |
+| **Microservice** | A unit owning one capability and the data behind it, released on its own schedule, at the price of network calls and operational surface where an in-process call once served |
+| **Service boundary** | The line drawn around such a unit, placed where data and reasons to change are cohesive, since a line cutting through either turns routine work into a multi-team release |
+| **Bounded context** | The scope within which one model of a domain term holds without qualification, the usual guide for where that line belongs |
+| **Distributed monolith** | Units deployed separately yet coupled tightly enough that none can ship alone, paying the cost of the split without collecting its benefit |
+| **Shared database coupling** | Two units reading and writing the same tables, which removes the independence the split was meant to buy because a schema change forces a coordinated release |
+| **Remote call cost** | What a call becomes once it crosses a process boundary — slow, able to fail on its own, and able to arrive twice — which is why cross-unit operations need retries and repeat-safe handlers |
 
 ## Distributed Transactions
 
