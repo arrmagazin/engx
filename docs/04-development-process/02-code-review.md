@@ -1,13 +1,13 @@
 ---
 type: Guide
 title: Code Review
-description: Covers code review's value, types, workflow, what reviewers check, checklists, and feedback practices.
+description: Covers code review's value, its types including pair programming, the workflow, what reviewers check, checklists, and feedback practices.
 tags: [development-process, code-review, quality]
 ---
 
 # Code Review
 
-Code review is the practice of having teammates read new code before it merges. This guide covers the review types, the workflow, what reviewers check, how to build a review checklist, and how to write useful feedback — for the developers submitting code and for the peers reviewing it.
+Code review is the practice of having teammates read new code before it merges. This guide covers the review types — pair programming among them, as review happening while the code is written — the workflow, what reviewers check, how to build a review checklist, and how to write useful feedback — for the developers submitting code and for the peers reviewing it.
 
 ## Why It Matters
 
