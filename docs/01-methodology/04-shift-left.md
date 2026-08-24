@@ -23,15 +23,13 @@ The core idea of the approach is:
 decides what should be true. On the right, that decision takes effect — a service answers a request,
 a queue exists, a dashboard shows a number.
 
-Classic [shift left](../04-development-process/04-quality-assurance.md) moves *quality activities*
-toward the left, so defects are found where they are cheapest to fix. This approach moves the
-*humans themselves*, and then removes them from the right entirely. A person still makes every
-decision that needs judgement, but makes it once, in one place, in a form a machine can read.
-Everything downstream is derived.
+This approach moves the *humans themselves*, and then removes them from the right entirely. 
 
-The two save different things. Shifting testing left lowers the cost of *finding* a defect. Moving
-humans left lowers the number of places a defect can be *introduced*: every manual step right of the
-source is an opportunity to mistype, forget an environment, or apply a change nobody reviewed.
+A person still makes every decision that needs judgement, but makes it once, in one place, in a form a machine can read.
+
+> Everything downstream is derived.
+
+Moving humans left lowers the number of places a defect can be *introduced*: every manual step right of the source is an opportunity to mistype, forget an environment, or apply a change nobody reviewed.
 
 ```mermaid
 flowchart LR
@@ -47,9 +45,7 @@ flowchart LR
     Run -.what was learned.-> Intent
 ```
 
-In [Lean](01-lean.md) terms this is *Eliminate Waste* aimed at a specific kind of waste — handoffs,
-partial work, and task switching — and *Build Quality In*, because a machine-readable source can be
-checked before anything is built from it.
+In [Lean](01-lean.md) terms this is *Eliminate Waste* aimed at a specific kind of waste — handoffs, partial work, and task switching — and *Build Quality In*, because a machine-readable source can be checked before anything is built from it.
 
 ### What Moves
 
@@ -158,7 +154,7 @@ between them. Any one can be missed, and a missed one becomes a defect discovere
 rather than in review.
 
 With the record declared once, the same change is a single edit to the schema plus a regeneration.
-The nine artifacts still exist; nobody writes them. What remains for a person is whether the field
+The nine artifacts still exist; nobody writes them. What remains for a person is whether the field 
 belongs at all, which was the only part that ever needed judgement.
 
 ## Tools
