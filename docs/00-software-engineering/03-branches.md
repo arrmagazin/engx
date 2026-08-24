@@ -1,17 +1,15 @@
 ---
 type: Guide
-title: Software engineering
-description: Defines software engineering as a discipline and maps its branches across theory, systems, data, people, and practice.
+title: Branches of Software Engineering
+description: Maps the branches of software engineering across seven groups and links the ones this book covers.
 tags: [engineering, disciplines, foundations]
 ---
 
-# Software engineering
+# Branches of Software Engineering
 
-Engineering in the field of software delivery, on top of computer science and applied math.
+Software engineering rests on computer science and applied mathematics, and covers more ground than any one engineer works across. This map names its branches in seven groups, from theory to practice. A linked entry goes to this book's coverage of it; the rest are named here but not covered.
 
-Its branches span theory, systems, data, people, and practice:
-
-**Theoretical Foundations**
+## Theoretical Foundations
 
 - Information Theory
 - Theory of Computation
@@ -22,54 +20,54 @@ Its branches span theory, systems, data, people, and practice:
 - Operations Research
 - Numerical Methods and Simulation
 
-**Languages and Computation**
+## Languages and Computation
 
-- Programming Languages and Type Systems
+- [Programming Languages and Type Systems](../05-coding/01-programming-paradigms.md)
 - Compilers, Interpreters, and Runtimes
-- Concurrency and Parallel Computing
+- [Concurrency and Parallel Computing](../05-coding/03-design-patterns.md)
 - Quantum Computing
 
-**Systems and Infrastructure**
+## Systems and Infrastructure
 
 - Computer Architecture
 - Operating Systems
 - Embedded and Real-Time Systems
-- Distributed Systems
+- [Distributed Systems](../03-system-design/05-concepts.md)
 - Computer Networking
 - Telecommunications
-- Internet and Web Protocols
-- Cloud and Platform Engineering
+- [Internet and Web Protocols](../06-frontend/03-client-server-communication.md)
+- Cloud and Platform Engineering — [AWS](../07-cloud-aws/00-aws.md) and [Azure](../08-cloud-azure/00-azure.md)
 
-**Data and Intelligence**
+## Data and Intelligence
 
-- Information Systems
-- Databases and Storage Engines
+- [Information Systems](../03-system-design/00-system-design.md)
+- [Databases and Storage Engines](../03-system-design/01-database-basics.md)
 - Data Engineering and Analytics
-- Search and Information Retrieval
-- Machine Learning
-- AI Engineering
+- [Search and Information Retrieval](../03-system-design/06-canonical-systems.md)
+- [Machine Learning](../09-ai/01-machine-learning.md)
+- [AI Engineering](../09-ai/00-ai.md)
 
-**Security and Trust**
+## Security and Trust
 
 - Cryptography
-- Application and Infrastructure Security
+- [Application and Infrastructure Security](../02-architecture/02-security-web.md)
 - Identity, Privacy, and Compliance
 
-**Human-Facing Systems**
+## Human-Facing Systems
 
 - Human-Computer Interaction
 - Graphic and Web Design
 - Media Content and Visualization
-- Accessibility and Internationalization
+- [Accessibility and Internationalization](../06-frontend/06-accessibility-wcag.md)
 - Gaming, Metaverses, and Extended Reality
 
-**Engineering Practice**
+## Engineering Practice
 
-- Software and Systems Engineering
-- Software Architecture
+- [Software and Systems Engineering](01-glossary.md)
+- [Software Architecture](../02-architecture/00-architecture.md)
 - Requirements and Product Design
-- Quality Assurance and Testing
-- DevOps, SRE, and Operations
-- Performance Engineering
-- Maintenance and Evolution
-- Engineering Management and Process
+- [Quality Assurance and Testing](../04-development-process/04-quality-assurance.md)
+- [DevOps, SRE, and Operations](../04-development-process/03-ci-cd.md)
+- [Performance Engineering](../06-frontend/05-performance-optimization.md)
+- [Maintenance and Evolution](../04-development-process/07-technical-debt.md)
+- Engineering Management and Process — [People Management](../10-management/00-management.md) and [Methodology](../01-methodology/00-methodology.md)

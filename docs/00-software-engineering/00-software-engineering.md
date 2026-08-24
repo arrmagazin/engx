@@ -19,4 +19,4 @@ This section holds the shared vocabulary, the published standards, and the map o
 | --- | --- |
 | [Glossary](01-glossary.md) | The foundational terms — solution, stakeholder, value, requirements, state — that the rest of the book uses without redefining |
 | [Standards](02-standards.md) | What engineering standards are, the areas they cover, and the bodies that publish them |
-| [Branches](03-branches.md) | Software engineering as a discipline, mapped across theory, systems, data, people, and practice |
+| [Branches](03-branches.md) | The branches of the field in seven groups, with links to the ones this book covers |
