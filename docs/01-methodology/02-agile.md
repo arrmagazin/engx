@@ -1,7 +1,7 @@
 ---
 type: Guide
 title: Agile Methodology
-description: Covers Agile's core concepts, values, and the twelve principles of the Agile Manifesto.
+description: Covers Agile's core concepts, the Manifesto values, the twelve principles behind it, and the practices and methods that apply them.
 tags: [methodology, agile]
 ---
 
@@ -9,19 +9,15 @@ tags: [methodology, agile]
 
 ![Agile Methodology](/images/09-agile.svg)
 
-**Agile** is an approach to organize software development process that
-
-- encourages rapid and flexible response to change,
-- through collaboration between self-organizing, cross-functional teams.
-- in way to bring competitive value, satisfying customer's business needs.
+**Agile** is an approach to organizing software development around rapid, flexible response to change rather than adherence to an up-front plan. It relies on self-organizing, cross-functional teams delivering working software in short cycles, so value reaches the customer while their needs are still current.
 
 ## Core Concepts
 
-| Concept | Description |
+| Concept | Definition |
 | --------- | ------------- |
-| **Requirements Volatility** | Unpredicted challenges during production: customers changing minds, evolving technologies, market changes |
-| **Empirical Approach** | Accepting the problem cannot be fully understood before start; focusing on maximizing ability to deliver while adapting to feedback and challenges |
-| **Method Tailoring** | Process where human agents determine system development approach for a specific project situation |
+| **Requirements Volatility** | Unpredicted challenges during production: customers changing their minds, evolving technologies, shifting markets |
+| **Empirical Approach** | Accepting that the problem cannot be fully understood before starting, and maximizing the ability to deliver while adapting to feedback |
+| **Method Tailoring** | Adapting the development approach to the situation of a specific project rather than adopting a process whole |
 
 ```mermaid
 flowchart LR
@@ -29,57 +25,58 @@ flowchart LR
   Adapt --> Reflect --> Plan
 ```
 
-## Agile Values
+## The Manifesto Values
 
-| Value | Description |
+| Value | What it means |
 | ------- | ------------- |
-| **Individuals and Interactions** | Over processes and tools. Self-organization and motivation are important; co-location and pair programming. |
-| **Working Software** | Over comprehensive documentation. Working software is more useful than documents in meetings. |
-| **Customer Collaboration** | Over contract negotiation. Requirements cannot be fully collected at beginning; continuous stakeholder involvement. |
-| **Responding to Change** | Over following a plan. Focused on quick responses to change and continuous development. |
+| **Individuals and Interactions** | Over processes and tools — a motivated, self-organizing team produces more than a well-defined process does |
+| **Working Software** | Over comprehensive documentation — running software tells you more than a document describing it |
+| **Customer Collaboration** | Over contract negotiation — requirements cannot be collected in full up front, so the stakeholder stays involved throughout |
+| **Responding to Change** | Over following a plan — the plan is an early estimate, and what the work teaches should be allowed to change it |
 
-## The Agile Manifesto (12 Principles)
+## The Twelve Principles
 
-1. Customer satisfaction by early and continuous delivery of valuable software
-2. Welcome changing requirements, even in late development
-3. Working software is delivered frequently (weeks rather than months)
-4. Close, daily cooperation between business people and developers
-5. Projects are built around motivated individuals, who should be trusted
-6. Face-to-face conversation is the best form of communication (co-location)
-7. Working software is the principal measure of progress
-8. Sustainable development, able to maintain a constant pace
-9. Continuous attention to technical excellence and good design
-10. Simplicity - the art of maximizing the amount of work not done - is essential
-11. Best architectures, requirements, and designs emerge from self-organizing teams
-12. Regularly, the team reflects on how to become more effective, and adjusts accordingly
+These summarize the twelve principles published alongside the Manifesto; the authoritative wording is at [agilemanifesto.org](https://agilemanifesto.org/principles.html).
+
+1. Satisfy the customer through early and continuous delivery of valuable software
+2. Welcome changing requirements, even late in development
+3. Deliver working software frequently — from a couple of weeks to a couple of months, favoring the shorter
+4. Business people and developers work together daily throughout the project
+5. Build projects around motivated individuals, give them what they need, and trust them
+6. Face-to-face conversation is the most effective way to convey information within a team
+7. Working software is the primary measure of progress
+8. Sustainable development — sponsors, developers, and users can maintain a constant pace indefinitely
+9. Continuous attention to technical excellence and good design enhances agility
+10. Simplicity — the art of maximizing the amount of work not done — is essential
+11. The best architectures, requirements, and designs emerge from self-organizing teams
+12. At regular intervals the team reflects on how to become more effective, then tunes its behavior accordingly
 
 ## Agile Practices
 
-| Practice | Description |
+| Practice | What it is |
 | ---------- | ------------- |
-| Design-Driven Development | - |
-| Acceptance Test-Driven Development (ATDD) | - |
-| Behavior-Driven Development (BDD) | Specification by example |
-| Iterative and Incremental Development (IID) | - |
-| Test-Driven Development (TDD) | Continuous test-driven development |
-| Extreme Programming (XP) | Pair programming |
-| Agile Modeling | - |
-| Cross-Functional Team | - |
-| Continuous Integration (CI) | - |
-| Information Radiators | Scrum board, task board, visual management board, burndown chart |
-| Refactoring | - |
-| Agile Testing | - |
-| Timeboxing | - |
-| User Story | Story-driven modeling |
+| **Acceptance Test-Driven Development (ATDD)** | Agreeing acceptance criteria as executable tests before the work starts, written by business and developers together |
+| **[Behavior-Driven Development (BDD)](../04-development-process/04-quality-assurance.md)** | Specification by example: describing behavior in a shared language that doubles as the test |
+| **Iterative and Incremental Development (IID)** | Building in repeated cycles, each adding working functionality rather than one more partial layer |
+| **[Test-Driven Development (TDD)](../04-development-process/04-quality-assurance.md)** | Writing a failing test before the code that satisfies it, in short red-green-refactor cycles |
+| **[Pair Programming](../04-development-process/02-code-review.md)** | Two developers at one keyboard, so the code is reviewed as it is written |
+| **Agile Modeling** | Keeping models and documents only as detailed as the work in hand requires |
+| **Cross-Functional Team** | One team holding every skill needed to deliver, so work does not queue between departments |
+| **[Continuous Integration (CI)](../04-development-process/03-ci-cd.md)** | Merging to a shared mainline frequently, with an automated build and test on every merge |
+| **Information Radiators** | Displays that make progress visible without anyone asking: scrum board, task board, burndown chart |
+| **[Refactoring](../04-development-process/04-quality-assurance.md)** | Changing the structure of code without changing its behavior, to keep it workable as it grows |
+| **Agile Testing** | Testing continuously through the iteration rather than as a separate phase after it |
+| **Timeboxing** | Fixing the time available and adjusting scope to fit, rather than moving the deadline |
+| **User Story** | A requirement stated from the user's point of view, small enough to finish inside one iteration |
 
 ## Agile Methods
 
-- Scrum
+- [Scrum](03-scrum.md)
 - Kanban
 - Scrumban
 - Agile Unified Process (AUP)
 - Dynamic Systems Development Method (DSDM)
-- Lean Software Development
+- [Lean Software Development](01-lean.md)
 - Extreme Programming (XP)
 - Feature-Driven Development (FDD)
 - Adaptive Software Development (ASD)
