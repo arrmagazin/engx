@@ -7,8 +7,6 @@ tags: [methodology]
 
 # Move Humans to the Left
 
-![Scrum Framework](/images/10-scrum.svg)
-
 ## Idea
 
 The core idea of the approach is:
