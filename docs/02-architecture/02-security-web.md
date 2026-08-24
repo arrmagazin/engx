@@ -342,7 +342,9 @@ sessionStorage.setItem('tempData', data);
 | --- | --- |
 | **JSON Injection** | Input validation |
 | **DoS via large payload** | Size limits |
-| **Prototype Pollution** | Deep clone, freeze objects |
+| **Prototype Pollution** | Reject `__proto__`, `constructor`, and `prototype` keys on merge or parse; `Object.create(null)` for map-like objects |
 | **XSS via `eval()`** | Always use `JSON.parse()` |
+
+Deep cloning is not a defense against prototype pollution: a naive recursive copy assigns through `__proto__` the same way it assigns any other key, so it carries the polluted prototype into the copy rather than leaving it behind. Freezing helps only when the frozen object is `Object.prototype` itself, which is worth doing as a backstop; the defenses that actually hold are refusing those three keys wherever untrusted input is merged or parsed — a `JSON.parse` reviver that returns `undefined` for them costs almost nothing — and giving map-like objects no prototype to pollute in the first place.
 
 Use CORS instead of JSONP (JSONP is XSS-vulnerable).
