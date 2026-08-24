@@ -1,7 +1,7 @@
 ---
 type: Guide
 title: Frontend
-description: Curated list of core frontend documentation, web standards, and learning roadmaps.
+description: Index of the frontend chapter, with the standards, reference documentation, and roadmaps its guides draw on.
 tags: [frontend, resources, reference]
 ---
 
@@ -9,53 +9,67 @@ tags: [frontend, resources, reference]
 
 ![Frontend](/images/21-frontend.svg)
 
+Frontend engineering spans the runtime the code ships into, the transports it talks over, and the standards it is measured against — the browser, HTTP, and WCAG rather than any one framework. The guides here stay framework-agnostic; a framework's own documentation is linked below rather than restated.
+
+## In This Section
+
+| Doc | What it covers |
+| --- | --- |
+| **[Application Types](01-application-types.md)** | Where each kind of application produces its HTML — MPA, SPA, SSR, static generation, and PWA |
+| **[Data Formats](02-data-formats.md)** | JSON, YAML, XML, CSV, Markdown, and Parquet, and the parsing traps each one carries |
+| **[Client-Server Communication](03-client-server-communication.md)** | HTTP semantics, REST and GraphQL design, and the transports that keep a connection open |
+| **[Browser Technologies](04-browser-technologies.md)** | The DOM and its event model, browser storage, and the Fetch, History, Geolocation, and Service Worker APIs |
+| **[Performance Optimization](05-performance-optimization.md)** | Core Web Vitals, performance budgets, and the render, network, and bundle work that moves them |
+| **[Accessibility (WCAG)](06-accessibility-wcag.md)** | The WCAG version and conformance level to build against, the POUR principles, and everyday ARIA patterns |
+
 ## Core Documentation
 
-| Resource | URL |
+| Resource | Link |
 | --- | --- |
-| MDN Web Docs | <https://developer.mozilla.org/> |
-| JavaScript.info | <https://javascript.info/> |
-| TypeScript Docs | <https://www.typescriptlang.org/docs/> |
-| ECMAScript Spec | <https://tc39.es/ecma262/> |
-| React Docs | <https://react.dev/> |
-| React Native Docs | <https://reactnative.dev/> |
-| DevDocs (offline-capable aggregator) | <https://devdocs.io/> |
-| Web.dev PWA Guide | <https://web.dev/learn/pwa/> |
-| GraphQL Documentation | <https://graphql.org/> |
-| WCAG 2.1 Guidelines | <https://www.w3.org/WAI/WCAG21/quickref/> |
-| HTML5 Specification | <https://html.spec.whatwg.org/> |
-| Web Vitals | <https://web.dev/vitals/> |
-| Lighthouse Documentation | <https://developer.chrome.com/docs/lighthouse/> |
-| MDN Performance | <https://developer.mozilla.org/en-US/docs/Web/Performance> |
-| Critical Rendering Path | <https://developers.google.com/web/fundamentals/performance/critical-rendering-path> |
-| OWASP Top Ten | <https://owasp.org/www-project-top-ten/> |
-| MDN Security | <https://developer.mozilla.org/en-US/docs/Web/Security> |
-| Content Security Policy | <https://content-security-policy.com/> |
-| Same-Origin Policy | <https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy> |
+| **MDN Web Docs** | [developer.mozilla.org](https://developer.mozilla.org/) |
+| **JavaScript.info** | [javascript.info](https://javascript.info/) |
+| **TypeScript Docs** | [typescriptlang.org/docs](https://www.typescriptlang.org/docs/) |
+| **React Docs** | [react.dev](https://react.dev/) |
+| **React Native Docs** | [reactnative.dev](https://reactnative.dev/) |
+| **GraphQL Documentation** | [graphql.org](https://graphql.org/) |
+| **Web.dev PWA Guide** | [web.dev/learn/pwa](https://web.dev/learn/pwa/) |
+| **DevDocs** | [devdocs.io](https://devdocs.io/) |
 
-### Web Standards
+## Web Standards
 
-| Resource | URL |
+| Resource | Link |
 | --- | --- |
-| HTML Living Standard (WHATWG) | <https://html.spec.whatwg.org/> |
-| W3C | <https://www.w3.org/> |
-| TC39 (ECMAScript committee) | <https://tc39.es/> |
+| **HTML Living Standard (WHATWG)** | [html.spec.whatwg.org](https://html.spec.whatwg.org/) |
+| **ECMAScript Specification** | [tc39.es/ecma262](https://tc39.es/ecma262/) |
+| **TC39** | [tc39.es](https://tc39.es/) |
+| **W3C** | [w3.org](https://www.w3.org/) |
+| **WCAG 2.2 Quick Reference** | [w3.org/WAI/WCAG22/quickref](https://www.w3.org/WAI/WCAG22/quickref/) |
 
-### Roadmaps and Guides
+## Performance
 
-| Resource | URL |
+| Resource | Link |
 | --- | --- |
-| Frontend Roadmap | <https://roadmap.sh/frontend> |
-| Performance Best Practices | <https://roadmap.sh/frontend-performance-best-practices> |
-| Web Performance (Google) | <https://web.dev/learn/performance/> |
-| Front-end Guide (Grab) | <https://github.com/grab/front-end-guide> |
+| **Web Vitals** | [web.dev/articles/vitals](https://web.dev/articles/vitals) |
+| **Critical Rendering Path** | [web.dev/articles/critical-rendering-path](https://web.dev/articles/critical-rendering-path) |
+| **MDN Performance** | [developer.mozilla.org/en-US/docs/Web/Performance](https://developer.mozilla.org/en-US/docs/Web/Performance) |
+| **Lighthouse Documentation** | [developer.chrome.com/docs/lighthouse](https://developer.chrome.com/docs/lighthouse/) |
 
+## Security
 
-### Interview Prep
-
-| Resource | URL |
+| Resource | Link |
 | --- | --- |
-| LeetCode | <https://leetcode.com/> |
-| Frontend Interview Handbook | <https://frontendinterviewhandbook.com/> |
-| React Interview Questions | <https://github.com/sudheerj/reactjs-interview-questions> |
-| Interviewing.io | <https://interviewing.io/> |
+| **OWASP Top Ten** | [owasp.org/www-project-top-ten](https://owasp.org/www-project-top-ten/) |
+| **MDN Security** | [developer.mozilla.org/en-US/docs/Web/Security](https://developer.mozilla.org/en-US/docs/Web/Security) |
+| **Same-Origin Policy** | [developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy) |
+| **Content Security Policy** | [content-security-policy.com](https://content-security-policy.com/) |
+
+Web security as a discipline — the attack classes, not the reference links — is covered in [Web Security](../02-architecture/02-security-web.md).
+
+## Roadmaps and Guides
+
+| Resource | Link |
+| --- | --- |
+| **Frontend Roadmap** | [roadmap.sh/frontend](https://roadmap.sh/frontend) |
+| **Performance Best Practices** | [roadmap.sh/frontend-performance-best-practices](https://roadmap.sh/frontend-performance-best-practices) |
+| **Web Performance (Google)** | [web.dev/learn/performance](https://web.dev/learn/performance/) |
+| **Front-end Guide (Grab)** | [github.com/grab/front-end-guide](https://github.com/grab/front-end-guide) |

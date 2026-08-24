@@ -24,3 +24,12 @@ This section holds the interview-specific material, kept apart from the referenc
 | [Canonical Systems](../03-system-design/06-canonical-systems.md) | The worked problems a system design loop draws its examples from |
 | [AWS Interview Prep](../07-cloud-aws/02-aws-interview-prep.md) | The competency areas an AWS infrastructure role is questioned on |
 | [Azure Interview Prep](../08-cloud-azure/02-azure-interview-prep.md) | The competency areas an Azure infrastructure role is questioned on |
+
+## External Resources
+
+| Resource | Link |
+| --- | --- |
+| **LeetCode** | [leetcode.com](https://leetcode.com/) |
+| **Interviewing.io** | [interviewing.io](https://interviewing.io/) |
+| **Frontend Interview Handbook** | [frontendinterviewhandbook.com](https://www.frontendinterviewhandbook.com/) |
+| **React Interview Questions** | [github.com/sudheerj/reactjs-interview-questions](https://github.com/sudheerj/reactjs-interview-questions) |
