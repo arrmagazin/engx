@@ -1,103 +1,104 @@
 ---
 type: Guide
-title: Technical Debt — Key Insights & Notes
-description: Explains intentional vs. unintentional technical debt, how to recognize it, and how to manage it.
+title: Technical Debt
+description: Explains intentional vs. unintentional technical debt, how to recognize it, and how to track and repay it.
 tags: [development-process, technical-debt, architecture]
 ---
 
-# Technical Debt — Key Insights & Notes
+# Technical Debt
 
-## Core Concept
-
-Technical debt describes the hidden cost of extra rework that builds up when a team ships a quick, simple solution instead of investing in a more thorough approach. 
-
-The term traces back to Ward Cunningham (co-author of the Agile Manifesto), who introduced the debt metaphor in 1992 to describe the long-term cost of design shortcuts.
+Technical debt is the extra rework a team takes on when it ships a quick solution instead of a thorough one. Ward Cunningham, one of the Agile Manifesto's authors, coined the metaphor in a 1992 OOPSLA experience report on the WyCash portfolio management system. This guide covers where debt comes from, how to recognize it, and how to track and repay it.
 
 ## Intentional vs. Unintentional Debt
 
-- **Intentional debt**: consciously chosen, visible to the whole team, and documented. It becomes a manageable trade-off rather than a hidden liability.
-- **Unintentional debt**: accumulates without the team's awareness, often surfacing later as unexplained development friction.
+| Kind | How It Arises | How It Behaves |
+| --- | --- | --- |
+| **Intentional** | Consciously chosen, visible to the whole team, and documented | A trade-off the team can plan around and repay |
+| **Unintentional** | Accumulates without the team noticing | Surfaces later as unexplained development friction |
 
-### Common Drivers of Intentional Debt
-- **Code design principle trade-offs** — knowingly accepting low cohesion or tight coupling to keep momentum, treating the shortcut as temporary.
-- **Business pressure** — client demand for frequent releases or last-minute changes that force faster (but rougher) delivery.
+### Where Each Kind Comes From
 
-### When Intentional Debt Pays Off
-- **Meeting time-to-market deadlines** — accepting minor, non-disruptive flaws to hit a critical release date, then repaying the debt afterward.
-- **Building POCs/MVPs** — when only the concept needs validating, perfect code quality is not the priority, so debt is a safe, time-saving trade-off.
+| Driver | Kind | What Happens |
+| --- | --- | --- |
+| **Design trade-offs** | Intentional | The team knowingly accepts low cohesion or tight coupling to keep momentum, treating the shortcut as temporary |
+| **Business pressure** | Intentional | Demand for frequent releases or last-minute changes forces faster but rougher delivery |
+| **Gaps in expertise** | Unintentional | Insufficient experience on the team leads to accidental design flaws |
+| **Weak internal process** | Unintentional | Poor collaboration, knowledge gaps, or unclear [standards](../00-software-engineering/02-standards.md) create flaws that harden into debt |
 
-### Common Drivers of Unintentional Debt
-- **Lack of technological expertise** — insufficient experience or seniority on the team leads to accidental design flaws.
-- **Internal process issues** — weak collaboration, knowledge gaps, or unclear standards/documentation create design flaws that evolve into debt.
+Intentional debt pays off in two situations. The first is a critical release date, where minor and non-disruptive flaws are accepted to hit the deadline and repaid afterward. The second is a POC or MVP, where only the concept needs validating and code quality is not yet what the work is judged on.
 
-## Recognizing Technical Debt: Indicators by Role
+## Recognizing Technical Debt
 
-### Delivery Indicators
-- **Quality degradation** — rising regressions, unexpected defects in unrelated areas, and growing lists of "known issues" the team tolerates.
-- **High cost of system change** — small changes require disproportionate effort because of workarounds and poor reuse.
-- **Inability to experiment quickly** — spikes/POCs take longer and produce messier results than they should.
-- **Increased barriers to entry** — only a couple of people understand the code (bus-factor risk), and onboarding is slow.
-
-### Architecture Indicators
-- **Hard to integrate** — adding features or connecting systems becomes difficult or unworkable.
-- **Hard to reuse** — high coupling and low cohesion prevent components from being reused elsewhere.
-- **Hard to grow** — the system resists scaling or performance improvements.
-- **Hard to support** — documentation and maintainability suffer, especially where coverage is inconsistent.
-
-### Team Indicators
-- **Delays** — onboarding friction and unplanned overtime during stabilization/regression phases.
-- **Low confidence in scope estimation** — chronic under/over-estimation caused by unpredictable debt-related issues.
-- **Demotivation** — team members feel forced to cut corners, sometimes to the point of wanting off the project.
+| Signal | Where It Shows | What It Looks Like |
+| --- | --- | --- |
+| **Quality degradation** | Delivery | Rising regressions, defects appearing in unrelated areas, and a growing list of known issues the team tolerates |
+| **High cost of change** | Delivery | Small changes take disproportionate effort because of workarounds and poor reuse |
+| **Slow experimentation** | Delivery | Spikes and POCs take longer and produce messier results than they should |
+| **High barrier to entry** | Delivery | Only a couple of people understand the code, and onboarding is slow |
+| **Hard to integrate** | Architecture | Adding features or connecting systems becomes difficult or unworkable |
+| **Hard to reuse** | Architecture | High coupling and low cohesion stop components from being used elsewhere |
+| **Hard to grow** | Architecture | The system resists scaling and performance work |
+| **Hard to support** | Architecture | Documentation and maintainability suffer, especially where test coverage is uneven |
+| **Delays** | Team | Onboarding friction and unplanned overtime during stabilization and regression phases |
+| **Low estimation confidence** | Team | Chronic under- or over-estimation caused by unpredictable debt-related issues |
+| **Demotivation** | Team | Team members feel forced to cut corners, sometimes to the point of wanting off the project |
 
 ## Tracking Technical Debt
 
-Three complementary approaches, best used together:
-1. **Technical debt registry** — a shared, living document logging identified debt items so nothing is forgotten.
-2. **Technical debt backlog** — a prioritized, actionable task list derived from the registry, used to plan repayment capacity.
-3. **Technical debt management tools** — automated quality-gate tools (e.g., SonarQube) that surface metrics without manual logging, such as test coverage, code complexity, rule violations, and other quantitative signals. Issue trackers like Jira and Rally are commonly used to visualize intentional debt (e.g., logged vs. fixed defect trends over time).
+Three approaches, best used together:
 
-Key SonarQube-style metrics:
-- **Code coverage** — flags codebase areas lacking unit tests (marked when insufficient).
-- **Code smells** — signals underlying design issues; a non-decreasing count signals eroding design quality.
+| Approach | What It Is |
+| --- | --- |
+| **Debt registry** | A shared, living document logging identified debt items so none is forgotten |
+| **Debt backlog** | A prioritized, actionable task list derived from the registry, used to plan repayment capacity |
+| **Analysis tooling** | Quality-gate tools such as SonarQube that surface metrics without manual logging |
+
+Issue trackers such as Jira are also used to make intentional debt visible, for example by charting logged vs. fixed defects over time. Two tool metrics carry most of the signal:
+
+- **Code coverage** — flags areas of the codebase that lack unit tests.
+- **[Code smells](../05-coding/04-code-smells.md)** — count and density of patterns that point at underlying design problems.
 
 ## Managing Technical Debt
 
-Many teams track project health with a Red/Amber/Green status:
-- **Red** — issues must be resolved for successful delivery.
-- **Amber** — potential issues that may need attention later.
-- **Green** — healthy performance.
+Project health is commonly reported as a Red/Amber/Green status:
 
-Unmanaged debt tends to shift a project's status from green to amber to red over time as it accumulates.
+| Status | Meaning |
+| --- | --- |
+| **Red** | Issues that must be resolved for successful delivery |
+| **Amber** | Potential issues that may need attention later |
+| **Green** | Healthy performance |
 
-## Risks of Leaving Debt Unmanaged
-1. **Damage to quality** — new features become harder to add cleanly; eventually rework, cost overruns, and schedule slippage can follow.
-2. **Scalability/performance limits** — unresolved trade-offs block scaling or performance gains until root design issues are fixed.
-3. **Team strain** — heavy debt forces slow, effortful progress, leading to burnout and lower-quality output.
-4. **Strained client communication** — lack of transparency about debt can erode trust and reputation with clients.
+Unmanaged debt tends to move a project from green to amber to red as it accumulates.
+
+### Risks of Leaving Debt Unmanaged
+
+| Risk | Effect |
+| --- | --- |
+| **Damage to quality** | New features become harder to add cleanly, and rework, cost overruns, and schedule slippage follow |
+| **Scalability and performance limits** | Unresolved trade-offs block scaling and performance gains until the root design issues are fixed |
+| **Team strain** | Heavy debt makes progress slow and effortful, leading to burnout and lower-quality output |
+| **Strained client communication** | Lack of transparency about debt erodes trust and reputation with clients |
 
 ## Recommendations
 
 ### For Leaders
-- Reserve dedicated time for technical debt tasks (buffers or stabilization sprints).
-- Motivate the team by recognizing debt-reduction efforts.
-- Report technical debt statistics regularly for visibility.
-- Hold regular review meetings with client stakeholders to align on debt and repayment plans.
+
+- Reserve dedicated time for debt work, as buffers or stabilization sprints.
+- Estimate intentional debt when it is logged, so repayment can be planned against capacity.
+- Report debt statistics regularly for visibility.
+- Recognize debt-reduction work the way feature work is recognized.
+- Review debt and repayment plans with client stakeholders on a regular cadence.
 
 ### For Developers
-- Avoid code smells by following clean-code principles (SOLID, DRY).
-- Conduct code reviews to catch inconsistencies early.
-- Share knowledge so the team isn't dependent on a few people.
-- Use code analysis tools rather than relying on manual checks.
-- Use automated testing (unit, API, E2E) for fast, safe feedback.
 
-## Best Practices Summary
-- Measure technical debt (e.g., code smells) using static code analysis tools.
-- Regularly allocate time to address debt found by static analysis (e.g., every sprint or every few sprints).
-- Track intentional debt (reasoned architecture/development shortcuts taken to meet deadlines).
-- Estimate intentional technical debt explicitly.
-- Regularly allocate time to reduce intentional technical debt.
+- Follow [design principles](../05-coding/02-design-principles.md) such as SOLID and DRY to avoid introducing smells.
+- Use [code review](02-code-review.md) to catch inconsistencies early.
+- Share knowledge so the codebase does not depend on a few people.
+- Run static analysis rather than relying on manual checks.
+- Use [automated testing](04-quality-assurance.md) at unit, API, and end-to-end level for fast, safe feedback.
 
-## Related External Resources
-- "Towards an Ontology of Terms on Technical Debt"
-- "Technical Debt Quadrant"
-- "Dealing with Legacy Code and Technical Debt"
+## Further Reading
+
+- Ward Cunningham, [The WyCash Portfolio Management System](http://c2.com/doc/oopsla92.html) — the OOPSLA '92 experience report that introduced the debt metaphor.
+- Martin Fowler, [Technical Debt Quadrant](https://martinfowler.com/bliki/TechnicalDebtQuadrant.html) — separates deliberate from inadvertent debt, and prudent from reckless.
+- Nicolli S. R. Alves et al., "Towards an Ontology of Terms on Technical Debt" — Sixth International Workshop on Managing Technical Debt (MTD), 2014.
