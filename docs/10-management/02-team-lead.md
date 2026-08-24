@@ -1,77 +1,63 @@
 ---
 type: Guide
-title: Team Lead: Responsibility, Way of Working, Workflow
-description: Describes a team lead's core responsibilities, way of working, and workflow in a hybrid software team.
+title: Team Lead
+description: The team lead role — core responsibilities, way of working, and the workflow that carries a task from intake to release.
 tags: [people, leadership, team-lead, management]
 ---
 
-# Team Lead: Responsibility, Way of Working, Workflow
+# Team Lead
 
-A team leader serves as the central hub connecting company strategy with daily operations — bridging upper management and frontline staff by translating high-level business goals into practical, actionable milestones.
-
-In a hybrid software team, the leader also acts as a **friction remover**, balancing asynchronous engineering work with synchronous collaboration across time zones.
-
----
+A team lead connects company strategy to daily engineering work, turning business goals into milestones a team can act on and removing the friction that stops it. This guide covers the role's responsibilities, the behaviors it models, and the workflow that moves a task from intake to release — for leads of hybrid software teams and for the engineers working with them.
 
 ## Core Responsibilities
 
-A team leader's work splits evenly between **managing processes** and **developing people**:
+| Area | What It Means |
+| --- | --- |
+| **Task Delegation** | Assign work to individuals based on their strengths, current workload, and skill level |
+| **Goal Alignment** | Set short-term, measurable goals that map to the company's longer-term milestones |
+| **Performance Coaching** | Run routine evaluations, give constructive feedback, and mentor to close skill gaps |
+| **Conflict Resolution** | Intervene early on interpersonal tension and keep cross-functional relationships working |
+| **Resource Advocacy** | Obtain the software, training, and access the team needs so nobody waits on a request |
 
-| Area | What it means |
-|---|---|
-| **Task Delegation** | Assign work units to individuals based on their strengths, current workload, and skill level. |
-| **Goal Alignment** | Set clear, quantifiable short-term metrics that map to the company's macro milestones. |
-| **Performance Coaching** | Run routine evaluations, deliver constructive feedback, and mentor to close skill gaps. |
-| **Conflict Resolution** | Intervene early on interpersonal tension; maintain healthy cross-functional relationships. |
-| **Resource Advocacy** | Procure the software, materials, training, and clearances the team needs to work smoothly. |
+**In a software or hybrid team, add:**
 
-**In a software / hybrid team, add:**
-
-- **Architectural Alignment** — Ensure developers understand the technical vision before writing code, preventing technical debt.
-- **Asynchronous Documentation** — Mandate that system designs, API contracts, and decisions are written down, not just spoken.
-- **Deployment Guardrails** — Set up automated CI/CD pipelines to catch bugs early.
-- **Hybrid Inclusion** — Structure meetings so remote and office workers have equal presence, visibility, and speaking time.
-- **Burnout Monitoring** — Track commit patterns and PR data to spot developers working unhealthy hours.
-
----
+- **Architectural Alignment** — Make sure developers understand the technical direction before they write code, so the design does not accumulate [technical debt](../04-development-process/07-technical-debt.md) by accident.
+- **Asynchronous Documentation** — Require that system designs, API contracts, and decisions are written down, not only spoken.
+- **Deployment Guardrails** — Put automated [CI/CD](../04-development-process/03-ci-cd.md) pipelines in place so defects are caught before release.
+- **Hybrid Inclusion** — Structure meetings so remote and office participants get equal presence and speaking time.
+- **Burnout Monitoring** — Watch commit and pull request patterns for people working unhealthy hours.
 
 ## Way of Working (WoW)
 
-Values and behavioral standards the leader models to drive execution:
+The values and behaviors a lead models so the team copies them:
 
-- **Extreme Transparency** — Document operational goals openly; over-communicate strategic updates to eliminate ambiguity.
-- **Psychological Safety** — Encourage independent decision-making; treat failures as systemic optimization steps.
-- **Leading by Example** — Hold high standards of integrity, punctuality, and work ethic the team can mirror.
-- **Continuous Feedback** — Replace annual appraisals with real-time praise and corrective coaching.
+- **Transparency** — Keep operational goals in the open and repeat strategic updates until they are understood.
+- **Psychological Safety** — Encourage independent decisions; treat a failure as evidence about the system rather than about a person.
+- **Leading by Example** — Hold the standards of integrity, punctuality, and work ethic the team is expected to match.
+- **Continuous Feedback** — Give praise and correction when the work happens, instead of saving both for an annual review.
 
-**In a software / hybrid team, add:**
+**In a software or hybrid team, add:**
 
-- **Async-First Mindset** — Default to written updates over instant meetings to protect deep-focus coding time.
-- **Output Over Hours** — Measure success by working software and sprint velocity, never by desk occupancy or green status dots.
-- **Over-Communication** — Write detailed tickets, record short video walkthroughs (Loom), document edge cases explicitly.
-- **Structured Office Days** — Use in-person days for brainstorming, complex debugging, or team bonding — never for solo coding.
-
----
+- **Async-First Mindset** — Default to written updates rather than immediate meetings, to protect uninterrupted coding time.
+- **Output Over Hours** — Judge the work by what ships, not by desk occupancy or a green status dot.
+- **Over-Communication** — Write detailed tickets, record short screen walkthroughs, and spell out edge cases.
+- **Structured Office Days** — Use in-person days for design discussion, hard debugging, and team building, not for solo coding.
 
 ## Workflow
 
-A continuous, process-driven pipeline moves tasks from kickoff to deployment:
-
-```
-[1. Intake & Prioritization] ➔ [2. Sprint / Capacity Planning] ➔ [3. Daily Execution] ➔ [4. Review & QA] ➔ [5. Retrospective]
-```
-
-| Stage | General | Software / Hybrid |
-|---|---|---|
-| **1. Intake & Prioritization** | Evaluate incoming requests against the roadmap using prioritization matrices to determine urgency. | Async grooming: PMs and leads write tickets; engineers review requirements and post questions in comments before meetings. |
-| **2. Sprint / Capacity Planning** | Map the prioritized pipeline against team hours and technical availability to prevent over-allocation. | Synchronous hybrid video call; commit scope based on historical velocity. |
-| **3. Daily Execution** | Run short syncs (standups) to unblock dependencies and address friction. | Slack/Teams bots collect text standups; calendar blocks stay open for uninterrupted coding. |
-| **4. Review & QA** | Act as final-review filter; ensure deliverables meet compliance standards before release. | Senior devs peer-review PRs; automated tests trigger on every commit. |
-| **5. Retrospective** | Analyze post-delivery metrics to implement lean improvements for future cycles. | Every two weeks, review what slowed delivery and optimize CI/CD tools or workflows. |
+| Stage | General | Hybrid Software Team |
+| --- | --- | --- |
+| **1. Intake and Prioritization** | Evaluate incoming requests against the roadmap to decide urgency and order | Product managers and leads write the tickets; engineers read the requirements and raise questions in comments before any meeting |
+| **2. Sprint and Capacity Planning** | Match the prioritized queue against the team's available [capacity](01-delivery-management.md) so nobody is over-allocated | One synchronous video call; scope is committed against the team's own delivery history |
+| **3. Daily Execution** | Hold a short sync to surface blockers and dependencies | A chat bot collects written standups, and calendars keep long blocks free for coding |
+| **4. Review and QA** | Act as the last filter before release, checking deliverables against the agreed quality bar | Peers review pull requests, as described in [Code Review](../04-development-process/02-code-review.md), and automated [tests](../04-development-process/04-quality-assurance.md) run on every commit |
+| **5. Retrospective** | Look back at the delivered cycle and pick improvements for the next one | At the end of each sprint, review what slowed delivery and fix the tooling or the process behind it |
 
 ### Operational Blueprint: Hybrid Scrum in Jira
 
-Jira is the single, absolute source of truth — **if a task isn't in Jira, it doesn't exist.**
+One team's concrete configuration, recorded as a worked example rather than as a recommended standard — every value below is that team's own setting, not a benchmark for teams at large. The five Scrum events and their official timeboxes are defined in [Scrum Framework](../01-methodology/03-scrum.md); this section covers only how this team adapts them to hybrid work.
+
+For this team, Jira is the single source of truth: a task that is not in Jira does not exist.
 
 **Board columns:**
 
@@ -79,20 +65,21 @@ Jira is the single, absolute source of truth — **if a task isn't in Jira, it d
 Backlog ➔ Selected for Development ➔ In Progress ➔ Code Review (PR) ➔ QA/Testing ➔ Done
 ```
 
-**WIP limits** — Cap the *In Progress* column (e.g. max 1 task per developer). Forces engineers to close active tickets before opening new ones.
+**WIP limits** — the *In Progress* column is capped at one task per developer, so an engineer closes an active ticket before opening another.
 
 **Automation rules:**
 
-- Link Jira to GitHub/GitLab.
-- Opening a PR → auto-move ticket from *In Progress* to *Code Review*.
-- Merging to main → auto-move ticket to *QA/Testing*.
+- Jira is linked to GitHub or GitLab.
+- Opening a pull request moves the ticket from *In Progress* to *Code Review*.
+- Merging to the main branch moves the ticket to *QA/Testing*.
 
-**Rituals & cadence:**
+**Rituals and cadence:**
 
-| # | Ritual | When | How it works | Goal |
-|---|---|---|---|---|
-| 1 | **Async Refinement** | Mid-sprint | Lead tags engineers in tickets 48h ahead; questions go in comments. Meeting trimmed to 30 min for final alignment. | Avoid the 2-hour meeting; resolve edge cases async. |
-| 2 | **Sprint Planning** | Day 1 | Synchronous call on the Jira backlog; digital planning poker so remote and office peers vote simultaneously. | Commit scope based on the historical Velocity Chart. |
-| 3 | **Daily Standup** | Every morning | Slack bot (Geekbot / Standuply) collects text at 9:00 AM: did / will do / blockers. | Protect focus; lead calls a 10-min huddle only for flagged blockers. |
-| 4 | **Code Review & QA** | Continuous | On *Code Review*, developer assigns the ticket to a peer. | SLA: PRs reviewed within 4 business hours — keeps code moving without calls. |
-| 5 | **Sprint Review & Retro** | Last day | Live screen-share demo of staging to stakeholders; retro on a digital whiteboard (Miro / Confluence). | Use the Burndown Chart to diagnose scope creep or stalled reviews; fix for next sprint. |
+| Ritual | When | How It Works | Goal |
+| --- | --- | --- | --- |
+| **Backlog Refinement** | Ongoing | Refinement is a continuous activity rather than a scheduled event: the lead tags engineers in tickets around 48 hours before planning, questions are answered in the comments, and a 30-minute call closes whatever is still open | Settle edge cases in writing instead of in a long meeting |
+| **Sprint Planning** | Day 1 | Synchronous call over the Jira backlog, with digital planning poker so remote and office peers vote at the same time | Commit scope against the team's velocity chart |
+| **Daily Standup** | Every working day | A Slack bot such as Geekbot or Standuply collects written answers at 9:00 AM: done, next, blockers | Protect focus, with a 10-minute huddle only for flagged blockers |
+| **Code Review** | Continuous | When a ticket reaches *Code Review* the author assigns a peer, and pull requests are reviewed within four business hours | Keep changes moving without scheduling a call; the process itself is in [Code Review](../04-development-process/02-code-review.md) |
+| **Sprint Review** | Last day | Live screen share of the staging environment for stakeholders | Inspect the increment with the people who asked for it |
+| **Sprint Retrospective** | Last day, after the review | The team works through a digital whiteboard such as Miro or Confluence | Use the burndown chart to diagnose scope creep or stalled reviews, and pick fixes for the next sprint |
