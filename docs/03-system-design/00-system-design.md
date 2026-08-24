@@ -26,7 +26,7 @@ flowchart LR
 | Doc | What it covers |
 | --- | --- |
 | **[Databases — Core Concepts](01-database-basics.md)** | Storage models, indexing, transactions, and isolation levels |
-| **[Redis — core concepts and workflow](02-caching-with-redis.md)** | Data structures, eviction, and the caching patterns Redis is used for |
+| **[Redis — Core Concepts and Workflow](02-caching-with-redis.md)** | Data structures, eviction, and the caching patterns Redis is used for |
 | **[Kafka — Core Concepts and Workflow](03-messaging-with-kafka.md)** | Partitions, consumer groups, delivery guarantees, and ordering |
 | **[Containers — Core Concepts and Orchestration](04-containers.md)** | Images, isolation, resource limits, and orchestration |
 | **[System Design Glossary](05-concepts.md)** | The vocabulary this chapter uses, grouped by the problem each set of terms addresses |
