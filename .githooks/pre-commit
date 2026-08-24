@@ -1,10 +1,17 @@
 #!/bin/sh
-# Blocks commits that stage a docs/*.md file failing either documentation checker.
+# Blocks commits that stage a docs/*.md file failing any documentation checker.
 # See CLAUDE.md ("Frontmatter convention", "Glossary convention") for the specs these enforce.
 #
 # The filter is ACMR, not ACM: a rename reports as R, and a pure-rename commit selected by
 # ACM yields an empty file list that passes trivially. Every commit of the Phase 1
 # restructure was a pure rename and none of them was ever checked.
+#
+# check_links.py sees only the STAGED files, but reads their targets and those targets'
+# headings from the working tree. That catches a bad link the moment the referring file is
+# staged. It does NOT catch the mirror case: renaming a heading in A.md breaks anchors in
+# B.md, and a commit staging only A.md passes. The complement is a periodic full-tree run,
+#     python3 scripts/check_links.py $(git ls-files 'docs/*.md' 'docs/**/*.md')
+# which is also how to check the repo after a merge.
 
 files=$(git diff --cached --name-only --diff-filter=ACMR -- 'docs/*.md')
 
@@ -16,5 +23,6 @@ status=0
 
 python3 scripts/check_okf_frontmatter.py $files || status=1
 python3 scripts/check_glossary.py $files || status=1
+python3 scripts/check_links.py $files || status=1
 
 exit $status
