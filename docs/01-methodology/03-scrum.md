@@ -23,10 +23,10 @@ The Guide names five values the team is expected to live by: commitment, focus, 
 
 ## The Scrum Team
 
-One Product Owner, one Scrum Master, and the Developers — a single team with no sub-teams and no hierarchy inside it. The 2020 Guide replaced the earlier **Development Team** with **Developers**, a role within the Scrum Team rather than a team inside a team; older material uses the retired term.
+One Product Owner, one Scrum Master, and the Developers — a single team with no sub-teams and no hierarchy inside it. The 2020 Guide replaced the earlier **Development Team** with **Developers**, an accountability within the Scrum Team rather than a team inside a team; older material uses the retired term.
 
-| Role | Accountability |
-| ---- | -------------- |
+| Accountability | What it covers |
+| -------------- | -------------- |
 | **Product Owner** | Maximizing the value of the product; owns the Product Backlog and the order of its items |
 | **Scrum Master** | The team's effectiveness, and Scrum being understood and practiced as the Guide defines it |
 | **Developers** | Creating a usable Increment each Sprint, and holding themselves to the Definition of Done |
@@ -43,7 +43,7 @@ The Sprint contains the other four. Each is a formal opportunity to inspect and 
 | **Sprint Review** | Inspect the Increment with stakeholders and adapt the Product Backlog accordingly | Four hours for a one-month Sprint |
 | **Sprint Retrospective** | Inspect how the Sprint went and pick the most useful improvements to act on | Three hours for a one-month Sprint |
 
-Backlog refinement is an ongoing activity, not an event: the Product Owner and Developers add detail, order, and estimates to Product Backlog items as the work ahead becomes clearer.
+Backlog refinement is an ongoing activity, not an event: the Product Owner and Developers add detail, order, and size to Product Backlog items as the work ahead becomes clearer.
 
 ```mermaid
 sequenceDiagram
@@ -79,6 +79,8 @@ Widely used alongside Scrum, and absent from the Guide — a team can drop any o
 | -------- | ---------- |
 | **Task** | A unit a Sprint Backlog item is broken into, small enough that its progress is visible at the Daily Scrum |
 | **Spike** | A timeboxed investigation that answers a question or prototypes an approach before the work is estimated |
+| **Story Point** | Relative unit for the overall size of a backlog item — effort, complexity, and uncertainty together, deliberately not hours |
+| **Velocity** | Story Points a team completes per Sprint, averaged over recent Sprints to inform how much to plan for the next one |
 | **Sprint Burn-down Chart** | Remaining Sprint Backlog work plotted day by day across the Sprint |
 | **Release Burn-down Chart** | Remaining work across a release, tracked at Product Backlog item level |
 
@@ -111,10 +113,3 @@ classDiagram
     SprintBacklog "1" --> "*" Spike : may include
     Sprint "1" --> "1" Increment : produces
 ```
-
-## Estimation Concepts
-
-| Concept | Definition |
-| ------- | ---------- |
-| **Story Point** | Relative unit for the overall size of a backlog item — effort, complexity, and uncertainty together, deliberately not hours |
-| **Velocity** | Story Points a team completes per Sprint, averaged over recent Sprints to inform how much to plan for the next one |
