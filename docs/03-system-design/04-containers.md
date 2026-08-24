@@ -46,7 +46,7 @@ One container on one host is a single command. A real system is tens to thousand
 - **Configuration and secrets at run time** — injected as environment variables or mounted files, so one image serves every environment.
 - **Restart with backoff** — crash loops are slowed down rather than retried tightly, so a broken deploy does not hammer its dependencies.
 
-For the managed implementations of all of this, see [AWS stack overview](../07-cloud-aws/01-aws-stack-overview.md) and [Azure stack overview](../09-cloud-azure/20-azure-stack-overview.md).
+For the managed implementations of all of this, see [AWS stack overview](../07-cloud-aws/01-aws-stack-overview.md) and [Azure stack overview](../08-cloud-azure/01-azure-stack-overview.md).
 
 ## Design implications
 
