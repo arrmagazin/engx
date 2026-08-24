@@ -7,7 +7,7 @@ tags: [testing, qa, tdd]
 
 # Quality Assurance
 
-![Quality Assurance](/images/08-testing.svg)
+![Quality Assurance](../../images/08-testing.svg)
 
 Quality assurance is the process, mostly run by test engineers, that gives confidence a product meets what clients and users expect. It costs time, money, and people, so its value has to be argued to stakeholders rather than assumed. This guide covers how QA is organized — test cases, defects, non-functional requirements, metrics, and automation — and the testing practices that carry it out.
 

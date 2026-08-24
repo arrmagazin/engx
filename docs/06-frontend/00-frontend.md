@@ -7,7 +7,7 @@ tags: [frontend, resources, reference]
 
 # Frontend
 
-![Frontend](/images/21-frontend.svg)
+![Frontend](../../images/21-frontend.svg)
 
 Frontend engineering spans the runtime the code ships into, the transports it talks over, and the standards it is measured against — the browser, HTTP, and WCAG rather than any one framework. The guides here stay framework-agnostic; a framework's own documentation is linked below rather than restated.
 
