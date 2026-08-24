@@ -1,35 +1,24 @@
 ---
 type: Guide
 title: Browser Technologies
-description: Covers HTML5 semantic elements and form enhancements, plus CSS fundamentals like the cascade and specificity.
-tags: [frontend, html, css, browser]
+description: Covers the DOM, the event model, browser storage, and the Fetch, History, Geolocation, and Service Worker APIs.
+tags: [frontend, browser, dom, css, web-apis]
 ---
 
 # Browser Technologies
 
-## HTML5/CSS3
-
-| Resource | URL |
-| --- | --- |
-| MDN CSS Reference | <https://developer.mozilla.org/en-US/docs/Web/CSS> |
-| MDN Learn CSS | <https://developer.mozilla.org/en-US/docs/Learn/CSS> |
-| CSS Specifications (W3C) | <https://www.w3.org/Style/CSS/specs> |
-| A Complete Guide to Flexbox | <https://css-tricks.com/snippets/css/a-guide-to-flexbox/> |
-| A Complete Guide to Grid | <https://css-tricks.com/snippets/css/complete-guide-grid/> |
-| Tailwind CSS Docs | <https://tailwindcss.com/docs> |
-| DaisyUI | <https://daisyui.com/> |
+The browser is the runtime every frontend application ships into. This guide covers the DOM and its event model, the browser APIs for fetching, navigation, storage, and location, and the service worker that runs behind them all.
 
 ## DOM
 
-The DOM represents the page as a tree of nodes that JavaScript can manipulate.
+The DOM represents the page as a tree of nodes that JavaScript can read and change. Reading a geometric property (`offsetHeight`, `getBoundingClientRect`) forces the browser to settle any pending layout, so interleaving reads and writes makes it recompute layout on every iteration — layout thrashing.
 
-| Operation | Performance |
+| Pattern | Effect |
 | --- | --- |
-| `getElementById` | Fastest |
-| `querySelector` | Fast |
-| `textContent` | Fast |
-| DOM creation | Slow — minimize, use fragments |
-| Layout thrashing | Very slow — batch reads then writes |
+| **Batch reads, then writes** | One layout pass instead of one per element |
+| **Read and write in the same loop** | Layout thrashing — layout is recomputed each iteration |
+| **`DocumentFragment` for bulk inserts** | One insertion into the live tree instead of many |
+| **`textContent` over `innerHTML`** | No HTML parsing, and no markup injection surface |
 
 ```javascript
 // Bad - multiple reflows
@@ -49,6 +38,8 @@ for (let i = 0; i < 100; i++) {
 document.body.appendChild(fragment);
 ```
 
+Measuring which of these actually costs you anything belongs to [Performance Optimization](05-performance-optimization.md); the [Performance panel](../04-development-process/06-debugging.md) records the layout passes.
+
 ## Events
 
 Events bubble from target up to Window (capture phase goes the other direction).
@@ -63,9 +54,13 @@ document.getElementById('list').addEventListener('click', (event) => {
 });
 ```
 
+A `click` handler on a non-interactive element such as a `div` gets no keyboard or screen reader behavior for free. Use a real `button` or `a`, or supply the role, tab order, and key handling yourself — see [Accessibility (WCAG)](06-accessibility-wcag.md).
+
 ## Browser APIs
 
 ### Fetch API
+
+`fetch` returns a promise that rejects only on network failure. An HTTP error status resolves normally, so check `response.ok` yourself. Methods, status codes, and the rest of the protocol are in [Client-Server Communication](03-client-server-communication.md).
 
 ```javascript
 async function getUsers() {
@@ -86,16 +81,16 @@ async function getUsers() {
 
 ### Location and History API
 
-`window.location` describes the current URL and triggers full page loads. `window.history` manipulates the session stack without reloading — the basis of client-side routing.
+`window.location` describes the current URL and triggers full page loads. `window.history` manipulates the session stack without reloading — the basis of client-side routing in a [single-page application](01-application-types.md).
 
 | Part | `https://site.com:8080/docs/page?tab=api#top` |
 | --- | --- |
-| `protocol` | `https:` |
-| `host` / `hostname` / `port` | `site.com:8080` / `site.com` / `8080` |
-| `pathname` | `/docs/page` |
-| `search` | `?tab=api` |
-| `hash` | `#top` |
-| `origin` | `https://site.com:8080` |
+| **`protocol`** | `https:` |
+| **`host` / `hostname` / `port`** | `site.com:8080` / `site.com` / `8080` |
+| **`pathname`** | `/docs/page` |
+| **`search`** | `?tab=api` |
+| **`hash`** | `#top` |
+| **`origin`** | `https://site.com:8080` |
 
 ```javascript
 // Navigation — reloads the page
@@ -115,10 +110,10 @@ const url = new URL('/docs?tab=api', location.origin);
 
 | History method | Effect |
 | --- | --- |
-| `pushState(state, '', url)` | Adds an entry, no reload |
-| `replaceState(state, '', url)` | Rewrites current entry, no reload |
-| `back()` / `forward()` / `go(n)` | Moves along the stack |
-| `history.length` | Entries in this tab's session |
+| **`pushState(state, '', url)`** | Adds an entry, no reload |
+| **`replaceState(state, '', url)`** | Rewrites current entry, no reload |
+| **`back()` / `forward()` / `go(n)`** | Moves along the stack |
+| **`history.length`** | Entries in this tab's session |
 
 ```javascript
 // Client-side routing
@@ -136,18 +131,20 @@ window.addEventListener('popstate', (event) => {
 Notes:
 
 - `pushState` never fires `popstate` — call the renderer yourself.
-- State must be structured-cloneable and is capped (~2MB in Firefox); keep it small, treat the URL as the source of truth.
+- State must be structured-cloneable and is capped — Firefox rejects a state object over 16 MiB. Keep it small and treat the URL as the source of truth.
 - The URL must be same-origin; cross-origin throws a `SecurityError`.
 - Changing only `location.hash` adds a history entry and fires `hashchange`, not a reload — the pre-`pushState` routing technique.
 
 ### Browser Storage
 
-| Storage | Capacity | Expiration | Scope |
+| Storage | Capacity | Lifetime | Scope |
 | --- | --- | --- | --- |
-| Cookie | 4KB | Configurable | All frames |
-| localStorage | 5–10MB | Never | Same origin |
-| sessionStorage | 5–10MB | Tab close | Same tab |
-| IndexedDB | Hundreds of MB | Never | Same origin |
+| **Cookie** | About 4 KB per cookie | `Expires` or `Max-Age`; cleared when the session ends if neither is set | Domain and path it was set for; sent from a third-party frame only with `SameSite=None; Secure`, which browsers increasingly block |
+| **`localStorage`** | Typically around 5 MB per origin; no specification fixes the number | Persists until cleared, except in Safari, where Intelligent Tracking Prevention deletes it after seven days without user interaction with the site | Same origin |
+| **`sessionStorage`** | Typically around 5 MB per origin | Until the tab or window closes | Same origin, one tab |
+| **IndexedDB** | Browser-managed quota against available disk space, reaching gigabytes | Persists until cleared or evicted; Safari's Intelligent Tracking Prevention deletes it on the same seven-day rule | Same origin |
+
+Safari's seven-day rule also removes service worker registrations, so treat script-writable storage as a cache you can lose, not a database of record. The DevTools **Application** panel shows what is stored — see [Debugging With Chrome DevTools](../04-development-process/06-debugging.md).
 
 ```javascript
 // localStorage
@@ -165,6 +162,8 @@ request.onupgradeneeded = (event) => {
 ```
 
 ### Geolocation API
+
+Geolocation needs a secure context and explicit user permission; the first call raises the browser's permission prompt, and a refusal arrives as an error, not a rejection you can retry around.
 
 ```javascript
 navigator.geolocation.getCurrentPosition(
@@ -186,6 +185,7 @@ navigator.geolocation.clearWatch(watchId);
 
 ## Service Workers
 
+A service worker is a script that runs separately from any page and can intercept requests from the pages it controls, which is what makes offline behavior and [progressive web apps](01-application-types.md) possible. It needs a secure context, is registered from the page, and keeps its own cache storage independent of the HTTP cache.
 
 ```javascript
 const CACHE_NAME = 'my-pwa-cache-v1';
@@ -211,3 +211,17 @@ self.addEventListener('fetch', (event) => {
     );
 });
 ```
+
+Versioning the cache name, as above, is what lets `activate` delete the previous version. Which assets belong in it is a [performance](05-performance-optimization.md) decision.
+
+## CSS Resources
+
+| Resource | Link |
+| --- | --- |
+| **MDN CSS Reference** | [developer.mozilla.org/en-US/docs/Web/CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) |
+| **MDN Learn CSS** | [developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics) |
+| **CSS Specifications (W3C)** | [w3.org/Style/CSS/specs](https://www.w3.org/Style/CSS/specs) |
+| **A Complete Guide to Flexbox** | [css-tricks.com/snippets/css/a-guide-to-flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) |
+| **A Complete Guide to Grid** | [css-tricks.com/complete-guide-css-grid-layout](https://css-tricks.com/complete-guide-css-grid-layout/) |
+| **Tailwind CSS Docs** | [tailwindcss.com/docs](https://tailwindcss.com/docs) |
+| **DaisyUI** | [daisyui.com](https://daisyui.com/) |
