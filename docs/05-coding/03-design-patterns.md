@@ -1,166 +1,170 @@
 ---
 type: Guide
-title: Design Pattern
-description: Defines design patterns and maps the structural, creational, behavioral, and concurrency pattern families.
-tags: [architecture, design-patterns]
+title: Design Patterns
+description: Catalogs the Gang of Four patterns by family, the patterns added around them, concurrency patterns, and common anti-patterns.
+tags: [coding, design-patterns]
 ---
 
-# Design Pattern
+# Design Patterns
 
-**`Sesign pattern`** := a generalized approach addressing frequently occurring problems.
+A design pattern is a named, reusable approach to a problem that keeps recurring: a template to work from, not a finished design that converts straight into code. This page catalogs the twenty-three Gang of Four patterns by family, the patterns other catalogs added around them, the common concurrency patterns, and the anti-patterns worth naming, for a developer who needs the name other engineers will recognize.
 
-It is a template for how to solve a problem that can be used in many different situations.
+A pattern is a concrete structure; the general rules a structure is judged against live in [Design Principles](02-design-principles.md).
 
-A design pattern isn't a finished design that can be transformed directly into code.
+## Gang of Four Patterns
+
+Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides, *Design Patterns: Elements of Reusable Object-Oriented Software* (1994), describe twenty-three patterns in three families. This is that catalog, and nothing else in this page belongs to it.
 
 ```mermaid
 mindmap
-  root((Design Pattern))
+  root((Gang of Four))
+    Creational
+      Abstract Factory
+      Builder
+      Factory Method
+      Prototype
+      Singleton
     Structural
       Adapter
       Bridge
-      Facade
-      Proxy
-      Decorator
       Composite
+      Decorator
+      Facade
       Flyweight
-    Creational
-      Abstract Factory
-      Factory Method
-      Builder
-      Prototype
-      Singleton
-      Object Pool
+      Proxy
     Behavioral
+      Chain of Responsibility
+      Command
+      Interpreter
       Iterator
+      Mediator
+      Memento
       Observer
       State
-      Visitor
-      Command
       Strategy
-      Mediator
-    Concurrency
-      Lock
-      Active Object
-      Thread Pool
-      Reactor
-      Join
-    Anti-Patterns
-      Big Ball of Mud
-      God Object
-      Spaghetti Code
-      Cargo Cult
-      Gold Plating
+      Template Method
+      Visitor
 ```
 
-## Structural Patterns - Prominent
+### Creational Patterns
 
-| Pattern | Short Description | Goal/Issue/Problem |
-| --------- | ------------------- | ------------------- |
-| **Adapter** | Wrapping own interface around an existing class | Allows existing classes with incompatible interfaces to work together. Convert the interface of a class into another interface clients expect. |
-| **Bridge** | Decouples an abstraction from its implementation | "Hardening of the software arteries" has occurred by using subclassing. Use interfaces instead of subclassing abstract classes. |
-| **Facade** | A single class representing simplified view of an entire complex subsystem | Client needs simplified interface to overall functionality of complex subsystem. Provide unified interface to a set of interfaces. |
-| **Proxy** | Provides a placeholder for another object with the same interface | To control access, reduce cost, and reduce complexity. |
-| **Decorator** | Adds/changes behavior in an existing method at runtime | Attach additional responsibilities dynamically keeping the same interface. Flexible alternative to subclassing. |
-
-## Structural Patterns - Others
+Creational patterns hand back an object instead of having the caller name a concrete class, which leaves the choice of class open.
 
 | Pattern | Description |
 | --------- | ------------- |
-| **Module/Namespace** | Group several related elements into a single conceptual entity |
-| **Composite/Node** | Compose objects into tree structures for part-whole hierarchies |
-| **Flyweight** | Use sharing to support large numbers of similar objects efficiently |
-| **Front Controller** | Provides centralized entry point for handling requests in web applications |
-| **Twin** | Multiple inheritance in languages that don't support it |
-| **Marker/Tag** | Empty interface to associate metadata with a class |
+| **Abstract Factory** | Create families of related objects without naming their concrete classes |
+| **Builder** | Separate the construction of a complex object from its representation, so one construction process can produce several forms |
+| **Factory Method** | Define an interface for creating an object, and let subclasses decide which class to instantiate |
+| **Prototype** | Create new objects by copying a prototypical instance |
+| **Singleton** | Ensure a class has one instance, and give callers one point of access to it |
 
-## Creational Patterns
+### Structural Patterns
 
-*Creational patterns create objects for you, rather than having you instantiate objects directly, giving more flexibility in deciding which objects need to be created.*
-
-| Pattern | Description |
-| --------- | ------------- |
-| **Abstract Factory** | Create families of related or dependent objects without specifying concrete classes |
-| **Factory Method** | Define interface for creating objects, but let subclasses decide which classes to instantiate |
-| **Object Pool** | Recycle objects no longer in use to avoid expensive acquisition and release of resources |
-| **Builder** | Separate the construction of a complex object from its representation |
-| **Prototype** | Specify kinds of objects using a prototypical instance, create new objects by copying |
-| **Singleton** | Ensure a class has only one instance, provide global point of access |
-| **Multiton** | Ensure a class has only named instances |
-| **Lazy Initialization** | Delay creation of an object until first needed |
-| **RAII** | Ensure resources are properly released by tying them to lifespan of suitable objects |
-
-## Behavioral Patterns - Prominent
-
-*Most are specifically concerned with communication between objects, to decouple senders and receivers.*
+Structural patterns compose classes and objects into larger structures without rewriting the parts.
 
 | Pattern | Description |
 | --------- | ------------- |
-| **Iterator** | Access elements of an object sequentially without exposing underlying representation |
-| **Observer** | One-to-many dispatching of changes of 'subject' across arbitrary observers |
-| **Pub/Sub** | Indirect Observers via EventBus |
-| **State** | Allow an object to alter its behavior when its internal state changes |
-| **Visitor** | Represent an external operation to be performed on elements of an object structure |
-| **Chain of Responsibility** | Chain receiving objects and pass request along until an object handles it |
-| **Command** | Encapsulate a request as an object to parameterize clients with different requests |
-| **Mediator** | Define interface for communication between objects; objects delegate interaction to mediator |
+| **Adapter** | Wrap a class in the interface a client expects, so classes with incompatible interfaces work together |
+| **Bridge** | Separate an abstraction from its implementation so the two vary independently, instead of fixing both in a subclass |
+| **Composite** | Compose objects into tree structures so clients treat a single object and a composition of objects alike |
+| **Decorator** | Attach responsibilities to an object at runtime behind its existing interface, as an alternative to subclassing |
+| **Facade** | Offer one simplified interface to a set of interfaces in a subsystem |
+| **Flyweight** | Share fine-grained objects so large numbers of them cost little memory |
+| **Proxy** | Stand in for another object with the same interface, to control access to it |
 
-## Behavioral Patterns - Exotic
+### Behavioral Patterns
+
+Behavioral patterns assign responsibility between objects and decouple senders from receivers.
 
 | Pattern | Description |
 | --------- | ------------- |
-| **Servant** | Define common functionality for a group of classes |
-| **Strategy** | Family of interchangeable algorithms selected on-the-fly at runtime |
-| **Memento** | Capture and externalize an object's internal state for later restoration (undo) |
-| **Interpreter** | Implement a specialized language; define representation for grammar |
-| **Template Method** | Define skeleton of algorithm as abstract class; subclasses provide concrete behavior |
-| **Null Object** | Avoid null references by providing a default object |
-| **Specification** | Recombinable business logic in Boolean fashion |
+| **Chain of Responsibility** | Pass a request along a chain of handlers until one of them handles it |
+| **Command** | Encapsulate a request as an object, so it can be parameterized, queued, logged, or undone |
+| **Interpreter** | Represent the grammar of a small language and interpret sentences written in it |
+| **Iterator** | Traverse the elements of a collection without exposing how the collection stores them |
+| **Mediator** | Route interaction between objects through one object, so they do not refer to each other directly |
+| **Memento** | Capture an object's internal state so it can be restored later, without breaking encapsulation |
+| **Observer** | Notify every dependent automatically when the object they observe changes |
+| **State** | Let an object change its behavior when its internal state changes |
+| **Strategy** | Define a family of interchangeable algorithms and select one at runtime |
+| **Template Method** | Define the skeleton of an algorithm and let subclasses supply individual steps |
+| **Visitor** | Represent an operation on the elements of an object structure, so new operations need no change to those elements |
+
+## Patterns Beyond the Gang of Four
+
+These are in wide use and often listed alongside the catalog above, but they are not part of it.
+
+### Additional Creational Patterns
+
+| Pattern | Description |
+| --------- | ------------- |
+| **Object Pool** | Reuse objects that are expensive to acquire instead of creating and destroying one per use |
+| **Multiton** | Keep one instance per key, reached through a registry |
+| **Lazy Initialization** | Delay creating an object until the first use |
+
+### Additional Structural Patterns
+
+| Pattern | Description |
+| --------- | ------------- |
+| **Module/Namespace** | Group related elements into one named unit with a controlled surface |
+| **Twin** | Model multiple inheritance with two coupled classes in a language that has none |
+| **Marker Interface** | An empty interface that tags a class with metadata a framework reads at runtime |
+
+### Additional Behavioral Patterns
+
+| Pattern | Description |
+| --------- | ------------- |
+| **Publish/Subscribe** | Observer routed through a broker or event bus, so publishers and subscribers never hold a reference to each other |
+| **Servant** | Put behavior shared by several classes into one object that operates on them |
+| **Null Object** | Supply an object with neutral behavior instead of a null reference |
+
+### Patterns from Other Catalogs
+
+- **Front Controller** — one entry point that receives every request for a web application and dispatches it to a handler. Martin Fowler, *Patterns of Enterprise Application Architecture* (2002).
+- **Specification** — a business rule as an object, combinable with and, or, and not. Eric Evans, *Domain-Driven Design* (2003).
+- **RAII**, resource acquisition is initialization — tie a resource to the lifetime of an object, so destroying the object releases the resource. A C++ idiom named by Bjarne Stroustrup; it manages a resource rather than creating an object, so it belongs to no Gang of Four family.
 
 ## Concurrency Patterns
 
+Active Object, Reactor, and the Double-Checked Locking optimization are cataloged in Douglas Schmidt, Michael Stal, Hans Rohnert, and Frank Buschmann, *Pattern-Oriented Software Architecture, Volume 2: Patterns for Concurrent and Networked Objects* (2000). Doug Lea's *Concurrent Programming in Java* is the standard reference for the lock, guard, and thread-pool material.
+
 | Pattern | Description |
 | --------- | ------------- |
-| **Lock** | Thread puts "lock" on a resource, preventing other access |
-| **Active Object** | Decouple method execution from invocation in their own thread of control |
-| **Balking** | Only execute an action when object is in a particular state |
-| **Thread Pool** | Number of threads performing tasks usually organized in a queue |
-| **Binding Properties** | Combine observers to force properties to be synchronized |
-| **Blockchain** | Decentralized way to store data and agree on processing in a Merkle tree |
-| **Double-checked Locking** | Reduce overhead of acquiring a lock by first testing in an unsafe manner |
-| **Guarded Suspension** | Manage operations requiring both lock and precondition |
-| **Join** | Write concurrent, parallel, distributed programs by message passing |
-| **Reactor** | Provide asynchronous interface to resources handled synchronously |
+| **Lock** | Hold a claim on a resource so no other thread can use it at the same time |
+| **Active Object** | Give an object its own thread of control and turn calls on it into messages that thread processes |
+| **Balking** | Return without acting when the object is not in a state where the action makes sense |
+| **Thread Pool** | Serve tasks from a queue with a fixed set of reusable worker threads |
+| **Binding Properties** | Keep two properties in step by having each observe the other |
+| **Double-Checked Locking** | Test the condition before and after taking the lock, so the lock is taken only when it is needed |
+| **Guarded Suspension** | Block a call until the lock is held and a precondition holds |
+| **Join** | Coordinate concurrent messages, so an action runs only once every message it names has arrived |
+| **Reactor** | Wait on several event sources at once and dispatch each event to its handler |
 
 ## Anti-Patterns
+
+An anti-pattern is a solution people keep choosing that reliably ends badly. Symptoms found in code that already exists — a class grown too large, structure that is hard to follow, unexplained literals, leaky encapsulation — are cataloged as [Code Smells](04-code-smells.md); duplication is covered by DRY in [Design Principles](02-design-principles.md).
 
 ### Software Design Anti-Patterns
 
 | Anti-Pattern | Description |
 | -------------- | ------------- |
-| **Big Ball of Mud** | A system with no recognizable structure |
-| **Abstraction Inversion** | Not exposing implemented functionality required by callers |
-| **Gold Plating** | Continuing work well past the point where extra effort adds value |
-| **Inner-Platform Effect** | A system so customizable it becomes a poor replica of the development platform |
-| **Interface Bloat** | Making an interface so powerful it is extremely difficult to implement |
+| **Big Ball of Mud** | A system with no recognizable structure, named by Brian Foote and Joseph Yoder in 1997 |
+| **Abstraction Inversion** | Hiding functionality that callers need, so they rebuild it on top of the abstraction |
+| **Gold Plating** | Continuing work past the point where more effort adds value |
+| **Inner-Platform Effect** | A system made so configurable that it becomes a poor copy of the platform it is built on |
+| **Interface Bloat** | An interface made so powerful that implementing it is impractical |
 
 ### OOP Anti-Patterns
 
 | Anti-Pattern | Description |
 | -------------- | ------------- |
-| **Anemic Domain Model** | Domain model without business logic; validation/mutation logic placed elsewhere |
-| **God Object** | Concentrating too many functions in a single class |
-| **Object Orgy** | Failing to properly encapsulate objects, permitting unrestricted access |
-| **Poltergeists** | Objects whose sole purpose is to pass information to another object |
-| **Yo-yo Problem** | Structure (e.g., inheritance) hard to understand due to excessive fragmentation |
+| **Anemic Domain Model** | A domain model that holds data only, with the business logic that belongs to it placed elsewhere |
+| **Poltergeists** | Short-lived objects whose only job is to pass information or control to another object |
+| **Yo-yo Problem** | An inheritance hierarchy so deep that following one behavior means jumping up and down between many classes |
 
 ### Programming Anti-Patterns
 
 | Anti-Pattern | Description |
 | -------------- | ------------- |
-| **Cargo Cult Programming** | Using patterns and methods without understanding why |
-| **Spaghetti Code** | Programs whose structure is barely comprehensible |
-| **Lasagna Code** | Programs with too many layers of inheritance |
-| **Magic Numbers** | Including unexplained numbers in algorithms |
-| **Repeating Yourself** | Writing code with repetitive patterns; avoid with DRY principle |
-| **Shotgun Surgery** | Adding features spanning multiple implementations in a single change |
+| **Cargo Cult Programming** | Copying patterns, tools, or rituals without understanding what they are for |
+| **Lasagna Code** | So many layers of indirection that a small change has to be threaded through every one of them |
