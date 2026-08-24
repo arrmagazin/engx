@@ -21,7 +21,7 @@ flowchart LR
   Measures --> Architecture
 ```
 
-## Chapter Contents
+## In This Section
 
 | Doc | What it covers |
 | --- | --- |
@@ -37,7 +37,7 @@ flowchart LR
 | Component | Definition |
 | --- | --- |
 | **Information System** | An artificial system that performs data transformation flows across Hardware, Software, and the data sources they reach |
-| **Component** | A named separated piece of code/data that is *composable* - can be combined/used with others to build larger Components.|
+| **Component** | A named unit of code or data with a declared interface, replaceable by any other unit honoring that interface without changing its callers |
 | **Application** | Deliverable Software providing functional scope in some business domain |
 | **Library** | Reusable Component the Application *calls*; it owns no control flow, so the Application decides when, whether, and in what order it runs |
 | **Framework** | Component that owns the control flow and *calls* the Application's code through the extension points it defines (*inversion of control*); it dictates structure, so it is chosen once and swapped rarely |
