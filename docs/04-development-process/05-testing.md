@@ -106,35 +106,31 @@ A unit test is code that asserts one or more conditions to verify another piece 
 
 ### Why It Matters
 
-- Maintainability = ability to change, understand, and test code easily; unit tests directly support all three.
-- Early in a project, coding without tests is faster; as the codebase grows, cost of change without tests rises and eventually exceeds the cost of maintaining tests — the two effort curves cross, after which tests pay off.
-- More confidence changing code: tests act as a "contract" of existing behavior, letting you safely rework/refactor structure.
-- Better understanding of component functionality: tests document edge cases/branches the human brain can't hold in memory.
-- Better design: writing testable code forces lower coupling, cleaner interfaces.
-- Yuan et al. (OSDI '14) sampled 198 user-reported failures across five distributed data-intensive systems and found 77% of them reproducible by a unit test. That is a finding about that class of system, not about production failures in general, but it sets a high bar for what unit tests can catch.
-- "Legacy code is code without tests" (Feathers) — skipping tests turns fresh code into unmaintainable legacy code quickly.
-- Exceptions where unit tests may be skippable: throwaway POCs/demos, projects under ~3 months.
+- **Maintainability.** Maintainability is the ability to change, understand, and test code without fear, and unit tests support all three at once: they state what the code is supposed to do, they fail when a change breaks it, and they force the code into a shape that can be exercised on its own.
+- **The cost of change over time.** Early in a project, coding without tests genuinely is faster, because there is little code to break and the whole design still fits in one person's head. As the codebase grows, the cost of changing untested code climbs — every change means re-reading more code and risking something nobody remembers — while the cost of keeping a suite stays roughly proportional to the code it covers. The two effort curves are usually said to cross, after which the tests pay for themselves. Treat that crossover as a model of how the costs behave rather than a measured date: nobody can tell you the week a given project reaches it. What the decision actually rests on is the direction, which is that the longer code lives, the worse the untested option gets.
+- **Confidence to change code.** A suite is a contract recording the behavior that exists today, so a refactor that leaves the tests green is a refactor that left the behavior alone. Without that contract, restructuring is a gamble, people stop taking it, and the codebase sets.
+- **A record of the edge cases.** Tests document the branches and boundary conditions no one can hold in memory months later, which makes the suite — rather than the original author — the place that knowledge survives.
+- **Pressure on the design.** Code that is awkward to test is usually awkward to use, so writing the test exposes hidden dependencies and overwide interfaces while they are still cheap to change.
+- **Evidence of what they catch.** Yuan et al. (OSDI '14) sampled 198 user-reported failures across five distributed data-intensive systems and found 77% of them reproducible by a unit test. That is a finding about that class of system, not about production failures in general, but it sets a high bar for what unit tests can catch.
+- **The cost of skipping.** "Legacy code is code without tests" (Feathers) — untested code starts accruing that status the day it is written, because the next person to touch it has no way to change it safely.
+
+This book's own convention, offered as a convention rather than as a finding, is that unit tests are worth skipping only for code with a known disposal date: throwaway proofs of concept and demos that exist to answer one question and are deleted once it is answered. Deciding the question by expected project length invites exactly the failure described above, because the estimate is made before anyone knows whether the code will survive, and short-lived code that turns out to be useful is precisely the code that becomes untested legacy. If the code is going to be maintained, the exception does not apply.
 
 ### Qualities of a Good Unit Test
 
-- Maintainable — test code held to same quality bar as production code; messy tests become a liability.
-- Isolated — no dependency on DB/filesystem/network/env config; external dependencies cause false failures unrelated to the code under test.
-- Properly Targeted — focus on the core domain logic, not trivial/incidental code.
+- **Maintainable** — test code is held to the same quality bar as production code, because a suite nobody can read is a suite people ignore or delete the first time it goes red for an unclear reason.
+- **Isolated** — a test that reaches a database, the filesystem, the network, or environment config fails for reasons unrelated to the code under test, and every such failure teaches the team to distrust the suite.
+- **Properly targeted** — cover the domain logic, where the branching and the risk actually live; tests over trivial or incidental code cost maintenance and prove nothing.
 
 ### Common Myths, Rebutted
 
-- "Can't unit test legacy code" — false; legacy code can be incrementally refactored into testable code.
-- "Unit testing is expensive" — Nagappan, Maximilien, Bhat, and Williams (2008) tracked four teams at Microsoft and IBM that adopted TDD and reported 40–90% lower defect density for 15–35% longer initial development time.
-- "Production urgency excludes testing" — under urgent/no-regression-time conditions, unit tests are often the only feasible safety net.
-- "Testing can be done separately from implementation" — like input validation, bolting it on later requires reworking already-shipped code (tech debt).
-- "Production code matters more than test code" — test code quality directly gates production code maintainability; treat both equally.
+- **"You can't unit test legacy code."** You can, incrementally: introduce a seam, pin the current behavior down with a test, then refactor behind it. The claim is a statement about effort, not about possibility.
+- **"Unit testing is expensive."** It moves cost rather than adding it. Nagappan, Maximilien, Bhat, and Williams (2008) tracked four teams at Microsoft and IBM that adopted TDD and reported 40–90% lower defect density for 15–35% longer initial development time.
+- **"Production urgency excludes testing."** Urgency is the argument *for* unit tests: when there is no time for a regression pass, a suite that runs in seconds is often the only safety net that fits the window available.
+- **"Testing can be done separately from implementation."** Like input validation, testing bolted on afterwards means reworking code that has already shipped, so the deferral is a loan taken against the same schedule it was meant to protect.
+- **"Production code matters more than test code."** Production maintainability is gated by test quality, because a suite that is slow, flaky, or unreadable stops being consulted, and the production code is then untested in practice.
 
-### Unit Testing Practices
-
-- Write unit tests as part of the same task/story as the production code, not as a separate phase.
-- Enforce F.I.R.S.T. principles.
-- Wire test execution into CI; fail the build on test failure.
-- Track code coverage in CI to flag under-tested areas (not as a quality proof).
+In practice this means writing the tests in the same task or story as the production code rather than as a later phase, holding them to the [F.I.R.S.T. principles](#testing-principles-first) above, and running them where they can stop a bad change — see [Running Tests in CI](#running-tests-in-ci) for where a suite sits in a pipeline, and [Coverage Types](#coverage-types) for what a coverage number does and does not prove.
 
 ## Test Doubles
 
