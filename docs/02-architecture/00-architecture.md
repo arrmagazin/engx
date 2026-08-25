@@ -33,7 +33,6 @@ tags: [architecture, system-design]
 | **Value** | Why we care | Changeable software costs less to own |
 | **Principle** | What must hold | Separation of Concerns — cut along axes of change |
 | **Pattern** | A reusable solution shape | Strategy, Repository, Observer |
-| **Best Practice** | A repeatable action | Code review, refactoring, TDD |
 | **Idiom** | A language-local form | RAII, context managers, `defer` |
 
 Confusing the levels is the usual failure: a pattern applied where no principle demanded it is accidental complexity, and a principle restated as a rule loses the trade-off that justified it.

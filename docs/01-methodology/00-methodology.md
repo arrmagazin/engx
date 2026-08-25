@@ -18,17 +18,21 @@ This chapter covers how engineering work gets organized: the vocabulary for turn
 | **[Lean Software Development](01-lean.md)** | Seven principles for maximizing customer value and removing waste, adapted from Lean manufacturing |
 | **[Agile](02-agile.md)** | The values and twelve principles of the Agile Manifesto |
 | **[Scrum](03-scrum.md)** | The team, events, and artifacts of Scrum, as the 2020 Scrum Guide defines them |
-| **[Move Humans to the Left](04-move-humans-to-the-left.md)** | Authoring machine-readable artifacts as the single source of truth, so machines apply every downstream change |
+| **[Extreme Programming](04-extreme-programming.md)** | The five values, fourteen principles, and twenty-four engineering practices of XP, and which have held up |
+| **[Move Humans to the Left](05-move-humans-to-the-left.md)** | Authoring machine-readable artifacts as the single source of truth, so machines apply every downstream change |
 
 ## Core Concepts
 
 | Concept | Definition |
 | --- | --- |
+| **Strategy** | The chosen direction for reaching a Goal under bounded resources — which Objectives to pursue, in what order, and what to forgo; Analysis justifies it, a Plan realizes it |
 | **Method** | An organized set of predefined decisions, triggers, and choices that control how a process runs |
 | **Framework** | A Method made executable — predefined options a user chooses from, constrained so the resulting state stays valid |
 | **Best Practice** | A Method accepted as superior for a given context because it reliably produces better outcomes there; context-bound, not absolute |
 
 A Framework in this sense runs a process, not code. The software sense — a component that owns the control flow and calls the application through the extension points it defines — is defined as [Software Framework](../03-system-design/00-system-design.md#information-system) in System Design.
+
+Strategy here is the chosen direction itself. The planning cadence that produces and corrects it is the Strategy stage of the [Management Flow](../10-management/01-delivery-management.md#management-flow).
 
 ## Solution Stages
 

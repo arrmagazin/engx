@@ -18,7 +18,7 @@ This book collects the vocabulary, practices, and reference material an engineer
 | Chapter | What it covers |
 | --- | --- |
 | **[Software Engineering](00-software-engineering/00-software-engineering.md)** | The shared vocabulary, the published standards, and the map of engineering disciplines |
-| **[Methodology](01-methodology/00-methodology.md)** | How work is organized — lean, agile, scrum, and moving quality earlier |
+| **[Methodology](01-methodology/00-methodology.md)** | How work is organized — lean, agile, scrum, extreme programming, and moving quality earlier |
 | **[System Architecture](02-architecture/00-architecture.md)** | Architecture as a discipline, the views it is described through, and the quality attributes it is judged against |
 | **[System Design](03-system-design/00-system-design.md)** | Databases, caching, messaging, containers, client-server communication, data formats, and worked designs of canonical systems |
 | **[Development Process](04-development-process/00-development-process.md)** | Version control, code review, CI/CD, quality assurance, testing, debugging, and technical debt |

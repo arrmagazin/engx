@@ -77,7 +77,7 @@ These summarize the twelve principles published alongside the Manifesto; the aut
 - Agile Unified Process (AUP)
 - Dynamic Systems Development Method (DSDM)
 - [Lean Software Development](01-lean.md)
-- Extreme Programming (XP)
+- [Extreme Programming (XP)](04-extreme-programming.md)
 - Feature-Driven Development (FDD)
 - Adaptive Software Development (ASD)
 - Crystal Clear Methods
