@@ -7,9 +7,9 @@ tags: [people, management, feedback, growth, team-health]
 
 # Growing and Keeping People
 
-This is the part of the job that repeats every week. The structure in [Roles and the Employee Lifecycle](03-roles-and-lifecycle.md) decides who is accountable for whom; this guide covers what that accountability actually consists of — the private channel where problems surface, the feedback that keeps expectations honest, the assignments that raise what someone can handle alone, and the signals that say whether the current pace can continue.
+This is the part of the job that repeats every week. The structure in [Roles and the Employee Lifecycle](02-roles-and-lifecycle.md) decides who is accountable for whom; this guide covers what that accountability actually consists of — the private channel where problems surface, the feedback that keeps expectations honest, the assignments that raise what someone can handle alone, and the signals that say whether the current pace can continue.
 
-Related: [Engineering Management](01-delivery-management.md) · [Team Lead](02-team-lead.md) · [Development Process](../04-development-process/00-development-process.md)
+Related: [Engineering Management](../01-methodology/06-engineering-management.md) · [Team Lead](01-team-lead.md) · [Development Process](../04-development-process/00-development-process.md)
 
 ## Core Concepts
 
@@ -18,7 +18,7 @@ Related: [Engineering Management](01-delivery-management.md) · [Team Lead](02-t
 | **Expectation** | The observable behavior and output level a person is accountable for, at their level<br>*An expectation nobody has stated cannot be missed — only resented* |
 | **Feedback** | An observation about specific behavior and its effect, delivered close in time to the behavior<br>*It describes what happened; judgement of the person is a different thing* |
 | **Growth** | A durable increase in the scope a person can handle without supervision |
-| **Autonomy Level** | How much decision authority a person holds in one specific area; the delegation ladder in [Engineering Management](01-delivery-management.md#delegation) grades it<br>*Per-area, not per-person — a staff engineer can be trusted with architecture and still need support in incident command* |
+| **Autonomy Level** | How much decision authority a person holds in one specific area; the delegation ladder in [Team Lead](01-team-lead.md#delegation) grades it<br>*Per-area, not per-person — a staff engineer can be trusted with architecture and still need support in incident command* |
 | **Motivation** | The internal driver that makes discretionary effort available — commonly autonomy, mastery, and purpose<br>*Managers cannot supply it; they can remove what destroys it* |
 | **Psychological Safety** | The shared belief that raising a problem, an error, or a dissenting view carries no personal cost<br>*The measurable signal is whether bad news travels upward early; if it only arrives at the deadline, safety is absent* |
 | **Retention Risk** | The probability a person leaves within a period, weighted by the cost of replacing them |
@@ -84,7 +84,7 @@ Growth is assigned, not granted. A person grows by doing work slightly above the
 | **Teaching** | Have them explain, document, or onboard someone — it forces mastery |
 | **External input** | Conferences, courses, open source — the weakest lever, so do not rely on it alone |
 
-Handing over an area raises someone's Autonomy Level, so grade the handover deliberately rather than by mood; the five levels and the instruction that goes with each are in [Delegation](01-delivery-management.md#delegation).
+Handing over an area raises someone's Autonomy Level, so grade the handover deliberately rather than by mood; the five levels and the instruction that goes with each are in [Delegation](01-team-lead.md#delegation).
 
 Write down the target level's expectations and the evidence gathered so far. A promotion case assembled the week it is needed is a case that fails.
 
@@ -92,7 +92,7 @@ Write down the target level's expectations and the evidence gathered so far. A p
 
 ## Team Health
 
-Health metrics **lead** delivery metrics — they degrade first, and they are the early warning for the DORA and flow numbers in [Engineering Management](01-delivery-management.md#metrics).
+Health metrics **lead** delivery metrics — they degrade first, and they are the early warning for the DORA and flow numbers in [Engineering Management](../01-methodology/06-engineering-management.md#metrics).
 
 | Signal | What it reveals | Watch for |
 | --- | --- | --- |
@@ -104,7 +104,7 @@ Health metrics **lead** delivery metrics — they degrade first, and they are th
 | **1:1 sentiment** | Everything the metrics miss | Energy dropping over consecutive weeks |
 | **Time to first contribution** | Onboarding quality | Trending up as the team grows |
 
-Read these as properties of the system rather than as scores for the people in it — the reasoning, and what happens when individual output is measured instead, is in [Metrics](01-delivery-management.md#metrics).
+Read these as properties of the system rather than as scores for the people in it — the reasoning, and what happens when individual output is measured instead, is in [Metrics](../01-methodology/06-engineering-management.md#metrics).
 
 ## Best Practices
 
@@ -117,7 +117,7 @@ Read these as properties of the system rather than as scores for the people in i
 - **Grow a successor.** If you cannot take two weeks off, you have a bus-factor problem of your own.
 - **Protect focus time.** Deep work is the job; meetings are overhead that must justify itself.
 
-Two more apply to people work without being specific to it, and are each stated once in [Engineering Management](01-delivery-management.md): delegate the outcome rather than the steps, under [Delegation](01-delivery-management.md#delegation), and raise bad news early enough for it to still be a decision, under [Best Practices](01-delivery-management.md#best-practices).
+Two more apply to people work without being specific to it, and are each stated once elsewhere: delegate the outcome rather than the steps, under [Delegation](01-team-lead.md#delegation), and raise bad news early enough for it to still be a decision, under [Best Practices](../01-methodology/06-engineering-management.md#best-practices).
 
 ## Anti-patterns
 
@@ -129,7 +129,7 @@ Two more apply to people work without being specific to it, and are each stated 
 | Vague underperformance handling | Unfair to the person and to the team carrying them | Name the gap, write a plan, set a date |
 | Treating retention as an HR problem | The causes are manager, work, and growth | Manager owns retention risk per person |
 
-Two failure modes that show up as people problems are cataloged with the delivery ones in [Anti-Patterns](01-delivery-management.md#anti-patterns): hero culture, and managing individuals by metrics.
+Two failure modes that show up as people problems are cataloged with the delivery ones in [Anti-Patterns](../01-methodology/06-engineering-management.md#anti-patterns): hero culture, and managing individuals by metrics.
 
 ## Checklists
 

@@ -7,9 +7,9 @@ tags: [management, leadership, process]
 
 # Engineering Management
 
-Management turns **goals into delivered outcomes** through people, process, and priorities, under constraints of time, capacity, and quality. This guide covers the vocabulary an engineering manager plans with, the loops that connect strategy to feedback, and the metrics that show whether the loops are working. Leadership sets direction and motivates; management allocates, sequences, and controls — a working engineering manager does both.
+**Engineering Management** is a *process* of making desionins, turning **goals into delivered outcomes** through people, process, and priorities, under constraints of time, budget, capacity, and quality. 
 
-Related: [Methodology](../01-methodology/00-methodology.md) · [Scrum](../01-methodology/03-scrum.md) · [Development Process](../04-development-process/00-development-process.md) · [Team Lead](02-team-lead.md)
+This guide covers the vocabulary an engineering manager plans with, the loops that connect strategy to feedback, and the metrics that show whether the loops are working. Leadership sets direction and motivates; management allocates, sequences, and controls — a working engineering manager does both.
 
 ## Scope
 
@@ -23,19 +23,7 @@ Related: [Methodology](../01-methodology/00-methodology.md) · [Scrum](../01-met
 
 A manager who covers only *delivery* produces burnout; only *people* produces drift. All five must be held at once.
 
-## Core Concepts
-
-| Concept | Definition |
-| --- | --- |
-| **Goal** | Desired end state, stated without naming a solution |
-| **Objective** | Measurable outcome scoped to a period, qualified against the [SMART](../01-methodology/00-methodology.md#smart-goals) criteria |
-| **Scope** | Set of work items accepted as in-bounds for an Objective<br>*The cheapest planning variable to change; time and quality are not* |
-| **Capacity** | Effort realistically available in a period, once meetings, support, and leave are taken out<br>*Always below headcount multiplied by working hours* |
-| **Priority** | Total ordering of work items by value against cost and risk<br>*If everything is priority one, nothing is* |
-| **Commitment** | Promise made with known scope, known capacity, and accepted risk<br>*Without capacity data it is a wish* |
-| **Risk** | Uncertain event that would affect an Objective, sized as probability multiplied by impact |
-| **Dependency** | Work whose completion is required by other work, inside or outside the team<br>*Cross-team ones sit outside the team's control, so track them explicitly* |
-| **Constraint** | Fixed boundary — budget, deadline, compliance, headcount — that planning must respect rather than optimize away |
+The vocabulary this guide plans with — Scope, Capacity, Priority, Commitment, Risk, Dependency, and Constraint — is defined once in [Planning Concepts](00-methodology.md#planning-concepts), and Goals and Objectives in the [Glossary](../00-software-engineering/01-glossary.md). This guide applies those terms rather than restating them.
 
 ## Management Flow
 
@@ -55,7 +43,7 @@ graph TD
 
 | Stage | Input | Output | Cadence |
 | --- | --- | --- | --- |
-| **Strategy** | Business goals, market, constraints | Themes, success metrics | Quarterly / annually |
+| **Business Strategy** | Business goals, market, constraints | Themes, success metrics | Quarterly / annually |
 | **Roadmap** | Themes | Sequenced initiatives with rough sizing | Quarterly |
 | **Backlog** | Initiatives, bugs, tech debt, requests | Ordered, refined items | Continuous |
 | **Plan** | Backlog and capacity | Sprint or cycle commitment | Per sprint / cycle |
@@ -110,25 +98,6 @@ Pick one framework and apply it consistently; mixing frameworks produces argumen
 
 **Anti-pattern:** negotiating estimates downward. It changes the number, not the work.
 
-## Risk Management
-
-```mermaid
-graph LR
-    ID["Identify"] --> AS["Assess — probability × impact"]
-    AS --> PL["Plan response"]
-    PL --> MO["Monitor"]
-    MO --> ID
-```
-
-| Response | When to use |
-| --- | --- |
-| **Avoid** | Impact unacceptable, alternative path exists |
-| **Mitigate** | Reduce probability or impact (spike, prototype, phased rollout) |
-| **Transfer** | Another party is better positioned (vendor, insurance, platform team) |
-| **Accept** | Cost of response exceeds expected loss — record the decision |
-
-Keep the risk list short and live. Each entry: description, probability, impact, owner, response, review date. A risk without an owner is not managed.
-
 ## Decision Making
 
 | Decision type | Approach |
@@ -141,36 +110,7 @@ Use a single accountable decider per decision (`DACI`: Driver, Approver, Contrib
 
 **Record decisions.** Every non-trivial technical decision gets an ADR: context, options, decision, consequences. See [Architecture](../02-architecture/00-architecture.md).
 
-## Delegation
-
-Delegate the **outcome**, not the steps. Match the level of autonomy to demonstrated competence in that specific area:
-
-| Level | Instruction | Use when |
-| --- | --- | --- |
-| 1 | "Do exactly this" | New to the domain |
-| 2 | "Investigate, report back, I decide" | Learning |
-| 3 | "Recommend an option, then act on approval" | Growing |
-| 4 | "Decide and act, tell me afterwards" | Competent |
-| 5 | "Own this area" | Expert |
-
-Delegating at too low a level stalls growth; too high a level sets people up to fail. Autonomy level is per-area, not per-person.
-
-## Communication Cadence
-
-| Ritual | Frequency | Purpose | Failure mode to avoid |
-| --- | --- | --- | --- |
-| **Standup** | Daily | Surface blockers | Status theater for the manager |
-| **1:1** | Weekly / bi-weekly | Growth, friction, feedback | Canceled when busy; turned into status |
-| **Planning** | Per cycle | Commit scope to capacity | Committing beyond capacity |
-| **Review / Demo** | Per cycle | Show working software | Slides instead of software |
-| **Retrospective** | Per cycle | Improve the process | Repeated actions never done |
-| **Stakeholder update** | Weekly, written | Alignment, expectation control | Only communicating bad news late |
-
-What these events *are*, and the timeboxes the Scrum Guide sets for them, is covered in [Scrum](../01-methodology/03-scrum.md); the table above covers only how often a manager runs them and how each one fails.
-
-**Default to written and asynchronous.** Meetings are for decisions and disagreements, not for information transfer.
-
-## Metrics
+### Metrics
 
 Measure the **system**, not individuals. Individual metrics get gamed and destroy trust.
 
@@ -197,7 +137,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 
 > Little's Law: `Cycle Time = WIP / Throughput`. To go faster, lower WIP before adding people.
 
-## Best Practices
+### Best Practices
 
 - **Limit WIP.** Finishing beats starting. Cap in-progress items per person.
 - **Make work visible.** One board, one source of truth. Untracked work cannot be managed.
@@ -210,7 +150,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 - **Change one process thing at a time.** Otherwise you cannot attribute the effect.
 - **Manage the interfaces.** Work waiting on another team sits outside either team's board, so the wait goes unmeasured until someone counts it.
 
-## Anti-Patterns
+### Anti-Patterns
 
 | Anti-pattern | Why it fails | Correction |
 | --- | --- | --- |
@@ -223,7 +163,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 | Retro actions never executed | Retros become ritual | Take on only as many actions as the next cycle can finish, each with an owner and a date |
 | Managing individuals by metrics | Gaming, distrust | Measure the system |
 
-## Checklists
+### Checklists
 
 **Before committing to a plan:**
 

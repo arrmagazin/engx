@@ -91,7 +91,7 @@ A branching strategy is the team's rule for when branches are created and when t
 | **Feature isolation** | One branch per feature, held until the feature is ready to merge | Work that must be kept out of the mainline as a unit |
 | **Release isolation** | A release branch is locked and accepts only critical hotfixes, while servicing branches carry patches for versions already released | Supporting software that is already in customers' hands |
 
-Record the strategy the team follows somewhere the whole team can find it — see [Knowledge Sharing](../10-management/05-knowledge-sharing.md).
+Record the strategy the team follows somewhere the whole team can find it — see [Knowledge Sharing](../10-humans/04-knowledge-sharing.md).
 
 ### GitFlow
 

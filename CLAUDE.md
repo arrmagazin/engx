@@ -8,7 +8,7 @@ A personal engineering knowledge base written as markdown, organized as a number
 - `images/` — images referenced by docs, always by a relative path (`../images/welcome.svg`), never root-absolute.
 - `scripts/` — the three checkers and their tests. `.githooks/` — the hook that runs them. `README.md` — the repository's front page, written for a human, not an agent.
 
-**The numbering rule.** Folder prefixes are dense and unique, `00` through `11`, and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-cloud-aws`, `08-cloud-azure`, `09-ai`, `10-management`, `11-interview`. Inside each folder, exactly one `00-`-prefixed file is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
+**The numbering rule.** Folder prefixes are dense and unique, `00` through `11`, and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-cloud-aws`, `08-cloud-azure`, `09-ai`, `10-humans`, `11-interview`. Inside each folder, exactly one `00-`-prefixed file is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
 
 ## Checkers
 
@@ -18,7 +18,7 @@ A personal engineering knowledge base written as markdown, organized as a number
 git ls-files 'docs/*.md' | xargs python3 scripts/check_links.py
 ```
 
-Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `python3 scripts/check_links.py $files` passes all 61 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
+Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `python3 scripts/check_links.py $files` passes all 62 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
 
 - `check_okf_frontmatter.py` — the frontmatter convention below.
 - `check_glossary.py` — the glossary convention below.

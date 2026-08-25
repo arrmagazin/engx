@@ -55,7 +55,15 @@
       "type": "blob"
     },
     {
-      "path": "docs/01-methodology/04-move-humans-to-the-left.md",
+      "path": "docs/01-methodology/04-extreme-programming.md",
+      "type": "blob"
+    },
+    {
+      "path": "docs/01-methodology/05-move-humans-to-the-left.md",
+      "type": "blob"
+    },
+    {
+      "path": "docs/01-methodology/06-engineering-management.md",
       "type": "blob"
     },
     {
@@ -259,31 +267,27 @@
       "type": "blob"
     },
     {
-      "path": "docs/10-management",
+      "path": "docs/10-humans",
       "type": "tree"
     },
     {
-      "path": "docs/10-management/00-management.md",
+      "path": "docs/10-humans/00-humans.md",
       "type": "blob"
     },
     {
-      "path": "docs/10-management/01-delivery-management.md",
+      "path": "docs/10-humans/01-team-lead.md",
       "type": "blob"
     },
     {
-      "path": "docs/10-management/02-team-lead.md",
+      "path": "docs/10-humans/02-roles-and-lifecycle.md",
       "type": "blob"
     },
     {
-      "path": "docs/10-management/03-roles-and-lifecycle.md",
+      "path": "docs/10-humans/03-growing-and-keeping-people.md",
       "type": "blob"
     },
     {
-      "path": "docs/10-management/04-growing-and-keeping-people.md",
-      "type": "blob"
-    },
-    {
-      "path": "docs/10-management/05-knowledge-sharing.md",
+      "path": "docs/10-humans/04-knowledge-sharing.md",
       "type": "blob"
     },
     {

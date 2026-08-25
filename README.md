@@ -26,7 +26,7 @@ where they run. Any chapter still stands on its own.
 - `07` — [AWS](docs/07-cloud-aws/00-aws.md)
 - `08` — [Azure](docs/08-cloud-azure/00-azure.md)
 - `09` — [Artificial Intelligence](docs/09-ai/00-ai.md)
-- `10` — [People Management](docs/10-management/00-management.md)
+- `10` — [Humans and Teams](docs/10-humans/00-humans.md)
 - `11` — [Interview Preparation](docs/11-interview/00-interview.md)
 
 Inside a folder the rule repeats: the `00-` prefixed file is the chapter overview and

@@ -7,13 +7,13 @@ tags: [people, management, roles, hiring, onboarding]
 
 # Roles and the Employee Lifecycle
 
-Before anyone can run a useful 1:1 or write a growth plan, two structural questions have to be settled: who is accountable for what, and where in their time at the company this person currently stands. Both change rarely, and both are assumed by everything in [Growing and Keeping People](04-growing-and-keeping-people.md), so they are worth writing down once rather than re-deciding per person.
+Before anyone can run a useful 1:1 or write a growth plan, two structural questions have to be settled: who is accountable for what, and where in their time at the company this person currently stands. Both change rarely, and both are assumed by everything in [Growing and Keeping People](03-growing-and-keeping-people.md), so they are worth writing down once rather than re-deciding per person.
 
-Related: [Engineering Management](01-delivery-management.md) · [Team Lead](02-team-lead.md) · [Knowledge Sharing](05-knowledge-sharing.md)
+Related: [Engineering Management](../01-methodology/06-engineering-management.md) · [Team Lead](01-team-lead.md) · [Knowledge Sharing](04-knowledge-sharing.md)
 
 ## Scope
 
-The people side of management splits into six areas. The first two are settled by structure — by the roles defined below and by the lifecycle stage a person is in — and the other four are worked continuously in [Growing and Keeping People](04-growing-and-keeping-people.md).
+The people side of management splits into six areas. The first two are settled by structure — by the roles defined below and by the lifecycle stage a person is in — and the other four are worked continuously in [Growing and Keeping People](03-growing-and-keeping-people.md).
 
 | Area | Question it answers | Primary artifact |
 | --- | --- | --- |
@@ -64,7 +64,7 @@ graph LR
 
 **Key property:** every stage is cheaper than the one before it fails into. Onboarding well is cheaper than re-hiring.
 
-The offboard stage is where an unexamined [Bus Factor](04-growing-and-keeping-people.md#core-concepts) turns into lost work, so treat handover as a deliverable with a reviewer rather than a conversation — the practices that keep the number above one are in [Knowledge Sharing](05-knowledge-sharing.md).
+The offboard stage is where an unexamined [Bus Factor](03-growing-and-keeping-people.md#core-concepts) turns into lost work, so treat handover as a deliverable with a reviewer rather than a conversation — the practices that keep the number above one are in [Knowledge Sharing](04-knowledge-sharing.md).
 
 ## Anti-patterns
 

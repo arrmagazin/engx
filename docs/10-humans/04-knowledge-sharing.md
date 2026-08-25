@@ -25,7 +25,7 @@ Knowledge sharing is the exchange of information, expertise, and skills across a
 | **Bus Factor** | A bus factor of one: a single absence blocks progress | A bus factor above one: any single member can be away without disrupting delivery |
 | **Onboarding** | Incomplete knowledge transfer makes onboarding long and confusing, so newcomers contribute little and lose motivation | Onboarding takes little effort from the newcomer or the existing team |
 
-The **bus factor** is the number of people who must become unavailable before a system or process stalls — see [Growing and Keeping People](04-growing-and-keeping-people.md#core-concepts). At a bus factor of one, a single person holds knowledge nobody else has, and vacation, leave, or departure stops the work.
+The **bus factor** is the number of people who must become unavailable before a system or process stalls — see [Growing and Keeping People](03-growing-and-keeping-people.md#core-concepts). At a bus factor of one, a single person holds knowledge nobody else has, and vacation, leave, or departure stops the work.
 
 ## Four Areas to Improve
 
@@ -50,7 +50,7 @@ Maintain a shared space (wiki, Confluence, or similar) that everyone can reach a
 
 - Maintain a **newcomer's guidebook** as the first reference for anyone joining the team, linking to project resources, the knowledge base, and environment setup instructions.
 - Treat the guidebook as the whole team's responsibility so it stays current.
-- **Assign a mentor** to every newcomer — one who stays available for questions and takes ownership of helping the new member settle in. See [Roles and the Employee Lifecycle](03-roles-and-lifecycle.md).
+- **Assign a mentor** to every newcomer — one who stays available for questions and takes ownership of helping the new member settle in. See [Roles and the Employee Lifecycle](02-roles-and-lifecycle.md).
 
 ### Team Communication
 

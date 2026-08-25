@@ -70,4 +70,4 @@ Software engineering rests on computer science and applied mathematics, and cove
 - DevOps, SRE, and Operations — [CI/CD](../04-development-process/03-ci-cd.md)
 - Performance Engineering — [Performance Optimization](../06-frontend/03-performance-optimization.md)
 - Maintenance and Evolution — [Technical Debt](../04-development-process/07-technical-debt.md)
-- Engineering Management and Process — [People Management](../10-management/00-management.md) and [Methodology](../01-methodology/00-methodology.md)
+- Engineering Management and Process — [Humans and Teams](../10-humans/00-humans.md) and [Methodology](../01-methodology/00-methodology.md)

@@ -43,12 +43,43 @@ The values and behaviors a lead models so the team copies them:
 - **Over-Communication** — Write detailed tickets, record short screen walkthroughs, and spell out edge cases.
 - **Structured Office Days** — Use in-person days for design discussion, hard debugging, and team building, not for solo coding.
 
+
+## Delegation
+
+Delegate the **outcome**, not the steps. Match the level of autonomy to demonstrated competence in that specific area:
+
+| Level | Instruction | Use when |
+| --- | --- | --- |
+| 1 | "Do exactly this" | New to the domain |
+| 2 | "Investigate, report back, I decide" | Learning |
+| 3 | "Recommend an option, then act on approval" | Growing |
+| 4 | "Decide and act, tell me afterwards" | Competent |
+| 5 | "Own this area" | Expert |
+
+Delegating at too low a level stalls growth; too high a level sets people up to fail. Autonomy level is per-area, not per-person.
+
+## Communication Cadence
+
+| Ritual | Frequency | Purpose | Failure mode to avoid |
+| --- | --- | --- | --- |
+| **Standup** | Daily | Surface blockers | Status theater for the manager |
+| **1:1** | Weekly / bi-weekly | Growth, friction, feedback | Canceled when busy; turned into status |
+| **Planning** | Per cycle | Commit scope to capacity | Committing beyond capacity |
+| **Review / Demo** | Per cycle | Show working software | Slides instead of software |
+| **Retrospective** | Per cycle | Improve the process | Repeated actions never done |
+| **Stakeholder update** | Weekly, written | Alignment, expectation control | Only communicating bad news late |
+
+What these events *are*, and the timeboxes the Scrum Guide sets for them, is covered in [Scrum](../01-methodology/03-scrum.md); the table above covers only how often a manager runs them and how each one fails.
+
+**Default to written and asynchronous.** Meetings are for decisions and disagreements, not for information transfer.
+
+
 ## Workflow
 
 | Stage | General | Hybrid Software Team |
 | --- | --- | --- |
 | **1. Intake and Prioritization** | Evaluate incoming requests against the roadmap to decide urgency and order | Product managers and leads write the tickets; engineers read the requirements and raise questions in comments before any meeting |
-| **2. Sprint and Capacity Planning** | Match the prioritized queue against the team's available [capacity](01-delivery-management.md) so nobody is over-allocated | One synchronous video call; scope is committed against the team's own delivery history |
+| **2. Sprint and Capacity Planning** | Match the prioritized queue against the team's available [capacity](../01-methodology/00-methodology.md#planning-concepts) so nobody is over-allocated | One synchronous video call; scope is committed against the team's own delivery history |
 | **3. Daily Execution** | Hold a short sync to surface blockers and dependencies | A chat bot collects written standups, and calendars keep long blocks free for coding |
 | **4. Review and QA** | Act as the last filter before release, checking deliverables against the agreed quality bar | Peers review pull requests, as described in [Code Review](../04-development-process/02-code-review.md), and automated [tests](../04-development-process/04-quality-assurance.md) run on every commit |
 | **5. Retrospective** | Look back at the delivered cycle and pick improvements for the next one | At the end of each sprint, review what slowed delivery and fix the tooling or the process behind it |
