@@ -7,7 +7,9 @@ tags: [testing, tdd, bdd, unit-testing]
 
 # Testing
 
-This guide covers the practice of writing tests: the principles a good test follows, the two test-first disciplines, unit testing, the vocabulary of test doubles, what a coverage number actually proves, and where suites run in a pipeline. How testing is organized and reported — test case management, defect management, non-functional testing, metrics, and the automation strategy — is in [Quality Assurance](04-quality-assurance.md).
+This guide covers the practice of writing tests: the principles a good test follows, the two test-first disciplines, unit testing, the vocabulary of test doubles, what a coverage number actually proves, and where suites run in a pipeline. 
+
+How testing is organized and reported — test case management, defect management, non-functional testing, metrics, and the automation strategy — is in [Quality Assurance](04-quality-assurance.md).
 
 ## Testing Principles (F.I.R.S.T.)
 
