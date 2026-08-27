@@ -31,6 +31,7 @@ The coding round is the gap. Nothing in this book teaches algorithms or data str
 | **[Canonical Systems](../03-system-design/08-canonical-systems.md)** | The worked problems a system design loop draws its examples from |
 | **[AWS Interview Prep](../07-cloud-aws/02-aws-interview-prep.md)** | The competency areas an AWS infrastructure role is questioned on |
 | **[Azure Interview Prep](../08-cloud-azure/02-azure-interview-prep.md)** | The competency areas an Azure infrastructure role is questioned on |
+| **[Track & Trace Study Material](../../../../postnl_aws/docs/)** | A worked example of this method applied to one real loop — a scaffold, its ADRs, a glossary, a system design, and a three-day schedule ([start here](../../../../postnl_aws/docs/interview-prep-3day.md)) |
 
 ## External Resources
 
