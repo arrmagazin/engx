@@ -32,7 +32,7 @@ Principles connect them.
 
  **Primary Practice**  safe to adopt on its own, before any other part of the method is in place.**Corollary Practice**  depends on several Primary Practices already working, and is difficult or dangerous to adopt first
 
-A Practice in this sense is a *behavior*, not a recommendation. The evaluative sense — an approach accepted as superior for a given context — is defined as [Best Practice](00-methodology.md#core-concepts) in the chapter overview.
+A Practice in this sense is a *behavior*, not a recommendation. The evaluative sense — an approach accepted as superior for a given context — is defined as [Best Practice](index.md#core-concepts) in the chapter overview.
 
 ```mermaid
 flowchart LR

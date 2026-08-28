@@ -9,7 +9,7 @@ tags: [architecture, system-design]
 
 **System design** is the *process* that turns architectural decisions into a specification developers can implement directly: database schemas, API endpoints, algorithms, data structures, and the components chosen to run them. 
 
-It works one level below [System Architecture](../02-architecture/00-architecture.md), which decides what the parts are and stops there.
+It works one level below [System Architecture](../02-architecture/index.md), which decides what the parts are and stops there.
 
 This chapter covers the storage, caching, messaging, and packaging choices that specification makes, the vocabulary those choices use, and worked designs of well-known systems.
 
@@ -50,7 +50,7 @@ flowchart LR
 | **API** | The contract a Component exposes for others to call — operations, inputs, outputs, and errors — stated independently of how it is implemented; see [Client-Server Communication](06-client-server-communication.md) |
 | **Configuration** | Data that *parameterizes* Software without changing it — what varies per environment, tenant, or deployment; versioned like code, but applied without rebuilding |
 
-This chapter says **Software Framework**, never plain *Framework*, because the book already uses that word for something else: [Methodology](../01-methodology/00-methodology.md#core-concepts) defines a Framework as a Method made executable. One is a piece of code, the other a way of running a process.
+This chapter says **Software Framework**, never plain *Framework*, because the book already uses that word for something else: [Methodology](../01-methodology/index.md#core-concepts) defines a Framework as a Method made executable. One is a piece of code, the other a way of running a process.
 
 ## Hardware
 

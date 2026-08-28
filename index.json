@@ -19,10 +19,6 @@
       "type": "tree"
     },
     {
-      "path": "docs/00-software-engineering/00-software-engineering.md",
-      "type": "blob"
-    },
-    {
       "path": "docs/00-software-engineering/01-glossary.md",
       "type": "blob"
     },
@@ -35,12 +31,12 @@
       "type": "blob"
     },
     {
-      "path": "docs/01-methodology",
-      "type": "tree"
+      "path": "docs/00-software-engineering/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/01-methodology/00-methodology.md",
-      "type": "blob"
+      "path": "docs/01-methodology",
+      "type": "tree"
     },
     {
       "path": "docs/01-methodology/01-lean.md",
@@ -67,24 +63,28 @@
       "type": "blob"
     },
     {
-      "path": "docs/02-architecture",
-      "type": "tree"
+      "path": "docs/01-methodology/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/02-architecture/00-architecture.md",
-      "type": "blob"
+      "path": "docs/02-architecture",
+      "type": "tree"
     },
     {
       "path": "docs/02-architecture/01-quality-attributes.md",
       "type": "blob"
     },
     {
-      "path": "docs/03-system-design",
-      "type": "tree"
+      "path": "docs/02-architecture/02-architectural-views.md",
+      "type": "blob"
     },
     {
-      "path": "docs/03-system-design/00-system-design.md",
+      "path": "docs/02-architecture/index.md",
       "type": "blob"
+    },
+    {
+      "path": "docs/03-system-design",
+      "type": "tree"
     },
     {
       "path": "docs/03-system-design/01-concepts.md",
@@ -119,12 +119,12 @@
       "type": "blob"
     },
     {
-      "path": "docs/04-development-process",
-      "type": "tree"
+      "path": "docs/03-system-design/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/04-development-process/00-development-process.md",
-      "type": "blob"
+      "path": "docs/04-development-process",
+      "type": "tree"
     },
     {
       "path": "docs/04-development-process/01-version-control.md",
@@ -155,12 +155,12 @@
       "type": "blob"
     },
     {
-      "path": "docs/05-coding",
-      "type": "tree"
+      "path": "docs/04-development-process/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/05-coding/00-coding.md",
-      "type": "blob"
+      "path": "docs/05-coding",
+      "type": "tree"
     },
     {
       "path": "docs/05-coding/01-programming-paradigms.md",
@@ -183,12 +183,12 @@
       "type": "blob"
     },
     {
-      "path": "docs/06-frontend",
-      "type": "tree"
+      "path": "docs/05-coding/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/06-frontend/00-frontend.md",
-      "type": "blob"
+      "path": "docs/06-frontend",
+      "type": "tree"
     },
     {
       "path": "docs/06-frontend/01-application-types.md",
@@ -211,12 +211,12 @@
       "type": "blob"
     },
     {
-      "path": "docs/07-cloud-aws",
-      "type": "tree"
+      "path": "docs/06-frontend/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/07-cloud-aws/00-aws.md",
-      "type": "blob"
+      "path": "docs/07-cloud-aws",
+      "type": "tree"
     },
     {
       "path": "docs/07-cloud-aws/01-aws-stack-overview.md",
@@ -227,12 +227,12 @@
       "type": "blob"
     },
     {
-      "path": "docs/08-cloud-azure",
-      "type": "tree"
+      "path": "docs/07-cloud-aws/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/08-cloud-azure/00-azure.md",
-      "type": "blob"
+      "path": "docs/08-cloud-azure",
+      "type": "tree"
     },
     {
       "path": "docs/08-cloud-azure/01-azure-stack-overview.md",
@@ -243,12 +243,12 @@
       "type": "blob"
     },
     {
-      "path": "docs/09-ai",
-      "type": "tree"
+      "path": "docs/08-cloud-azure/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/09-ai/00-ai.md",
-      "type": "blob"
+      "path": "docs/09-ai",
+      "type": "tree"
     },
     {
       "path": "docs/09-ai/01-machine-learning.md",
@@ -267,12 +267,12 @@
       "type": "blob"
     },
     {
-      "path": "docs/10-humans",
-      "type": "tree"
+      "path": "docs/09-ai/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/10-humans/00-humans.md",
-      "type": "blob"
+      "path": "docs/10-humans",
+      "type": "tree"
     },
     {
       "path": "docs/10-humans/01-team-lead.md",
@@ -291,12 +291,12 @@
       "type": "blob"
     },
     {
-      "path": "docs/11-interview",
-      "type": "tree"
+      "path": "docs/10-humans/index.md",
+      "type": "blob"
     },
     {
-      "path": "docs/11-interview/00-interview.md",
-      "type": "blob"
+      "path": "docs/11-interview",
+      "type": "tree"
     },
     {
       "path": "docs/11-interview/01-technique.md",
@@ -304,6 +304,10 @@
     },
     {
       "path": "docs/11-interview/02-system-design-loop.md",
+      "type": "blob"
+    },
+    {
+      "path": "docs/11-interview/index.md",
       "type": "blob"
     },
     {

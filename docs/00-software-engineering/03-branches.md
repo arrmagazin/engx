@@ -36,16 +36,16 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Computer Networking
 - Telecommunications
 - Internet and Web Protocols — [Client-Server Communication](../03-system-design/06-client-server-communication.md)
-- Cloud and Platform Engineering — [AWS](../07-cloud-aws/00-aws.md) and [Azure](../08-cloud-azure/00-azure.md)
+- Cloud and Platform Engineering — [AWS](../07-cloud-aws/index.md) and [Azure](../08-cloud-azure/index.md)
 
 ## Data and Intelligence
 
-- Information Systems — [System Design](../03-system-design/00-system-design.md)
+- Information Systems — [System Design](../03-system-design/index.md)
 - Databases and Storage Engines — [Databases](../03-system-design/02-database-basics.md)
 - Data Engineering and Analytics
 - Search and Information Retrieval — [Canonical Systems](../03-system-design/08-canonical-systems.md)
 - Machine Learning — [Machine Learning Foundations](../09-ai/01-machine-learning.md)
-- AI Engineering — [Artificial Intelligence](../09-ai/00-ai.md)
+- AI Engineering — [Artificial Intelligence](../09-ai/index.md)
 
 ## Security and Trust
 
@@ -64,10 +64,10 @@ Software engineering rests on computer science and applied mathematics, and cove
 ## Engineering Practice
 
 - Software and Systems Engineering — [Glossary](01-glossary.md)
-- Software Architecture — [System Architecture](../02-architecture/00-architecture.md)
+- Software Architecture — [System Architecture](../02-architecture/index.md)
 - Requirements and Product Design
 - Quality Assurance and Testing — [Quality Assurance](../04-development-process/04-quality-assurance.md) and [Testing](../04-development-process/05-testing.md)
 - DevOps, SRE, and Operations — [CI/CD](../04-development-process/03-ci-cd.md)
 - Performance Engineering — [Performance Optimization](../06-frontend/03-performance-optimization.md)
 - Maintenance and Evolution — [Technical Debt](../04-development-process/07-technical-debt.md)
-- Engineering Management and Process — [Humans and Teams](../10-humans/00-humans.md) and [Methodology](../01-methodology/00-methodology.md)
+- Engineering Management and Process — [Humans and Teams](../10-humans/index.md) and [Methodology](../01-methodology/index.md)

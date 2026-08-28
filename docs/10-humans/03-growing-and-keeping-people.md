@@ -9,7 +9,7 @@ tags: [people, management, feedback, growth, team-health]
 
 This is the part of the job that repeats every week. The structure in [Roles and the Employee Lifecycle](02-roles-and-lifecycle.md) decides who is accountable for whom; this guide covers what that accountability actually consists of — the private channel where problems surface, the feedback that keeps expectations honest, the assignments that raise what someone can handle alone, and the signals that say whether the current pace can continue.
 
-Related: [Engineering Management](../01-methodology/06-engineering-management.md) · [Team Lead](01-team-lead.md) · [Development Process](../04-development-process/00-development-process.md)
+Related: [Engineering Management](../01-methodology/06-engineering-management.md) · [Team Lead](01-team-lead.md) · [Development Process](../04-development-process/index.md)
 
 ## Core Concepts
 

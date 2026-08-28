@@ -9,13 +9,14 @@ tags: [architecture, system-design]
 
 ![System Architecture](../../images/02-architecture.svg)
 
-**System architecture** is the practice of making the decisions about a solution that are expensive to reverse: what its parts are, how they interact, and how it is expected to change. This chapter covers those decisions and the quality attributes they are judged against. Architecture stops at the decisions — turning them into schemas, endpoints, and algorithms is [System Design](../03-system-design/00-system-design.md), and the attack classes a web application is built to withstand are [Web Application Security](../06-frontend/05-security-web.md).
+**System architecture** is the practice of making the decisions about a solution that are expensive to reverse: what its parts are, how they interact, and how it is expected to change. This chapter covers those decisions and the quality attributes they are judged against. Architecture stops at the decisions — turning them into schemas, endpoints, and algorithms is [System Design](../03-system-design/index.md), and the attack classes a web application is built to withstand are [Web Application Security](../06-frontend/05-security-web.md).
 
 ## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |
 | **[Key Quality Attributes](01-quality-attributes.md)** | The design, runtime, system, and user properties an architecture is evaluated against |
+| **[Architectural Views](02-architectural-views.md)** | The logical, process, deployment, and technology views an architecture is described through |
 
 ## What Architecture Captures
 
@@ -39,6 +40,8 @@ Confusing the levels is the usual failure: a pattern applied where no principle 
 
 ## Architectural Views
 
+No single diagram holds the whole architecture, so it is described through four views, each answering one set of concerns.
+
 | View | What it describes |
 | ------ | ------------- |
 | **Logical View** | Components, units, layers, and tiers, and the relations between them |
@@ -46,22 +49,4 @@ Confusing the levels is the usual failure: a pattern applied where no principle 
 | **Deployment View** | How the system is placed in its runtime environment |
 | **Technology View** | Detailed design documents, prototypes, and technical specifications |
 
-```mermaid
-mindmap
-  root((Architecture))
-    Logical
-      Components
-      Layers
-      Tiers
-    Process
-      Roles
-      Behavior
-      Data Flow
-    Deployment
-      Environment
-      Integration
-    Technology
-      Specs
-      Prototypes
-      Designs
-```
+What each view records, who reads it, and which ones are worth producing when: [Architectural Views](02-architectural-views.md).

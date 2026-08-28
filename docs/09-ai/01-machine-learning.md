@@ -11,9 +11,9 @@ tags: [ai, machine-learning, training, supervised-learning]
 as explicit rules: a model's parameters are fitted to examples until it approximates the target function.
 
 It is the layer below [deep learning](02-deep-learning.md) in the stack described in
-[Artificial Intelligence](00-ai.md), and the self-supervised paradigm is the objective that
+[Artificial Intelligence](index.md), and the self-supervised paradigm is the objective that
 [Large Language Models](03-llm.md) are trained on. External reading for this chapter is collected
-under [References](00-ai.md#references).
+under [References](index.md#references).
 
 ## Learning Paradigms
 

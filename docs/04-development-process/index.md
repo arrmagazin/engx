@@ -49,4 +49,4 @@ Phases are *interdependent*, not merely sequential: verification is designed dur
 | **Incremental** | Each pass delivers an additional slice of functional scope that is independently valuable |
 | **Continuous** | Phases overlap permanently and are automated into a [CI/CD pipeline](03-ci-cd.md), reducing the cycle to a change-sized unit |
 
-The choice of cycle shape is a [methodology](../01-methodology/00-methodology.md) decision constrained by risk, feedback cost, and requirement volatility — not a property of the software itself. Iterative and incremental delivery is treated as one practice, [IID](../01-methodology/02-agile.md#agile-practices), in the agile guide.
+The choice of cycle shape is a [methodology](../01-methodology/index.md) decision constrained by risk, feedback cost, and requirement volatility — not a property of the software itself. Iterative and incremental delivery is treated as one practice, [IID](../01-methodology/02-agile.md#agile-practices), in the agile guide.

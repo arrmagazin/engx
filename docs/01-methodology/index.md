@@ -33,7 +33,7 @@ The vocabulary lives on this page; each approach has its own guide. Terms the wh
 | **Framework** | A Method made executable — predefined options a user chooses from, constrained so the resulting state stays valid |
 | **Best Practice** | A Method accepted as superior for a given context because it reliably produces better outcomes there; context-bound, not absolute |
 
-A Framework in this sense runs a process, not code. The software sense — a component that owns the control flow and calls the application through the extension points it defines — is defined as [Software Framework](../03-system-design/00-system-design.md#information-system) in System Design.
+A Framework in this sense runs a process, not code. The software sense — a component that owns the control flow and calls the application through the extension points it defines — is defined as [Software Framework](../03-system-design/index.md#information-system) in System Design.
 
 Strategy here is the chosen direction itself. The planning cadence that produces and corrects it is the Strategy stage of the [Management Flow](06-engineering-management.md#management-flow).
 

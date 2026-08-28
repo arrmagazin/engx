@@ -23,7 +23,7 @@ This guide covers the vocabulary an engineering manager plans with, the loops th
 
 A manager who covers only *delivery* produces burnout; only *people* produces drift. All five must be held at once.
 
-The vocabulary this guide plans with — Scope, Capacity, Priority, Commitment, Risk, Dependency, and Constraint — is defined once in [Planning Concepts](00-methodology.md#planning-concepts), and Goals and Objectives in the [Glossary](../00-software-engineering/01-glossary.md). This guide applies those terms rather than restating them.
+The vocabulary this guide plans with — Scope, Capacity, Priority, Commitment, Risk, Dependency, and Constraint — is defined once in [Planning Concepts](index.md#planning-concepts), and Goals and Objectives in the [Glossary](../00-software-engineering/01-glossary.md). This guide applies those terms rather than restating them.
 
 ## Management Flow
 
@@ -66,7 +66,7 @@ Plan with decreasing precision as the horizon extends. Precision beyond the evid
 
 ## Delivery Phases
 
-The phases a solution passes through are defined once, as the SDLC, in [Development Process](../04-development-process/00-development-process.md). Management does not need a second lifecycle; it needs the one phase that lifecycle does not name, because its work is about the team rather than the product.
+The phases a solution passes through are defined once, as the SDLC, in [Development Process](../04-development-process/index.md). Management does not need a second lifecycle; it needs the one phase that lifecycle does not name, because its work is about the team rather than the product.
 
 | Phase | Activities |
 | --- | --- |
@@ -108,7 +108,7 @@ Pick one framework and apply it consistently; mixing frameworks produces argumen
 
 Use a single accountable decider per decision (`DACI`: Driver, Approver, Contributors, Informed). Consensus is a nice outcome, not a decision procedure.
 
-**Record decisions.** Every non-trivial technical decision gets an ADR: context, options, decision, consequences. See [Architecture](../02-architecture/00-architecture.md).
+**Record decisions.** Every non-trivial technical decision gets an ADR: context, options, decision, consequences. See [Architecture](../02-architecture/index.md).
 
 ### Metrics
 

@@ -14,7 +14,7 @@ It is the layer between [machine learning](01-machine-learning.md) and the found
 [large language models](03-llm.md) are built from: the paradigms, the loss-minimizing training loop,
 and the generalization concerns described in the machine learning guide all still apply here, and the
 transformer that this guide introduces is the architecture an LLM is a scaled-up instance of. Papers
-and books behind this material are collected under [References](00-ai.md#references).
+and books behind this material are collected under [References](index.md#references).
 
 ## Why Depth Matters
 

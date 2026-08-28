@@ -79,7 +79,7 @@ What these events *are*, and the timeboxes the Scrum Guide sets for them, is cov
 | Stage | General | Hybrid Software Team |
 | --- | --- | --- |
 | **1. Intake and Prioritization** | Evaluate incoming requests against the roadmap to decide urgency and order | Product managers and leads write the tickets; engineers read the requirements and raise questions in comments before any meeting |
-| **2. Sprint and Capacity Planning** | Match the prioritized queue against the team's available [capacity](../01-methodology/00-methodology.md#planning-concepts) so nobody is over-allocated | One synchronous video call; scope is committed against the team's own delivery history |
+| **2. Sprint and Capacity Planning** | Match the prioritized queue against the team's available [capacity](../01-methodology/index.md#planning-concepts) so nobody is over-allocated | One synchronous video call; scope is committed against the team's own delivery history |
 | **3. Daily Execution** | Hold a short sync to surface blockers and dependencies | A chat bot collects written standups, and calendars keep long blocks free for coding |
 | **4. Review and QA** | Act as the last filter before release, checking deliverables against the agreed quality bar | Peers review pull requests, as described in [Code Review](../04-development-process/02-code-review.md), and automated [tests](../04-development-process/04-quality-assurance.md) run on every commit |
 | **5. Retrospective** | Look back at the delivered cycle and pick improvements for the next one | At the end of each sprint, review what slowed delivery and fix the tooling or the process behind it |

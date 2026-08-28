@@ -55,7 +55,7 @@ These apply to any file that defines terms in a `| Concept | Definition |` or `|
 
 `check_glossary.py` checks the mechanical rules below: broken rows, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. It only looks at tables with one of those two header rows, so other tables — ladders, comparisons, nav tables — are unaffected. Indirect loops and oversized tables print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked.
 
-Note also what it cannot see: its duplicate-term check is per file, so the same term defined once in each of two chapters passes. That is a real hazard in a book this size — see the two senses of *Framework* in `01-methodology/00-methodology.md` and `03-system-design/00-system-design.md`, which are disambiguated in prose because no checker could catch them.
+Note also what it cannot see: its duplicate-term check is per file, so the same term defined once in each of two chapters passes. That is a real hazard in a book this size — see the two senses of *Framework* in `01-methodology/index.md` and `03-system-design/index.md`, which are disambiguated in prose because no checker could catch them.
 
 ### Shape
 

@@ -20,4 +20,4 @@ Microsoft Azure appears here in two forms: as a catalog of managed building bloc
 
 ## Coming From AWS
 
-The stack overview ends with an [AWS to Azure Service Map](01-azure-stack-overview.md#aws-to-azure-service-map), naming the Azure counterpart of each AWS service and where the analogy breaks down. It is the fastest route in for anyone who already knows [AWS](../07-cloud-aws/00-aws.md).
+The stack overview ends with an [AWS to Azure Service Map](01-azure-stack-overview.md#aws-to-azure-service-map), naming the Azure counterpart of each AWS service and where the analogy breaks down. It is the fastest route in for anyone who already knows [AWS](../07-cloud-aws/index.md).
