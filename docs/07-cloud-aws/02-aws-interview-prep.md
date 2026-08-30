@@ -12,6 +12,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 ## 1. AWS Core Concepts
 
 ### Fundamentals
+
 - **Account hierarchy**: AWS Organizations → OUs → Accounts → Resources. The *account* is the billing, quota, and hard isolation boundary. Its Azure counterpart is the subscription, not the resource group — see [the Azure stack overview](../08-cloud-azure/01-azure-stack-overview.md)
 - **Control plane**: everything goes through public service APIs (Console, CLI, SDKs, CloudFormation, and Terraform all call the same APIs). There is no single "resource manager" layer — each service has its own API and its own eventual consistency behavior
 - **Regions, Availability Zones (AZs), Local Zones, and edge locations**: how AWS models fault domains; AZ letters are *per account* (your `us-east-1a` is not my `us-east-1a` — use AZ IDs when it matters)
@@ -22,8 +23,9 @@ A study map organized around the five competency areas that recur in AWS infrast
 ## 2. Implementing and Maintaining Intricate AWS Infrastructure
 
 ### Infrastructure as Code (IaC) Options
+
 | Tool | Native/OSS | Notes |
-|---|---|---|
+| --- | --- | --- |
 | **CloudFormation** | Native | YAML/JSON, stacks + change sets, StackSets for multi-account/region; drift detection built in |
 | **AWS CDK** | Native | TypeScript/Python/etc. that *synthesizes* CloudFormation; constructs and aspects for reuse |
 | **Terraform (aws provider)** | OSS (HashiCorp) | Multi-cloud, explicit state, common in mixed estates |
@@ -38,6 +40,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 - **Multi-environment strategy**: **account-per-environment** is the AWS-idiomatic answer, not one account with tags
 
 ### Maintaining Infrastructure at Scale
+
 - **Landing zone architecture**: AWS Control Tower, Landing Zone Accelerator, and the multi-account strategy from the Well-Architected Framework
 - **Network topology**: Transit Gateway hub-and-spoke, centralized egress, and inspection VPCs
 - **Account vending**: Control Tower Account Factory / AFT (Account Factory for Terraform) for multi-team orgs
@@ -48,6 +51,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 ## 3. Automating Infrastructure Changes and Configuration Management
 
 ### CI/CD for Infrastructure
+
 - **GitHub Actions / GitLab CI** vs. native **CodePipeline + CodeBuild** (and CodeCatalyst): where the code already lives usually decides it. See [CI/CD](../04-development-process/03-ci-cd.md)
 - **Pipeline patterns**: plan → manual approval → apply (Terraform); `cdk diff` / change set → review → execute (CloudFormation/CDK)
 - **Credentials**: **OIDC federation to an IAM role** — never store access keys in CI
@@ -55,29 +59,34 @@ A study map organized around the five competency areas that recur in AWS infrast
 - **Multi-account deploys**: a pipeline in a tooling account assuming a deployment role in each target account
 
 ### Configuration Management
+
 - **Systems Manager**: State Manager (associations = continuous enforcement), Run Command, Automation runbooks, and Session Manager (shell access without SSH — removes the need for bastion hosts)
 - **Ansible** for post-provision config on EC2, especially mixed-OS or ordered multi-host sequences
 - **user-data / cloud-init** for bootstrap; **AWS Config remediation actions** for auto-correcting non-compliant resources
 - **EventBridge → Lambda** as the general-purpose "react to an infrastructure event" pattern
 
 ### Secrets & Config
+
 - **Secrets Manager** (rotation built in, priced per secret) vs. **SSM Parameter Store** (SecureString, free standard tier, no native rotation)
 - Injecting secrets: ECS task definition `secrets` block, Lambda extensions, and External Secrets Operator on EKS
 - Never bake secrets into AMIs or container images
 
 ### Testing Infrastructure Code
+
 - **Terratest**, **cfn-lint**, **CDK assertions / snapshot tests**, and `checkov` / `tfsec` / `cfn-nag` for policy-as-code scanning
 - **Open Policy Agent / Conftest** or CloudFormation **Guard** for org-specific rules in the pipeline
 
 ## 4. Immutable Infrastructure and Cloud-Native Frameworks
 
 ### Immutable Infrastructure Concepts
+
 - **Golden AMIs**: EC2 Image Builder or Packer — bake config into the image rather than mutating running servers
 - **ASG instance refresh / rolling replacement**: replace instances instead of patching in place; ASG lifecycle hooks for graceful drain
 - **Blue/green and canary**: **CodeDeploy** (ECS/Lambda/EC2 blue-green), ALB weighted target groups, Lambda alias traffic shifting, and Argo Rollouts or Flagger on EKS
 - **Immutable containers**: pin images by digest not tag, set ECR immutable tags, and keep `latest` out of production. See [containers](../03-system-design/05-containers.md)
 
 ### Cloud-Native / CNCF-Aligned Practices
+
 - **Containerization**: Docker fundamentals, multi-stage builds, distroless base images, and scanning (ECR enhanced scanning via Inspector, Trivy)
 - **Kubernetes on EKS**:
   - Deployments, StatefulSets, DaemonSets, Services, and Ingress (AWS Load Balancer Controller)
@@ -93,6 +102,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 ## 5. Performance, Cost Management, and Security Best Practices
 
 ### Performance Optimization
+
 - **Right-sizing**: instance family selection (including Graviton) and Compute Optimizer recommendations
 - **Caching layers**: CloudFront, ElastiCache, and DAX for DynamoDB. See [system design concepts](../03-system-design/01-concepts.md)
 - **Database tuning**: Aurora read replicas, RDS Proxy for connection storms (especially with Lambda), and Performance Insights
@@ -100,6 +110,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 - **Load testing** and **X-Ray**/ADOT tracing to find the actual bottleneck before resizing anything
 
 ### Cost Management
+
 - **Cost Explorer, AWS Budgets, Cost Anomaly Detection**, and CUR (Cost and Usage Report) into Athena/QuickSight for real analysis
 - **Savings Plans (Compute vs. EC2 Instance) vs. Reserved Instances vs. Spot** — Compute Savings Plans are the flexible default; Spot for interruptible, checkpointed workloads
 - **Scale to zero** where possible: Lambda, Fargate scale-in, and non-prod shutdown schedules via EventBridge
@@ -108,6 +119,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 - **Cost allocation tags + AWS Organizations consolidated billing** for chargeback/showback
 
 ### Security Best Practices
+
 - **Least privilege**: no IAM users, roles only, and Identity Center for humans; use IAM Access Analyzer to find unused permissions and external access
 - **SCPs as guardrails**: deny leaving the org, deny disabling CloudTrail, and restrict regions — guardrails that no admin in a member account can override
 - **GuardDuty** (threat detection), **Security Hub** (findings aggregation and standards), **Inspector** (vulnerability scanning), and **Macie** (sensitive data in S3)
@@ -150,7 +162,7 @@ The figures here are placeholders too. Substitute your own spend, savings, and t
 ### Story Bank — Map Yours to the Areas
 
 | Area | Likely Prompt | The Story to Prepare |
-|---|---|---|
+| --- | --- | --- |
 | **1. AWS core** | "Walk me through how you'd structure accounts for a new business unit" | A multi-account, IAM, or landing-zone decision |
 | **2. Infrastructure** | "Tell me about the most complex environment you've built" | Transit Gateway, a VPC redesign, or a migration |
 | **3. Automation** | "Describe a manual process you automated" | IaC adoption, a pipeline build, or configuration management |
@@ -209,6 +221,7 @@ Draw order: org and OUs top-down → the network account and TGW → workload VP
 ```
 
 Points to make **while** drawing:
+
 - **The account is the blast radius.** Prod and non-prod are separate accounts, not separate tags in one account — that's the answer to "how do you stop a dev mistake taking prod down?"
 - Spoke VPCs attach to the TGW, **never peer to each other** — east-west goes through the TGW route tables, and through the inspection VPC where the compliance regime requires it.
 - **Centralized egress**: one NAT Gateway pair in the egress VPC instead of a pair per VPC. NAT gateways bill per hour and per GB processed, so a pair in every VPC is an avoidable cost.
@@ -261,12 +274,14 @@ Draw order: left-to-right, PR path on top, main path on the bottom, auth arrows 
 ```
 
 Points to make while drawing:
+
 - **Plan artifact promotion**: apply the *saved plan file* from the PR, not a fresh plan at apply time — otherwise you're approving something you didn't review.
 - **Blast radius**: separate state *and separate account* per environment, so a corrupted dev state can't reach prod.
 - **Trust policy conditions**: the OIDC role's trust policy must pin `sub` to the specific repo *and branch/environment*. A trust policy with `repo:org/*:*` is a finding.
 - **Drift detection**: a nightly plan that alerts on a non-empty diff is what proves IaC is the source of truth.
 
 ### Also Worth Being Able to Draw
+
 - **EKS request path**: Route 53 → CloudFront → ALB (Load Balancer Controller) → Ingress → Service → Pods, with IRSA arrows out to Secrets Manager/RDS.
 - **Immutable pipeline**: source → Packer/EC2 Image Builder → AMI (versioned, shared across accounts via RAM) → launch template version bump → ASG instance refresh.
 - **Blue/green on ECS**: CodeDeploy shifting an ALB listener between two target groups, with the rollback alarm drawn explicitly.
@@ -281,7 +296,7 @@ Points to make while drawing:
 **It depends on:** whether you're AWS-only, what the org already runs, and whether the team wants a general-purpose language or a config language.
 
 | Aspect | CloudFormation / CDK | Terraform |
-|---|---|---|
+| --- | --- | --- |
 | **Scope** | AWS only | Multi-cloud, plus GitHub, Datadog, Okta, and Cloudflare |
 | **State** | Managed by the service — no state file to lose | Explicit state file (power **and** liability) |
 | **New AWS features** | Usually fast, but *not* always day 0 | Provider lag; sometimes ahead of CloudFormation, and `awscc` covers the gap |
@@ -298,7 +313,7 @@ Points to make while drawing:
 **It depends on:** whether you need the Kubernetes API surface, your team's operational maturity, and whether portability is a real requirement or an aspiration.
 
 | Aspect | ECS on Fargate | EKS |
-|---|---|---|
+| --- | --- | --- |
 | **You manage** | Task definitions only | Cluster add-ons, node lifecycle, and version upgrades |
 | **Control plane cost** | None | A per-cluster hourly charge, plus nodes |
 | **Upgrade cadence** | AWS handles it | Roughly quarterly Kubernetes versions; as of 2025, 14 months of standard support per version and then 12 months of extended support at a higher price. AWS has already revised those windows once, so read the EKS Kubernetes version lifecycle page before you plan an upgrade calendar around them |
@@ -314,7 +329,7 @@ Points to make while drawing:
 **It depends on:** OS mix, whether your instances are mutable at all, and push vs. pull.
 
 | Aspect | SSM State Manager | Ansible |
-|---|---|---|
+| --- | --- | --- |
 | **Model** | Pull, agent-based, **continuously** re-asserts on a schedule | Push, agentless (SSH/WinRM), point-in-time |
 | **Drift** | Auto-corrects; compliance reported to SSM/Config | Only fixes when you run it |
 | **Reach** | Anything with the SSM agent, including on-prem via hybrid activations | Needs a network path from a control node |
@@ -326,7 +341,7 @@ Points to make while drawing:
 ### Other Pairs Worth a Rehearsed Answer
 
 | Pair | The Deciding Variable |
-|---|---|
+| --- | --- |
 | **Security Group vs. NACL** | Stateful per-resource (SG, the default tool) vs. stateless per-subnet (NACL, coarse deny for CIDR blocks) |
 | **VPC Peering vs. Transit Gateway** | Number of VPCs — peering is non-transitive and O(n²); TGW past roughly 5–10 VPCs, at a per-attachment and per-GB cost |
 | **NAT Gateway vs. VPC endpoints** | Is the destination an AWS service? → endpoint (cheaper, private); NAT only for genuine internet egress |
