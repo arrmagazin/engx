@@ -13,7 +13,7 @@ The core idea of the approach is:
 
 - to allow humans to work collaboratively on machine-readable artifacts as SSOT
 - those artifacts are then transformed by code generation into software code, runtime metadata, or configuration
-- that covers the gaps in the process where humans have to do things by hand, keep them in sync, and apply the same change repeatedly, when a program could do it instead
+- that covers the gaps in the process where humans have to do things by hand, keep them in sync, and safely apply the same change repeatedly, when a program could do it instead
 
 > To move Humans to the Left!
 
