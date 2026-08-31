@@ -1,7 +1,7 @@
 ---
 type: Guide
 title: AWS Core Concepts
-description: One-line definitions of the core AWS concepts, in fourteen sections from accounts to resilience, each opening with a diagram.
+description: One-line definitions of the core AWS concepts, in fifteen sections from accounts to resilience, each opening with a diagram.
 tags: [aws, cloud, glossary, reference]
 ---
 
@@ -26,26 +26,44 @@ flowchart TD
   end
   Acct --> Resource
   Region --> Resource
-  Resource --> ARN
-  Resource --> Tag
-  Acct --> Quota[Service Quota]
-  Region --> Quota
 ```
 
 | Concept | Definition |
 | --- | --- |
 | **Organization** | the tree AWS bills and governs as one, with a payer account at the top and member accounts beneath |
-| **Account** | the hard boundary for billing, quotas and failure containment; every resource lives in exactly one |
+| **Account** | the hard boundary for billing, quotas and failure containment; every Resource lives in exactly one |
 | **Organizational Unit** | a folder inside an Organization that groups Accounts so one policy attaches to many at once |
 | **Service Control Policy** | a filter on what identities in an Account may do; it removes permissions and never grants any |
-| **Region** | a named group of isolated data-centre clusters with its own service endpoints; nothing leaves one unless you ask |
+| **Region** | a named group of isolated data-centre clusters with its own Service endpoints; nothing leaves one unless you ask |
 | **Availability Zone** | one or more data centres inside a Region with independent power, cooling and network |
 | **AZ ID** | the Account-independent name of an Availability Zone (`use1-az1`), the only way two Accounts agree on the same physical zone |
-| **Edge Location** | a point of presence outside any Region that terminates user connections for the global services |
-| **ARN** | the unique identifier of a resource, encoding partition, service, Region, Account and name |
-| **Service Quota** | the per-Account, per-Region ceiling on a countable resource; a default limit, usually raisable on request |
+| **Edge Location** | a point of presence outside any Region that terminates user connections for the global Services |
 | **Control Tower** | a managed setup of an Organization: baseline Accounts, guardrails and an enrollment workflow |
-| **Tag** | a key/value label on a resource, and the only mechanism for cost attribution and attribute-based access |
+
+## Services and Resources
+
+```mermaid
+flowchart LR
+  Service --> API
+  API -->|creates| Resource
+  Acct[Account] --> Resource
+  Region --> Resource
+  Resource --> ARN
+  Resource --> Tag
+  Service --> Quota[Service Quota]
+  Acct --> Quota
+  Region --> Quota
+  Quota -. caps .-> Resource
+```
+
+| Concept | Definition |
+| --- | --- |
+| **Service** | a named product AWS runs and bills as one line item, with its own endpoints, pricing and limits — S3, Lambda and DynamoDB are three of more than two hundred |
+| **API** | the signed HTTPS calls a Service accepts; the console, CLI, SDKs and CloudFormation all go through the same ones, so nothing reaches AWS any other way |
+| **Resource** | a thing (data or code) a Service creates and keeps for you, and the unit that is named, permissioned and billed — a Bucket, a Lambda function or an IAM Role, never the Service itself |
+| **ARN** | the unique identifier of a Resource, encoding partition, Service, Region, Account and name |
+| **Tag** | a key/value label on a Resource, and the only mechanism for cost attribution and attribute-based access |
+| **Service Quota** | the per-Account, per-Region ceiling on a countable Resource; a default limit, usually raisable on request |
 
 ## Identity and Access
 
@@ -71,13 +89,13 @@ flowchart LR
 | Concept | Definition |
 | --- | --- |
 | **IAM** | the policy engine every AWS API call passes through; deny by default, and an explicit deny always wins |
-| **Principal** | the identity a request is made as — a user, a role session, or an AWS service acting on your behalf |
+| **Principal** | the identity a request is made as — a user, a role session, or an AWS Service acting on your behalf |
 | **IAM Policy** | a JSON document of effect, action, resource and condition statements, evaluated together for each request |
 | **Identity Policy** | a policy attached to a Principal, saying what that Principal may do |
-| **Resource Policy** | a policy attached to the resource itself, saying who may touch it; how cross-Account access is granted |
+| **Resource Policy** | a policy attached to the Resource itself, saying who may touch it; how cross-Account access is granted |
 | **IAM Role** | a set of permissions with no credentials of its own, assumed to get short-lived keys |
 | **Trust Policy** | the document on an IAM Role naming who is allowed to assume it |
-| **STS** | the service that mints the temporary credentials an assumed IAM Role hands back |
+| **STS** | the Service that mints the temporary credentials an assumed IAM Role hands back |
 | **Instance Profile** | the wrapper that delivers an IAM Role to a running EC2 instance |
 | **IAM Identity Center** | the front door humans log in through: one directory, with permission sets projected into many Accounts |
 | **OIDC Federation** | trusting an external token issuer so a pipeline can assume an IAM Role with no stored key |
@@ -102,7 +120,7 @@ flowchart LR
 
 | Concept | Definition |
 | --- | --- |
-| **KMS** | the managed key service: keys that never leave it, and every use recorded |
+| **KMS** | the managed key Service: keys that never leave it, and every use recorded |
 | **Customer Managed Key** | a KMS key you create, write the policy for, and rotate on your own schedule |
 | **Envelope Encryption** | encrypting data with a single-use data key, then encrypting that data key with a long-lived one |
 | **Key Policy** | the Resource Policy on a key, and the root of its access control rather than an addition to IAM |
@@ -229,7 +247,7 @@ flowchart TD
 | **Network ACL** | a stateless, numbered allow-and-deny list on a Subnet, where both directions must be written out |
 | **Elastic Network Interface** | the virtual NIC carrying a private IP, its Security Groups and a MAC address, attached to an instance or task |
 | **Elastic IP** | a static public address you hold and re-attach, and the fix for one that changes when an instance stops |
-| **VPC Endpoint** | a private entrance to an AWS service from inside a VPC, so that traffic never reaches the internet |
+| **VPC Endpoint** | a private entrance to an AWS Service from inside a VPC, so that traffic never reaches the internet |
 | **PrivateLink** | the same private entrance pointed at someone else's service, exposed through a Network Load Balancer |
 
 ## Networking — Edge and Connections
@@ -388,7 +406,7 @@ flowchart LR
 | **CloudFormation** | declarative Stacks that AWS creates, updates and rolls back as a single unit |
 | **Stack** | the deployed instance of a template, and the boundary a rollback applies to |
 | **Change Set** | the preview of what an update would add, modify or replace, produced before anything is executed |
-| **Drift** | the divergence between a Stack and the real resources after someone edited them by hand |
+| **Drift** | the divergence between a Stack and the real Resources after someone edited them by hand |
 | **CDK** | infrastructure written in a general-purpose language and synthesized into CloudFormation |
 | **CodeBuild** | managed build containers defined by a buildspec, with no build server to keep alive |
 | **CodeDeploy** | the component that shifts traffic onto a new version of an EC2 fleet, ECS service or Lambda alias |
@@ -418,12 +436,12 @@ flowchart LR
 
 | Concept | Definition |
 | --- | --- |
-| **CloudWatch** | the metrics, logs and alarms service that every AWS service reports into without being asked |
+| **CloudWatch** | the metrics, logs and alarms Service that every AWS Service reports into without being asked |
 | **Metric** | a named time series of measurements, with dimensions that make it selectable |
 | **Alarm** | a rule over a Metric that changes state and acts when a threshold holds for a number of periods |
 | **Log Group** | the retention and access boundary around one stream of log events; retention is forever until you set it |
 | **CloudTrail** | the audit record of every API call — who made it, from where, and whether it was allowed |
-| **AWS Config** | the configuration history of each resource, plus rules that judge compliance across time |
+| **AWS Config** | the configuration history of each Resource, plus rules that judge compliance across time |
 | **X-Ray** | request tracing that stitches one call's path across services into a single timeline |
 | **Systems Manager** | agent-based fleet operations: patching, inventory, remote commands and shell access without SSH |
 | **Session Manager** | a shell onto an instance through that agent, needing no bastion host and no inbound port |
@@ -449,7 +467,7 @@ flowchart LR
 
 | Concept | Definition |
 | --- | --- |
-| **Shared Responsibility Model** | AWS secures what it runs, you secure what you put into it, and the line moves with how managed the service is |
+| **Shared Responsibility Model** | AWS secures what it runs, you secure what you put into it, and the line moves with how managed the Service is |
 | **Blast Radius** | how much stops working when one thing fails; what the Account, Region and Availability Zone boundaries exist to bound |
 | **RTO** | the time a service may stay down before recovery has to be complete |
 | **RPO** | the quantity of data a recovery is allowed to lose, measured as a span of time |

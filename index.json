@@ -227,6 +227,10 @@
       "type": "blob"
     },
     {
+      "path": "docs/07-cloud-aws/03-aws-core-concepts.md",
+      "type": "blob"
+    },
+    {
       "path": "docs/07-cloud-aws/index.md",
       "type": "blob"
     },
