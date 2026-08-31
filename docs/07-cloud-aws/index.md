@@ -18,4 +18,3 @@ The three readings want different handling. Take the concept list as recall — 
 | **[AWS Services Overview](01-aws-stack-overview.md)** | The service catalog — the account and Region model, then compute, networking, storage and data, messaging and events, identity, and monitoring |
 | **[AWS Interview Prep](02-aws-interview-prep.md)** | The five competency areas, behavioral stories, diagrams to sketch, and the trade-off questions |
 | **[AWS Core Concepts](03-aws-core-concepts.md)** | Every core concept as a single line, in fourteen sections from accounts and identity through to resilience, each with a diagram |
-

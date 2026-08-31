@@ -7,9 +7,9 @@ tags: [methodology, agile, xp, engineering-practices]
 
 # Extreme Programming
 
-**Extreme Programming (XP)** is an [agile method](02-agile.md) that organizes a team around a fixed set of engineering practices rather than around a planning ceremony. 
+**Extreme Programming (XP)** is an [agile method](02-agile.md) that organizes a team around a fixed set of engineering practices rather than around a planning ceremony.
 
-Kent Beck set it out in *Extreme Programming Explained: Embrace Change* (1999), and rewrote it substantially with Cynthia Andres for the second edition (2004). The name comes from the method's construction rule: take a practice that is already known to help, and apply it at a level most teams would call excessive. 
+Kent Beck set it out in *Extreme Programming Explained: Embrace Change* (1999), and rewrote it substantially with Cynthia Andres for the second edition (2004). The name comes from the method's construction rule: take a practice that is already known to help, and apply it at a level most teams would call excessive.
 
 Reviewing code helps, so XP reviews continuously by having two people write it together. Restructuring code helps, so XP restructures a little every day instead of scheduling a redesign.
 
@@ -17,10 +17,10 @@ Where [Scrum](03-scrum.md) defines a container — roles, events, artifacts — 
 
 ## Core Concepts
 
-XP is built in three layers, and the second edition argues that all three are needed. 
+XP is built in three layers, and the second edition argues that all three are needed.
 
-A Value alone is unfalsifiable. 
-A Practice alone is context-free and cargo-cults easily. 
+A Value alone is unfalsifiable.
+A Practice alone is context-free and cargo-cults easily.
 Principles connect them.
 
 | Concept | Definition |
@@ -28,7 +28,6 @@ Principles connect them.
 | **Value** | Criterion a team judges its own behavior against, stated without reference to any situation and therefore never directly actionable |
 | **Principle** | Domain-specific bridging rule that turns a Value into a choice a team can make in a concrete situation |
 | **Practice** | Behavior a team either performs or does not, observable from outside the team and therefore checkable |
-
 
  **Primary Practice**  safe to adopt on its own, before any other part of the method is in place.**Corollary Practice**  depends on several Primary Practices already working, and is difficult or dangerous to adopt first
 

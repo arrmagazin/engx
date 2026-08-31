@@ -7,19 +7,9 @@ tags: [aws, cloud, services, devops]
 
 # AWS Services Overview
 
-A catalog of the AWS services an infrastructure or platform engineer chooses between, grouped into foundations, compute, networking, storage and data, messaging and events, identity, and monitoring. Each entry gives what the service actually is, its **entry point** — the first object you create, the one that makes the rest of the service make sense — and the constraint that most often catches people out. For the competency areas an AWS infrastructure role is questioned on, see the [AWS interview prep guide](02-aws-interview-prep.md).
+A catalog of the AWS services an infrastructure or platform engineer chooses between, grouped into foundations, compute, networking, storage and data, messaging and events, identity, and monitoring.
 
-## Foundations
-
-### The Account Hierarchy — The Scope Everything Else Inherits From
-
-The **account** is the hard boundary in AWS: billing, quotas, and default blast radius all stop at its edge. Every service below lives inside one.
-
-- **Entry point:** **AWS Organizations** → **organizational units (OUs)** → **accounts** → resources. An organization has one **management account** that pays, and a **root** above every OU. Multiple accounts are the normal shape — production, non-production, security tooling, and log archive are separate accounts rather than separate tags in one account. **Control Tower** builds and governs that layout for you.
-- **Guardrails inherit downward:** **Service Control Policies (SCPs)** attach to the root, an OU, or an account and filter what identities beneath them may do. They **never grant** — an SCP that allows everything grants nothing, because an identity policy still has to allow the call. **Resource Control Policies** apply the same idea to resource-based policies.
-- **No single control plane:** each service exposes its own API, and the console, CLI, SDKs, CloudFormation, and Terraform all call those same APIs. There is no resource-manager layer above them, so consistency behavior differs from service to service. The Azure **resource group** has no direct AWS equivalent: an account is not a lifecycle container, and nothing in it deletes as a unit.
-- **Regions and Availability Zones:** a **Region** is a set of isolated **Availability Zones**, each one or more datacenters with independent power, cooling, and network. Most services are regional and replicate across Regions only when you ask. **Local Zones** and **Wavelength** extend a Region closer to users; **edge locations** serve CloudFront and Route 53.
-- **Trap:** AZ *letters* are per account. Your `us-east-1a` and another account's `us-east-1a` are not necessarily the same physical zone — use the **AZ ID** (`use1-az1`) whenever the answer has to line up across accounts. A few services are global rather than regional (IAM, Route 53, CloudFront, and the ACM certificates CloudFront uses), which surprises people planning regional isolation.
+Each entry gives what the service actually is, its **entry point** — the first object you create, the one that makes the rest of the service make sense — and the constraint that most often catches people out.
 
 ## Compute
 

@@ -7,7 +7,7 @@ tags: [management, leadership, process]
 
 # Engineering Management
 
-**Engineering Management** is a *process* of making desionins, turning **goals into delivered outcomes** through people, process, and priorities, under constraints of time, budget, capacity, and quality. 
+**Engineering Management** is a *process* of making desionins, turning **goals into delivered outcomes** through people, process, and priorities, under constraints of time, budget, capacity, and quality.
 
 This guide covers the vocabulary an engineering manager plans with, the loops that connect strategy to feedback, and the metrics that show whether the loops are working. Leadership sets direction and motivates; management allocates, sequences, and controls — a working engineering manager does both.
 
