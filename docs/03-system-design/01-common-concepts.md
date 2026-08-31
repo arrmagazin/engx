@@ -9,6 +9,17 @@ tags: [architecture, system-design, interview, glossary]
 
 Defines the vocabulary the rest of this chapter uses, grouped by the problem each set of terms addresses. Worked applications of these concepts are in [Canonical Systems](08-canonical-systems.md).
 
+## Design Practice
+
+| Concept | Definition |
+|---|---|
+| **Design Practice** | The habits that apply to any system design, independent of the system being designed |
+| **Requirements Scoping** | Stating what the system must do, which quality attributes bound it, and what is deliberately excluded, before any design follows |
+| **Deep Dive** | Detailed treatment of one hard sub-problem, rather than equal shallow coverage of every component |
+| **Trade-Off Articulation** | Naming what a choice costs and what was rejected, instead of presenting one option as the only one |
+| **Failure Mode** | A specific way a component breaks or degrades under stress, such as a stampede, a storm, or a hotspot |
+| **Cost as a Design Constraint** | Treating storage, egress, and compute spend as a factor in the design itself rather than a later concern |
+
 ## Capacity Estimation
 
 | Concept | Definition |
@@ -18,6 +29,86 @@ Defines the vocabulary the rest of this chapter uses, grouped by the problem eac
 | **Read:Write Ratio** | The proportion of reads to writes; decides whether a design optimizes for caching and delivery or for write throughput and consistency |
 | **QPS (Queries per Second)** | The standard throughput unit, quoted separately for average and peak load because the two size different components |
 | **Storage Growth Projection** | Total storage over a stated horizon, from write rate times record size times time, adjusted for the replication factor |
+
+
+## Scale and reliability
+
+**Blast radius** — How much breaks when one thing breaks. It is the metric that
+justifies splitting stacks, queues, and accounts, and it is why this scaffold's
+table lives in a stack that a routine release cannot touch. Designing for it
+means asking "what else fails" before "how do we stop this failing".
+
+**Bulkhead** — Partitioning resources so that exhaustion in one part cannot
+starve the others — separate connection pools, separate thread pools, separate
+queues per consumer. It is named after ship compartments, and the analogy is
+exact: the point is not to prevent flooding but to confine it. Without it, one
+slow downstream dependency consumes every connection and takes down endpoints
+that never touched it.
+
+**Cache-aside** — The application checks the cache, and on a miss reads the
+source and populates the cache itself. It is the most common caching pattern
+because it is simple and the cache never needs to know about the database, but
+it has two well-known holes: a stampede on a popular miss, and a window where a
+concurrent write leaves a stale entry behind.
+
+**Cache stampede** — When a popular cache entry expires, every request that
+wanted it goes to the origin at once, and the origin falls over precisely
+because the thing was popular. Defences are `stale-while-revalidate` (serve the
+stale value while one request refreshes), TTL jitter (so entries created
+together do not expire together), and request coalescing. The failure is
+counter-intuitive because load is *lowest* right before it happens.
+
+**Circuit breaker** — A wrapper that stops calling a failing dependency after a
+threshold, fails immediately for a cooling-off period, then lets a trial request
+through. It exists because retrying a struggling service is the worst thing you
+can do to it, and because a caller blocked on a dead dependency is a caller
+holding resources for nothing. The subtle benefit is to the *callee*: the
+breaker gives it room to recover.
+
+**Cold start** — The latency of initialising a new execution environment before
+it can serve its first request — for Lambda, downloading and starting the
+runtime and the handler's module graph. It matters for user-facing synchronous
+work and matters much less for queue consumers, where a few hundred extra
+milliseconds are invisible. It is the main reason this scaffold serves the read
+path from a container and the write path from Lambda.
+
+**Graceful degradation** — Continuing to serve a reduced version of the response
+when part of it cannot be produced, rather than failing the whole thing. It is a
+design decision that must be made in advance, because during an incident nobody
+is deciding which fields are optional.
+
+**Head-of-line blocking** — When the item at the front of a queue cannot be
+processed and everything behind it waits, even though those items are fine. It
+is the specific risk of strict ordering: FIFO with a message group means one
+stuck message stalls that entire group. Recognising it is what makes "use a FIFO
+queue for ordering" a trade rather than an answer.
+
+**p50 / p95 / p99** — Percentile latencies: the value below which that
+percentage of requests fall. They are quoted instead of an average because
+latency distributions have long right tails, and an average hides the tail
+entirely — a service can average 40 ms while one request in a hundred takes four
+seconds. At scale, p99 is not an edge case: at 50 requests per second it is one
+unhappy user every two seconds.
+
+**Read-your-writes** — The consistency property that a client immediately sees
+its own write, even if others do not yet. It is often the only consistency
+guarantee a user actually notices, which means it is frequently the cheapest one
+worth buying: route a user's reads to the primary briefly after they write,
+rather than making the whole system strongly consistent.
+
+**Tail latency** — The slow end of the latency distribution, and usually the
+only end that matters once a service is fast on average. It compounds badly with
+fan-out: if a page makes ten parallel calls each with a 1% chance of being slow,
+roughly one page in ten is slow. This is why budgets and timeouts belong on
+individual calls rather than only on the whole request.
+
+**Thundering herd** — Many clients waking simultaneously and hitting the same
+resource — retries synchronised by a common timeout, or caches expiring
+together. The fix is always to break the synchronisation: jitter on TTLs, jitter
+and exponential backoff on retries. A retry policy without jitter converts one
+outage into a repeating one.
+
+---
 
 ## Identifier Generation
 
@@ -31,62 +122,6 @@ Defines the vocabulary the rest of this chapter uses, grouped by the problem eac
 | **Lease** | A time-bound claim on a resource, renewed by heartbeat and expiring on its own if the holder crashes |
 | **Compare-and-Swap (CAS)** | An atomic update applied only if the current value matches an expected one, used to claim a shared slot without a race |
 | **Base62 Encoding** | Representing a number in the 62 URL-safe alphanumeric characters, turning a large integer ID into a short code |
-
-## Sharding
-
-| Concept | Definition |
-|---|---|
-| **Sharding** | Splitting a dataset across database instances so no single machine holds all of it |
-| **Shard Key** | The field deciding which shard a record lives on; chosen to match the dominant query so common lookups reach one shard |
-| **Hash-Based Sharding** | Placing records by a hash of the shard key — even load, at the cost of geographic and relational locality |
-| **Consistent Hashing** | A placement scheme that relocates only a small fraction of keys when instances are added or removed, unlike `hash % N` |
-| **Region-Based Sharding** | Partitioning by geography rather than by hash, used where queries are inherently local |
-| **Hot Shard** | One shard or key taking disproportionate traffic, unbalancing a cluster that is otherwise evenly partitioned |
-
-## Load Balancing
-
-| Concept | Definition |
-|---|---|
-| **Load Balancing** | Spreading incoming requests across a pool of interchangeable servers, so capacity grows by adding machines rather than by enlarging one |
-| **Layer 4 Balancing** | Forwarding at the transport level on address and port without reading the request; cheap and protocol-agnostic, but blind to paths, headers, and cookies |
-| **Layer 7 Balancing** | Routing on application data such as path, header, or cookie, which buys per-route pools and content-aware policy at the cost of terminating and parsing every request |
-| **Balancing Algorithm** | The rule picking the next server — round robin where requests cost the same, least connections where they do not, and a hash of a chosen key where a caller must keep landing on one node |
-| **Backend Pool** | The set of interchangeable servers a balancer distributes across, whose membership changes as instances are added, drained, or removed |
-| **Health Check** | A periodic probe deciding whether a server stays in the pool, so a failing instance is taken out before users meet its errors |
-| **Sticky Session** | Pinning a client to the server holding its state, which keeps that state reachable but unbalances the pool and loses the state outright when that server dies |
-| **Cache Affinity** | Routing every request for one key to the same backend so its local copy stays warm, using consistent hashing so that adding a node moves few keys |
-| **Connection Draining** | Letting in-flight requests finish on a server already removed from rotation, so a deploy or scale-in does not cut live work short |
-| **Single Point of Failure** | A component whose loss takes down everything behind it — the balancer's own exposure, answered by a redundant pair sharing a failover address |
-| **DNS Round Robin** | Distributing at name resolution by handing out different addresses in turn; free, but with no view of server health and with client caches that outlive a failure |
-
-## Caching
-
-| Concept | Definition |
-|---|---|
-| **Caching** | Keeping a copy of a result closer to its consumer than the system that produced it |
-| **Cache-Aside Pattern** | The application reading the cache first and, on a miss, loading from the database and populating the cache |
-| **Cache Stampede** | Many requests missing the same key at once and all reaching the database together; mitigated by request coalescing or jittered expiry |
-| **Cache Invalidation** | Purging or versioning a cached copy when the data behind it changes |
-
-## Content Delivery Network
-
-| Concept | Definition |
-|---|---|
-| **Content Delivery Network (CDN)** | Geographically distributed edge servers holding static and semi-static content close to users, cutting latency and origin load |
-| **301 vs. 302 Redirect** | The choice between a permanent redirect browsers cache, which saves requests but hides per-click data, and a temporary one that reaches the server every time |
-| **Adaptive Bitrate Streaming** | Video published as short segments at several quality levels, with the client switching level as network conditions change; HLS and DASH are the two standards in use |
-
-## Consistency Models
-
-| Concept | Definition |
-|---|---|
-| **Consistency Model** | The guarantee a system gives about when a write becomes visible to a subsequent read |
-| **Eventual Consistency** | Updates propagating asynchronously, so replicas may serve stale data briefly but converge |
-| **Strong Consistency** | Every read reflecting the most recent write, required wherever a stale answer is a correctness bug rather than a cosmetic one |
-| **Read-Your-Writes Consistency** | A guarantee that a user sees their own recent writes immediately, even while other users may not |
-| **Last-Write-Wins (LWW)** | Resolving concurrent writes by keeping the most recent — adequate for counters, lossy for collaborative editing |
-| **CAP Theorem** | The result that a distributed system split by a network partition can either keep its replicas in agreement or keep answering requests, but not both while the split lasts; partition tolerance is not a third option a designer trades away, because partitions happen whether or not they were chosen |
-| **PACELC** | An extension of the CAP theorem that also names the else-case: with no partition, the standing trade-off is between lower latency and a stronger guarantee, which is the choice a healthy system actually makes every day |
 
 ## Idempotency
 
@@ -179,6 +214,7 @@ Defines the vocabulary the rest of this chapter uses, grouped by the problem eac
 | **Fixed Window Counter** | Counting requests per calendar window; simple, but permits a double-rate burst across a window boundary |
 | **Sliding Window Log** | Storing each request's timestamp and counting those inside the trailing window; exact, but memory-heavy |
 | **Sliding Window Counter** | Approximating the log by weighting the current and previous fixed windows, at constant memory |
+| **Limit Scope** | What the limit is counted *per* — user, IP, or API key; a single global limit lets one heavy caller starve everyone else |
 | **Token Bucket** | Tokens accruing at a fixed rate and one being spent per request, permitting bursts up to the bucket size |
 | **Atomic Increment** | Checking and incrementing a counter in one indivisible step, such as Redis `INCR` inside a Lua script, so two concurrent requests cannot both pass the same limit |
 
@@ -223,13 +259,97 @@ Defines the vocabulary the rest of this chapter uses, grouped by the problem eac
 | **Retention Window** | The age at which raw points are deleted or archived, leaving only downsampled versions |
 | **Batched Ingestion** | Grouping many points into one request before sending, cutting per-point overhead at high write volume |
 
-## Design Practice
 
-| Concept | Definition |
-|---|---|
-| **Design Practice** | The habits that apply to any system design, independent of the system being designed |
-| **Requirements Scoping** | Stating what the system must do, which quality attributes bound it, and what is deliberately excluded, before any design follows |
-| **Deep Dive** | Detailed treatment of one hard sub-problem, rather than equal shallow coverage of every component |
-| **Trade-Off Articulation** | Naming what a choice costs and what was rejected, instead of presenting one option as the only one |
-| **Failure Mode** | A specific way a component breaks or degrades under stress, such as a stampede, a storm, or a hotspot |
-| **Cost as a Design Constraint** | Treating storage, egress, and compute spend as a factor in the design itself rather than a later concern |
+---
+## Abbreviations
+
+| Abbreviation | Expansion |
+| --- | --- |
+| ADR | Architecture Decision Record |
+| AI | Artificial Intelligence |
+| ALB | Application Load Balancer |
+| API | Application Programming Interface |
+| ARN | Amazon Resource Name |
+| ASG | Auto Scaling Group |
+| AWS | Amazon Web Services |
+| AZ | Availability Zone |
+| CAP | Consistency, Availability, Partition tolerance |
+| CD | Continuous Delivery / Continuous Deployment |
+| CDK | Cloud Development Kit |
+| CDN | Content Delivery Network |
+| CFN | CloudFormation |
+| CI | Continuous Integration |
+| CIDR | Classless Inter-Domain Routing |
+| CORS | Cross-Origin Resource Sharing |
+| CPU | Central Processing Unit |
+| CQRS | Command Query Responsibility Segregation |
+| CRUD | Create, Read, Update, Delete |
+| CSR | Client-Side Rendering |
+| CSS | Cascading Style Sheets |
+| DAX | DynamoDB Accelerator |
+| DDD | Domain-Driven Design |
+| DLQ | Dead Letter Queue |
+| DNS | Domain Name System |
+| DOM | Document Object Model |
+| EBS | Elastic Block Store |
+| EC2 | Elastic Compute Cloud |
+| ECR | Elastic Container Registry |
+| ECS | Elastic Container Service |
+| EKS | Elastic Kubernetes Service |
+| EMF | Embedded Metric Format |
+| ENI | Elastic Network Interface |
+| FIFO | First In, First Out |
+| GSI | Global Secondary Index |
+| HA | High Availability |
+| IaC | Infrastructure as Code |
+| IAM | Identity and Access Management |
+| IGW | Internet Gateway |
+| ISR | Incremental Static Regeneration |
+| JVM | Java Virtual Machine |
+| JWT | JSON Web Token |
+| KMS | Key Management Service |
+| LRU | Least Recently Used |
+| LSI | Local Secondary Index |
+| MTTR | Mean Time To Recovery |
+| NACL | Network Access Control List |
+| NAT | Network Address Translation |
+| NLB | Network Load Balancer |
+| PITR | Point-In-Time Recovery |
+| PK | Partition Key |
+| RCU | Read Capacity Unit |
+| RDS | Relational Database Service |
+| RPO | Recovery Point Objective |
+| RPS | Requests Per Second |
+| RSC | React Server Component |
+| RTO | Recovery Time Objective |
+| S3 | Simple Storage Service |
+| SDK | Software Development Kit |
+| SDL | Schema Definition Language |
+| SDLC | Software Development Life Cycle |
+| SEO | Search Engine Optimisation |
+| SG | Security Group |
+| SK | Sort Key |
+| SLA | Service Level Agreement |
+| SLI | Service Level Indicator |
+| SLO | Service Level Objective |
+| SNS | Simple Notification Service |
+| SPA | Single Page Application |
+| SPOF | Single Point Of Failure |
+| SQS | Simple Queue Service |
+| SSE | Server-Side Encryption |
+| SSG | Static Site Generation |
+| SSL | Secure Sockets Layer |
+| SSR | Server-Side Rendering |
+| STS | Security Token Service |
+| SWR | Stale-While-Revalidate |
+| TCP | Transmission Control Protocol |
+| TDD | Test-Driven Development |
+| TLS | Transport Layer Security |
+| TTFB | Time To First Byte |
+| TTL | Time To Live |
+| UI | User Interface |
+| UUID | Universally Unique Identifier |
+| VPC | Virtual Private Cloud |
+| WAF | Web Application Firewall |
+| WCU | Write Capacity Unit |
+| WIP | Work In Progress |

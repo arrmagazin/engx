@@ -23,6 +23,53 @@ A container is an application and its dependencies packaged as an image and run 
 - **Ephemeral filesystem** — the container's writable layer dies with the container. Anything that must survive goes to a **volume** (storage mounted in from outside) or, in a distributed system, out to a Database or Object Storage.
 - **Container vs. VM** — a VM virtualizes hardware and boots its own kernel: a stronger isolation boundary, paid for with a full guest OS that has to boot and stay resident. A container starts as a process on the host's kernel, with nothing to boot and no guest OS in memory, but the boundary is weaker — a kernel exploit escapes it. AWS Fargate narrows that gap by running each task inside its own Firecracker micro-VM.
 
+## Containers and deployment
+
+**Blue/green** — Standing up a complete second environment, switching traffic to
+it, and keeping the old one until you are confident. It buys the fastest
+possible rollback — flip the traffic back — at the cost of running two
+environments at once, and it is awkward when the two versions share a database
+that only one schema fits.
+
+**Canary** — Sending a small percentage of traffic to the new version and
+watching before proceeding. It differs from blue/green in what it optimises for:
+blue/green optimises rollback speed, canary optimises *detection*, by exposing
+the new version to real traffic while the blast radius is still small. It needs
+metrics good enough to tell the canary apart from the baseline, which is the
+part usually missing.
+
+**Draining** — Letting a task finish its in-flight requests after it has been
+taken out of rotation but before it is stopped. It is the difference between a
+deploy that is invisible and one that returns errors to whoever was mid-request.
+It requires cooperation from both sides: the load balancer must stop sending new
+work, and the process must keep serving until the existing work is done.
+
+**Liveness vs readiness** — Liveness answers "is this process broken and in need
+of restarting"; readiness answers "should this instance receive traffic right
+now". Conflating them causes a specific, common outage: on shutdown, an instance
+should report *not ready* while remaining *alive*, so the load balancer stops
+routing to it but the orchestrator does not kill it mid-drain. In this scaffold
+`/healthz` stays 200 through shutdown while `/readyz` flips to 503.
+
+**Rolling deploy** — Replacing instances a few at a time, with the load balancer
+shifting traffic as each new one becomes healthy. It is the default because it
+needs no extra capacity beyond the surge, but it means two versions serve
+simultaneously — so every change must be backwards compatible with the version
+it is replacing, for the duration of the roll.
+
+**Sidecar** — A second container in the same task, sharing its network and
+lifecycle, handling a cross-cutting concern such as a log shipper or a proxy.
+The concern is added without touching the application; the cost is that it
+consumes the task's CPU and memory and can hold up startup and shutdown.
+
+**Task definition vs service** — The task definition is the immutable template
+(image, CPU, memory, environment, roles); the service is the running controller
+that keeps N copies of it alive and registered with a load balancer. A deploy is
+therefore "register a new task definition revision, tell the service to use it",
+which is why rollback is cheap: the previous revision still exists.
+
+---
+
 ## Build and Ship Workflow
 
 1. **Write a Dockerfile** — an ordered recipe: base image, dependency install, source copy, entrypoint.
@@ -41,7 +88,7 @@ One container on one host is a single command. A real system is tens to thousand
 
 - **Desired-state reconciliation** — you declare "ten replicas of this image"; a controller continuously compares reality against that and acts. Declarative, not imperative: you never issue "start one more".
 - **Scheduling and bin-packing** — placing each container on a host with enough free CPU and memory, honoring constraints (spread across failure zones, keep these two apart, this one needs a GPU). Declared resource requests are the input, so getting them wrong either wastes half the fleet or packs it until everything degrades together.
-- **Health checks** — two different questions. *Liveness*: is this still working? If not, restart it. *Readiness*: can this take traffic right now? If not, remove it from the [load balancer](01-concepts.md#load-balancing) but leave it running. Conflating them is a common outage — a slow-starting application fails its liveness check during warm-up and restarts forever.
+- **Health checks** — two different questions. *Liveness*: is this still working? If not, restart it. *Readiness*: can this take traffic right now? If not, remove it from the [load balancer](06-client-server-communication.md#load-balancing) but leave it running. Conflating them is a common outage — a slow-starting application fails its liveness check during warm-up and restarts forever.
 - **Service discovery and load balancing** — instances are created and destroyed constantly, so callers address a stable name that resolves to whichever instances are currently healthy.
 - **Rolling deploys** — replace instances in batches, bounded by how many may be down and how many extra may exist at once. Blue/green stands up a second full fleet and switches over; canary sends a small share of traffic to the new version first and watches the metrics.
 - **Autoscaling** — horizontal (more replicas, the normal answer for stateless work) or vertical (bigger replicas, for work that cannot be split).

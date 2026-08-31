@@ -35,6 +35,39 @@ SPAs update the current page without full reloads, providing app-like navigation
 
 The server renders the requested route to HTML on each request, and the browser then loads the JavaScript that attaches behavior to that markup — the step called hydration. The first view arrives as complete as an MPA's, and navigation after it can stay client-side.
 
+**Hydration** — Attaching client-side React to server-rendered HTML so it becomes
+interactive. It exists because SSR alone produces markup that looks right and
+does nothing, and it is the reason server rendering does not automatically make
+a page faster: the HTML arrives early, but interactivity waits for the bundle to
+download and execute. Its failure mode is a mismatch between server and client
+output, which React must then discard and re-render.
+
+**ISR** — Rendering a page statically, serving it from cache, and regenerating it
+in the background after a revalidation window. It is the middle ground between
+SSG, which cannot show fresh data, and SSR, which pays rendering cost on every
+request. The trade is that some users see content up to one window stale.
+
+**Revalidation** — The rule that decides when cached content is refreshed —
+after a time window, or on demand when something changes. Time-based is simple
+and always slightly stale; on-demand is exact and requires the writer to know
+which cached entries its write invalidates. Choosing between them is usually a
+question of whether staleness is *visible* to the user, not whether it is
+technically present.
+
+**Server component vs client component** — A server component renders only on
+the server, ships no JavaScript, and may read data directly; a client component
+ships to the browser and may use state and effects. The division exists to make
+bundle size a deliberate choice rather than an accident, and the practical rule
+is to keep interactivity at the leaves — one `'use client'` near the root pulls
+everything below it into the bundle.
+
+**Streaming SSR** — Sending HTML in chunks as it is produced rather than waiting
+for the whole page. It improves TTFB and lets slow sections resolve behind a
+suspense boundary while the rest of the page is already usable. It only helps if
+the page is actually decomposed into boundaries; a single boundary around
+everything streams one chunk, at the end.
+
+
 ## Static Site Generation (SSG)
 
 Routes are rendered to HTML at build time and served as static files, so no per-request rendering happens at all. Anything that varies per user or changes between builds has to be fetched in the browser after load.
@@ -66,6 +99,8 @@ A PWA is a capability layer rather than a rendering model: any of the types abov
     ]
 }
 ```
+
+---
 
 ## Related Guides
 

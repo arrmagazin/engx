@@ -87,19 +87,19 @@
       "type": "tree"
     },
     {
-      "path": "docs/03-system-design/01-concepts.md",
+      "path": "docs/03-system-design/01-common-concepts.md",
       "type": "blob"
     },
     {
-      "path": "docs/03-system-design/02-database-basics.md",
+      "path": "docs/03-system-design/02-databases.md",
       "type": "blob"
     },
     {
-      "path": "docs/03-system-design/03-caching-with-redis.md",
+      "path": "docs/03-system-design/03-caching.md",
       "type": "blob"
     },
     {
-      "path": "docs/03-system-design/04-messaging-with-kafka.md",
+      "path": "docs/03-system-design/04-messaging.md",
       "type": "blob"
     },
     {

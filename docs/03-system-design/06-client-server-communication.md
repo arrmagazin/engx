@@ -1,13 +1,76 @@
 ---
 type: Guide
-title: Client-Server Communication
+title: Client-Server Communication and Networking
 description: HTTP semantics, REST and GraphQL API design, and the streaming transports a browser can use to reach a server.
 tags: [frontend, http, rest, graphql, api-design]
 ---
 
-# Client-Server Communication
+# Client-Server Communication and Networking
 
 How a client and a server exchange data: the HTTP semantics every request depends on, the two dominant API styles, and the transports that keep a connection open. Written for engineers on either side of the contract who are deciding how a browser and a service should talk.
+
+**Egress vs ingress** — Traffic leaving versus entering. The distinction matters
+mostly because of cost and control: AWS charges for egress to the internet and
+generally not for ingress, and most security postures restrict egress far less
+carefully than ingress despite exfiltration being an egress problem. 
+
+**Gateway endpoint vs interface endpoint** — Two ways to reach an AWS service
+privately, priced completely differently: a *gateway* endpoint is a route table
+entry and is free but exists only for S3 and DynamoDB, while an *interface*
+endpoint is an ENI in your subnet, works for almost everything, and bills hourly
+per AZ plus data. Which of the two a service supports is what decides whether a
+design can afford to have no NAT Gateway at all.
+
+**Private vs public subnet** — A public subnet has a route to an internet
+gateway; a private one does not. The distinction is the route table, not a
+setting called "private" — which is why a subnet can be private and still have
+outbound access, via a NAT, and why a genuinely isolated subnet needs VPC
+endpoints for anything it must reach. An instance in a public subnet is not
+reachable from the internet unless it also has a public IP and a permissive
+security group.
+
+**Security group vs NACL** — A security group is **stateful**, so allowing
+inbound on 443 permits the response automatically; a NACL is **stateless** and
+evaluates each direction independently, which is why an inbound allow without a
+matching ephemeral-port outbound rule silently breaks the connection. The detail
+that matters here is that a security group rule can reference *another security
+group* rather than a CIDR block — that is how "only the load balancer may reach
+the task" is expressed without hardcoding addresses.
+
+**Target group** — The set of destinations a load balancer routes to, plus the
+health check that decides which of them are eligible right now. It is the seam
+where deployment and traffic meet: registering and deregistering targets is how
+a rolling deploy shifts traffic, and the deregistration delay is how long the
+load balancer waits for in-flight requests before cutting a target off.
+
+**VPC endpoint** — A private entrance to an AWS service from inside a VPC, so
+traffic never touches the public internet. Beyond the security argument it is
+usually a cost argument, because a gateway endpoint avoids NAT Gateway data
+processing charges entirely — 
+
+**Waterfall** — Requests that run in sequence because each needs the previous
+one's result, when they could have run in parallel. It is the most common cause
+of a slow page that has no slow request in it — six 100 ms calls in a chain are
+a 600 ms page. The fix is either to parallelise or to move the composition to
+where the data lives, which is one of the arguments for a BFF.
+
+## Load Balancing
+
+| Concept | Definition |
+|---|---|
+| **Load Balancing** | Spreading incoming requests across a pool of interchangeable servers, so capacity grows by adding machines rather than by enlarging one |
+| **Layer 4 Balancing** | Forwarding at the transport level on address and port without reading the request; cheap and protocol-agnostic, but blind to paths, headers, and cookies |
+| **Layer 7 Balancing** | Routing on application data such as path, header, or cookie, which buys per-route pools and content-aware policy at the cost of terminating and parsing every request |
+| **Balancing Algorithm** | The rule picking the next server — round robin where requests cost the same, least connections where they do not, and a hash of a chosen key where a caller must keep landing on one node |
+| **Backend Pool** | The set of interchangeable servers a balancer distributes across, whose membership changes as instances are added, drained, or removed |
+| **Health Check** | A periodic probe deciding whether a server stays in the pool, so a failing instance is taken out before users meet its errors |
+| **Sticky Session** | Pinning a client to the server holding its state, which keeps that state reachable but unbalances the pool and loses the state outright when that server dies |
+| **Cache Affinity** | Routing every request for one key to the same backend so its local copy stays warm, using consistent hashing so that adding a node moves few keys |
+| **Connection Draining** | Letting in-flight requests finish on a server already removed from rotation, so a deploy or scale-in does not cut live work short |
+| **Single Point of Failure** | A component whose loss takes down everything behind it — the balancer's own exposure, answered by a redundant pair sharing a failover address |
+| **DNS Round Robin** | Distributing at name resolution by handing out different addresses in turn; free, but with no view of server health and with client caches that outlive a failure |
+
+---
 
 ## HTTP
 
@@ -124,7 +187,7 @@ Most changes need no version at all. Adding a field or an optional parameter is 
 
 ### Idempotency and Retries
 
-A client, a proxy, or a browser may retry a request that failed with no response, so safe and idempotent methods must tolerate duplicates. POST does not, which is why a create endpoint should accept a client-generated `Idempotency-Key` header, store the first response against that key, and replay it if the key arrives again. [System Design Concepts](01-concepts.md) covers idempotency and caching as general design concepts.
+A client, a proxy, or a browser may retry a request that failed with no response, so safe and idempotent methods must tolerate duplicates. POST does not, which is why a create endpoint should accept a client-generated `Idempotency-Key` header, store the first response against that key, and replay it if the key arrives again. [System Design Glossary](01-common-concepts.md) covers idempotency as a general design concept, and [Caching](03-caching.md) covers the caching patterns.
 
 ## GraphQL
 
@@ -158,6 +221,44 @@ mutation CreateUser($input: CreateUserInput!) {
 | **Error reporting** | The HTTP status code | Typically 200 with an `errors` array in the body |
 
 The cost moves rather than disappearing: one query can fan out into many resolver calls, so servers guard with query depth limits, cost analysis, and batched data loaders.
+
+### GraphQL concepts
+
+**N+1 problem** — One query for a list, then one more query per item in it. It
+arises naturally in GraphQL because each resolver is written independently and
+knows nothing about being called fifty times, so the inefficiency is invisible
+in any single piece of code. It is the first thing to look for when a GraphQL
+endpoint is slow.
+
+**DataLoader** — A per-request batching and caching layer that collects the
+individual loads made during one tick and issues them as a single batch. It is
+the standard answer to N+1, and the two constraints matter: it must be created
+*per request*, or one user's cache leaks into another's, and the backing store
+must actually support a batch fetch.
+
+**Persisted query** — Registering a query in advance and having the client send
+an identifier instead of the query text. It shrinks the request, but the real
+value is control: an endpoint that only accepts known queries cannot be asked an
+arbitrarily expensive one, which removes a whole class of denial-of-service
+without a depth or complexity limiter.
+
+**Resolver** — The function that produces the value for one field. The mental
+model that avoids most GraphQL mistakes is that resolvers are called
+independently, potentially concurrently, once per field per object — so anything
+expensive in one is multiplied by the shape of the query, not by the number of
+requests.
+
+**Schema stitching vs federation** — Two ways to present several GraphQL services
+as one endpoint. Stitching merges schemas at a gateway that knows how to
+delegate, keeping the subgraphs unaware; federation has each service declare
+which types it owns and extends, so the composition is described by the services
+themselves. Federation scales better organisationally because ownership is
+explicit; stitching is simpler when one team owns everything.
+
+**Union result type** — Modelling the possible outcomes of a field as a union of
+object types, so the client discriminates on `__typename`. It moves expected
+failures out of the `errors` array and into the schema, where they are typed and
+exhaustively handled.
 
 ## WebSockets
 

@@ -29,10 +29,10 @@ flowchart LR
 
 | Doc | What it covers |
 | --- | --- |
-| **[System Design Glossary](01-concepts.md)** | The vocabulary this chapter uses, grouped by the problem each set of terms addresses |
-| **[Databases — Core Concepts](02-database-basics.md)** | Storage models, indexing, transactions, and isolation levels |
-| **[Redis — Core Concepts and Workflow](03-caching-with-redis.md)** | Data structures, eviction, and the caching patterns Redis is used for |
-| **[Kafka — Core Concepts and Workflow](04-messaging-with-kafka.md)** | Partitions, consumer groups, delivery guarantees, and ordering |
+| **[System Design Glossary](01-common-concepts.md)** | The vocabulary this chapter uses, grouped by the problem each set of terms addresses |
+| **[Databases — Core Concepts](02-databases.md)** | Storage models, indexing, transactions, and isolation levels |
+| **[Caching — Core Concepts](03-caching.md)** | Caching vocabulary, CDNs, and the Redis data structures, eviction, and patterns behind them |
+| **[Kafka — Core Concepts and Workflow](04-messaging.md)** | Partitions, consumer groups, delivery guarantees, and ordering |
 | **[Containers — Core Concepts and Orchestration](05-containers.md)** | Images, isolation, resource limits, and orchestration |
 | **[Client-Server Communication](06-client-server-communication.md)** | HTTP semantics, REST and GraphQL design, and the transports that keep a connection open |
 | **[Data Formats](07-data-formats.md)** | JSON, YAML, XML, CSV, Markdown, and Parquet, and the parsing traps each one carries |
@@ -77,7 +77,7 @@ This chapter says **Software Framework**, never plain *Framework*, because the b
 | **Data Warehouse** | Database shaped for *analytics*: historical, modeled, read-heavy — schema fixed on write |
 | **Data Lake** | Storage of *raw* data in its original form at scale; the schema is applied on read, by whoever consumes it |
 | **Object Storage** | Component storing immutable *blobs* (files, media, backups) addressed by key, without structure or query over their content |
-| **Cache** | Component holding *derived copies* of data closer to its consumer to trade freshness for speed; never a source of truth — see [Redis](03-caching-with-redis.md) |
+| **Cache** | Component holding *derived copies* of data closer to its consumer to trade freshness for speed; never a source of truth — see [Caching](03-caching.md) |
 | **Search Index** | Component storing a *query-optimized projection* of data to answer lookups a Database cannot serve efficiently |
 
 ## Service
@@ -85,6 +85,6 @@ This chapter says **Software Framework**, never plain *Framework*, because the b
 | Component | Definition |
 | --- | --- |
 | **Service** | Component deployed and operated on its own, reached over the Network rather than linked into the Application |
-| **Message Broker** | Service that transfers data between Components *asynchronously*, decoupling producer from consumer in time and availability — see [Kafka](04-messaging-with-kafka.md) |
+| **Message Broker** | Service that transfers data between Components *asynchronously*, decoupling producer from consumer in time and availability — see [Kafka](04-messaging.md) |
 | **Content Management System (CMS)** | Application for authoring, storing, and publishing *unstructured* content (text, media, layout) by non-engineers, separately from the code that renders it |
 | **Identity Provider (IdP)** | Service that authenticates *principals* and issues verifiable *claims* about them, so other Components authorize instead of authenticate |

@@ -32,7 +32,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Computer Architecture
 - Operating Systems
 - Embedded and Real-Time Systems
-- Distributed Systems — [System Design Glossary](../03-system-design/01-concepts.md)
+- Distributed Systems — [System Design Glossary](../03-system-design/01-common-concepts.md)
 - Computer Networking
 - Telecommunications
 - Internet and Web Protocols — [Client-Server Communication](../03-system-design/06-client-server-communication.md)
@@ -41,7 +41,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 ## Data and Intelligence
 
 - Information Systems — [System Design](../03-system-design/index.md)
-- Databases and Storage Engines — [Databases](../03-system-design/02-database-basics.md)
+- Databases and Storage Engines — [Databases](../03-system-design/02-databases.md)
 - Data Engineering and Analytics
 - Search and Information Retrieval — [Canonical Systems](../03-system-design/08-canonical-systems.md)
 - Machine Learning — [Machine Learning Foundations](../09-ai/01-machine-learning.md)

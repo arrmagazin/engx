@@ -36,7 +36,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 - **State management**: Terraform remote state in S3 with locking — a DynamoDB lock table is still supported, and S3-native locking arrived as the opt-in `use_lockfile` in Terraform 1.10 (November 2024)
 - **Modules**: CDK constructs vs. Terraform modules — reuse, versioning, private registries, and when a shared module becomes a bottleneck
 - **Drift detection**: `terraform plan`, CloudFormation drift detection, and AWS Config rules
-- **Idempotency**: why declarative tools converge safely on repeated runs — and where AWS APIs make that hard (eventual consistency, non-updatable properties forcing replacement). See [system design concepts](../03-system-design/01-concepts.md)
+- **Idempotency**: why declarative tools converge safely on repeated runs — and where AWS APIs make that hard (eventual consistency, non-updatable properties forcing replacement). See [System Design Glossary](../03-system-design/01-common-concepts.md)
 - **Multi-environment strategy**: **account-per-environment** is the AWS-idiomatic answer, not one account with tags
 
 ### Maintaining Infrastructure at Scale
@@ -104,7 +104,7 @@ A study map organized around the five competency areas that recur in AWS infrast
 ### Performance Optimization
 
 - **Right-sizing**: instance family selection (including Graviton) and Compute Optimizer recommendations
-- **Caching layers**: CloudFront, ElastiCache, and DAX for DynamoDB. See [system design concepts](../03-system-design/01-concepts.md)
+- **Caching layers**: CloudFront, ElastiCache, and DAX for DynamoDB. See [caching](../03-system-design/03-caching.md)
 - **Database tuning**: Aurora read replicas, RDS Proxy for connection storms (especially with Lambda), and Performance Insights
 - **Storage performance**: gp3 IOPS/throughput tuning, and S3 request patterns and prefix parallelism
 - **Load testing** and **X-Ray**/ADOT tracing to find the actual bottleneck before resizing anything
