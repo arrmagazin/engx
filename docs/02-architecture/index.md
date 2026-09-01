@@ -17,6 +17,7 @@ tags: [architecture, system-design]
 | --- | --- |
 | **[Key Quality Attributes](01-quality-attributes.md)** | The design, runtime, system, and user properties an architecture is evaluated against |
 | **[Architectural Views](02-architectural-views.md)** | The logical, process, deployment, and technology views an architecture is described through |
+| **[Architectural Patterns](03-architectural-patterns.md)** | Layered, MVC, and hexagonal inside a unit; monolith, microservices, and event-driven across units |
 
 ## What Architecture Captures
 
@@ -36,7 +37,7 @@ tags: [architecture, system-design]
 | **Pattern** | A reusable solution shape | Strategy, Repository, Observer |
 | **Idiom** | A language-local form | RAII, context managers, `defer` |
 
-Confusing the levels is the usual failure: a pattern applied where no principle demanded it is accidental complexity, and a principle restated as a rule loses the trade-off that justified it.
+Confusing the levels is the usual failure: a pattern applied where no principle demanded it is accidental complexity, and a principle restated as a rule loses the trade-off that justified it. The patterns that shape a whole system rather than a single class are covered in [Architectural Patterns](03-architectural-patterns.md).
 
 ## Architectural Views
 
