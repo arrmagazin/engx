@@ -24,8 +24,7 @@ This book collects the vocabulary, practices, and reference material an engineer
 | **[Development Process](04-development-process/index.md)** | Version control, code review, CI/CD, quality assurance, testing, debugging, and technical debt |
 | **[Coding](05-coding/index.md)** | Paradigms, design principles, design patterns, code smells, and code quality |
 | **[Frontend](06-frontend/index.md)** | Application types, browser technologies, performance, accessibility, and web application security |
-| **[AWS](07-cloud-aws/index.md)** | The AWS service catalog and the competencies an AWS infrastructure role is hired against |
-| **[Azure](08-cloud-azure/index.md)** | The Azure service catalog and the competencies an Azure infrastructure role is hired against |
+| **[Clouds](07-clouds/index.md)** | The AWS and Azure service catalogs and the competencies a cloud infrastructure role is hired against |
 | **[Artificial Intelligence](09-ai/index.md)** | The layered stack from machine learning through large language models to agents |
 | **[Humans and Teams](10-humans/index.md)** | Leading a team, the roles and the employee lifecycle, growing and keeping people, and knowledge sharing |
-| **[Interview Preparation](11-interview/index.md)** | Material specific to interview loops, starting with the system design framework |
+| **[Interview Technique](10-humans/21-interview.md)** | Material specific to interview loops: story structure, diagram narration, and the system design framework |

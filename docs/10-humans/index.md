@@ -23,3 +23,4 @@ Outside this folder: [Engineering Management](../01-methodology/06-engineering-m
 | **[Roles and the Employee Lifecycle](02-roles-and-lifecycle.md)** | The accountabilities behind the common engineering titles, and the six stages from hire to offboarding |
 | **[Growing and Keeping People](03-growing-and-keeping-people.md)** | 1:1s, feedback and performance, the growth levers, and the health signals that lead the delivery metrics |
 | **[Knowledge Sharing](04-knowledge-sharing.md)** | Healthy and unhealthy sharing, the bus factor, and the four areas where a team can raise it |
+| **[Interview Technique](21-interview.md)** | Candidate-side prep — STAR stories, diagram narration, trade-off answers, and the six-step system design loop |

@@ -23,11 +23,9 @@ where they run. Any chapter still stands on its own.
 - `04` — [Development Process](docs/04-development-process/index.md)
 - `05` — [Coding](docs/05-coding/index.md)
 - `06` — [Frontend](docs/06-frontend/index.md)
-- `07` — [AWS](docs/07-cloud-aws/index.md)
-- `08` — [Azure](docs/08-cloud-azure/index.md)
+- `07` — [Clouds](docs/07-clouds/index.md)
 - `09` — [Artificial Intelligence](docs/09-ai/index.md)
 - `10` — [Humans and Teams](docs/10-humans/index.md)
-- `11` — [Interview Preparation](docs/11-interview/index.md)
 
 Inside a folder the rule repeats: the `00-` prefixed file is the chapter overview and
 links every one of its siblings, and the rest are numbered in the order they are best

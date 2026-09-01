@@ -36,7 +36,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Computer Networking
 - Telecommunications
 - Internet and Web Protocols — [Client-Server Communication](../03-system-design/06-client-server-communication.md)
-- Cloud and Platform Engineering — [AWS](../07-cloud-aws/index.md) and [Azure](../08-cloud-azure/index.md)
+- Cloud and Platform Engineering — [AWS](../07-clouds/01-aws.md) and [Azure](../07-clouds/02-azure.md)
 
 ## Data and Intelligence
 
