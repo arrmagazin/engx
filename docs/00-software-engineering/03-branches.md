@@ -53,14 +53,6 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Application and Infrastructure Security — [Web Application Security](../06-frontend/05-security-web.md)
 - Identity, Privacy, and Compliance
 
-## Human-Facing Systems
-
-- Human-Computer Interaction
-- Graphic and Web Design
-- Media Content and Visualization
-- Accessibility and Internationalization — [Accessibility (WCAG)](../06-frontend/04-accessibility-wcag.md)
-- Gaming, Metaverses, and Extended Reality
-
 ## Engineering Practice
 
 - Software and Systems Engineering — [Glossary](01-glossary.md)
@@ -71,3 +63,11 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Performance Engineering — [Performance Optimization](../06-frontend/03-performance-optimization.md)
 - Maintenance and Evolution — [Technical Debt](../04-development-process/07-technical-debt.md)
 - Engineering Management and Process — [Humans and Teams](../10-humans/index.md) and [Methodology](../01-methodology/index.md)
+
+## Human-Facing Systems
+
+- Human-Computer Interaction
+- Graphic and Web Design
+- Media Content and Visualization
+- Accessibility and Internationalization — [Accessibility (WCAG)](../06-frontend/04-accessibility-wcag.md)
+- Gaming, Metaverses, and Extended Reality
