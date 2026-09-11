@@ -1,0 +1,19 @@
+# Book metadata for scripts/build_book.py. Pandoc reads this for both formats.
+title: Engineering Knowledge Base
+subtitle: The vocabulary, practices and platforms an engineer meets across a project
+author: Irvin Oldman
+language: en-GB
+rights: © 2026 Irvin Oldman. All rights reserved.
+description: >-
+  A reference book on software engineering, for practising engineers who want one
+  place to look something up, and for engineers preparing for an interview loop who
+  need the same material stated precisely enough to say out loud.
+subject:
+  - Software engineering
+  - System design
+  - Cloud computing
+# Fill these in before publishing:
+# identifier:
+#   - scheme: ISBN
+#     text: 978-0-000000-00-0
+# cover-image: images/cover.png

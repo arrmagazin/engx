@@ -95,7 +95,7 @@ One container on one host is a single command. A real system is tens to thousand
 - **Configuration and secrets at run time** — injected as environment variables or mounted files, so one image serves every environment.
 - **Restart with backoff** — crash loops are slowed down rather than retried tightly, so a broken deploy does not hammer its dependencies.
 
-For the managed implementations of all of this, see [AWS Handbook](../07-clouds/01-aws.md) and [Azure Handbook](../07-clouds/02-azure.md).
+For the managed implementations of all of this across the three clouds, see [Compute — Containers](../07-clouds/01-concept-map.md#compute--containers), and for the choice between a managed Kubernetes and a serverless container service, [Cross-Cloud Trade-Offs](../07-clouds/03-trade-offs.md#the-same-decision-in-three-vocabularies).
 
 ## Design Implications
 

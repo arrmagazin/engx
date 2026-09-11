@@ -11,7 +11,7 @@ enough to say out loud. It assumes you can already program, and does not teach a
 
 ## How the tree reads
 
-Everything is under [docs/](docs/), in twelve folders numbered `00` to `11`. The numbers
+Everything is under [docs/](docs/), in ten numbered folders. The numbers
 are a reading order, not a filing scheme: the sequence moves from what engineering is,
 through how work is organized and how systems are designed, to how they are built and
 where they run. Any chapter still stands on its own.
@@ -27,9 +27,27 @@ where they run. Any chapter still stands on its own.
 - `09` — [Artificial Intelligence](docs/09-ai/index.md)
 - `10` — [Humans and Teams](docs/10-humans/index.md)
 
-Inside a folder the rule repeats: the `00-` prefixed file is the chapter overview and
-links every one of its siblings, and the rest are numbered in the order they are best
-read. `docs/welcome.md` is the only unnumbered file in the tree, because it is the way in.
+The sequence skips `08` and `11`; both are gaps left by earlier reorganizations.
+
+Inside a folder the rule repeats: `index.md` is the chapter overview and links every one
+of its siblings, and the rest are numbered in the order they are best read.
+`docs/welcome.md` is the only unnumbered file in the tree, because it is the way in.
+
+Two folders are also worth knowing about. [reference/](reference/) holds source material
+that is deliberately not part of the book — three single-cloud handbooks the Clouds chapter
+was distilled from. [book/](book/) holds the metadata the rendered book is built with.
+
+## Build it as a book
+
+The markdown is the source of truth. To read it as one document:
+
+```sh
+python3 scripts/build_book.py
+```
+
+That writes `build/engx.epub` and `build/engx.pdf`. It needs `pandoc`, and the PDF also
+needs `xelatex`; `--markdown` assembles and checks the structure without rendering either.
+Edit `book/metadata.yaml` to change the title, author or rights line.
 
 ## Contributing
 

@@ -821,7 +821,7 @@ The Bicep-versus-Terraform decision comes up in almost every conversation and ha
 - **Azure DevOps Pipelines** and **GitHub Actions** both do this job. Choose by where the code already lives; the differences are covered in [Trade-Offs](#other-pairs-worth-a-rehearsed-answer).
 - **The pipeline shape** is the same either way: for Terraform, plan → manual approval → apply; for Bicep, validate → what-if → deploy.
 - **Authentication should use workload identity federation**, not a stored service principal secret. See [Workload Identity Federation](#workload-identity-federation--keyless-pipelines) — this is the highest-value change available in most existing pipelines.
-- **GitOps** is the application-layer counterpart: Flux or Argo CD watches a Git repository and reconciles the AKS cluster to match it, so the cluster's state is a consequence of the repository rather than of whoever last ran a command. See [CI/CD](../04-development-process/03-ci-cd.md) for the general pipeline concepts.
+- **GitOps** is the application-layer counterpart: Flux or Argo CD watches a Git repository and reconciles the AKS cluster to match it, so the cluster's state is a consequence of the repository rather than of whoever last ran a command. See [CI/CD](../docs/04-development-process/03-ci-cd.md) for the general pipeline concepts.
 - **Testing infrastructure code** uses **Terratest** or **Pester** for behaviour, linting (`tflint`, `bicep lint`) for style, and **checkov** or **tfsec** to scan for insecure configurations before they are deployed.
 
 ### Configuration Management
@@ -845,7 +845,7 @@ Once a machine exists, something has to put software and settings on it — unle
 
 ### Cloud-Native Practices on Azure
 
-- **Containers.** Multi-stage builds to keep images small, and image scanning with Trivy or Defender for Containers in the pipeline. The underlying concepts are in [Containers](../03-system-design/05-containers.md).
+- **Containers.** Multi-stage builds to keep images small, and image scanning with Trivy or Defender for Containers in the pipeline. The underlying concepts are in [Containers](../docs/03-system-design/05-containers.md).
 - **Kubernetes objects worth knowing by name:** Deployments (stateless replicas), StatefulSets (replicas with stable identity and storage), DaemonSets (one copy per node, for agents), Services (a stable address in front of pods), and Ingress (HTTP routing into the cluster, via the Application Gateway Ingress Controller on Azure).
 - **Helm** packages a set of Kubernetes objects as one versioned, parameterised unit.
 - **Scaling** comes in three forms: the Horizontal Pod Autoscaler (more pods), the Vertical Pod Autoscaler (bigger pods), and the cluster autoscaler or Node Auto Provisioning (more nodes). [KEDA](#aks--managed-kubernetes) adds event-driven scaling from queue depth.
@@ -941,7 +941,7 @@ The order matters, because engineers habitually start with the smallest lever.
 
 ## Diagrams to Draw
 
-Being able to sketch these while talking is worth more than being able to recognise them. How to practise narrating a diagram while drawing it is covered in [Interview Technique](../10-humans/21-interview.md); what follows is the Azure-specific content.
+Being able to sketch these while talking is worth more than being able to recognise them. How to practise narrating a diagram while drawing it is covered in [Interview Technique](../docs/10-humans/21-interview.md); what follows is the Azure-specific content.
 
 ### Landing Zone and Hub-Spoke
 
@@ -1047,7 +1047,7 @@ Points to make while drawing:
 
 ## Trade-Offs — The "It Depends on X" Answers
 
-A good trade-off answer names the deciding variable first, then argues both sides, then commits. The general technique is in [Interview Technique](../10-humans/21-interview.md); these are the Azure pairs worth having ready.
+A good trade-off answer names the deciding variable first, then argues both sides, then commits. The general technique is in [Interview Technique](../docs/10-humans/21-interview.md); these are the Azure pairs worth having ready.
 
 ### Bicep versus Terraform
 
@@ -1124,7 +1124,7 @@ Azure infrastructure roles are consistently assessed against five competency are
 
 ### Behavioural Stories
 
-The story structure, the two rules for telling one, and the two stories asked in every loop whatever the cloud are in [Interview Technique](../10-humans/21-interview.md). What follows is Azure-specific.
+The story structure, the two rules for telling one, and the two stories asked in every loop whatever the cloud are in [Interview Technique](../docs/10-humans/21-interview.md). What follows is Azure-specific.
 
 #### Worked Example — Automation
 
@@ -1212,8 +1212,8 @@ Mappings are approximate. Where the two services differ in shape, the third colu
 
 ## Where to Go Next
 
-- [AWS Handbook](01-aws.md) maps the same ground onto the other major cloud, and is the fastest route in for anyone arriving from AWS — read it alongside the [service map](#aws-to-azure-service-map) above.
-- [GCP Handbook](03-gcp.md) covers the third platform, where a global VPC and an inherited resource hierarchy change several of the answers given here.
-- [Containers — Core Concepts and Orchestration](../03-system-design/05-containers.md) explains the ideas behind AKS and Container Apps for readers who want the concepts before the products.
-- [CI/CD](../04-development-process/03-ci-cd.md) covers the pipeline concepts the delivery section here assumes.
-- [Interview Technique](../10-humans/21-interview.md) covers how to actually deliver the trade-off answers and stories above.
+- [AWS Handbook](aws-handbook.md) maps the same ground onto the other major cloud, and is the fastest route in for anyone arriving from AWS — read it alongside the [service map](#aws-to-azure-service-map) above.
+- [GCP Handbook](gcp-handbook.md) covers the third platform, where a global VPC and an inherited resource hierarchy change several of the answers given here.
+- [Containers — Core Concepts and Orchestration](../docs/03-system-design/05-containers.md) explains the ideas behind AKS and Container Apps for readers who want the concepts before the products.
+- [CI/CD](../docs/04-development-process/03-ci-cd.md) covers the pipeline concepts the delivery section here assumes.
+- [Interview Technique](../docs/10-humans/21-interview.md) covers how to actually deliver the trade-off answers and stories above.

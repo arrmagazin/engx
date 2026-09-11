@@ -11,6 +11,14 @@
       "type": "blob"
     },
     {
+      "path": "book",
+      "type": "tree"
+    },
+    {
+      "path": "book/metadata.yaml",
+      "type": "blob"
+    },
+    {
       "path": "docs",
       "type": "tree"
     },
@@ -76,6 +84,10 @@
     },
     {
       "path": "docs/02-architecture/02-architectural-views.md",
+      "type": "blob"
+    },
+    {
+      "path": "docs/02-architecture/03-architectural-patterns.md",
       "type": "blob"
     },
     {
@@ -215,39 +227,23 @@
       "type": "blob"
     },
     {
-      "path": "docs/07-cloud-aws",
+      "path": "docs/07-clouds",
       "type": "tree"
     },
     {
-      "path": "docs/07-cloud-aws/01-aws-stack-overview.md",
+      "path": "docs/07-clouds/01-concept-map.md",
       "type": "blob"
     },
     {
-      "path": "docs/07-cloud-aws/02-aws-interview-prep.md",
+      "path": "docs/07-clouds/02-service-names.md",
       "type": "blob"
     },
     {
-      "path": "docs/07-cloud-aws/03-aws-core-concepts.md",
+      "path": "docs/07-clouds/03-trade-offs.md",
       "type": "blob"
     },
     {
-      "path": "docs/07-cloud-aws/index.md",
-      "type": "blob"
-    },
-    {
-      "path": "docs/08-cloud-azure",
-      "type": "tree"
-    },
-    {
-      "path": "docs/08-cloud-azure/01-azure-stack-overview.md",
-      "type": "blob"
-    },
-    {
-      "path": "docs/08-cloud-azure/02-azure-interview-prep.md",
-      "type": "blob"
-    },
-    {
-      "path": "docs/08-cloud-azure/index.md",
+      "path": "docs/07-clouds/index.md",
       "type": "blob"
     },
     {
@@ -295,23 +291,11 @@
       "type": "blob"
     },
     {
+      "path": "docs/10-humans/21-interview.md",
+      "type": "blob"
+    },
+    {
       "path": "docs/10-humans/index.md",
-      "type": "blob"
-    },
-    {
-      "path": "docs/11-interview",
-      "type": "tree"
-    },
-    {
-      "path": "docs/11-interview/01-technique.md",
-      "type": "blob"
-    },
-    {
-      "path": "docs/11-interview/02-system-design-loop.md",
-      "type": "blob"
-    },
-    {
-      "path": "docs/11-interview/index.md",
       "type": "blob"
     },
     {
@@ -367,12 +351,28 @@
       "type": "blob"
     },
     {
-      "path": "ralph-prompt.md",
+      "path": "reference",
+      "type": "tree"
+    },
+    {
+      "path": "reference/aws-handbook.md",
+      "type": "blob"
+    },
+    {
+      "path": "reference/azure-handbook.md",
+      "type": "blob"
+    },
+    {
+      "path": "reference/gcp-handbook.md",
       "type": "blob"
     },
     {
       "path": "scripts",
       "type": "tree"
+    },
+    {
+      "path": "scripts/build_book.py",
+      "type": "blob"
     },
     {
       "path": "scripts/check_glossary.py",
@@ -384,6 +384,10 @@
     },
     {
       "path": "scripts/check_okf_frontmatter.py",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/test_build_book.py",
       "type": "blob"
     },
     {

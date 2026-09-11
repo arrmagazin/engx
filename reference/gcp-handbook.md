@@ -289,7 +289,7 @@ Compute Engine rents you virtual machines — **instances** — running Linux or
 
 ### GKE — Managed Kubernetes
 
-**Kubernetes** is the open-source container orchestrator most of the industry has standardised on, and Google originated it. It has two halves: the **control plane** (the API server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). GKE runs the control plane for you. The [containers guide](../03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
+**Kubernetes** is the open-source container orchestrator most of the industry has standardised on, and Google originated it. It has two halves: the **control plane** (the API server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). GKE runs the control plane for you. The [containers guide](../docs/03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
 
 - **Entry point:** the **cluster**, and then the choice that shapes everything else — **Autopilot** or **Standard** mode. Standard gives you **node pools** you size, upgrade and autoscale; Autopilot gives you none of that and is covered in the next section. A second decision, harder to change, is **regional or zonal**: a regional cluster replicates the control plane across three zones and spreads nodes across them, a zonal cluster does not. Production clusters are regional.
 - **Use it when:** you need the Kubernetes ecosystem — Helm charts, operators, custom resources, GitOps tooling, a platform team that already knows it — or portability across clouds. If none of that applies, [Cloud Run](#cloud-run--containers-without-a-cluster) is far less work.
@@ -711,7 +711,7 @@ BigQuery is a data warehouse with **no cluster to run**. You create a dataset, l
 Memorystore is managed in-memory storage — **Redis**, its open-source fork **Valkey**, or Memcached — for data that must be read in microseconds and can be rebuilt if lost.
 
 - **Entry point:** an **instance** (or, in the newer cluster form, a cluster with shards and replicas) reached at a private address in your VPC. The tier decides whether there is a replica and therefore whether a failure is a blip or an outage.
-- **Use it when:** the same values are read far more often than they change and the database is the bottleneck — **cache-aside**, session storage, rate limiting, distributed locks. See [caching](../03-system-design/03-caching.md) for when a cache is the wrong answer, and [Redis — Core Concepts and Workflow](../03-system-design/03-caching.md#redis--core-concepts-and-workflow) for the 2024 relicensing and the Valkey fork that followed it.
+- **Use it when:** the same values are read far more often than they change and the database is the bottleneck — **cache-aside**, session storage, rate limiting, distributed locks. See [caching](../docs/03-system-design/03-caching.md) for when a cache is the wrong answer, and [Redis — Core Concepts and Workflow](../docs/03-system-design/03-caching.md#redis--core-concepts-and-workflow) for the 2024 relicensing and the Valkey fork that followed it.
 - **Trap:** treating it as a system of record. It is memory: a failover, a version upgrade or an eviction under memory pressure loses whatever was not written somewhere durable, and the `maxmemory-policy` setting decides whether that happens silently.
 
 ## Messaging and Events
@@ -1134,7 +1134,7 @@ Beyond that: run `tflint` and a policy check in the same job. **Policy as code**
 
 The delivery side of the same story: **Cloud Build** builds and tests, **Artifact Registry** stores the image with its vulnerability scan, **Cloud Deploy** promotes one immutable artifact through dev, staging and production with approvals, and **Binary Authorization** refuses to run anything that was not signed along the way. The rule underneath is worth stating plainly: **build once, promote the same artifact**. An image rebuilt per environment is a different image, and it is the one that behaves differently in production.
 
-For the general practice, see [CI/CD](../04-development-process/03-ci-cd.md).
+For the general practice, see [CI/CD](../docs/04-development-process/03-ci-cd.md).
 
 ### Configuration Management
 
@@ -1169,7 +1169,7 @@ Cloud-native is not "runs on a cloud"; it is a set of habits that assume elastic
 - **Everything as code.** Infrastructure, pipelines, policies, dashboards and alerts. If it exists only because someone clicked, it is gone after the person leaves.
 - **Observability from the start.** Structured logs, traces through OpenTelemetry, SLOs with error budgets. Instrumentation added during an incident arrives too late to help with it.
 
-See [Containers and Orchestration](../03-system-design/05-containers.md) for the patterns underneath, and [The Twelve-Factor App](../05-coding/index.md) for the application-side rules these assume.
+See [Containers and Orchestration](../docs/03-system-design/05-containers.md) for the patterns underneath, and [The Twelve-Factor App](../docs/05-coding/index.md) for the application-side rules these assume.
 
 ## Resilience and Recovery
 
@@ -1248,7 +1248,7 @@ Three things decide whether any of it works.
 - **The dependencies must exist there too.** Container images in a multi-region Artifact Registry, secrets replicated, KMS keys available in that region — a key ring is regional, and a workload cannot decrypt with a key from a region that is down.
 - **Untested means broken.** Run a game day: fail over on purpose, in production, on a scheduled afternoon, and time it. The gap between the documented RTO and the measured one is the finding.
 
-Related: [Reliability and Recovery](../03-system-design/01-common-concepts.md).
+Related: [Reliability and Recovery](../docs/03-system-design/01-common-concepts.md).
 
 ## Running It Well
 
@@ -1259,7 +1259,7 @@ Everything above is what the services are. This section is what to do with them 
 - **Measure before changing anything.** Cloud Monitoring for the resource view, Cloud Trace for where a request's time went, Cloud Profiler for which code burns the CPU. Most "the cloud is slow" findings turn out to be one query, one missing index or one synchronous call in a loop.
 - **Right-size from data, not from a guess.** Recommender computes machine type suggestions from eight days of observed usage, and **custom machine types** let you act on them exactly — 6 vCPUs and 20 GB, rather than the next size up. This is the single largest source of easy savings on Compute Engine.
 - **Put the work near the user.** The global external Application Load Balancer terminates TLS at the nearest point of presence and carries the request over Google's own backbone from there, which is often a larger win than anything done inside the application. Add Cloud CDN for anything cacheable.
-- **Cache deliberately.** Memorystore in front of a database, Cloud CDN in front of static and cacheable dynamic responses, and application-level caching for computed results. Decide the invalidation rule before adding the cache; see [Caching](../03-system-design/03-caching.md).
+- **Cache deliberately.** Memorystore in front of a database, Cloud CDN in front of static and cacheable dynamic responses, and application-level caching for computed results. Decide the invalidation rule before adding the cache; see [Caching](../docs/03-system-design/03-caching.md).
 - **Match the disk to the workload.** Balanced Persistent Disk for most things, SSD or Hyperdisk when IOPS matter, Local SSD only for scratch that can vanish. Remember that Persistent Disk performance scales with size and with the instance's vCPU count — a small disk on a small machine is slow for two reasons at once.
 - **Scale on the right signal.** CPU is a poor proxy for a service whose work is waiting on something else. Autoscale Cloud Run on concurrency, GKE on a custom metric or queue depth, managed instance groups on the load balancer's utilization rather than CPU where the two disagree.
 - **Reach for the tier above only when the tier below is exhausted.** Premium tier networking, a larger Cloud SQL instance and more Dataflow workers all work; they also all hide the query that should have been fixed.
@@ -1284,7 +1284,7 @@ Everything above is what the services are. This section is what to do with them 
 - **Encrypt with intent.** Everything is encrypted at rest already; use CMEK where you need the ability to revoke, audit or destroy, and Cloud HSM or Cloud EKM where a rule requires it. Enforce TLS in transit and turn on the internal encryption options where a service offers them.
 - **Keep the audit trail somewhere the audited cannot reach.** An aggregated sink at the organization node into a separate project with a short access list, retention set to the compliance period, and alerts on the events that matter: key creation, role grants at high nodes, firewall changes, policy denials.
 - **Shift security into the pipeline.** Artifact Registry vulnerability scanning, Binary Authorization to refuse unsigned images, policy checks on the Terraform plan, and secrets from Secret Manager rather than from the environment.
-- **Then check yourself continuously.** Security Command Center for misconfiguration and threat findings, Policy Analyzer for "who can actually reach this", and an owner for each finding class. Also see [Security](../00-software-engineering/index.md) for the principles these implement.
+- **Then check yourself continuously.** Security Command Center for misconfiguration and threat findings, Policy Analyzer for "who can actually reach this", and an owner for each finding class. Also see [Security](../docs/00-software-engineering/index.md) for the principles these implement.
 
 ## Diagrams to Draw
 
@@ -1503,9 +1503,9 @@ Two habits make this table safe to use. Check the **boundary** — a project is 
 
 ## Where to Go Next
 
-- [AWS Handbook](01-aws.md) and [Azure Handbook](02-azure.md) — the same material for the other two platforms, with their own service maps.
-- [Containers and Orchestration](../03-system-design/05-containers.md) — the Kubernetes concepts GKE assumes you have.
-- [CI/CD](../04-development-process/03-ci-cd.md) — the delivery practice the pipeline section applies.
-- [Caching](../03-system-design/03-caching.md) — what to put in Memorystore, and what not to.
-- [System Design](../03-system-design/index.md) — the design vocabulary underneath all three clouds.
-- [Interview](../10-humans/21-interview.md) — how to use the trade-off sections above under questioning.
+- [AWS Handbook](aws-handbook.md) and [Azure Handbook](azure-handbook.md) — the same material for the other two platforms, with their own service maps.
+- [Containers and Orchestration](../docs/03-system-design/05-containers.md) — the Kubernetes concepts GKE assumes you have.
+- [CI/CD](../docs/04-development-process/03-ci-cd.md) — the delivery practice the pipeline section applies.
+- [Caching](../docs/03-system-design/03-caching.md) — what to put in Memorystore, and what not to.
+- [System Design](../docs/03-system-design/index.md) — the design vocabulary underneath all three clouds.
+- [Interview](../docs/10-humans/21-interview.md) — how to use the trade-off sections above under questioning.

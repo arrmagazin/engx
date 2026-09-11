@@ -1,15 +1,17 @@
 ---
 type: Guide
 title: Clouds
-description: Routes to the AWS, Azure and Google Cloud handbooks: the service catalogs, the vocabulary, and the ground a cloud role is interviewed on.
+description: One concept at a time across AWS, Azure and Google Cloud: what each calls it, where the analogy breaks, what changes a design.
 tags: [aws, azure, gcp, cloud, devops, interview]
 ---
 
 # Clouds
 
-The three major clouds, one handbook each. All three are written to serve two kinds of reading. As **reference**, reach for one while a design is open and take only the section the decision needs — the service entries and concept tables are meant to be read out of order. As **rehearsal**, go through it end to end before an interview loop, because what is tested is whether you can say the answer out loud, not whether it looks familiar.
+Three clouds, one chapter. It is organized by the problem rather than by the vendor, because that is the only arrangement in which the interesting part survives: compute is compute everywhere, and what varies is the boundary a permission is granted at, whether a network is regional or global, and what the billing unit is.
 
-No handbook assumes prior experience with its cloud. Every term is explained the first time it appears.
+This chapter assumes no prior experience with any of the three. Every term is explained the first time it appears, and no claim depends on knowing one cloud before reading about another.
+
+Read it for the differences, not the similarities.
 
 ---
 
@@ -17,12 +19,14 @@ No handbook assumes prior experience with its cloud. Every term is explained the
 
 | Doc | What it covers |
 | --- | --- |
-| **[AWS Handbook](01-aws.md)** | Foundations, compute, networking, storage and data, messaging and events, identity, and observability; then infrastructure as code, resilience, and the practices that keep a system running; then the diagrams and trade-offs to rehearse |
-| **[Azure Handbook](02-azure.md)** | The same ground on Azure, plus immutable delivery and landing zones; ends with an AWS-to-Azure name map |
-| **[GCP Handbook](03-gcp.md)** | The same ground on Google Cloud, where the resource hierarchy, the global VPC and Pub/Sub change the shape of the answers; ends with an AWS-to-Google-Cloud name map |
+| **[Concepts Across the Clouds](01-concept-map.md)** | The main table set: one section per concept group — accounts, geography, the control plane, compute, networking, storage and data, messaging, identity, encryption, observability, delivery, resilience — naming each concept's incarnation in all three clouds and where the analogy stops holding |
+| **[Service Names Across the Clouds](02-service-names.md)** | The lookup: AWS service to Azure and Google Cloud counterpart, grouped the way the concepts are grouped, with the difference that matters in each row |
+| **[Cross-Cloud Trade-Offs](03-trade-offs.md)** | The five structural differences that change a design rather than a name, plus the four decisions that are the same on every cloud under different product names |
 
-## Crossing Between Them
+## How to Use It
 
-Two of the handbooks end with a service map written for a reader arriving from AWS: [AWS to Azure](02-azure.md#aws-to-azure-service-map) and [AWS to Google Cloud](03-gcp.md#aws-to-google-cloud-service-map). Each names the counterpart of an AWS service and — more usefully — where the analogy breaks down. They are the fastest route in from any direction.
+Three readings serve three purposes.
 
-Read them for the differences, not the similarities. Compute is compute everywhere; what varies is the boundary a permission is granted at, whether a network is regional or global, and what the billing unit is. Those three questions are where migrations and interview answers go wrong.
+- **Orientation.** You know one cloud and need the other two. Start with [Service Names](02-service-names.md), then read the notes column — the mapping is the cheap half, the note is the useful half.
+- **Design review.** A decision is open. Go to [Cross-Cloud Trade-Offs](03-trade-offs.md) and ask its five questions of the design: which wall is it relying on, is the network one object or one per region, is the guardrail an action or a configuration, what does the billing meter count, and is the resilience a property or a topology.
+- **Rehearsal.** An interview loop is coming. Read [Concepts Across the Clouds](01-concept-map.md) end to end, because what is tested is whether you can say the comparison out loud, not whether it looks familiar. The four recurring decisions at the end of the trade-offs page are the ones most often asked.

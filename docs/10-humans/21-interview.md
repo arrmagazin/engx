@@ -15,7 +15,7 @@ Interviewers mix conceptual questions with "tell me about a time you...". Prepar
 
 Also prepare the two that come up regardless of role: **a failure you caused** (own it, show the systemic fix — not "I worked too hard") and **a disagreement with a colleague** (show you changed your mind on evidence, or escalated cleanly).
 
-Worked examples with the numbers filled in, plus a story bank mapped to the competency areas, live in the [Azure Handbook](../07-clouds/02-azure.md). The [AWS Handbook](../07-clouds/01-aws.md) carries the AWS half of the same ground: the trade-offs to rehearse and the diagrams to draw.
+For a cloud or platform role, four decisions come up often enough to be worth a rehearsed answer — a first-party infrastructure language against Terraform, managed Kubernetes against a serverless container service, configuration management against baked images, and scaling a relational database up against out. All four are stated cloud-neutrally in [Cross-Cloud Trade-Offs](../07-clouds/03-trade-offs.md#the-same-decision-in-three-vocabularies).
 
 ### The Format
 

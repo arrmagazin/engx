@@ -1,14 +1,16 @@
 # Engx
 
-A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. There is no build step and no site generator — the markdown is the product. The only code is `scripts/`, three checkers that enforce the conventions below.
+A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth and there is no site generator; `scripts/build_book.py` renders it as an EPUB and a PDF on demand. The code is `scripts/`: three checkers that enforce the conventions below, plus the book builder.
 
 ## Structure
 
-- `docs/` — the book: twelve numbered folders plus one unnumbered entry point, `docs/welcome.md`.
-- `images/` — images referenced by docs, always by a relative path (`../images/welcome.svg`), never root-absolute.
-- `scripts/` — the three checkers and their tests. `.githooks/` — the hook that runs them. `README.md` — the repository's front page, written for a human, not an agent.
+- `docs/` — the book: ten numbered folders plus one unnumbered entry point, `docs/welcome.md`.
+- `images/` — images referenced by docs, always by a relative path (`../images/welcome.svg` from `docs/`, `../../images/…` from a chapter folder), never root-absolute.
+- `reference/` — source material that is **not** part of the book: three single-cloud handbooks the Clouds chapter was distilled from. Outside `docs/`, so outside the checkers and outside the build. Nothing in `docs/` links into it. See `reference/README.md`.
+- `book/metadata.yaml` — title, author, rights and subjects for the rendered book. `build/` — the rendered outputs, gitignored.
+- `scripts/` — the three checkers, the book builder, and their tests. `.githooks/` — the hook that runs the checkers. `README.md` — the repository's front page, written for a human, not an agent.
 
-**The numbering rule.** Folder prefixes are dense and unique, `00` through `11`, and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-cloud-aws`, `08-cloud-azure`, `09-ai`, `10-humans`, `11-interview`. Inside each folder, exactly one `00-`-prefixed file is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
+**The numbering rule.** Folder prefixes are unique and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-clouds`, `09-ai`, `10-humans`. `08` and `11` are unused — gaps left by earlier reorganizations, not placeholders. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
 
 ## Checkers
 
@@ -23,6 +25,46 @@ Pipe through `xargs` rather than collecting the paths in a variable: zsh does no
 - `check_okf_frontmatter.py` — the frontmatter convention below.
 - `check_glossary.py` — the glossary convention below.
 - `check_links.py` — every relative link resolves, and every `#anchor` names a heading that exists in the target file. It reads the files it is given *plus their targets*, so staging the referring file catches a broken link; renaming a heading and staging only that file does not. Run it over the whole book after a merge for that reason. Its own tests: `python3 -m unittest discover -s scripts -p 'test_*.py'`.
+
+## The book build
+
+`scripts/build_book.py` assembles `docs/` into one document and renders it twice:
+
+```sh
+python3 scripts/build_book.py              # build/engx.epub and build/engx.pdf
+python3 scripts/build_book.py --markdown   # assemble and verify only, render nothing
+```
+
+It is stdlib-only Python, like the checkers; pandoc and (for the PDF) xelatex do the
+rendering. Four things it does that pandoc cannot, each with tests in
+`scripts/test_build_book.py`:
+
+- **Reading order.** `welcome.md` first, then folders in numeric order, each led by its
+  `index.md`, which keeps its heading level and so reads as the chapter opener. Siblings
+  are demoted one level beneath it.
+- **Unique heading ids.** Every heading gets an explicit `{#doc-anchor--section}` id,
+  because section names like "Best Practices" repeat across chapters and a renderer would
+  otherwise silently renumber them and send links to the wrong chapter.
+- **Link rewriting.** Cross-document links become intra-document anchors. A link with no
+  anchor points at the target document's title.
+- **Normalizing `---`.** A bare dashed line is ambiguous in pandoc's markdown — YAML
+  metadata, a setext underline, or a multiline-table delimiter. Read as the last of those
+  it swallows every following heading into table cells, with a zero exit code. The builder
+  emits `***` instead, and then `verify_anchors` re-renders the assembled file and fails the
+  build if any declared heading id or link target did not survive.
+
+**The PDF layout.** A reading book rather than a paper: the `book` class one-sided on A4,
+11pt on 1.15 leading, 2.5cm/2.8cm margins, `--top-level-division=chapter` so a folder opens
+a chapter on a fresh page, and running heads carrying the chapter title. That is 250 pages.
+Inline code is made breakable with `seqsplit`, because identifiers like
+`iam.disableServiceAccountKeyCreation` are otherwise unbreakable and run into the margin —
+except inside a table, where the plain `\texttt` is restored, since narrow columns would
+break a short token like `split("\n")` mid-word and make it read as two.
+
+Two limits worth knowing. The PDF omits images, because xelatex cannot embed SVG and this
+machine has no rasterizer. And the PDF sets `Times New Roman` with `Menlo` for code, the
+fonts verified to cover the box-drawing characters the diagrams use; if either is missing
+the PDF still builds, with those glyphs dropped.
 
 ## Frontmatter convention
 
