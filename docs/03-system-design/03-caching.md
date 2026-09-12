@@ -11,20 +11,28 @@ Where a copy of a result is kept so it can be served closer and faster than the 
 
 ## Core Concepts
 
-| Concept | Definition |
-|---|---|
-| **Caching** | Keeping a copy of a result closer to its consumer than the system that produced it |
-| **Cache-Aside Pattern** | The application reading the cache first and, on a miss, loading from the database and populating the cache |
-| **Cache Stampede** | Many requests missing the same key at once and all reaching the database together; mitigated by request coalescing or jittered expiry |
-| **Cache Invalidation** | Purging or versioning a cached copy when the data behind it changes |
+Caching
+: Keeping a copy of a result closer to its consumer than the system that produced it
+
+Cache-Aside Pattern
+: The application reading the cache first and, on a miss, loading from the database and populating the cache
+
+Cache Stampede
+: Many requests missing the same key at once and all reaching the database together; mitigated by request coalescing or jittered expiry
+
+Cache Invalidation
+: Purging or versioning a cached copy when the data behind it changes
 
 ## Content Delivery Network
 
-| Concept | Definition |
-|---|---|
-| **Content Delivery Network (CDN)** | Geographically distributed edge servers holding static and semi-static content close to users, cutting latency and origin load |
-| **301 vs. 302 Redirect** | The choice between a permanent redirect browsers cache, which saves requests but hides per-click data, and a temporary one that reaches the server every time |
-| **Adaptive Bitrate Streaming** | Video published as short segments at several quality levels, with the client switching level as network conditions change; HLS and DASH are the two standards in use |
+Content Delivery Network (CDN)
+: Geographically distributed edge servers holding static and semi-static content close to users, cutting latency and origin load
+
+301 vs. 302 Redirect
+: The choice between a permanent redirect browsers cache, which saves requests but hides per-click data, and a temporary one that reaches the server every time
+
+Adaptive Bitrate Streaming
+: Video published as short segments at several quality levels, with the client switching level as network conditions change; HLS and DASH are the two standards in use
 
 ## Redis — Core Concepts and Workflow
 

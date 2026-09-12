@@ -11,11 +11,14 @@ tags: [methodology, agile]
 
 ## Core Concepts
 
-| Concept | Definition |
-| --------- | ------------- |
-| **Requirements Volatility** | Unpredicted challenges during production: customers changing their minds, evolving technologies, shifting markets |
-| **Empirical Approach** | Accepting that the problem cannot be fully understood before starting, and maximizing the ability to deliver while adapting to feedback |
-| **Method Tailoring** | Adapting the development approach to the situation of a specific project rather than adopting a process whole |
+Requirements Volatility
+: Unpredicted challenges during production: customers changing their minds, evolving technologies, shifting markets
+
+Empirical Approach
+: Accepting that the problem cannot be fully understood before starting, and maximizing the ability to deliver while adapting to feedback
+
+Method Tailoring
+: Adapting the development approach to the situation of a specific project rather than adopting a process whole
 
 ```mermaid
 flowchart LR

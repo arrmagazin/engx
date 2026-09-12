@@ -69,3 +69,34 @@ h2.document {
   break-before: page;
   page-break-before: always;
 }
+
+/* Glossaries as definition lists.
+ *
+ * Terms are defined in a definition list rather than a two-column table, so a
+ * definition is free to hold a list or a second paragraph and a long one wraps to the
+ * full measure instead of a narrow column. What the table gave for free has to be
+ * asked for here: its first column was bold, and a reader's default <dt> is not, so
+ * the term would otherwise sit in body weight directly above its own definition with
+ * nothing to separate them.
+ *
+ * The space goes above the term rather than below the definition, which keeps a term
+ * attached to the definition under it — the pair reads as one entry — and never
+ * leaves a trailing gap at the end of the list. `:first-child` spares the first term,
+ * whose heading already provides the space. */
+
+dl {
+  margin: 1em 0;
+}
+
+dt {
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+dl > dt:first-child {
+  margin-top: 0;
+}
+
+dd {
+  margin: 0.15em 0 0 1.4em;
+}

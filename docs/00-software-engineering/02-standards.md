@@ -7,7 +7,9 @@ tags: [standards, engineering, code-quality, best-practices]
 
 # Software Engineering Standards
 
-**Software engineering standards** are unified sets of rules, protocols, paradigms, and best practices that dictate how software is developed, reviewed, deployed, and maintained. They exist so that a system's safety, reliability, security, maintainability, and interoperability do not depend on which team happened to build it.
+**Software engineering standards** are unified sets of rules, protocols, paradigms, and best practices that dictate how software is developed, reviewed, deployed, and maintained.
+
+They exist so that a system's safety, reliability, security, maintainability, and interoperability do not depend on which team happened to build it.
 
 ## Categories of Standards
 
@@ -36,7 +38,7 @@ tags: [standards, engineering, code-quality, best-practices]
 ## Major International Standards Bodies
 
 | Organization | Key Software Standards | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | **ISO / IEC / IEEE** | [ISO/IEC/IEEE 12207](https://www.iso.org/standard/77451.html) | Governs the processes of the whole software lifecycle |
 | **ISO / IEC** | ISO/IEC 25010 | Defines the product quality model that software is evaluated against |
 | **ISO / IEC / IEEE** | ISO/IEC/IEEE 29148, ISO/IEC/IEEE 29119 | Structures requirements specification and software testing; 29148 superseded the withdrawn IEEE 830 |

@@ -20,13 +20,14 @@ For a cloud or platform role, four decisions come up often enough to be worth a 
 ### The Format
 
 | Part | What Goes Here | Time |
-|---|---|---|
+| --- | --- | --- |
 | **Situation** | Context, scale, and constraints, with numbers | ~15s |
 | **Task** | What *you* specifically owned | ~10s |
 | **Action** | Decisions and trade-offs, not a task list; the bulk of the answer | ~60s |
 | **Result** | Measured outcome, plus what you would do differently | ~20s |
 
 Two rules that separate a strong story from a weak one:
+
 - **"We" is a red flag.** Say "I" for your decisions, "we" only for team context.
 - **Quantify the Result.** "Deploys went from 4 hours to 12 minutes" beats "deploys got much faster."
 
@@ -50,7 +51,7 @@ Never answer "which is better?" without naming the deciding variable. Also be wi
 
 ## System Design Loop
 
-A framework that applies to any system design question, and the signals that separate a senior or staff answer from a mid-level one. 
+A framework that applies to any system design question, and the signals that separate a senior or staff answer from a mid-level one.
 
 The worked problems it draws on live in [Canonical Systems](../03-system-design/08-canonical-systems.md), which covers eleven of them, each filed under the bottleneck it tests.
 
@@ -75,11 +76,3 @@ Work these six steps in order, whatever the problem.
 1. **Interactive mock mode** on 2-3 of the [canonical systems](../03-system-design/08-canonical-systems.md) — ideally the payment/booking system (biggest mindset gap vs. the read-heavy platforms) and whichever else feels shakiest. Reading is passive; the interview tests whether you can *generate* this reasoning live under mild pressure.
 2. Practice **defending your own scale estimates out loud** before being challenged on them — catching an unrealistic number yourself is a stronger signal than being corrected.
 3. For each problem, practice stating **2-3 options before picking one** on the key decision (fan-out strategy, consistency model, sharding key) — this is the single biggest lever separating mid-level from senior/staff performance.
-
-## Final Prep Checklist
-
-- [ ] 10 STAR stories written out — 2 per competency area, with numbers in the Result
-- [ ] Failure story and disagreement story prepared
-- [ ] Can sketch each diagram your cloud guide lists in 3 minutes, talking while drawing
-- [ ] Can give that guide's trade-off answers without notes
-- [ ] 3–4 questions ready for them (their IaC tool and why; who owns cluster upgrades; how they handle prod access; what broke most recently)

@@ -1,29 +1,39 @@
 #!/usr/bin/env python3
-"""Validate glossary term tables in docs/**/*.md files (see CLAUDE.md).
+"""Validate glossary definition lists in docs/**/*.md files (see CLAUDE.md).
 
-A "glossary table" is a markdown table introduced by the header
+A glossary entry is a markdown definition list entry (the extended syntax at
+markdownguide.org/extended-syntax): a term alone on its line, the definition on
+the next line behind a colon, and a blank line before the next term.
 
-    | Concept | Definition |
+    Solution
+    : an artificial phenomenon a Team designs for someone outside it
 
-(or `| Component | Definition |`), whose rows look like `| **Term** | definition |`.
-Other tables in the repo use bold first columns for things that are not term
-definitions, so the header is what makes a table in scope. Files with no
-glossary table are skipped, making this safe to run over every doc.
+Definition lists are used in this book for exactly one thing, so every one of
+them is in scope and no header row is needed to mark them. Comparisons, ladders
+and nav tables stay tables and are not read here. Files with no definition list
+are skipped, making this safe to run over every doc.
 
-Errors (exit 1) cover the mechanically decidable rules: broken table rows,
-duplicate terms, self-restating definitions, trailing periods, and pairs of
-terms that define each other. Indirect loops and oversized tables print as
-notes and do not fail the run. The remaining rules in CLAUDE.md — casing of
-cross-references, grounding, whether a term earns its row — need human
+Errors (exit 1) cover the mechanically decidable rules: entries a renderer would
+silently fold together, duplicate terms, self-restating definitions, trailing
+periods, and pairs of terms that define each other. Indirect loops and oversized
+lists print as notes and do not fail the run. The remaining rules in CLAUDE.md —
+casing of cross-references, grounding, whether a term earns its row — need human
 judgement and are deliberately not checked here.
 """
 import re
 import sys
 
-ROW_RE = re.compile(r"^\|\s*\*\*(?P<term>[^*|]+?)\*\*\s*\|(?P<definition>.*)$")
-HEADER_RE = re.compile(r"^\|\s*(Concept|Component)\s*\|\s*Definition\s*\|\s*$")
+DEFINITION_RE = re.compile(r"^:\s+(?P<definition>.*)$")
 HEADING_RE = re.compile(r"^(?P<level>#{1,6})\s+(?P<title>.+?)\s*$")
-MAX_ROWS_PER_TABLE = 12
+FENCE_RE = re.compile(r"^\s*(```|~~~)")
+# A term is a bare line of prose. Anything opening a block of its own — a list
+# item, a quote, a table row, a heading, an indented code line — is not one.
+NOT_A_TERM_RE = re.compile(r"^(\s|[-*+>|#]|\d+\.)")
+# The block shapes that read as a continuation of the definition above them, and so
+# have to be indented into it. A heading or a table is a structure of its own and
+# separates two entries legitimately, so neither is listed here.
+DETACHABLE_RE = re.compile(r"^([-*+>]\s|\d+\.\s)")
+MAX_TERMS_PER_LIST = 12
 
 
 def aliases(term):
@@ -41,46 +51,110 @@ def aliases(term):
 
 
 def strip_markup(definition):
-    """Drop the trailing cell pipe and inline markup that is not prose."""
-    text = definition.strip()
-    if text.endswith("|"):
-        text = text[:-1]
-    text = text.replace("<br>", " ")
+    """Drop the inline markup that is not prose."""
+    text = definition.strip().replace("<br>", " ").replace("<br/>", " ")
     return re.sub(r"[*`_]", "", text).strip()
 
 
 def parse(text):
-    """Return (rows, structure_errors). Each row is (term, definition, line, section)."""
+    """Return (rows, structure_errors). Each row is (term, definition, line, section).
+
+    Reads the file line by line rather than with one regex, because an entry is
+    defined by its neighbours: a line is a term only because the next line is a
+    definition, and an entry belongs to the run of entries around it.
+    """
+    lines = text.splitlines()
     rows, errors = [], []
-    section, in_table, in_glossary, table_rows = None, False, False, 0
+    section, fence, run = None, None, 0
+    index = 0
 
-    for lineno, raw in enumerate(text.splitlines(), 1):
-        line = raw.rstrip()
+    def is_term(pos):
+        """A bare line whose successor is a definition — that is what makes a term."""
+        return (
+            pos + 1 < len(lines)
+            and lines[pos].strip()
+            and not NOT_A_TERM_RE.match(lines[pos])
+            and not DEFINITION_RE.match(lines[pos])
+            and DEFINITION_RE.match(lines[pos + 1].rstrip())
+        )
+
+    def detached_block(pos, _lines=lines):
+        """An unindented block sitting between one entry and the next."""
+        start = pos
+        while start < len(_lines) and not _lines[start].strip():
+            start += 1
+        if start == pos or start >= len(_lines) or not DETACHABLE_RE.match(_lines[start]):
+            return False
+        end = start
+        while end < len(_lines) and _lines[end].strip():
+            end += 1
+        while end < len(_lines) and not _lines[end].strip():
+            end += 1
+        return is_term(end)
+
+    while index < len(lines):
+        line = lines[index].rstrip()
+
+        if FENCE_RE.match(line):
+            marker = FENCE_RE.match(line).group(1)
+            fence = None if fence == marker else (fence or marker)
+            index += 1
+            continue
+        if fence:
+            index += 1
+            continue
+
         heading = HEADING_RE.match(line)
-
-        if line.startswith("|"):
-            if not in_table:
-                in_glossary = bool(HEADER_RE.match(line))
-            in_table, table_rows = True, table_rows + 1
-            if not in_glossary:
-                continue
-            if not line.endswith("|"):
-                errors.append((lineno, "table row does not end with '|' (a raw newline inside a cell breaks the table)"))
-            match = ROW_RE.match(line)
-            if match:
-                rows.append((match.group("term").strip(), match.group("definition"), lineno, section))
+        if heading:
+            if len(heading.group("level")) == 2:
+                section = heading.group("title")
+            run = 0
+            index += 1
             continue
 
-        if in_table and in_glossary and line.strip() and not heading:
-            errors.append((lineno, f"line inside a table does not start with '|': {line.strip()[:48]!r}"))
+        if DEFINITION_RE.match(line):
+            errors.append((index + 1, "definition has no term above it"))
+            index += 1
             continue
 
-        if not line.strip() or heading:
-            if in_glossary and table_rows - 2 > MAX_ROWS_PER_TABLE:
-                errors.append((lineno, f"__note__table has {table_rows - 2} terms, over the {MAX_ROWS_PER_TABLE}-row guideline; consider splitting it"))
-            in_table, in_glossary, table_rows = False, False, 0
-        if heading and len(heading.group("level")) == 2:
-            section = heading.group("title")
+        if not is_term(index):
+            if line.strip():
+                run = 0
+            index += 1
+            continue
+
+        term, index = line.strip(), index + 1
+        while index < len(lines) and DEFINITION_RE.match(lines[index].rstrip()):
+            definition = DEFINITION_RE.match(lines[index].rstrip()).group("definition")
+            start = index
+            index += 1
+            # A line the author broke on purpose, with a trailing backslash, carries on
+            # the same definition. Collect it, so a term named after the break still
+            # counts as a reference.
+            while index < len(lines) and definition.endswith("\\") and lines[index].strip():
+                definition = definition[:-1] + " " + lines[index].strip()
+                index += 1
+            rows.append((term, definition, start + 1, section))
+            # Two ways a definition loses content silently, both of which render
+            # without an error and so cannot be caught by reading the output.
+            #
+            # A non-blank line here is folded into the definition above it, so the
+            # break the author wrote disappears — and if that line was the next term,
+            # the whole entry disappears with it. This is the definition-list version
+            # of a raw newline breaking a table row.
+            while index < len(lines) and lines[index].strip() and not DEFINITION_RE.match(lines[index].rstrip()):
+                errors.append((index + 1, f"line after the definition of '{term}' is folded into it, losing the break; end the line above with a backslash, or indent this line by four spaces to make it a block of the definition"))
+                index += 1
+            # An unindented block between two entries detaches from the definition
+            # above it: the renderer closes the list, emits the block on its own, and
+            # opens a second list. Only flagged between entries, where it cannot be
+            # the prose that follows the glossary.
+            if detached_block(index):
+                errors.append((index + 2, f"block after the definition of '{term}' is not indented, so it detaches from the definition and splits the list in two; indent it by four spaces"))
+
+        run += 1
+        if run == MAX_TERMS_PER_LIST + 1:  # once per run, not once per term past the line
+            errors.append((index, f"__note__more than {MAX_TERMS_PER_LIST} terms run together here; consider splitting them under a new heading"))
 
     return rows, errors
 

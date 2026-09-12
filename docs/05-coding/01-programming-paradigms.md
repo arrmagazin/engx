@@ -60,18 +60,35 @@ For language-agnostic design heuristics such as SOLID, GRASP, and DRY, see
 
 ### OOP Concepts
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Object** | A single instance in program code with its own State and Behavior |
-| **Class** | Specification of State and Behavior used to create new Objects |
-| **Model** | Bundle of interdependent Classes that a system consists of |
-| **State** | Internal data structure private to one instance |
-| **Behavior** | Set of Methods implementing logic over the State they share |
-| **Method** | Named way of handling one specific input message |
-| **Implementation** | Code defining how an input message is actually handled; reads input and State, and may update State, produce results, or send further messages |
-| **Invocation** | Act of performing the instructions of a Method with given arguments, scope, and context |
-| **Interaction** | Process of sending messages between Objects, each answered by Invocation of the matching Method |
-| **Event-Driven Flow** | Indirect Interaction in which uniform events travel through a centralized dispatcher (bus) |
+Object
+: A single instance in program code with its own State and Behavior
+
+Class
+: Specification of State and Behavior used to create new Objects
+
+Model
+: Bundle of interdependent Classes that a system consists of
+
+State
+: Internal data structure private to one instance
+
+Behavior
+: Set of Methods implementing logic over the State they share
+
+Method
+: Named way of handling one specific input message
+
+Implementation
+: Code defining how an input message is actually handled; reads input and State, and may update State, produce results, or send further messages
+
+Invocation
+: Act of performing the instructions of a Method with given arguments, scope, and context
+
+Interaction
+: Process of sending messages between Objects, each answered by Invocation of the matching Method
+
+Event-Driven Flow
+: Indirect Interaction in which uniform events travel through a centralized dispatcher (bus)
 
 ```mermaid
 sequenceDiagram
@@ -97,45 +114,86 @@ A programming paradigm promoting computation as the declarative composition of p
 
 ### Functions and Purity
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Operation** | Correspondence of input with unambiguous output: (x..., y1) & (x..., y2) => y1 ≡ y2 |
-| **Parameter** | Reference to elementary piece of input data structure, by name or index |
-| **Argument** | Input data value applied to the corresponding Parameter when an Operation is performed |
-| **Function** | Operation providing mapping from elements of domain to elements of codomain |
-| **Arity** | Dimension of domain space: unary, binary, n-ary, variadic |
-| **Partial Function** | Mapping not defined for all possible values of its domain |
-| **Deterministic Function** | Mapping always producing the same results for the same input |
-| **Pure Function** | Deterministic Function without side effects |
-| **Side Effects** | Interactions (reads/writes) with external mutable state |
-| **Higher-Order Function (HOF)** | A function taking a function as argument and/or returning a function |
-| **Immutability** | Inability to destructively change/mutate input parameters, context, or state |
-| **Idempotent** | Property of an operation whose reapplication to its own result changes nothing; see [System Design Glossary](../03-system-design/01-common-concepts.md) |
+Operation
+: Correspondence of input with unambiguous output: (x..., y1) & (x..., y2) => y1 ≡ y2
+
+Parameter
+: Reference to elementary piece of input data structure, by name or index
+
+Argument
+: Input data value applied to the corresponding Parameter when an Operation is performed
+
+Function
+: Operation providing mapping from elements of domain to elements of codomain
+
+Arity
+: Dimension of domain space: unary, binary, n-ary, variadic
+
+Partial Function
+: Mapping not defined for all possible values of its domain
+
+Deterministic Function
+: Mapping always producing the same results for the same input
+
+Pure Function
+: Deterministic Function without side effects
+
+Side Effects
+: Interactions (reads/writes) with external mutable state
+
+Higher-Order Function (HOF)
+: A function taking a function as argument and/or returning a function
+
+Immutability
+: Inability to destructively change/mutate input parameters, context, or state
+
+Idempotent
+: Property of an operation whose reapplication to its own result changes nothing; see [System Design Glossary](../03-system-design/01-common-concepts.md)
 
 ### Function Composition
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Function Pipe** | Putting list of functions together where output of previous is input of next |
-| **Fun-Arg Problem** | Difficulty of keeping a function's free variables alive after the scope that defined them has returned |
-| **Closure** | Function retaining a reference to its free variables (from outer scope) |
-| **Point-Free Style** | Writing functions where definition doesn't explicitly identify arguments used |
-| **Partial Application** | Creating a new function by pre-filling some arguments to the original function |
-| **Currying** | Transformation of an n-ary function into a chain of unary functions, each taking one Argument |
-| **Auto Currying** | Transforming a multi-argument function into one that returns a function taking the rest if given fewer arguments |
-| **Fixed-point Combinator** | Function Y returning fixed point for its argument function: Y(f) == f(Y(f)) |
+Function Pipe
+: Putting list of functions together where output of previous is input of next
+
+Fun-Arg Problem
+: Difficulty of keeping a function's free variables alive after the scope that defined them has returned
+
+Closure
+: Function retaining a reference to its free variables (from outer scope)
+
+Point-Free Style
+: Writing functions where definition doesn't explicitly identify arguments used
+
+Partial Application
+: Creating a new function by pre-filling some arguments to the original function
+
+Currying
+: Transformation of an n-ary function into a chain of unary functions, each taking one Argument
+
+Auto Currying
+: Transforming a multi-argument function into one that returns a function taking the rest if given fewer arguments
+
+Fixed-point Combinator
+: Function Y returning fixed point for its argument function: Y(f) == f(Y(f))
 
 ### Evaluation Strategy
 
 Evaluation order is independent of the paradigm: Haskell is lazy by default, while Standard ML, OCaml, Scheme, Clojure, and Erlang are strict.
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Lazy Evaluation** | Call-by-need strategy that defers computing an expression until its value is demanded, allowing infinite data structures |
-| **Continuation** | The part of code yet to be executed at any given point |
-| **Memoization** | Cache of previously computed results, reused instead of recomputing |
-| **Recursion** | Function calling itself during execution |
-| **Tail Recursion** | A function call where there is nothing to do after the function returns except return its value; essentially equivalent to looping |
+Lazy Evaluation
+: Call-by-need strategy that defers computing an expression until its value is demanded, allowing infinite data structures
+
+Continuation
+: The part of code yet to be executed at any given point
+
+Memoization
+: Cache of previously computed results, reused instead of recomputing
+
+Recursion
+: Function calling itself during execution
+
+Tail Recursion
+: A function call where there is nothing to do after the function returns except return its value; essentially equivalent to looping
 
 ## Reactive Programming
 
@@ -155,18 +213,35 @@ flowchart LR
 
 ### Stream Concepts
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Stream (Observable)** | Time-ordered sequence of values, plus terminal completion or error signals |
-| **Observer (Subscriber)** | Consumer declaring handlers for the three channels: `next`, `error`, `complete` |
-| **Subscription** | The live link between producer and consumer; must be disposed to stop the flow and free resources |
-| **Push vs. Pull** | Which side sets the pace: a source emitting on its own schedule, or a consumer requesting the next value (iterators, generators) |
-| **Cold vs. Hot** | Whether each subscriber triggers its own execution from the beginning, or joins one already-running sequence shared by all |
-| **Subject** | Object that is both observer and observable — the usual bridge from imperative code into a stream |
-| **Propagation of Changes** | Automatic recomputation of every value derived from a source when that source updates |
-| **Glitch** | Transient inconsistent state where a dependent observes partially updated inputs |
-| **Backpressure** | Protocol for a slow consumer to limit a fast producer (request-n, buffer, drop, sample, or block) |
-| **Scheduler** | Policy deciding on which thread/tick emissions and subscriptions run |
+Stream (Observable)
+: Time-ordered sequence of values, plus terminal completion or error signals
+
+Observer (Subscriber)
+: Consumer declaring handlers for the three channels: `next`, `error`, `complete`
+
+Subscription
+: The live link between producer and consumer; must be disposed to stop the flow and free resources
+
+Push vs. Pull
+: Which side sets the pace: a source emitting on its own schedule, or a consumer requesting the next value (iterators, generators)
+
+Cold vs. Hot
+: Whether each subscriber triggers its own execution from the beginning, or joins one already-running sequence shared by all
+
+Subject
+: Object that is both observer and observable — the usual bridge from imperative code into a stream
+
+Propagation of Changes
+: Automatic recomputation of every value derived from a source when that source updates
+
+Glitch
+: Transient inconsistent state where a dependent observes partially updated inputs
+
+Backpressure
+: Protocol for a slow consumer to limit a fast producer (request-n, buffer, drop, sample, or block)
+
+Scheduler
+: Policy deciding on which thread/tick emissions and subscriptions run
 
 ### Operator Categories
 
@@ -213,16 +288,29 @@ that mutate shared state.
 
 ### FRP Concepts
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Behavior (Signal)** | Value continuously defined over time: `Behavior a = Time -> a` |
-| **Event Stream** | Discrete sequence of timestamped occurrences: `Event a = [(Time, a)]` |
-| **Declarative Time** | Time is an explicit input of the model, not an implicit side effect of execution order |
-| **Combinator** | Pure HOF building new behaviors/streams from existing ones (`map`, `filter`, `merge`, `scan`, `switch`) |
-| **Lifting** | Applying an ordinary function to time-varying values, producing a time-varying result |
-| **Sampling** | Reading a behavior's value at the moments given by an event stream |
-| **Accumulation (`scan`/`fold`)** | Deriving state from a stream by folding past occurrences — the only sanctioned form of state |
-| **Glitch-Freedom** | Guarantee that dependents observe a consistent snapshot; no intermediate values from partial propagation |
+Behavior (Signal)
+: Value continuously defined over time: `Behavior a = Time -> a`
+
+Event Stream
+: Discrete sequence of timestamped occurrences: `Event a = [(Time, a)]`
+
+Declarative Time
+: Time is an explicit input of the model, not an implicit side effect of execution order
+
+Combinator
+: Pure HOF building new behaviors/streams from existing ones (`map`, `filter`, `merge`, `scan`, `switch`)
+
+Lifting
+: Applying an ordinary function to time-varying values, producing a time-varying result
+
+Sampling
+: Reading a behavior's value at the moments given by an event stream
+
+Accumulation (`scan`/`fold`)
+: Deriving state from a stream by folding past occurrences — the only sanctioned form of state
+
+Glitch-Freedom
+: Guarantee that dependents observe a consistent snapshot; no intermediate values from partial propagation
 
 ### Variants
 
@@ -259,20 +347,41 @@ flowchart LR
 
 ### Metaprogramming Concepts
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Metalevel vs. Base Level** | The metaprogram manipulates representations of code; the object program is the code being manipulated |
-| **Introspection** | Read-only examination of program structure — types, members, signatures, annotations |
-| **Reflection** | Introspection plus *intercession*: invoking, defining, or altering structure dynamically |
-| **Homoiconicity** | Code is represented in the language's own data structures, so manipulating code is ordinary data manipulation (Lisp s-expressions) |
-| **AST** | Tree representation of parsed source; the usual currency of compile-time transformation |
-| **Quoting / Quasiquotation** | Turning code into data (`quote`), with holes for splicing computed fragments back in (`unquote`) |
-| **Macro** | Function from code to code, expanded before evaluation rather than called at runtime |
-| **Hygiene** | Guarantee that names introduced by a macro cannot capture or collide with names at the call site |
-| **Staging** | Explicit separation of computation into phases — what runs now to produce what runs later |
-| **Code Generation** | Emitting source, bytecode, or binaries from a model, schema, or IDL |
-| **Eval** | Evaluating data (a string, an AST) as code inside the running program |
-| **DSL** | Purpose-built notation, *internal* (hosted in the language) or *external* (own parser) |
+Metalevel vs. Base Level
+: The metaprogram manipulates representations of code; the object program is the code being manipulated
+
+Introspection
+: Read-only examination of program structure — types, members, signatures, annotations
+
+Reflection
+: Introspection plus *intercession*: invoking, defining, or altering structure dynamically
+
+Homoiconicity
+: Code is represented in the language's own data structures, so manipulating code is ordinary data manipulation (Lisp s-expressions)
+
+AST
+: Tree representation of parsed source; the usual currency of compile-time transformation
+
+Quoting / Quasiquotation
+: Turning code into data (`quote`), with holes for splicing computed fragments back in (`unquote`)
+
+Macro
+: Function from code to code, expanded before evaluation rather than called at runtime
+
+Hygiene
+: Guarantee that names introduced by a macro cannot capture or collide with names at the call site
+
+Staging
+: Explicit separation of computation into phases — what runs now to produce what runs later
+
+Code Generation
+: Emitting source, bytecode, or binaries from a model, schema, or IDL
+
+Eval
+: Evaluating data (a string, an AST) as code inside the running program
+
+DSL
+: Purpose-built notation, *internal* (hosted in the language) or *external* (own parser)
 
 ### Stages
 
@@ -320,14 +429,23 @@ below, usually as a specialized language or framework dropped into an otherwise 
 system. Each is described here by the unit it treats as primitive, because that choice is what
 separates it from the paradigms this chapter covers in full.
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Logic Programming** | Declarative style where a program is a set of facts and rules, and running it means asking the engine to search for a proof of a goal rather than prescribing the steps (Prolog, Datalog, answer-set solvers) |
-| **Constraint Programming** | Close relative of Logic Programming in which the program states relations a solution must satisfy and a solver explores the feasible space, so the search strategy belongs to the engine rather than the author (MiniZinc, Choco, OR-Tools) |
-| **Flow-Based Programming (FBP)** | Assembly of black-box processes that exchange fixed-format packets over bounded, named connections owned by the network rather than by any process, which makes the topology data instead of code (NoFlo, Node-RED, LabVIEW) |
-| **Agent-Oriented Programming** | Autonomous entities holding their own beliefs, goals, and plans as first-class program elements, coordinating through messages rather than direct invocation, so control is genuinely decentralized (JADE, Jason/AgentSpeak) |
-| **Component-Based Software Engineering** | Building systems from independently deployable units that expose only contractual interfaces, moving substitution and reuse from the Class boundary out to the packaging boundary (OSGi, COM, .NET assemblies) |
-| **Modular Programming** | Splitting a program into separately compiled units with explicit exported and imported names — the discipline Procedural programming grew out of, and the one that today's packages and namespaces still implement (Modula-2, ML functors, JPMS, ES imports) |
+Logic Programming
+: Declarative style where a program is a set of facts and rules, and running it means asking the engine to search for a proof of a goal rather than prescribing the steps (Prolog, Datalog, answer-set solvers)
+
+Constraint Programming
+: Close relative of Logic Programming in which the program states relations a solution must satisfy and a solver explores the feasible space, so the search strategy belongs to the engine rather than the author (MiniZinc, Choco, OR-Tools)
+
+Flow-Based Programming (FBP)
+: Assembly of black-box processes that exchange fixed-format packets over bounded, named connections owned by the network rather than by any process, which makes the topology data instead of code (NoFlo, Node-RED, LabVIEW)
+
+Agent-Oriented Programming
+: Autonomous entities holding their own beliefs, goals, and plans as first-class program elements, coordinating through messages rather than direct invocation, so control is genuinely decentralized (JADE, Jason/AgentSpeak)
+
+Component-Based Software Engineering
+: Building systems from independently deployable units that expose only contractual interfaces, moving substitution and reuse from the Class boundary out to the packaging boundary (OSGi, COM, .NET assemblies)
+
+Modular Programming
+: Splitting a program into separately compiled units with explicit exported and imported names — the discipline Procedural programming grew out of, and the one that today's packages and namespaces still implement (Modula-2, ML functors, JPMS, ES imports)
 
 Three names that used to sit in this list are deliberately absent, because calling them paradigms
 would be wrong. SQL is a language, and it already appears above as an example of
@@ -346,15 +464,26 @@ that actually matters. AOP answers that by making the scattered requirement itse
 unit, defined once and attached to the places it applies by a declarative rule instead of by an
 explicit call.
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Cross-Cutting Concern** | Requirement whose implementation would otherwise be scattered across many unrelated units and tangled with their primary logic |
-| **Join Point** | Well-defined moment in program execution where extra behavior may be attached: a method call or execution, a field access, an exception being thrown |
-| **Pointcut** | Predicate selecting a set of Join Points by signature, annotation, or type hierarchy, so the targets are described rather than enumerated |
-| **Advice** | Code to run at the selected moments, ordered relative to them as `before`, `after`, `after throwing`, or `around` — the last wrapping the target and free to skip or replace it |
-| **Aspect** | Unit bundling one or more Pointcuts with their Advice and any state they share, playing the role a Class plays in OOP |
-| **Weaving** | Act of merging that extra behavior into the target program, done at compile time, at load time, or at run time through generated proxies |
-| **Introduction** | Adding members or a supertype to an existing Class from outside its own definition, also called an inter-type declaration |
+Cross-Cutting Concern
+: Requirement whose implementation would otherwise be scattered across many unrelated units and tangled with their primary logic
+
+Join Point
+: Well-defined moment in program execution where extra behavior may be attached: a method call or execution, a field access, an exception being thrown
+
+Pointcut
+: Predicate selecting a set of Join Points by signature, annotation, or type hierarchy, so the targets are described rather than enumerated
+
+Advice
+: Code to run at the selected moments, ordered relative to them as `before`, `after`, `after throwing`, or `around` — the last wrapping the target and free to skip or replace it
+
+Aspect
+: Unit bundling one or more Pointcuts with their Advice and any state they share, playing the role a Class plays in OOP
+
+Weaving
+: Act of merging that extra behavior into the target program, done at compile time, at load time, or at run time through generated proxies
+
+Introduction
+: Adding members or a supertype to an existing Class from outside its own definition, also called an inter-type declaration
 
 *Implementations*: AspectJ (compile-time and load-time weaving), Spring AOP (runtime proxies, limited
 to method execution on managed beans), PostSharp, and the interceptor chains of most DI containers.

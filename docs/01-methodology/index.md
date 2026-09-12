@@ -26,12 +26,17 @@ The vocabulary lives on this page; each approach has its own guide. Terms the wh
 
 ## Core Concepts
 
-| Concept | Definition |
-| --- | --- |
-| **Strategy** | The chosen direction for reaching a Goal under bounded resources — which Objectives to pursue, in what order, and what to forgo; Analysis justifies it, a Plan realizes it |
-| **Method** | An organized set of predefined decisions, triggers, and choices that control how a process runs |
-| **Framework** | A Method made executable — predefined options a user chooses from, constrained so the resulting state stays valid |
-| **Best Practice** | A Method accepted as superior for a given context because it reliably produces better outcomes there; context-bound, not absolute |
+Strategy
+: The chosen direction for reaching a Goal under bounded resources — which Objectives to pursue, in what order, and what to forgo; Analysis justifies it, a Plan realizes it
+
+Method
+: An organized set of predefined decisions, triggers, and choices that control how a process runs
+
+Framework
+: A Method made executable — predefined options a user chooses from, constrained so the resulting state stays valid
+
+Best Practice
+: A Method accepted as superior for a given context because it reliably produces better outcomes there; context-bound, not absolute
 
 A Framework in this sense runs a process, not code. The software sense — a component that owns the control flow and calls the application through the extension points it defines — is defined as [Software Framework](../03-system-design/index.md#information-system) in System Design.
 
@@ -41,26 +46,47 @@ Strategy here is the chosen direction itself. The planning cadence that produces
 
 The stages by which a goal becomes executed work.
 
-| Concept | Definition |
-| --- | --- |
-| **Analysis** | Survey of internal resources and external conditions, partitioned as a SWOT |
-| **Plan** | Ordered sequence of work with the resources, roles, and schedule that realize an objective |
-| **Task** | Atomic unit of a Plan, carrying a purpose, a definition of done, required resources, an owner, a timeline, dependencies, and a status |
-| **Monitoring** | Continuous evaluation of progress against the Plan and adaptation when conditions shift; failure to monitor is failure to act |
+Analysis
+: Survey of internal resources and external conditions, partitioned as a SWOT
+
+Plan
+: Ordered sequence of work with the resources, roles, and schedule that realize an objective
+
+Task
+: Atomic unit of a Plan, carrying a purpose, a definition of done, required resources, an owner, a timeline, dependencies, and a status
+
+Monitoring
+: Continuous evaluation of progress against the Plan and adaptation when conditions shift; failure to monitor is failure to act
 
 ## Planning Concepts
 
 The variables a Plan is negotiated with, and the conditions that constrain it.
 
-| Concept | Definition |
-| --- | --- |
-| **Scope** | Set of work items accepted as in-bounds for an objective<br>*The cheapest planning variable to change; time and quality are not* |
-| **Capacity** | Effort realistically available in a period, once meetings, support, and leave are taken out<br>*Always below headcount multiplied by working hours* |
-| **Priority** | Total ordering of work items by value against cost and risk<br>*If everything is priority one, nothing is* |
-| **Commitment** | Promise made with known Scope, known Capacity, and accepted Risk<br>*Without capacity data it is a wish* |
-| **Risk** | Uncertain event that would affect an objective, sized as probability multiplied by impact |
-| **Dependency** | Work whose completion is required by other work, inside or outside the team<br>*Cross-team ones sit outside the team's control, so track them explicitly* |
-| **Constraint** | Fixed boundary — budget, deadline, compliance, headcount — that planning must respect rather than optimize away |
+Scope
+: Set of work items accepted as in-bounds for an objective\
+  *The cheapest planning variable to change; time and quality are not*
+
+Capacity
+: Effort realistically available in a period, once meetings, support, and leave are taken out\
+  *Always below headcount multiplied by working hours*
+
+Priority
+: Total ordering of work items by value against cost and risk\
+  *If everything is priority one, nothing is*
+
+Commitment
+: Promise made with known Scope, known Capacity, and accepted Risk\
+  *Without capacity data it is a wish*
+
+Risk
+: Uncertain event that would affect an objective, sized as probability multiplied by impact
+
+Dependency
+: Work whose completion is required by other work, inside or outside the team\
+  *Cross-team ones sit outside the team's control, so track them explicitly*
+
+Constraint
+: Fixed boundary — budget, deadline, compliance, headcount — that planning must respect rather than optimize away
 
 These are the terms [Engineering Management](06-engineering-management.md) plans with; that guide applies them, and does not redefine them.
 
@@ -68,45 +94,69 @@ These are the terms [Engineering Management](06-engineering-management.md) plans
 
 **SWOT**: Four-cell partition of a situation into Strengths, Weaknesses, Opportunities, and Threats.
 
-| Concept | Definition |
-| --- | --- |
-| **Strengths** | Internal factors that give an advantage — resources, expertise, processes, relationships |
-| **Weaknesses** | Internal factors that hold back — missing resources, skills, or capabilities |
-| **Opportunities** | External factors worth exploiting — market trends, emerging technologies, unserved segments |
-| **Threats** | External factors that can cause harm — competition, downturns, shifting preferences, disruption |
+Strengths
+: Internal factors that give an advantage — resources, expertise, processes, relationships
+
+Weaknesses
+: Internal factors that hold back — missing resources, skills, or capabilities
+
+Opportunities
+: External factors worth exploiting — market trends, emerging technologies, unserved segments
+
+Threats
+: External factors that can cause harm — competition, downturns, shifting preferences, disruption
 
 ### SMART Goals
 
 **SMART**: Five criteria that make a goal *actionable*: Specific, Measurable, Achievable, Relevant, and Time-bound.
 
-| Concept | Definition |
-| --- | --- |
-| **Specific** | Clear and well-defined enough to answer who, what, when, where, and why |
-| **Measurable** | Quantifiable, so progress can be tracked by Monitoring |
-| **Achievable** | Realistic given the resources and conditions in play |
-| **Relevant** | Aligned with the higher-level aims it serves, so local wins do not cost more elsewhere |
-| **Time-bound** | Anchored to a defined timeframe or deadline |
+Specific
+: Clear and well-defined enough to answer who, what, when, where, and why
+
+Measurable
+: Quantifiable, so progress can be tracked by Monitoring
+
+Achievable
+: Realistic given the resources and conditions in play
+
+Relevant
+: Aligned with the higher-level aims it serves, so local wins do not cost more elsewhere
+
+Time-bound
+: Anchored to a defined timeframe or deadline
 
 ## Problem Solving
 
-| Concept | Definition |
-| --- | --- |
-| **Problem** | A factor that prevents or impedes progress toward a goal: conflicting interests, missing resources, a runtime failure, or a misunderstanding |
-| **Failure** | An attempt that does not reach its goal, or reaches it at a cost that outweighs the gain; informative, because it narrows what the next attempt must account for |
-| **Trade-off** | A choice in which one need is met at a measurable cost to another; unavoidable whenever resources are bounded and needs are multiple |
-| **Contingency** | Buffer reserved for Problems that cannot be anticipated, as distinct from the risks that can be |
+Problem
+: A factor that prevents or impedes progress toward a goal: conflicting interests, missing resources, a runtime failure, or a misunderstanding
+
+Failure
+: An attempt that does not reach its goal, or reaches it at a cost that outweighs the gain; informative, because it narrows what the next attempt must account for
+
+Trade-off
+: A choice in which one need is met at a measurable cost to another; unavoidable whenever resources are bounded and needs are multiple
+
+Contingency
+: Buffer reserved for Problems that cannot be anticipated, as distinct from the risks that can be
 
 ### Solving Approaches
 
 The four stances a team can take toward a Problem, as set out by Russell Ackoff, plus one decomposition tactic.
 
-| Concept | Definition |
-| --- | --- |
-| **Absolving** | Ignoring a Problem in the hope that it resolves itself; valid when acting costs more than the Problem does |
-| **Resolving** | Settling for a good-enough answer drawn from past experience, trial and error, or common sense; fast, not optimal |
-| **Solving** | Studying the Problem deeply enough to build a predictable model and choose the best available answer |
-| **Dissolving** | Redesigning the surrounding system so the conditions that produced the Problem no longer exist |
-| **Dividing and Conquer** | Breaking a Problem into sub-problems until each is trivial, then composing the results; a tactic rather than a stance, so it combines with any of the four |
+Absolving
+: Ignoring a Problem in the hope that it resolves itself; valid when acting costs more than the Problem does
+
+Resolving
+: Settling for a good-enough answer drawn from past experience, trial and error, or common sense; fast, not optimal
+
+Solving
+: Studying the Problem deeply enough to build a predictable model and choose the best available answer
+
+Dissolving
+: Redesigning the surrounding system so the conditions that produced the Problem no longer exist
+
+Dividing and Conquer
+: Breaking a Problem into sub-problems until each is trivial, then composing the results; a tactic rather than a stance, so it combines with any of the four
 
 ## Risk Management
 

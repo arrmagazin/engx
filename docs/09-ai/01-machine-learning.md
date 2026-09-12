@@ -26,12 +26,23 @@ under [References](index.md#references).
 
 ## Core Concepts
 
-| Concept | Definition |
-| --- | --- |
-| **Model** | A parameterized function whose weights are fitted to data |
-| **Training** | Optimizing weights to minimize a loss function (typically by gradient descent) |
-| **Inference** | Running a trained model to produce predictions on new input |
-| **Generalization** | Performance on data the model was not trained on |
-| **Underfitting** | A model too simple to capture the pattern in its training data, so it scores poorly on both training and new data |
-| **Overfitting** | A model that has absorbed noise specific to its training data, so it scores well in training and poorly on new data |
-| **Bias / Variance** | Error from wrong assumptions vs. error from sensitivity to data noise |
+Model
+: A parameterized function whose weights are fitted to data
+
+Training
+: Optimizing weights to minimize a loss function (typically by gradient descent)
+
+Inference
+: Running a trained model to produce predictions on new input
+
+Generalization
+: Performance on data the model was not trained on
+
+Underfitting
+: A model too simple to capture the pattern in its training data, so it scores poorly on both training and new data
+
+Overfitting
+: A model that has absorbed noise specific to its training data, so it scores well in training and poorly on new data
+
+Bias / Variance
+: Error from wrong assumptions vs. error from sensitivity to data noise

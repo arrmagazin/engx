@@ -56,19 +56,38 @@ where the data lives, which is one of the arguments for a BFF.
 
 ## Load Balancing
 
-| Concept | Definition |
-|---|---|
-| **Load Balancing** | Spreading incoming requests across a pool of interchangeable servers, so capacity grows by adding machines rather than by enlarging one |
-| **Layer 4 Balancing** | Forwarding at the transport level on address and port without reading the request; cheap and protocol-agnostic, but blind to paths, headers, and cookies |
-| **Layer 7 Balancing** | Routing on application data such as path, header, or cookie, which buys per-route pools and content-aware policy at the cost of terminating and parsing every request |
-| **Balancing Algorithm** | The rule picking the next server — round robin where requests cost the same, least connections where they do not, and a hash of a chosen key where a caller must keep landing on one node |
-| **Backend Pool** | The set of interchangeable servers a balancer distributes across, whose membership changes as instances are added, drained, or removed |
-| **Health Check** | A periodic probe deciding whether a server stays in the pool, so a failing instance is taken out before users meet its errors |
-| **Sticky Session** | Pinning a client to the server holding its state, which keeps that state reachable but unbalances the pool and loses the state outright when that server dies |
-| **Cache Affinity** | Routing every request for one key to the same backend so its local copy stays warm, using consistent hashing so that adding a node moves few keys |
-| **Connection Draining** | Letting in-flight requests finish on a server already removed from rotation, so a deploy or scale-in does not cut live work short |
-| **Single Point of Failure** | A component whose loss takes down everything behind it — the balancer's own exposure, answered by a redundant pair sharing a failover address |
-| **DNS Round Robin** | Distributing at name resolution by handing out different addresses in turn; free, but with no view of server health and with client caches that outlive a failure |
+Load Balancing
+: Spreading incoming requests across a pool of interchangeable servers, so capacity grows by adding machines rather than by enlarging one
+
+Layer 4 Balancing
+: Forwarding at the transport level on address and port without reading the request; cheap and protocol-agnostic, but blind to paths, headers, and cookies
+
+Layer 7 Balancing
+: Routing on application data such as path, header, or cookie, which buys per-route pools and content-aware policy at the cost of terminating and parsing every request
+
+Balancing Algorithm
+: The rule picking the next server — round robin where requests cost the same, least connections where they do not, and a hash of a chosen key where a caller must keep landing on one node
+
+Backend Pool
+: The set of interchangeable servers a balancer distributes across, whose membership changes as instances are added, drained, or removed
+
+Health Check
+: A periodic probe deciding whether a server stays in the pool, so a failing instance is taken out before users meet its errors
+
+Sticky Session
+: Pinning a client to the server holding its state, which keeps that state reachable but unbalances the pool and loses the state outright when that server dies
+
+Cache Affinity
+: Routing every request for one key to the same backend so its local copy stays warm, using consistent hashing so that adding a node moves few keys
+
+Connection Draining
+: Letting in-flight requests finish on a server already removed from rotation, so a deploy or scale-in does not cut live work short
+
+Single Point of Failure
+: A component whose loss takes down everything behind it — the balancer's own exposure, answered by a redundant pair sharing a failover address
+
+DNS Round Robin
+: Distributing at name resolution by handing out different addresses in turn; free, but with no view of server health and with client caches that outlive a failure
 
 ---
 

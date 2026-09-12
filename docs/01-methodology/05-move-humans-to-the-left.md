@@ -74,19 +74,38 @@ The approach fails quietly when any one of these is missing.
 
 ## Key Concepts
 
-| Concept | Definition |
-| --- | --- |
-| **Left** | The point in a pipeline where a decision is first expressed, before anything derives from it |
-| **Right** | The point where a decision takes effect in a running system |
-| **Human Touchpoint** | A step that cannot advance without a person reading, deciding, and applying the result by hand |
-| **Source Artifact** | The machine-readable file people author and review; the one representation the pipeline treats as authoritative |
-| **Generator** | The deterministic, repeatable transformation that turns a Source Artifact into what a machine actually runs |
-| **Derived Artifact** | Anything a Generator produces — code, configuration, runtime metadata, schemas, documentation |
-| **Collaboration Surface** | A Source Artifact written so every role with a stake in the decision can read and change it, not only engineers |
-| **Authoring-time Validation** | Schema, lint, and policy checks applied to a Source Artifact as it is written; the leftmost point at which a defect can be caught |
-| **Manual Gap** | A step that exists only because nobody automated it — the thing this approach looks for |
-| **Drift** | Divergence between a Source Artifact and what is actually running; it appears wherever a Derived Artifact can be edited independently |
-| **Regeneration** | Re-running every Generator from unchanged sources; an empty diff is the evidence that there is no Drift |
+Left
+: The point in a pipeline where a decision is first expressed, before anything derives from it
+
+Right
+: The point where a decision takes effect in a running system
+
+Human Touchpoint
+: A step that cannot advance without a person reading, deciding, and applying the result by hand
+
+Source Artifact
+: The machine-readable file people author and review; the one representation the pipeline treats as authoritative
+
+Generator
+: The deterministic, repeatable transformation that turns a Source Artifact into what a machine actually runs
+
+Derived Artifact
+: Anything a Generator produces — code, configuration, runtime metadata, schemas, documentation
+
+Collaboration Surface
+: A Source Artifact written so every role with a stake in the decision can read and change it, not only engineers
+
+Authoring-time Validation
+: Schema, lint, and policy checks applied to a Source Artifact as it is written; the leftmost point at which a defect can be caught
+
+Manual Gap
+: A step that exists only because nobody automated it — the thing this approach looks for
+
+Drift
+: Divergence between a Source Artifact and what is actually running; it appears wherever a Derived Artifact can be edited independently
+
+Regeneration
+: Re-running every Generator from unchanged sources; an empty diff is the evidence that there is no Drift
 
 ## Benefits and Trade-offs
 

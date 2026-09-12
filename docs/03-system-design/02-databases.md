@@ -30,15 +30,26 @@ A working vocabulary for relational and document databases: what the pieces are 
 
 ## Consistency Models
 
-| Concept | Definition |
-|---|---|
-| **Consistency Model** | The guarantee a system gives about when a write becomes visible to a subsequent read |
-| **Eventual Consistency** | Updates propagating asynchronously, so replicas may serve stale data briefly but converge |
-| **Strong Consistency** | Every read reflecting the most recent write, required wherever a stale answer is a correctness bug rather than a cosmetic one |
-| **Read-Your-Writes Consistency** | A guarantee that a user sees their own recent writes immediately, even while other users may not |
-| **Last-Write-Wins (LWW)** | Resolving concurrent writes by keeping the most recent — adequate for counters, lossy for collaborative editing |
-| **CAP Theorem** | The result that a distributed system split by a network partition can either keep its replicas in agreement or keep answering requests, but not both while the split lasts; partition tolerance is not a third option a designer trades away, because partitions happen whether or not they were chosen |
-| **PACELC** | An extension of the CAP theorem that also names the else-case: with no partition, the standing trade-off is between lower latency and a stronger guarantee, which is the choice a healthy system actually makes every day |
+Consistency Model
+: The guarantee a system gives about when a write becomes visible to a subsequent read
+
+Eventual Consistency
+: Updates propagating asynchronously, so replicas may serve stale data briefly but converge
+
+Strong Consistency
+: Every read reflecting the most recent write, required wherever a stale answer is a correctness bug rather than a cosmetic one
+
+Read-Your-Writes Consistency
+: A guarantee that a user sees their own recent writes immediately, even while other users may not
+
+Last-Write-Wins (LWW)
+: Resolving concurrent writes by keeping the most recent — adequate for counters, lossy for collaborative editing
+
+CAP Theorem
+: The result that a distributed system split by a network partition can either keep its replicas in agreement or keep answering requests, but not both while the split lasts; partition tolerance is not a third option a designer trades away, because partitions happen whether or not they were chosen
+
+PACELC
+: An extension of the CAP theorem that also names the else-case: with no partition, the standing trade-off is between lower latency and a stronger guarantee, which is the choice a healthy system actually makes every day
 
 ## Isolation Levels
 
@@ -97,14 +108,23 @@ The distinction is no longer clean: Postgres has JSONB columns for schema-flexib
 
 ### Sharding
 
-| Concept | Definition |
-|---|---|
-| **Sharding** | Splitting a dataset across database instances so no single machine holds all of it |
-| **Shard Key** | The field deciding which shard a record lives on; chosen to match the dominant query so common lookups reach one shard |
-| **Hash-Based Sharding** | Placing records by a hash of the shard key — even load, at the cost of geographic and relational locality |
-| **Consistent Hashing** | A placement scheme that relocates only a small fraction of keys when instances are added or removed, unlike `hash % N` |
-| **Region-Based Sharding** | Partitioning by geography rather than by hash, used where queries are inherently local |
-| **Hot Shard** | One shard or key taking disproportionate traffic, unbalancing a cluster that is otherwise evenly partitioned |
+Sharding
+: Splitting a dataset across database instances so no single machine holds all of it
+
+Shard Key
+: The field deciding which shard a record lives on; chosen to match the dominant query so common lookups reach one shard
+
+Hash-Based Sharding
+: Placing records by a hash of the shard key — even load, at the cost of geographic and relational locality
+
+Consistent Hashing
+: A placement scheme that relocates only a small fraction of keys when instances are added or removed, unlike `hash % N`
+
+Region-Based Sharding
+: Partitioning by geography rather than by hash, used where queries are inherently local
+
+Hot Shard
+: One shard or key taking disproportionate traffic, unbalancing a cluster that is otherwise evenly partitioned
 
 ## Data semantics
 

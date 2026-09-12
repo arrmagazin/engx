@@ -23,15 +23,26 @@ smaller than a token, nothing it can attend to beyond the context window, and no
 drawn from a distribution — which is why cost, truncation, and non-determinism are properties of the
 architecture rather than quirks of a particular API.
 
-| Concept | Definition |
-| --- | --- |
-| **Token** | The atomic unit of text (sub-word fragment) the model reads and emits |
-| **Tokenizer** | The component that maps text to and from tokens (BPE, for example), driving cost, context limits, and multilingual fairness |
-| **Transformer** | Architecture built on stacked self-attention and feed-forward blocks |
-| **Attention** | Mechanism letting each token weigh the relevance of every other token |
-| **Context Window** | Maximum tokens the model can attend to at once (prompt + output) |
-| **Parameters** | The learned weights; scale correlates with capability |
-| **Logits / Sampling** | A probability distribution over the next tokens, from which the emitted token is drawn |
+Token
+: The atomic unit of text (sub-word fragment) the model reads and emits
+
+Tokenizer
+: The component that maps text to and from tokens (BPE, for example), driving cost, context limits, and multilingual fairness
+
+Transformer
+: Architecture built on stacked self-attention and feed-forward blocks
+
+Attention
+: Mechanism letting each token weigh the relevance of every other token
+
+Context Window
+: Maximum tokens the model can attend to at once (prompt + output)
+
+Parameters
+: The learned weights; scale correlates with capability
+
+Logits / Sampling
+: A probability distribution over the next tokens, from which the emitted token is drawn
 
 ## Training Lifecycle
 

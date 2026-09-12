@@ -99,15 +99,26 @@ independently editable, the arrow reverses and the guarantee is gone.
 
 ### Key Concepts
 
-| Concept | Definition |
-| --------- | ------------ |
-| **Canonical Source** | The one representation designated as authoritative; conflicts are resolved in its favor by definition, not by negotiation |
-| **Derived Artifact** | Any representation reproducible from the source by a deterministic transformation |
-| **Projection** | A read-optimized view built from the source — denormalized on purpose, never edited in place |
-| **Idempotent Derivation** | Regeneration that yields an unchanged artifact from an unchanged source, making drift detectable by diff |
-| **Drift** | Divergence between source and copy; the failure mode SSOT exists to prevent |
-| **Reconciliation** | Continuously re-deriving actual state toward declared state (the control loop behind IaC and Kubernetes) |
-| **Controlled Duplication** | Copies that are generated, checked, or expired — caches, indexes, materialized views, replicas |
+Canonical Source
+: The one representation designated as authoritative; conflicts are resolved in its favor by definition, not by negotiation
+
+Derived Artifact
+: Any representation reproducible from the source by a deterministic transformation
+
+Projection
+: A read-optimized view built from the source — denormalized on purpose, never edited in place
+
+Idempotent Derivation
+: Regeneration that yields an unchanged artifact from an unchanged source, making drift detectable by diff
+
+Drift
+: Divergence between source and copy; the failure mode SSOT exists to prevent
+
+Reconciliation
+: Continuously re-deriving actual state toward declared state (the control loop behind IaC and Kubernetes)
+
+Controlled Duplication
+: Copies that are generated, checked, or expired — caches, indexes, materialized views, replicas
 
 DRY and SSOT are not the same rule. DRY is about *knowledge*, not text: two identical lines
 expressing unrelated decisions are not a violation, and two divergent expressions of one decision

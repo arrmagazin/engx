@@ -13,16 +13,35 @@ Related: [Engineering Management](../01-methodology/06-engineering-management.md
 
 ## Core Concepts
 
-| Concept | Definition |
-| --- | --- |
-| **Expectation** | The observable behavior and output level a person is accountable for, at their level<br>*An expectation nobody has stated cannot be missed — only resented* |
-| **Feedback** | An observation about specific behavior and its effect, delivered close in time to the behavior<br>*It describes what happened; judgement of the person is a different thing* |
-| **Growth** | A durable increase in the scope a person can handle without supervision |
-| **Autonomy Level** | How much decision authority a person holds in one specific area; the delegation ladder in [Team Lead](01-team-lead.md#delegation) grades it<br>*Per-area, not per-person — a staff engineer can be trusted with architecture and still need support in incident command* |
-| **Motivation** | The internal driver that makes discretionary effort available — commonly autonomy, mastery, and purpose<br>*Managers cannot supply it; they can remove what destroys it* |
-| **Psychological Safety** | The shared belief that raising a problem, an error, or a dissenting view carries no personal cost<br>*The measurable signal is whether bad news travels upward early; if it only arrives at the deadline, safety is absent* |
-| **Retention Risk** | The probability a person leaves within a period, weighted by the cost of replacing them |
-| **Bus Factor** | The number of people who must become unavailable before a system or process stalls<br>*A bus factor of 1 is a delivery risk recorded as a people problem* |
+Expectation
+: The observable behavior and output level a person is accountable for, at their level\
+  *An expectation nobody has stated cannot be missed — only resented*
+
+Feedback
+: An observation about specific behavior and its effect, delivered close in time to the behavior\
+  *It describes what happened; judgement of the person is a different thing*
+
+Growth
+: A durable increase in the scope a person can handle without supervision
+
+Autonomy Level
+: How much decision authority a person holds in one specific area; the delegation ladder in [Team Lead](01-team-lead.md#delegation) grades it\
+  *Per-area, not per-person — a staff engineer can be trusted with architecture and still need support in incident command*
+
+Motivation
+: The internal driver that makes discretionary effort available — commonly autonomy, mastery, and purpose\
+  *Managers cannot supply it; they can remove what destroys it*
+
+Psychological Safety
+: The shared belief that raising a problem, an error, or a dissenting view carries no personal cost\
+  *The measurable signal is whether bad news travels upward early; if it only arrives at the deadline, safety is absent*
+
+Retention Risk
+: The probability a person leaves within a period, weighted by the cost of replacing them
+
+Bus Factor
+: The number of people who must become unavailable before a system or process stalls\
+  *A bus factor of 1 is a delivery risk recorded as a people problem*
 
 ## 1:1s
 

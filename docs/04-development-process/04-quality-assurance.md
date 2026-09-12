@@ -13,11 +13,14 @@ Quality assurance is the process, mostly run by test engineers, that gives confi
 
 The three terms are used interchangeably in conversation and mean different things in practice.
 
-| Concept | Definition |
-| --- | --- |
-| **Quality Assurance** | Process-level work spanning the whole lifecycle, aimed at stopping defects from being introduced at all |
-| **Quality Control** | Product-level work that inspects what was actually built and drives the issues it finds to resolution |
-| **Testing** | The activity of exercising a build to confirm it behaves as specified and carries no known faults |
+Quality Assurance
+: Process-level work spanning the whole lifecycle, aimed at stopping defects from being introduced at all
+
+Quality Control
+: Product-level work that inspects what was actually built and drives the issues it finds to resolution
+
+Testing
+: The activity of exercising a build to confirm it behaves as specified and carries no known faults
 
 They nest rather than compete: testing is one activity inside quality control, and quality control is one activity inside quality assurance. The distinction matters when a team says it "has QA" because someone runs tests before release. That is testing. The outermost ring — designing the process so that fewer defects arrive at all — is the part most often missing.
 
@@ -25,11 +28,14 @@ What quality means on a given project has to be pinned to attributes someone can
 
 ### Error, Defect, and Failure
 
-| Concept | Definition |
-| --- | --- |
-| **Error** | A mistake a person makes while writing code or interpreting a requirement |
-| **Defect** | Code that does not do what its specification says, whether or not anyone has run it yet; also called a bug |
-| **Failure** | The event a user sees when the running system cannot do what it was built to do |
+Error
+: A mistake a person makes while writing code or interpreting a requirement
+
+Defect
+: Code that does not do what its specification says, whether or not anyone has run it yet; also called a bug
+
+Failure
+: The event a user sees when the running system cannot do what it was built to do
 
 The three are a chain, and each link can break. An error only becomes a defect if it reaches the code; a defect only becomes a failure when something executes the affected path. That is why the counts never match, and why a report of zero failures in production says nothing about how many defects shipped.
 
@@ -73,10 +79,11 @@ The order is one of dependency, not a timetable. The phases are not always stric
 
 Two documents come out of planning, and teams routinely merge them into one file and then lose track of which question they were answering.
 
-| Concept | Definition |
-| --- | --- |
-| **Test Plan** | The document fixing scope, schedule, and resources — what gets verified and when |
-| **Test Strategy** | The document fixing the approach and the types of verification used — how the work gets done |
+Test Plan
+: The document fixing scope, schedule, and resources — what gets verified and when
+
+Test Strategy
+: The document fixing the approach and the types of verification used — how the work gets done
 
 The plan changes when the release changes; the strategy changes when the team changes how it works. Keeping them separate makes it obvious which of those has happened.
 
@@ -109,10 +116,11 @@ A unit test runs in isolation with every external dependency mocked or stubbed, 
 
 ## Test Case Management
 
-| Concept | Definition |
-| --- | --- |
-| **Test Case** | A single verification: one set of preconditions and inputs, and the one result they should produce |
-| **Test Suite** | A named group of cases run together for one purpose, such as a sanity, smoke, regression, UI, performance, or API run |
+Test Case
+: A single verification: one set of preconditions and inputs, and the one result they should produce
+
+Test Suite
+: A named group of cases run together for one purpose, such as a sanity, smoke, regression, UI, performance, or API run
 
 Cases group into suites, and suites are scheduled by the [Test Plan](#test-plan-and-test-strategy). A case is well formed when someone who did not write it can run it and reach the same verdict, and when it can be traced back to the requirement that justifies it. That is what the fields are for: ID, priority, title, description, steps, prerequisites, test data, expected result, requirement ID, environment, comments, defect ID, and automation status.
 
@@ -230,10 +238,11 @@ This work belongs inside the SDLC continuously rather than in a block before rel
 
 Metrics fall into two groups by what they can tell you.
 
-| Concept | Definition |
-| --- | --- |
-| **Result Metrics** | Absolute counts of what happened — cases passed, failed, or blocked, defects found, accepted, or rejected, planned against actual hours, post-release bugs |
-| **Predictive Metrics** | Ratios derived from those counts that flag risk early, such as defect containment efficiency, defect leakage, the defect reopen ratio, the rejection rate, and test design efficiency |
+Result Metrics
+: Absolute counts of what happened — cases passed, failed, or blocked, defects found, accepted, or rejected, planned against actual hours, post-release bugs
+
+Predictive Metrics
+: Ratios derived from those counts that flag risk early, such as defect containment efficiency, defect leakage, the defect reopen ratio, the rejection rate, and test design efficiency
 
 Counts describe the release that just happened; ratios are what let a team act before the next one goes the same way. A rising reopen ratio says fixes are not being verified properly, and it says so while there is still time to change how they are verified.
 

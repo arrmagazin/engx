@@ -23,11 +23,14 @@ A Value alone is unfalsifiable.
 A Practice alone is context-free and cargo-cults easily.
 Principles connect them.
 
-| Concept | Definition |
-| --- | --- |
-| **Value** | Criterion a team judges its own behavior against, stated without reference to any situation and therefore never directly actionable |
-| **Principle** | Domain-specific bridging rule that turns a Value into a choice a team can make in a concrete situation |
-| **Practice** | Behavior a team either performs or does not, observable from outside the team and therefore checkable |
+Value
+: Criterion a team judges its own behavior against, stated without reference to any situation and therefore never directly actionable
+
+Principle
+: Domain-specific bridging rule that turns a Value into a choice a team can make in a concrete situation
+
+Practice
+: Behavior a team either performs or does not, observable from outside the team and therefore checkable
 
  **Primary Practice**  safe to adopt on its own, before any other part of the method is in place.**Corollary Practice**  depends on several Primary Practices already working, and is difficult or dangerous to adopt first
 

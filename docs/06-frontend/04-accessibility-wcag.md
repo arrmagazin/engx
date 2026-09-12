@@ -19,12 +19,17 @@ Target **AA**. It is the level nearly every legal and procurement policy cites, 
 
 WCAG groups every success criterion under one of four principles, abbreviated POUR.
 
-| Concept | Definition |
-| --- | --- |
-| **Perceivable** | Content reaching the user through more than one sense — text alternatives, captions, and enough contrast that nothing is carried by sight or sound alone |
-| **Operable** | Every control reachable without a mouse — keyboard access, a visible focus indicator, and no time limit or motion the user cannot pause or extend |
-| **Understandable** | Predictable behavior and plain language — readable text, consistent navigation, and error messages that name what went wrong and how to fix it |
-| **Robust** | Markup that assistive technology can parse reliably — valid HTML, accurate names and roles, and state exposed through attributes rather than visual styling alone |
+Perceivable
+: Content reaching the user through more than one sense — text alternatives, captions, and enough contrast that nothing is carried by sight or sound alone
+
+Operable
+: Every control reachable without a mouse — keyboard access, a visible focus indicator, and no time limit or motion the user cannot pause or extend
+
+Understandable
+: Predictable behavior and plain language — readable text, consistent navigation, and error messages that name what went wrong and how to fix it
+
+Robust
+: Markup that assistive technology can parse reliably — valid HTML, accurate names and roles, and state exposed through attributes rather than visual styling alone
 
 ## ARIA Patterns
 

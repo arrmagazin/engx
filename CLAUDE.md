@@ -7,7 +7,7 @@ A personal engineering knowledge base written as markdown, organized as a number
 - `docs/` — the book: ten numbered folders plus one unnumbered entry point, `docs/welcome.md`.
 - `images/` — holds only `cover-bg.png`, the photograph on the book cover, which the builder reads directly. The docs carry no figures of their own: every illustration in the book is a mermaid diagram in the prose. An image added here is referenced by a relative path (`../images/…` from `docs/`, `../../images/…` from a chapter folder), never root-absolute, and must not be SVG — see **Image formats in the PDF**.
 - `reference/` — source material that is **not** part of the book: three single-cloud handbooks the Clouds chapter was distilled from. Outside `docs/`, so outside the checkers and outside the build. Nothing in `docs/` links into it. See `reference/README.md`.
-- `book/` — what the renderers need beyond the prose: `metadata.yaml` (title, author, rights, subjects), `table-rules.lua` (a pandoc filter putting a hairline between table rows in the PDF) and `epub.css` (that separation for the EPUB, plus the blockquote callouts). `build/` — the rendered outputs, gitignored.
+- `book/` — what the renderers need beyond the prose: `metadata.yaml` (title, author, rights, subjects), `table-rules.lua` (a pandoc filter putting a hairline between table rows in the PDF) and `epub.css` (that separation for the EPUB, plus the blockquote callouts and the glossary definition lists). `build/` — the rendered outputs, gitignored.
 - `scripts/` — the three checkers, the book builder, and their tests. `.githooks/` — the hook that runs the checkers. `README.md` — the repository's front page, written for a human, not an agent.
 
 **The numbering rule.** Folder prefixes are unique and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-clouds`, `09-ai`, `10-humans`. `08` and `11` are unused — gaps left by earlier reorganizations, not placeholders. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
@@ -82,7 +82,7 @@ rendering. Nine things it does that pandoc cannot, each with tests in
   cover cannot drift from the metadata pandoc sets inside the book. No photograph or no
   Chrome means no cover, and the build carries on.
 - **Closing void tags.** `<br>` becomes `<br/>` outside fenced blocks. EPUB3 is XHTML
-  and pandoc passes raw inline HTML through verbatim, so a bare `<br>` in a table cell
+  and pandoc passes raw inline HTML through verbatim, so a bare `<br>` in the prose
   reached the EPUB as a mismatched tag and a conforming reader abandoned the rest of
   that page — which is what happened to three chapters until 2026-09-12.
 
@@ -168,28 +168,47 @@ tags: [lowercase, kebab-or-single-word, tags]
 
 ## Glossary conventions
 
-These apply to any file that defines terms in a `| Concept | Definition |` or `| Component | Definition |` table, such as `docs/00-software-engineering/01-glossary.md`.
+These apply to any file that defines terms in a **definition list** — the [extended markdown syntax](https://www.markdownguide.org/extended-syntax/#definition-lists) — such as `docs/00-software-engineering/01-glossary.md`. They were two-column tables until 2026-09-12; a definition is now free to hold a list or a second paragraph, and a long one wraps to the full measure instead of a narrow column.
 
-`check_glossary.py` checks the mechanical rules below: broken rows, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. It only looks at tables with one of those two header rows, so other tables — ladders, comparisons, nav tables — are unaffected. Indirect loops and oversized tables print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked.
+`check_glossary.py` checks the mechanical rules below: entries a renderer would silently fold together, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. Definition lists are used in this book for exactly one thing, so every one of them is in scope and no header row marks them; comparisons, ladders and nav tables stay tables and are not read. Indirect loops and oversized lists print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked.
 
 Note also what it cannot see: its duplicate-term check is per file, so the same term defined once in each of two chapters passes. That is a real hazard in a book this size — see the two senses of *Framework* in `01-methodology/index.md` and `03-system-design/index.md`, which are disambiguated in prose because no checker could catch them.
 
 ### Shape
 
-- One row per term, one line per row: `| **Term** | definition |`. No trailing period.
+- One entry per term: the term alone on its line, the definition on the next behind `: `, and **a blank line before the next term**. No bold on the term — every renderer emphasizes a `<dt>` itself — and no trailing period.
+
+  ```markdown
+  Solution
+  : An artificial phenomenon a Team designs for someone outside it
+
+  Stakeholder
+  : Any party whose interests are at stake in a Solution's outcome
+  ```
+
 - Definitions are noun phrases, not sentences. Never restate the term inside its own definition.
 - Keep them terse: the definition, plus at most one `;` or `—` clause saying why the term matters or how it is used.
-- Never put a raw newline inside a table cell — it terminates the row and breaks the table. Use `<br>` when a cell genuinely needs a list; the book builder closes it to `<br/>`, which EPUB3 requires, so you do not have to.
-- Where a `##` section is named after a term the table defines, put that definition in the first row (`## Delivery` → `**Delivery**`). Sections named after a grouping rather than a term have no such row.
+- A definition that needs a **line break** ends the line above with a trailing `\`. A bare second line is folded into the definition instead and the break is lost.
+- A definition that needs a **list or a second paragraph** uses the `:   ` marker and indents that block by four spaces, so it stays inside the definition. Unindented, the block escapes the definition and splits the list in two — it renders, which is what makes this worth checking for.
+
+  ```markdown
+  Solution
+  :   An artificial phenomenon:
+
+      - intentionally designed by a Team
+      - observable and measurable at any moment
+  ```
+
+- Where a `##` section is named after a term the list defines, put that definition first (`## Delivery` → `Delivery`). Sections named after a grouping rather than a term have no such entry.
 
 ### References between terms
 
 - Capitalize a term when referring to another defined term; lowercase it when using the ordinary word. Capitalized means "this is defined in this file".
-- Every capitalized reference must resolve to a row in the same file. No dangling references.
+- Every capitalized reference must resolve to an entry in the same file. No dangling references.
 - No two terms may define each other. If A's definition needs B and B's needs A, redefine one from first principles so it stands alone.
-- Longer loops that run through a hub term (most rows mention `Solution`) are tolerated — they are reported as notes, not failures.
+- Longer loops that run through a hub term (most definitions mention `Solution`) are tolerated — they are reported as notes, not failures.
 - State each relationship once, in one direction. If `Goals` says "decomposed into Objectives", `Objectives` must not say "supporting Goals".
-- A term's row is the only place its meaning lives; don't repeat it inside another row.
+- A term's own entry is the only place its meaning lives; don't repeat it inside another definition.
 
 ### Grounding
 
@@ -197,7 +216,7 @@ Note also what it cannot see: its duplicate-term check is per file, so the same 
 
 ### Restrictions
 
-- Don't put prose paragraphs between rows of a table; explanation belongs in the definition itself or in a separate doc.
-- Don't introduce a term nothing else references — if no other row needs it, question whether it belongs.
-- Order rows by the dependency chain: roots first, verified outcomes last. Don't reorder for aesthetics.
-- Past roughly a dozen rows, split the table into a new `##` section with its own heading term rather than letting one table grow.
+- Don't put prose paragraphs between entries; explanation belongs in the definition itself or in a separate doc.
+- Don't introduce a term nothing else references — if no other definition needs it, question whether it belongs.
+- Order entries by the dependency chain: roots first, verified outcomes last. Don't reorder for aesthetics.
+- Past roughly a dozen entries, split the list into a new `##` section with its own heading term rather than letting one list grow.

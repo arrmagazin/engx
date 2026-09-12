@@ -35,16 +35,29 @@ and can represent nothing more. The activation function is what keeps each added
 
 ## Core Concepts
 
-| Concept | Definition |
-| --- | --- |
-| **Neuron** | A weighted sum of inputs passed through a non-linear activation |
-| **Layer** | A group of neurons; stacking them is what makes a network deep, and depth is what buys hierarchical features |
-| **Activation Function** | The non-linearity — ReLU, GELU, sigmoid — without which any stack of layers collapses into a single linear map |
-| **Backpropagation** | The algorithm that computes the gradient of the error with respect to each weight, by applying the chain rule backward through the network |
-| **Gradient Descent** | Iterative weight update in the direction that reduces the error, with SGD and Adam the usual variants |
-| **Loss Function** | The scalar measure of prediction error that training minimizes |
-| **Regularization** | Techniques such as dropout and weight decay that curb overfitting |
-| **Embedding** | A dense vector representation that places semantically similar inputs close together in geometric space |
+Neuron
+: A weighted sum of inputs passed through a non-linear activation
+
+Layer
+: A group of neurons; stacking them is what makes a network deep, and depth is what buys hierarchical features
+
+Activation Function
+: The non-linearity — ReLU, GELU, sigmoid — without which any stack of layers collapses into a single linear map
+
+Backpropagation
+: The algorithm that computes the gradient of the error with respect to each weight, by applying the chain rule backward through the network
+
+Gradient Descent
+: Iterative weight update in the direction that reduces the error, with SGD and Adam the usual variants
+
+Loss Function
+: The scalar measure of prediction error that training minimizes
+
+Regularization
+: Techniques such as dropout and weight decay that curb overfitting
+
+Embedding
+: A dense vector representation that places semantically similar inputs close together in geometric space
 
 ## The Training Loop
 

@@ -161,6 +161,18 @@ PDF_CALLOUT = (
     r"\renewenvironment{quote}{\begin{engxcallout}}{\end{engxcallout}}"
 )
 
+# Glossaries are definition lists, which LaTeX sets run-in: the term in bold at the
+# left margin, its definition alongside, the rest of it hung underneath. That is how a
+# printed glossary reads and it needs no help. What does need help is a definition
+# holding a bulleted list — LaTeX gives a nested itemize a left margin of its own on
+# top of the description's, so the bullets land a long way right of the definition they
+# belong to and read as a separate block. The margin is narrowed for that nesting only,
+# inside the description environment, so every other list in the book is untouched.
+PDF_DEFINITION_LIST = (
+    r"\usepackage{enumitem}"
+    r"\AtBeginEnvironment{description}{\setlist[itemize]{leftmargin=1.2em}}"
+)
+
 PDF_HEADER_INCLUDES = (
     r"header-includes="
     r"\usepackage{etoolbox}"
@@ -172,6 +184,7 @@ PDF_HEADER_INCLUDES = (
     r"\AtBeginEnvironment{longtable}{\small\let\texttt\oldtexttt" + TABLE_PADDING + "}"
     r"\AtBeginEnvironment{tabular}{\small\let\texttt\oldtexttt" + TABLE_PADDING + "}"
     + PDF_CALLOUT
+    + PDF_DEFINITION_LIST
 )
 
 PDF_MAIN_FONT = "Times New Roman"

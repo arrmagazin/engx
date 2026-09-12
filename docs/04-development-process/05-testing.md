@@ -13,13 +13,20 @@ How testing is organized and reported — test case management, defect managemen
 
 ## Testing Principles (F.I.R.S.T.)
 
-| Concept | Definition |
-| --- | --- |
-| **Fast** | Runs in milliseconds, so the whole suite can run on every change without anyone waiting for it |
-| **Independent** | Shares no state with any other test, and sets up and tears down whatever it needs |
-| **Repeatable** | Produces the same result on every run, on any machine, in any order |
-| **Self-Validating** | Reports its own pass or fail, with no human reading output to decide which it was |
-| **Timely** | Written alongside the code it covers, in the same change or ahead of it under TDD |
+Fast
+: Runs in milliseconds, so the whole suite can run on every change without anyone waiting for it
+
+Independent
+: Shares no state with any other test, and sets up and tears down whatever it needs
+
+Repeatable
+: Produces the same result on every run, on any machine, in any order
+
+Self-Validating
+: Reports its own pass or fail, with no human reading output to decide which it was
+
+Timely
+: Written alongside the code it covers, in the same change or ahead of it under TDD
 
 **Best practices:**
 
@@ -138,14 +145,23 @@ In practice this means writing the tests in the same task or story as the produc
 
 The five kinds below are Gerard Meszaros's taxonomy from *xUnit Test Patterns*. The names get used loosely in practice, and most mocking libraries produce whichever kind you configure, but the distinctions are what make a test's intent readable.
 
-| Concept | Definition |
-| --- | --- |
-| **Test Double** | Any stand-in a test substitutes for a real collaborator so the code under test can run in isolation |
-| **Dummy** | A value passed only to satisfy a signature, never called and never asserted on |
-| **Fake** | A working implementation that takes a shortcut making it unfit for production, such as an in-memory store standing in for a database |
-| **Stub** | A double that returns canned answers to the calls a test makes, supplying the input the code needs to reach the case under test |
-| **Spy** | A double that records the calls it receives so the test can assert on them afterwards |
-| **Mock** | A double preloaded with the calls it expects to receive, which fails the test itself when the code does not call it that way |
+Test Double
+: Any stand-in a test substitutes for a real collaborator so the code under test can run in isolation
+
+Dummy
+: A value passed only to satisfy a signature, never called and never asserted on
+
+Fake
+: A working implementation that takes a shortcut making it unfit for production, such as an in-memory store standing in for a database
+
+Stub
+: A double that returns canned answers to the calls a test makes, supplying the input the code needs to reach the case under test
+
+Spy
+: A double that records the calls it receives so the test can assert on them afterwards
+
+Mock
+: A double preloaded with the calls it expects to receive, which fails the test itself when the code does not call it that way
 
 The line that matters is between the last three. A stub is about input — it feeds the code whatever it needs to reach the case under test, and asserts nothing. A mock is about verifying interaction — it carries an expectation of how it will be called and fails the test when that expectation is not met. A spy sits between them, recording calls without judging them, so the assertion stays in the test where a reader can see it.
 
@@ -155,12 +171,17 @@ Reach for a stub whenever the collaborator is only a source of data, and for a m
 
 Coverage tools report one percentage by default, and which of these it measures changes what the number proves.
 
-| Concept | Definition |
-| --- | --- |
-| **Statement Coverage** | Share of executable statements the suite ran at least once |
-| **Line Coverage** | Share of source lines executed; differs from statements only where one line holds several of them |
-| **Branch Coverage** | Share of decision outcomes taken, so an `if` counts only once both the true and the false path have run |
-| **Function Coverage** | Share of functions or methods entered at least once, the coarsest of the four |
+Statement Coverage
+: Share of executable statements the suite ran at least once
+
+Line Coverage
+: Share of source lines executed; differs from statements only where one line holds several of them
+
+Branch Coverage
+: Share of decision outcomes taken, so an `if` counts only once both the true and the false path have run
+
+Function Coverage
+: Share of functions or methods entered at least once, the coarsest of the four
 
 Branch coverage is the one that catches an untested `else`. Statement and line coverage can read 100% while a conditional is only ever exercised one way, because every statement did run — just never with the other outcome. Function coverage is weaker still: it says a function was entered, not that anything inside it was checked.
 

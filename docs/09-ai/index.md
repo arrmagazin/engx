@@ -46,15 +46,26 @@ graph TD
 
 Terms that cut across the whole chapter. Vocabulary belonging to one layer is defined in that layer's guide.
 
-| Concept | Definition |
-| --- | --- |
-| **AGI** | Artificial General Intelligence — the hypothetical point at which one system matches human breadth across arbitrary tasks |
-| **Alignment** | Making a model's behavior match the intent and values of the people deploying it |
-| **Hallucination** | Fluent, confident output that is not true, produced with no signal distinguishing it from output that is |
-| **MCP** | Model Context Protocol — an open standard for connecting models to tools and data sources |
-| **MoE** | Mixture of Experts — routing each token through a subset of the network so capacity can grow faster than the cost of running it |
-| **Quantization** | Reducing the numeric precision of weights to shrink a model and speed it up, at some cost in accuracy |
-| **Vector Database** | A store optimized for nearest-neighbor search over dense vectors, which is what makes retrieval practical at scale |
+AGI
+: Artificial General Intelligence — the hypothetical point at which one system matches human breadth across arbitrary tasks
+
+Alignment
+: Making a model's behavior match the intent and values of the people deploying it
+
+Hallucination
+: Fluent, confident output that is not true, produced with no signal distinguishing it from output that is
+
+MCP
+: Model Context Protocol — an open standard for connecting models to tools and data sources
+
+MoE
+: Mixture of Experts — routing each token through a subset of the network so capacity can grow faster than the cost of running it
+
+Quantization
+: Reducing the numeric precision of weights to shrink a model and speed it up, at some cost in accuracy
+
+Vector Database
+: A store optimized for nearest-neighbor search over dense vectors, which is what makes retrieval practical at scale
 
 ## Perspectives
 
