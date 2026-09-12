@@ -7,8 +7,6 @@ tags: [architecture, system-design]
 
 # System Architecture
 
-![System Architecture](../../images/02-architecture.svg)
-
 **System architecture** is the practice of making the decisions about a solution that are expensive to reverse: what its parts are, how they interact, and how it is expected to change. This chapter covers those decisions and the quality attributes they are judged against. Architecture stops at the decisions — turning them into schemas, endpoints, and algorithms is [System Design](../03-system-design/index.md), and the attack classes a web application is built to withstand are [Web Application Security](../06-frontend/05-security-web.md).
 
 ## In This Chapter

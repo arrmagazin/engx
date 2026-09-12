@@ -7,8 +7,6 @@ tags: [coding, programming-paradigms]
 
 # Programming Paradigms
 
-![Programming Paradigms](../../images/05-programming.svg)
-
 A **programming paradigm** is an opinionated view of what computation is, dictating how data and
 code are organized, accessed, and manipulated. This guide surveys the imperative, object-oriented,
 declarative, functional, reactive, and metaprogramming families, and serves engineers choosing a

@@ -1,6 +1,9 @@
 """Tests for the book builder's text transforms."""
 
+import pathlib
+import tempfile
 import unittest
+import xml.etree.ElementTree as ElementTree
 
 import build_book
 
@@ -58,6 +61,41 @@ class NormalizeThematicBreaks(unittest.TestCase):
     def test_a_list_item_is_untouched(self):
         self.assertEqual(
             build_book.normalize_thematic_breaks("- item\n"), "- item\n"
+        )
+
+
+class CloseVoidTags(unittest.TestCase):
+    """EPUB3 is XHTML and pandoc passes raw inline HTML through verbatim, so a bare
+    <br> in a table cell is a mismatched tag that makes a conforming reader abandon
+    the whole page at that point."""
+
+    def test_a_bare_break_is_closed(self):
+        self.assertEqual(build_book.close_void_tags("a<br>b\n"), "a<br/>b\n")
+
+    def test_an_already_closed_break_is_left_alone(self):
+        self.assertEqual(build_book.close_void_tags("a<br/>b\n"), "a<br/>b\n")
+
+    def test_a_spaced_break_is_normalized(self):
+        self.assertEqual(build_book.close_void_tags("a<br />b\n"), "a<br/>b\n")
+
+    def test_attributes_are_kept(self):
+        self.assertEqual(
+            build_book.close_void_tags('<img src="x.png" alt="y">\n'),
+            '<img src="x.png" alt="y"/>\n',
+        )
+
+    def test_a_break_inside_a_fence_is_untouched(self):
+        """Mermaid uses <br/> for label breaks, and a fence is not HTML anyway."""
+        source = '```mermaid\nA["one<br/>two"] --> B\n```\n'
+        self.assertEqual(build_book.close_void_tags(source), source)
+
+    def test_a_paired_tag_is_untouched(self):
+        self.assertEqual(build_book.close_void_tags("<td>x</td>\n"), "<td>x</td>\n")
+
+    def test_a_table_cell_is_fixed_in_place(self):
+        self.assertEqual(
+            build_book.close_void_tags("| **T** | one<br>two |\n"),
+            "| **T** | one<br/>two |\n",
         )
 
 
@@ -150,17 +188,17 @@ class RewriteLinks(unittest.TestCase):
     def test_chapter_image_path_is_rewritten_to_the_repository_root(self):
         self.assertEqual(
             build_book.rewrite_links(
-                "![a](../../images/21-frontend.svg)", "06-frontend/index.md", self.anchors
+                "![a](../../images/diagram.png)", "06-frontend/index.md", self.anchors
             ),
-            "![a](images/21-frontend.svg)",
+            "![a](images/diagram.png)",
         )
 
     def test_entry_page_image_path_is_rewritten_to_the_repository_root(self):
         self.assertEqual(
             build_book.rewrite_links(
-                "![a](../images/welcome.svg)", "welcome.md", self.anchors
+                "![a](../images/cover-bg.png)", "welcome.md", self.anchors
             ),
-            "![a](images/welcome.svg)",
+            "![a](images/cover-bg.png)",
         )
 
 
@@ -173,19 +211,230 @@ class DocumentAnchors(unittest.TestCase):
         self.assertIn("glossary", anchors.values())
 
 
-class StripImages(unittest.TestCase):
-    """The PDF pass drops images: xelatex cannot embed SVG and this machine has
-    no rasterizer, so the alternative is a build that fails."""
-
-    def test_removes_an_image_line_and_keeps_the_prose(self):
+class ExtractMermaid(unittest.TestCase):
+    def test_finds_a_block_and_returns_its_source(self):
+        markdown = "# T\n\n```mermaid\nflowchart LR\n  A --> B\n```\n\nText.\n"
         self.assertEqual(
-            build_book.strip_images("# T\n\n![Banner](images/a.svg)\n\nText.\n"),
-            "# T\n\nText.\n",
+            build_book.extract_mermaid(markdown), ["flowchart LR\n  A --> B"]
         )
 
-    def test_keeps_an_ordinary_link(self):
+    def test_finds_every_block_in_document_order(self):
+        markdown = "```mermaid\nfirst\n```\n\n```mermaid\nsecond\n```\n"
+        self.assertEqual(build_book.extract_mermaid(markdown), ["first", "second"])
+
+    def test_ignores_a_fence_of_another_language(self):
+        self.assertEqual(build_book.extract_mermaid("```sh\nmermaid\n```\n"), [])
+
+    def test_ignores_the_word_in_prose(self):
+        self.assertEqual(build_book.extract_mermaid("a mermaid diagram\n"), [])
+
+
+class RasterHash(unittest.TestCase):
+    """The file name is the hash of the source, so an unchanged source is never
+    re-rendered and a changed one cannot collide with its own earlier version."""
+
+    def test_is_stable_for_the_same_source(self):
         self.assertEqual(
-            build_book.strip_images("see [x](#y)\n"), "see [x](#y)\n"
+            build_book.raster_hash("flowchart LR\n  A --> B"),
+            build_book.raster_hash("flowchart LR\n  A --> B"),
+        )
+
+    def test_differs_for_a_different_source(self):
+        self.assertNotEqual(
+            build_book.raster_hash("flowchart LR\n  A --> B"),
+            build_book.raster_hash("flowchart LR\n  A --> C"),
+        )
+
+    def test_ignores_trailing_whitespace(self):
+        """Re-indenting the closing lines should not invalidate a cached render."""
+        self.assertEqual(
+            build_book.raster_hash("flowchart LR  \n  A --> B\n\n"),
+            build_book.raster_hash("flowchart LR\n  A --> B"),
+        )
+
+
+class ReplaceMermaid(unittest.TestCase):
+    def test_a_block_becomes_an_image_with_no_alt_text(self):
+        """Empty alt text keeps pandoc from floating this as a captioned figure."""
+        markdown = "# T\n\n```mermaid\nflowchart LR\n```\n\nText.\n"
+        self.assertEqual(
+            build_book.replace_mermaid(markdown, ["build/diagrams/ab12.png"]),
+            "# T\n\n![](build/diagrams/ab12.png)\n\nText.\n",
+        )
+
+    def test_each_block_takes_its_own_image(self):
+        markdown = "```mermaid\nfirst\n```\n\n```mermaid\nsecond\n```\n"
+        self.assertEqual(
+            build_book.replace_mermaid(markdown, ["a.png", "b.png"]),
+            "![](a.png)\n\n![](b.png)\n",
+        )
+
+    def test_a_block_with_no_image_keeps_its_source(self):
+        """A diagram that did not render stays a code block: that is today's output
+        for it, so a renderer failure never regresses the book."""
+        markdown = "```mermaid\nfirst\n```\n\n```mermaid\nsecond\n```\n"
+        self.assertEqual(
+            build_book.replace_mermaid(markdown, [None, "b.png"]),
+            "```mermaid\nfirst\n```\n\n![](b.png)\n",
+        )
+
+    def test_rejects_a_count_that_does_not_match(self):
+        with self.assertRaises(ValueError):
+            build_book.replace_mermaid("```mermaid\nx\n```\n", [])
+
+
+class SvgSize(unittest.TestCase):
+    """Chrome's window is the viewport it screenshots, so a wrong size crops the
+    cover or pads it with blank paper."""
+
+    def test_reads_the_declared_pixel_size(self):
+        self.assertEqual(
+            build_book.svg_size('<svg width="1200" height="300"/>'), (1200, 300)
+        )
+
+    def test_ignores_a_px_suffix(self):
+        self.assertEqual(
+            build_book.svg_size('<svg width="1200px" height="300px"/>'), (1200, 300)
+        )
+
+    def test_falls_back_to_the_viewbox(self):
+        self.assertEqual(
+            build_book.svg_size('<svg viewBox="0 0 800 250"/>'), (800, 250)
+        )
+
+    def test_prefers_the_viewbox_over_a_relative_size(self):
+        """Markup sized in percent has no intrinsic pixel size; its viewBox does."""
+        markup = '<svg width="100%" height="100%" viewBox="0 0 640 480"/>'
+        self.assertEqual(build_book.svg_size(markup), (640, 480))
+
+    def test_rejects_markup_that_declares_no_size(self):
+        with self.assertRaises(ValueError):
+            build_book.svg_size("<svg/>")
+
+
+class CoverFields(unittest.TestCase):
+    def test_reads_the_three_fields_the_cover_prints(self):
+        metadata = (
+            "title: A Book\n"
+            "subtitle: And its subtitle\n"
+            "author: Someone\n"
+            "language: en-GB\n"
+        )
+        self.assertEqual(
+            build_book.cover_fields(metadata), ("A Book", "And its subtitle", "Someone")
+        )
+
+    def test_strips_quotes_a_yaml_value_may_carry(self):
+        self.assertEqual(build_book.cover_fields('title: "A Book"\n')[0], "A Book")
+
+    def test_ignores_the_folded_description_and_the_subject_list(self):
+        metadata = (
+            "title: A Book\n"
+            "description: >-\n"
+            "  A long line that mentions author: not really\n"
+            "subject:\n"
+            "  - Software engineering\n"
+        )
+        self.assertEqual(build_book.cover_fields(metadata), ("A Book", "", ""))
+
+    def test_a_missing_field_is_empty_rather_than_an_error(self):
+        self.assertEqual(build_book.cover_fields("language: en-GB\n"), ("", "", ""))
+
+
+class PngSize(unittest.TestCase):
+    def png(self, width, height):
+        path = pathlib.Path(self.enterContext(tempfile.TemporaryDirectory())) / "x.png"
+        path.write_bytes(
+            b"\x89PNG\r\n\x1a\n" + b"\x00\x00\x00\rIHDR"
+            + width.to_bytes(4, "big") + height.to_bytes(4, "big")
+        )
+        return path
+
+    def test_reads_the_dimensions_from_the_ihdr_header(self):
+        self.assertEqual(build_book.png_size(self.png(752, 478)), (752, 478))
+
+    def test_refuses_a_file_that_is_not_a_png(self):
+        path = self.png(1, 1)
+        path.write_bytes(b"not a png at all, but long enough to slice")
+        with self.assertRaises(ValueError):
+            build_book.png_size(path)
+
+
+class CoverSvg(unittest.TestCase):
+    """The cover is generated from the metadata, so what it prints is tested here
+    rather than eyeballed on the rendered JPEG."""
+
+    def cover(self, title="A Book", subtitle="A subtitle", author="Someone",
+              photo="data:image/png;base64,AAAA", aspect=752 / 478):
+        return build_book.cover_svg(title, subtitle, author, photo, aspect)
+
+    def test_is_an_a4_sized_svg_chrome_can_size(self):
+        self.assertEqual(
+            build_book.svg_size(self.cover()),
+            (build_book.COVER_WIDTH, build_book.COVER_HEIGHT),
+        )
+
+    def test_carries_the_photograph_inline(self):
+        self.assertIn("data:image/png;base64,AAAA", self.cover())
+
+    def test_the_photograph_sits_flush_with_the_bottom_edge(self):
+        root = ElementTree.fromstring(self.cover())
+        image = root.find("{http://www.w3.org/2000/svg}image")
+        bottom = float(image.get("y")) + float(image.get("height"))
+        self.assertEqual(bottom, build_book.COVER_HEIGHT)
+
+    def test_the_photograph_keeps_its_own_aspect_ratio(self):
+        root = ElementTree.fromstring(self.cover(aspect=2.0))
+        image = root.find("{http://www.w3.org/2000/svg}image")
+        self.assertEqual(float(image.get("height")), build_book.COVER_WIDTH / 2)
+
+    def test_the_top_of_the_photograph_fades_into_the_page(self):
+        root = ElementTree.fromstring(self.cover())
+        stops = root.iter("{http://www.w3.org/2000/svg}stop")
+        self.assertEqual(
+            [stop.get("stop-opacity") for stop in stops], ["0", "1"]
+        )
+
+    def test_wraps_a_long_title_onto_several_lines(self):
+        """A made-up title, not the book's own: retitling the book in
+        book/metadata.yaml must not break a test of the wrapping."""
+        root = ElementTree.fromstring(self.cover(title="A Rather Long Book Title"))
+        titles = [
+            element.text for element in root.iter("{http://www.w3.org/2000/svg}text")
+            if element.get("class") == "title"
+        ]
+        self.assertEqual(titles, ["A Rather Long", "Book Title"])
+
+    def test_escapes_metadata_that_would_otherwise_break_the_markup(self):
+        markup = self.cover(title="Tools & <Practices>")
+        self.assertIn("Tools &amp; &lt;Practices&gt;", markup)
+        ElementTree.fromstring(markup)  # still well-formed
+
+
+class StartOnANewPage(unittest.TestCase):
+    """Each document opens on a fresh page: a raw LaTeX break for the PDF, a class on
+    the opening heading for the EPUB's stylesheet to hang a break on."""
+
+    def test_puts_a_latex_page_break_before_the_document(self):
+        marked = build_book.start_on_a_new_page("## Title {#t}\n\nBody.\n")
+        self.assertTrue(marked.startswith("```{=latex}\n\\clearpage\n```\n\n"))
+
+    def test_marks_the_opening_heading_and_nothing_below_it(self):
+        marked = build_book.start_on_a_new_page(
+            "## Title {#t}\n\nBody.\n\n### Section {#t--section}\n"
+        )
+        self.assertIn("## Title {#t .document}\n", marked)
+        self.assertIn("### Section {#t--section}\n", marked)
+
+    def test_leaves_the_body_alone(self):
+        marked = build_book.start_on_a_new_page("## Title {#t}\n\nBody.\n")
+        self.assertTrue(marked.endswith("\n\nBody.\n"))
+
+    def test_a_classed_heading_still_reports_its_id_alone(self):
+        """The id regexes stop at the first space, or the class would become part of
+        the anchor and every check that compares anchors would fail."""
+        self.assertEqual(
+            build_book.duplicate_anchors("## A {#t .document}\n\n## B {#t}\n"), ["t"]
         )
 
 

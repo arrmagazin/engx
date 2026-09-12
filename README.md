@@ -1,4 +1,4 @@
-# Engineering Knowledge Base
+# Introduction into Software Engineering
 
 A reference book on software engineering, written as plain Markdown and versioned like
 code. It covers the vocabulary, practices, and platform detail an engineer meets across a
@@ -47,7 +47,8 @@ python3 scripts/build_book.py
 
 That writes `build/engx.epub` and `build/engx.pdf`. It needs `pandoc`, and the PDF also
 needs `xelatex`; `--markdown` assembles and checks the structure without rendering either.
-Edit `book/metadata.yaml` to change the title, author or rights line.
+Edit `book/metadata.yaml` to change the title, author or rights line: the cover is
+generated from those fields over `images/cover-bg.png`, so it follows them.
 
 ## Contributing
 

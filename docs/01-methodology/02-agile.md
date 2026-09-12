@@ -7,8 +7,6 @@ tags: [methodology, agile]
 
 # Agile
 
-![Agile Methodology](../../images/09-agile.svg)
-
 **Agile** is an approach to organizing software development around rapid, flexible response to change rather than adherence to an up-front plan. It relies on self-organizing, cross-functional teams delivering working software in short cycles, so value reaches the customer while their needs are still current.
 
 ## Core Concepts
