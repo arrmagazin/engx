@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="caramellatte">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link href="dist/index.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/lucide-static@1.17.0/font/lucide.css" />
+  <title>Engx</title>
+  <meta name="title" />
+  <meta name="description" content="Software Introduction into Software Engineering" />
+  <meta name="keywords" content="&quot;engineering&quot;,&quot;handbook&quot;" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+  <meta name="author" content="Company, Inc" />
+  <link rel="canonical" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" />
+  <meta property="og:title" />
+  <meta property="og:description" content="Software Introduction into Software Engineering" />
+  <meta property="og:image" />
+  <meta property="og:site_name" content="Engx" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" />
+  <meta property="twitter:title" />
+  <meta property="twitter:description" content="Engx - Software Introduction into Software Engineering" />
+  <meta property="twitter:image" />
+  <meta name="theme-color" content="#1060c8" />
+  <meta name="format-detection" content="telephone=no" />
+  <script type="application/ld+json"></script>
+  <!-- Offline support -->
+  <script>
+    if ('serviceWorker' in navigator && window.location.hostname !== 'localhost') {
+      window.addEventListener('load', () => navigator.serviceWorker.register('/service-worker.js'));
+    }
+  </script>
+</head>
+
+<body></body>
+<script type="module">
+  window.R = {
+    app: {
+      "id": "engx",
+      "name": "Engx",
+      "logo": "/favicon.svg",
+      "version": "1.0.0",
+      "description": "Engx - Software Introduction into Software Engineering",
+      "author": "Company, Inc",
+      "keywords": ["engineering", "handbook"],
+      "email": "contact@company.com",
+      // Empty on purpose: the engx docs use repo-relative image refs (`../images/x.png`)
+      // so they still render on GitHub. The app is hash-routed, so the document URL is
+      // always "/" and the browser clamps those `..` at root → /images/x.png, which the
+      // `www/images` symlink serves. Almaat instead uses absolute refs + a "/site" prefix.
+      imageSrcBase: "",
+      "copyright": "© 2025. All rights reserved."
+    },
+    docsServiceProps: {
+      indexUrl: "/site/index.json",
+      resolvePattern: "/site/docs/{id}"
+    }
+  }
+</script>
+<script src="dist/index.js" type="module"></script>
+
+</html>

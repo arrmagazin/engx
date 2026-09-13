@@ -1,0 +1,30 @@
+{
+  "hosting": {
+    "site": "software-engineering",
+    "public": "www",
+    "ignore": [
+      "firebase.json",
+      "**/*.js.map",
+      "**/.*",
+      "site/**/CLAUDE.md",
+      "site/**/.*/**"
+    ],
+    "headers": [
+      {
+        "source": "version",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "*.html",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

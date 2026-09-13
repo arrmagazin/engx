@@ -311,6 +311,10 @@
       "type": "blob"
     },
     {
+      "path": "firebase.json",
+      "type": "blob"
+    },
+    {
       "path": "images",
       "type": "tree"
     },
@@ -319,23 +323,35 @@
       "type": "blob"
     },
     {
-      "path": "reference",
+      "path": "index.css",
+      "type": "blob"
+    },
+    {
+      "path": "package-lock.json",
+      "type": "blob"
+    },
+    {
+      "path": "package.json",
+      "type": "blob"
+    },
+    {
+      "path": "references",
       "type": "tree"
     },
     {
-      "path": "reference/README.md",
+      "path": "references/README.md",
       "type": "blob"
     },
     {
-      "path": "reference/aws-handbook.md",
+      "path": "references/aws-handbook.md",
       "type": "blob"
     },
     {
-      "path": "reference/azure-handbook.md",
+      "path": "references/azure-handbook.md",
       "type": "blob"
     },
     {
-      "path": "reference/gcp-handbook.md",
+      "path": "references/gcp-handbook.md",
       "type": "blob"
     },
     {
@@ -343,7 +359,15 @@
       "type": "tree"
     },
     {
+      "path": "scripts/build.ts",
+      "type": "blob"
+    },
+    {
       "path": "scripts/build_book.py",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/bump-version.ts",
       "type": "blob"
     },
     {
@@ -359,11 +383,47 @@
       "type": "blob"
     },
     {
+      "path": "scripts/gen-site-index.ts",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/serve.ts",
+      "type": "blob"
+    },
+    {
       "path": "scripts/test_build_book.py",
       "type": "blob"
     },
     {
       "path": "scripts/test_check_links.py",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/types.ts",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/utils",
+      "type": "tree"
+    },
+    {
+      "path": "scripts/utils/files.ts",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/utils/getEsbuildOptions.ts",
+      "type": "blob"
+    },
+    {
+      "path": "src",
+      "type": "tree"
+    },
+    {
+      "path": "src/index.ts",
+      "type": "blob"
+    },
+    {
+      "path": "tsconfig.json",
       "type": "blob"
     }
   ]

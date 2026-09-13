@@ -1,0 +1,46 @@
+{
+  "name": "engx",
+  "private": true,
+  "type": "module",
+  "displayName": "Software Engineering",
+  "description": "Software engineering knowledge basis",
+  "version": "1.0.0",
+  "author": "Company, Inc",
+  "keywords": [
+    "engineering",
+    "handbook"
+  ],
+  "email": "contact@company.com",
+  "copyright": "© 2025. All rights reserved.",
+  "scripts": {
+    "dev": "PORT=8092 npm run start",
+    "prestart": "npm run gen:site-index",
+    "start": "npm run stop && npx --yes npm-run-all --parallel start:*",
+    "start:serve": "bun ./scripts/serve.ts",
+    "start:css": "npm run build:css -- --watch",
+    "start:open": "npx --yes wait-on http://localhost:${PORT:?no port} && open http://localhost:${PORT:?no port}/",
+    "stop": "lsof -t -sTCP:LISTEN -i tcp:${PORT:-8092} | xargs -r kill -9",
+    "prebuild": "npm run gen:site-index",
+    "build": "npx --yes npm-run-all --parallel build:*",
+    "build:ts": "bun ./scripts/build.ts",
+    "build:css": "npx --yes @tailwindcss/cli -i index.css -o \"www/dist/index.css\"",
+    "predeploy": "npm run build",
+    "deploy": "bun ./scripts/bump-version.ts ./www/version && firebase deploy --only hosting --config ./firebase.json -P parlang",
+    "gen:site-index": "bun ./scripts/gen-site-index.ts",
+    "postinstall": "npm run link",
+    "link": "npx --yes npm-run-all --parallel link:*",
+    "link:arrmatura-web": "cd node_modules && ln -sfn ../../arrmatura-web arrmatura-web",
+    "link:ultimus": "cd node_modules && ln -sfn ../../ultimus ultimus",
+    "link:site": "cd www/site && ln -sfn ../../docs docs",
+    "link:index": "cd www/site && ln -sfn ../../index.json index.json",
+    "link:images": "cd www && ln -sfn ../images images"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.1"
+  },
+  "dependencies": {
+    "daisyui": "^5.7.37",
+    "esbuild": "^0.28.2",
+    "tailwindcss": "^4.3.3"
+  }
+}

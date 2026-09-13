@@ -1,6 +1,6 @@
 # Engx
 
-A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth and there is no site generator; `scripts/build_book.py` renders it as an EPUB and a PDF on demand. The code is `scripts/`: three checkers that enforce the conventions below, plus the book builder.
+A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth; `scripts/build_book.py` renders it as an EPUB and a PDF on demand, and a thin web app in this repo serves the same tree as a site (see **The web app**). The code is `scripts/`: three checkers that enforce the conventions below, the book builder, and the site's TypeScript build tooling.
 
 ## Structure
 
@@ -8,7 +8,8 @@ A personal engineering knowledge base written as markdown, organized as a number
 - `images/` — holds only `cover-bg.png`, the photograph on the book cover, which the builder reads directly. The docs carry no figures of their own: every illustration in the book is a mermaid diagram in the prose. An image added here is referenced by a relative path (`../images/…` from `docs/`, `../../images/…` from a chapter folder), never root-absolute, and must not be SVG — see **Image formats in the PDF**.
 - `reference/` — source material that is **not** part of the book: three single-cloud handbooks the Clouds chapter was distilled from. Outside `docs/`, so outside the checkers and outside the build. Nothing in `docs/` links into it. See `reference/README.md`.
 - `book/` — what the renderers need beyond the prose: `metadata.yaml` (title, author, rights, subjects), `table-rules.lua` (a pandoc filter putting a hairline between table rows in the PDF) and `epub.css` (that separation for the EPUB, plus the blockquote callouts and the glossary definition lists). `build/` — the rendered outputs, gitignored.
-- `scripts/` — the three checkers, the book builder, and their tests. `.githooks/` — the hook that runs the checkers. `README.md` — the repository's front page, written for a human, not an agent.
+- `scripts/` — the three checkers, the book builder, and their tests (stdlib Python), plus the site's build tooling (`serve.ts`, `build.ts`, `gen-site-index.ts`, `bump-version.ts`, run by bun). `.githooks/` — the hook that runs the checkers. `README.md` — the repository's front page, written for a human, not an agent.
+- The web app: `src/index.ts`, `index.css`, `www/`, `firebase.json`, `package.json`, `tsconfig.json`, and the generated `index.json`. See **The web app**.
 
 **The numbering rule.** Folder prefixes are unique and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-clouds`, `09-ai`, `10-humans`. `08` and `11` are unused — gaps left by earlier reorganizations, not placeholders. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
 
@@ -141,6 +142,87 @@ One limit worth knowing: the PDF sets `Times New Roman` with `Menlo` for code, t
 fonts verified to cover the box-drawing characters the diagrams use; if either is missing
 the PDF still builds, with those glyphs dropped.
 
+## The web app
+
+The same docs are also served as a site — <https://software-engineering.web.app>, locally
+`npm run dev` on :8092. It is a thin shell: `src/index.ts` is six lines and the whole UI
+comes from `arrmatura-web/books`. Do **not** add a local `cml/` tree here. UI changes belong
+in `libs/arrmatura-web/modules/books` in the `codespace` monorepo, and they land on the
+almaat site at the same time, so verify both.
+
+- `src/index.ts` — bootstrap: `launchPlatformApp({ components: books, resources: window.R })`.
+- `index.css` — Tailwind v4 + DaisyUI entry: themes, accent palette, code-block styles.
+- `www/` — the served root: `index.html` (shell + config), `favicon.svg`, `site.webmanifest`, `service-worker.js`, `version`, and `dist/` (build output, gitignored).
+- `firebase.json` — hosting config: site `software-engineering`, project `parlang`.
+
+### Links, not copies
+
+Five symlinks join the app to the content. `npm install` creates them all through
+`postinstall` → `link`; `npm run link` re-runs it.
+
+| Link | Target | Why |
+| --- | --- | --- |
+| `node_modules/arrmatura-web` | `../../arrmatura-web` | the UI kit, developed in a sibling checkout |
+| `node_modules/ultimus` | `../../ultimus` | its utility dependency |
+| `www/site/docs` | `../../docs` | the book, served at `/site/docs/…` |
+| `www/site/index.json` | `../../index.json` | the file tree, served at `/site/index.json` |
+| `www/images` | `../images` | image refs — see below |
+
+All five are gitignored, and the two `node_modules` ones assume `arrmatura-web` and
+`ultimus` are checked out next to this repo.
+
+### `window.R` is the only config surface
+
+Branding, the logo and `docsServiceProps` live in the inline `<script>` in `www/index.html`.
+There is no `resources/` directory.
+
+```js
+docsServiceProps: {
+  indexUrl: "/site/index.json",       // the generated file tree
+  resolvePattern: "/site/docs/{id}"   // how a tree node id becomes a fetch URL
+}
+```
+
+`R.app.imageSrcBase` is **intentionally empty**. `MDImage` concatenates it with the raw
+`src`, and the docs use repo-relative image refs (`../images/x.png`) so they keep rendering
+on GitHub. The app is hash-routed, so the document URL is always `/`: the browser clamps
+those leading `..` segments at the root and requests `/images/x.png`, which the `www/images`
+symlink serves. Setting `imageSrcBase` to `/site` (the almaat convention) would produce
+`/site../images/x.png` and break every image.
+
+### The site index is generated, not authored
+
+`npm run gen:site-index` walks this repo and writes `index.json`, a listing shaped like
+GitHub's recursive git-tree response. It runs automatically via `prestart` / `prebuild`, and
+is a no-op when nothing changed. `DocsService` keeps the entries under `docs/` and strips
+that prefix, so a node id is a path *relative to `docs/`* — which is why the index is rooted
+at the **repo root** rather than at `docs/`. It skips `CLAUDE.md`, `INDEX.md` and any
+`_`-prefixed file.
+
+**Regenerate and commit `index.json` whenever docs are added, renamed or removed**,
+otherwise the deployed sidebar goes stale.
+
+### Cross-document links
+
+Docs link to each other the way they do on GitHub — `sibling.md`, `sub/child.md`,
+`../other-dir/doc.md`. `DocsService.gotoLocalLink` resolves each href against the document
+it appears in and matches the result against the site index, so all of them navigate in-app.
+A `.md` target missing from the index logs `No such document: …` rather than opening a dead
+tab. Bare `#anchor` links do nothing: the renderer emits no heading ids to scroll to, and
+the app is hash-routed, so following one would clobber the current route.
+
+### Deploy
+
+`npm run deploy` builds, bumps `www/version`, then runs `firebase deploy --only hosting
+--config ./firebase.json -P parlang`.
+
+- There is no `.firebaserc`; the project comes from the `-P` flag.
+- `service-worker.js` derives its cache name from `/version`, so that bump is what
+  invalidates stale client caches. Never hand-edit `www/version`.
+- The `version` file needs its `no-store` header (already in `firebase.json`) and must not
+  be named `.version` — firebase's `**/.*` ignore would silently drop it.
+- Port 8092. `npm run stop` frees it; 8091 is the almaat site.
+
 ## Frontmatter convention
 
 Every file under `docs/` starts with **OKF (Open Knowledge Format) v0.2** YAML frontmatter, kept to the minimal field set — these four, in this order, and nothing else:
@@ -163,7 +245,7 @@ tags: [lowercase, kebab-or-single-word, tags]
 ## Working conventions
 
 - Prefer standard English; no fancy or rare words, no idioms.
-- The content is markdown. `scripts/` is the only code, it is stdlib-only Python 3, and it stays that way — no dependencies to install, and no test framework beyond `unittest` (pytest is not available here).
+- The content is markdown. The checkers and the book builder are stdlib-only Python 3 and stay that way — no dependencies to install, and no test framework beyond `unittest` (pytest is not available here). The site's TypeScript tooling is separate and installs its own; keep the two apart.
 - Anything asserted in the book should be checkable. Prefer a claim a reader could falsify over one that merely sounds right.
 
 ## Glossary conventions
