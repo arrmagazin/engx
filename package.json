@@ -25,15 +25,10 @@
     "build:ts": "bun ./scripts/build.ts",
     "build:css": "npx --yes @tailwindcss/cli -i index.css -o \"www/dist/index.css\"",
     "predeploy": "npm run build",
-    "deploy": "bun ./scripts/bump-version.ts ./www/version && firebase deploy --only hosting --config ./firebase.json -P parlang",
+    "deploy": "./scripts/bump-version.sh ./www/version && firebase deploy --only hosting --config ./firebase.json -P parlang",
     "gen:site-index": "bun ./scripts/gen-site-index.ts",
     "postinstall": "npm run link",
-    "link": "npx --yes npm-run-all --parallel link:*",
-    "link:arrmatura-web": "cd node_modules && ln -sfn ../../arrmatura-web arrmatura-web",
-    "link:ultimus": "cd node_modules && ln -sfn ../../ultimus ultimus",
-    "link:site": "cd www/site && ln -sfn ../../docs docs",
-    "link:index": "cd www/site && ln -sfn ../../index.json index.json",
-    "link:images": "cd www && ln -sfn ../images images"
+    "link": "./scripts/link-modules.sh arrmatura-web ultimus && ln -sfn ../../docs www/site/docs && ln -sfn ../../index.json www/site/index.json && ln -sfn ../images www/images"
   },
   "devDependencies": {
     "@types/node": "^26.5.1"
