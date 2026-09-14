@@ -5,8 +5,6 @@ description: Compares layered, MVC, and hexagonal structure inside a unit with m
 tags: [architecture, patterns, mvc, hexagonal, microservices, event-driven]
 ---
 
-# Architectural Patterns
-
 An **architectural pattern** is a reusable solution shape for a whole system or a whole deployable unit, sitting at the pattern level of the [architectural levels](index.md#architectural-levels): below the principle that justifies it, above the idiom that expresses it in one language. It is the same kind of thing as a [design pattern](../05-coding/03-design-patterns.md), scaled up — the unit of reuse is a component boundary rather than a class.
 
 The patterns here answer three different questions, and confusing them is the usual mistake. Layered, MVC, and hexagonal architecture describe how one unit is organized on the inside. Monolith and microservices describe how many units there are and how they are released. Event-driven architecture describes how those units reach each other once there is more than one. "MVC or microservices" is not a choice; a microservice organized internally as MVC and fed by events is ordinary.

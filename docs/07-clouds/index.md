@@ -5,8 +5,6 @@ description: One concept at a time across AWS, Azure and Google Cloud: what each
 tags: [aws, azure, gcp, cloud, devops, interview]
 ---
 
-# Clouds
-
 Three clouds, one chapter. It is organized by the problem rather than by the vendor, because that is the only arrangement in which the interesting part survives: compute is compute everywhere, and what varies is the boundary a permission is granted at, whether a network is regional or global, and what the billing unit is.
 
 This chapter assumes no prior experience with any of the three. Every term is explained the first time it appears, and no claim depends on knowing one cloud before reading about another.

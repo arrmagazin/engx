@@ -5,8 +5,6 @@ description: The book's entry point — why it exists, what each chapter covers,
 tags: [engineering, handbook, overview]
 ---
 
-# Introduction into Software Engineering
-
 ## Preface
 
 This book collects the vocabulary, practices, and reference material an engineer uses across a project — from the terms in a requirements discussion to the services running in production.

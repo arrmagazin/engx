@@ -5,8 +5,6 @@ description: Defines system design as the process turning architectural decision
 tags: [architecture, system-design]
 ---
 
-# System Design
-
 **System design** is the *process* that turns architectural decisions into a specification developers can implement directly: database schemas, API endpoints, algorithms, data structures, and the components chosen to run them. 
 
 It works one level below [System Architecture](../02-architecture/index.md), which decides what the parts are and stops there.

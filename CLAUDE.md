@@ -37,9 +37,11 @@ python3 scripts/build_book.py --markdown   # assemble and verify only, render no
 ```
 
 It is stdlib-only Python, like the checkers; pandoc and (for the PDF) xelatex do the
-rendering. Nine things it does that pandoc cannot, each with tests in
+rendering. Ten things it does that pandoc cannot, each with tests in
 `scripts/test_build_book.py`:
 
+- **Title heading.** A document carries no H1 — its frontmatter `title` is the heading — so
+  the assembler opens every body with `# <title>` before reading order, ids or links see it.
 - **Reading order.** `welcome.md` first, then folders in numeric order, each led by its
   `index.md`, which keeps its heading level and so reads as the chapter opener. Siblings
   are demoted one level beneath it.
@@ -230,15 +232,16 @@ Every file under `docs/` starts with **OKF (Open Knowledge Format) v0.2** YAML f
 ```yaml
 ---
 type: Guide
-title: <byte-identical to the file's H1, and never quoted>
+title: <the document's heading, never quoted>
 description: <one sentence, at most 140 characters>
 tags: [lowercase, kebab-or-single-word, tags]
 ---
 ```
 
 - `type` is always `Guide` in this repo (no data/computation assets live here).
-- The frontmatter block is the very first thing in the file, and the H1 is the first non-blank line after it.
-- A quoted `title` fails the checker, because the quotes become part of the value and it stops matching the H1.
+- The frontmatter block is the very first thing in the file, and the body follows it directly.
+- There is no H1. The `title` is the heading: the site renders it, and the book builder opens each document with `# <title>`. A `# Title` line would print twice, so the checker rejects any level-1 heading in the body (fenced code excluded).
+- A quoted `title` fails the checker, because the quotes become part of the value and would print in the heading.
 - Don't add OKF's optional provenance/trust fields (`sources`, `generated`, `verified`, `status`); the checker rejects them.
 - Field *order* and the "nothing else" rule are conventions the checker does not enforce. Follow them anyway.
 

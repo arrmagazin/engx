@@ -5,8 +5,6 @@ description: Catalogs the code smells worth naming in review, with the published
 tags: [coding, code-smells, code-quality]
 ---
 
-# Code Smells
-
 A code smell is a pattern on the surface of the source that points at a deeper design problem: the code runs, but the next change to it costs more than it should. Smell count and density are one of the standard signals of [technical debt](../04-development-process/07-technical-debt.md). The catalog below names the smells worth calling out in review, grouped by the work each set comes from.
 
 ## The Refactoring Catalog

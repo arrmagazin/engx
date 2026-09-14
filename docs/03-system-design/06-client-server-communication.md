@@ -5,8 +5,6 @@ description: HTTP semantics, REST and GraphQL API design, and the streaming tran
 tags: [frontend, http, rest, graphql, api-design]
 ---
 
-# Client-Server Communication and Networking
-
 How a client and a server exchange data: the HTTP semantics every request depends on, the two dominant API styles, and the transports that keep a connection open. Written for engineers on either side of the contract who are deciding how a browser and a service should talk.
 
 **Egress vs ingress** — Traffic leaving versus entering. The distinction matters

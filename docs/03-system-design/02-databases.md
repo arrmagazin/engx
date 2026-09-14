@@ -5,8 +5,6 @@ description: Covers relational and document database vocabulary, ACID and isolat
 tags: [tech-stack, databases, sql]
 ---
 
-# Databases — Core Concepts
-
 A working vocabulary for relational and document databases: what the pieces are called, what guarantees a transaction gives, how a schema is kept honest, and what breaks first when the data outgrows one machine.
 
 ## Core Concepts

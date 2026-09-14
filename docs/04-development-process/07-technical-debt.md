@@ -5,8 +5,6 @@ description: Explains intentional vs. unintentional technical debt, how to recog
 tags: [development-process, technical-debt, architecture]
 ---
 
-# Technical Debt
-
 Technical debt is the extra rework a team takes on when it ships a quick solution instead of a thorough one. Ward Cunningham, one of the Agile Manifesto's authors, coined the metaphor in a 1992 OOPSLA experience report on the WyCash portfolio management system. This guide covers where debt comes from, how to recognize it, and how to track and repay it.
 
 ## Intentional vs. Unintentional Debt

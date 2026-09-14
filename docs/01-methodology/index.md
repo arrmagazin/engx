@@ -5,8 +5,6 @@ description: Opens the methodology chapter and defines the vocabulary of method,
 tags: [methodology, process, terminology]
 ---
 
-# Methodology
-
 This chapter covers how engineering work gets organized: the vocabulary for turning a goal into executed work, and the named approaches built on top of it. 
 
 The vocabulary lives on this page; each approach has its own guide. Terms the whole book shares, such as Solution, Goals, Objectives, and Success, are defined once in the [Glossary](../00-software-engineering/01-glossary.md) and used here without redefinition.

@@ -5,8 +5,6 @@ description: Covers Agile's core concepts, the Manifesto values, the twelve prin
 tags: [methodology, agile]
 ---
 
-# Agile
-
 **Agile** is an approach to organizing software development around rapid, flexible response to change rather than adherence to an up-front plan. It relies on self-organizing, cross-functional teams delivering working software in short cycles, so value reaches the customer while their needs are still current.
 
 ## Core Concepts

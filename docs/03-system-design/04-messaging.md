@@ -5,8 +5,6 @@ description: Explains Kafka's core concepts, end-to-end workflow, delivery seman
 tags: [tech-stack, kafka, messaging, streaming]
 ---
 
-# Kafka — Core Concepts and Workflow
-
 Kafka is a durable, partitioned log that producers append to and consumers read from at their own pace, without either side knowing the other. This guide covers the vocabulary, the path a record takes end to end, the delivery guarantees on offer, and where Kafka sits next to Redis and Temporal.
 
 ## Core Concepts

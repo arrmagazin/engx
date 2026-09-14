@@ -5,8 +5,6 @@ description: Explains what software engineering standards are, the areas they co
 tags: [standards, engineering, code-quality, best-practices]
 ---
 
-# Software Engineering Standards
-
 **Software engineering standards** are unified sets of rules, protocols, paradigms, and best practices that dictate how software is developed, reviewed, deployed, and maintained.
 
 They exist so that a system's safety, reliability, security, maintainability, and interoperability do not depend on which team happened to build it.

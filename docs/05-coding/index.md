@@ -5,8 +5,6 @@ description: Covers how code is written and how it is judged — paradigms, desi
 tags: [coding, design-principles, design-patterns, code-quality]
 ---
 
-# Coding
-
 This chapter covers how code is written and how it is judged. It serves the developer making structural decisions in an editor, rather than the architect choosing between systems.
 
 ---

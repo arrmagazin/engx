@@ -5,8 +5,6 @@ description: Eleven canonical system design problems, each organized by the core
 tags: [architecture, system-design, interview]
 ---
 
-# Canonical Systems
-
 Eleven system design problems worked end to end, each filed under the bottleneck it tests rather than the product it resembles. The vocabulary used throughout is defined in [System Design Glossary](01-common-concepts.md).
 
 | System | Representative Company | Core Bottleneck Tested |

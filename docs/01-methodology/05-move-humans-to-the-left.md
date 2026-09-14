@@ -5,8 +5,6 @@ description: Keeping humans on authoring machine-readable artifacts as the singl
 tags: [methodology, automation, ssot, code-generation]
 ---
 
-# Move Humans to the Left
-
 ## Authoring on the Left, Deriving on the Right
 
 The core idea of the approach is:

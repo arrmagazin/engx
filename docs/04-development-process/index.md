@@ -5,8 +5,6 @@ description: Maps the software development lifecycle onto the version control, r
 tags: [process, development, methodology]
 ---
 
-# Development Process
-
 The development process is the lifecycle that turns a stakeholder need into an operated solution, together with the practices that keep each phase verifiable. This chapter covers how teams version their work, review it, deliver it, test it, debug it, and keep it maintainable.
 
 ## In This Chapter

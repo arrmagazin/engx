@@ -5,8 +5,6 @@ description: Surveys programming paradigms—imperative, declarative, and others
 tags: [coding, programming-paradigms]
 ---
 
-# Programming Paradigms
-
 A **programming paradigm** is an opinionated view of what computation is, dictating how data and
 code are organized, accessed, and manipulated. This guide surveys the imperative, object-oriented,
 declarative, functional, reactive, and metaprogramming families, and serves engineers choosing a

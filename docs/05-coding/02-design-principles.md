@@ -5,8 +5,6 @@ description: Core software design principles (DRY, SSOT, SoC, and more) plus the
 tags: [coding, design-principles, solid, grasp]
 ---
 
-# Design Principles
-
 A **design principle** is a general, technology-agnostic constraint on *structural* decisions about code: a force to optimize against one of the design criteria below. This page is the canonical home for SOLID, GRASP, DRY, and Single Source of Truth.
 
 | Property | Meaning |

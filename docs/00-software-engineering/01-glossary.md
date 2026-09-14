@@ -5,8 +5,6 @@ description: Introduces foundational concepts of solutions, delivery, and engine
 tags: [introduction, engineering]
 ---
 
-# Glossary
-
 These are the foundational terms the rest of the book uses without redefining them: the solution and its stakeholders, the delivery that carries value to them, and the engineering that organizes the work.
 
 ## Solution

@@ -5,8 +5,6 @@ description: How layered neural networks learn representations from raw data, an
 tags: [ai, deep-learning, neural-networks, training]
 ---
 
-# Deep Learning
-
 **Deep Learning** uses neural networks with many layers that learn hierarchical representations
 directly from raw data, removing the need for hand-crafted features.
 

@@ -5,8 +5,6 @@ description: Explains continuous integration and delivery pipelines and the envi
 tags: [devops, ci-cd, development-process]
 ---
 
-# CI/CD
-
 Continuous integration (CI) *verifies* every commit against the shared mainline; continuous delivery (CD) *moves* each verified build toward production. This page covers both, and the environment stages a change passes through before it reaches users.
 
 ```mermaid

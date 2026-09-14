@@ -100,8 +100,9 @@ class CloseVoidTags(unittest.TestCase):
 
 
 class Frontmatter(unittest.TestCase):
-    def test_returns_the_title_and_the_body_without_the_block(self):
-        source = "---\ntype: Guide\ntitle: CI/CD\ndescription: d\ntags: [a]\n---\n\n# CI/CD\n\nBody.\n"
+    def test_returns_the_title_and_opens_the_body_with_it_as_the_heading(self):
+        """A document has no H1 of its own; the book needs one for the chapter."""
+        source = "---\ntype: Guide\ntitle: CI/CD\ndescription: d\ntags: [a]\n---\n\nBody.\n"
         title, body = build_book.split_frontmatter(source)
         self.assertEqual(title, "CI/CD")
         self.assertEqual(body, "# CI/CD\n\nBody.\n")

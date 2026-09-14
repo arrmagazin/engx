@@ -5,8 +5,6 @@ description: Explains how version control systems work and how to choose a branc
 tags: [development, git, version-control]
 ---
 
-# Version Control
-
 A version control system records every change made to a codebase and lets a team work on it at once without overwriting each other. This chapter covers what such a system does, how centralized and distributed ones differ, and how to choose a branching strategy.
 
 ## Version Control Systems

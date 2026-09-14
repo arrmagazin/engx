@@ -5,8 +5,6 @@ description: Compares data exchange and configuration formats such as JSON and Y
 tags: [frontend, data-formats, json, yaml]
 ---
 
-# Data Formats
-
 JSON, YAML, Markdown, XML, CSV, and Parquet trade readability, size, and type fidelity against each other. This is a working reference for picking one and for the parsing traps each carries; shared vocabulary is defined in the [glossary](../00-software-engineering/01-glossary.md).
 
 ## JSON

@@ -5,8 +5,6 @@ description: The five structural differences between AWS, Azure and Google Cloud
 tags: [aws, azure, gcp, cloud, trade-offs, interview]
 ---
 
-# Cross-Cloud Trade-Offs
-
 A service name you can look up. A structural difference you have to have thought about, because it changes the design rather than the vocabulary. There are five of them, and between them they account for most of what goes wrong when a design is carried from one cloud to another — and most of what an interviewer is actually probing when they ask you to compare clouds.
 
 The last section is the other half of the same skill: decisions that are identical on all three clouds and only *sound* different, because each vendor gives the same trade-off its own product names.

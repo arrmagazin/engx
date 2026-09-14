@@ -5,8 +5,6 @@ description: Covers Core Web Vitals, performance budgets, caching headers, bundl
 tags: [frontend, performance, web-vitals]
 ---
 
-# Performance Optimization
-
 Frontend performance work splits into three places: the render path, the network, and the bundle. This guide covers what to measure in each, what to aim for, and the techniques that move the number; it is this book's home for Core Web Vitals, budgets, caching headers, bundling, and profiling. The DevTools panels that produce these measurements are covered in [Chrome DevTools](../04-development-process/06-debugging.md#chrome-devtools).
 
 ## Core Web Vitals

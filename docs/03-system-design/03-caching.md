@@ -5,8 +5,6 @@ description: Covers caching vocabulary, CDNs, and Redis's core concepts, request
 tags: [tech-stack, redis, caching, in-memory]
 ---
 
-# Caching — Core Concepts
-
 Where a copy of a result is kept so it can be served closer and faster than the system that produced it: the vocabulary, the edge, and the store most often used for it.
 
 ## Core Concepts

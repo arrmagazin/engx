@@ -5,8 +5,6 @@ description: A method for finding a bug — reproduce, reduce, hypothesize, bise
 tags: [debugging, devtools, troubleshooting, tooling]
 ---
 
-# Debugging
-
 Debugging is a search for the one place where what a program does stops matching what you believe it does. This guide covers the method that narrows that search — reproduce, reduce, hypothesize, bisect, verify — and then the Chrome DevTools panels, breakpoints, and console utilities that carry it out in the browser.
 
 ## A Systematic Method

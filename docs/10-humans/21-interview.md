@@ -5,8 +5,6 @@ description: The cloud-agnostic layer of interview prep — STAR structure, diag
 tags: [interview, career, communication]
 ---
 
-# Interview Technique
-
 The parts of interview preparation that do not change with the technology: how you shape a story, how you narrate a diagram, and how you answer a question whose honest answer is "it depends". The cloud guides link here rather than repeating it, and [System Design Loop](#system-design-loop) covers the design half of a loop.
 
 ## Behavioral Stories (STAR)

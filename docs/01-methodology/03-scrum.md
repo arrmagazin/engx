@@ -5,8 +5,6 @@ description: Summarizes Scrum as the 2020 Scrum Guide defines it — the team, t
 tags: [methodology, agile, scrum]
 ---
 
-# Scrum
-
 **Scrum** is a lightweight framework for generating value through adaptive solutions to complex problems. It works [empirically](02-agile.md): the team inspects a real product Increment at short, fixed intervals and adapts, instead of committing to a plan written when the least was known. This guide follows the 2020 Scrum Guide, whose terms differ from the ones still in wide circulation.
 
 ## Pillars and Values

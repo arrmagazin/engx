@@ -5,8 +5,6 @@ description: One table per concept group, naming how AWS, Azure and Google Cloud
 tags: [aws, azure, gcp, cloud, comparison]
 ---
 
-# Concepts Across the Clouds
-
 The three major clouds solve the same problems and disagree mainly on boundaries, names and billing units. This chapter is organized by the problem rather than by the vendor: each section states a concept once, names its incarnation in all three clouds, then records where the analogy stops being true. That last part is the useful half — compute is compute everywhere, and what varies is the boundary a permission is granted at, whether a network is regional or global, and what the billing unit is.
 
 Read a row as "the same job, three implementations". Read the notes under it as "and here is what will bite you". A `*(none)*` entry is information too: it usually means that cloud solves the problem somewhere else, and the note says where.

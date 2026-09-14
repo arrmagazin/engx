@@ -5,8 +5,6 @@ description: Opens the book with the shared vocabulary, the published standards,
 tags: [engineering, foundations, standards, glossary]
 ---
 
-# Software Engineering
-
 This chapter holds the shared vocabulary, the published standards, and the map of disciplines that the rest of the book assumes. Read it first if the book is new to you, and return to it when a term used elsewhere needs a precise definition.
 
 ---

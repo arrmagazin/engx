@@ -5,8 +5,6 @@ description: Covers QA process and vocabulary, test case and defect management, 
 tags: [testing, qa, quality, development-process]
 ---
 
-# Quality Assurance
-
 Quality assurance is the process, mostly run by test engineers, that gives confidence a product meets what clients and users expect. It costs time, money, and people, so its value has to be argued to stakeholders rather than assumed. This guide covers how QA is organized — its vocabulary, the life cycle it follows, test cases, defects, non-functional requirements, metrics, and automation. The practices that carry it out, including test principles, TDD, BDD, and unit testing, are in [Testing](05-testing.md).
 
 ## QA, Quality Control, and Testing

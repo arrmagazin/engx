@@ -5,8 +5,6 @@ description: Explains what a container is, how images are built and shipped, wha
 tags: [tech-stack, containers, docker, oci, deployment]
 ---
 
-# Containers — Core Concepts and Orchestration
-
 A container is an application and its dependencies packaged as an image and run as an isolated process on the host's kernel. This guide covers the kernel primitives that make that isolation work, how images are built and shipped, what an orchestrator takes over once there are many of them, and what all of it implies for anything that has to hold state.
 
 ## Core Concepts

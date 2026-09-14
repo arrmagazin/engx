@@ -5,8 +5,6 @@ description: Covers the DOM, the event model, browser storage, and the Fetch, Hi
 tags: [frontend, browser, dom, css, web-apis]
 ---
 
-# Browser Technologies
-
 The browser is the runtime every frontend application ships into. This guide covers the DOM and its event model, the browser APIs for fetching, navigation, storage, and location, and the service worker that runs behind them all.
 
 ## DOM

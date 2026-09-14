@@ -5,8 +5,6 @@ description: Kent Beck's XP — its five values, fourteen principles, and twenty
 tags: [methodology, agile, xp, engineering-practices]
 ---
 
-# Extreme Programming
-
 **Extreme Programming (XP)** is an [agile method](02-agile.md) that organizes a team around a fixed set of engineering practices rather than around a planning ceremony.
 
 Kent Beck set it out in *Extreme Programming Explained: Embrace Change* (1999), and rewrote it substantially with Cynthia Andres for the second edition (2004). The name comes from the method's construction rule: take a practice that is already known to help, and apply it at a level most teams would call excessive.

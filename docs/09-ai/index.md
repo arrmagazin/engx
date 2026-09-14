@@ -5,8 +5,6 @@ description: The layered AI stack — machine learning, deep learning, foundatio
 tags: [ai, machine-learning, llm, agentic-ai]
 ---
 
-# Artificial Intelligence
-
 **Artificial Intelligence** is the engineering discipline of building systems that perform tasks normally requiring human cognition — perception, reasoning, learning, planning, and language. It is not one technique but a nested stack, each layer built on the one below. This overview maps the stack and holds the vocabulary and references the whole chapter shares; each layer is documented in its own guide.
 
 ## In This Chapter

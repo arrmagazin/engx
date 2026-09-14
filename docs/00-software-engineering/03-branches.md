@@ -5,8 +5,6 @@ description: Maps the branches of software engineering across seven groups and l
 tags: [engineering, disciplines, foundations]
 ---
 
-# Branches of Software Engineering
-
 Software engineering rests on computer science and applied mathematics, and covers more ground than any one engineer works across. This map names its branches in seven groups, from theory to practice. Where this book covers a branch, the branch is followed by the doc that covers it, named as it is titled — which is often narrower than the branch, and the gap is the point.
 
 ## Theoretical Foundations

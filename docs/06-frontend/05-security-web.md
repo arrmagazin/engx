@@ -5,8 +5,6 @@ description: Covers core web security principles, the OWASP Top 10 (2025 edition
 tags: [security, web, owasp]
 ---
 
-# Web Application Security
-
 Web application security is the work of keeping an application's data and actions reachable only by the people entitled to them. This guide covers the principles that hold across attack classes, the OWASP Top 10 as of its 2025 edition, and the concrete defenses that implement them.
 
 

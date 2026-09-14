@@ -23,6 +23,7 @@
     "prebuild": "npm run gen:site-index",
     "build": "npx --yes npm-run-all --parallel build:*",
     "build:ts": "bun ./scripts/build.ts",
+    "build:book": "bun ./scripts/build_book.ts",
     "build:css": "npx --yes @tailwindcss/cli -i index.css -o \"www/dist/index.css\"",
     "predeploy": "npm run build",
     "deploy": "./scripts/bump-version.sh ./www/version && firebase deploy --only hosting --config ./firebase.json -P parlang",

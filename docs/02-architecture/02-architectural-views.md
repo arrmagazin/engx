@@ -5,8 +5,6 @@ description: Explains why architecture is described through several views, and w
 tags: [architecture, views, documentation, system-design]
 ---
 
-# Architectural Views
-
 A **view** is the architecture described for one set of concerns at a time: the components and their relations, or the runtime behaviour, or the machines the system runs on. No single diagram holds all of these at once — a picture that shows components, threads, servers, and technology choices together is unreadable, and a picture that shows only one of them answers only the questions that concern it. Splitting the description into views is the standard response to that problem.
 
 The split is not an invention of this book. Kruchten's "4+1" model (1995) describes an architecture through logical, process, development, and physical views, tied together by scenarios. ISO/IEC/IEEE 42010 generalizes the idea: a *viewpoint* fixes the concerns and notation, and a *view* is the resulting description of the system. The four views used here map onto that tradition, with technology standing in for the development view.

@@ -5,8 +5,6 @@ description: The WCAG version and conformance level to build against, the four P
 tags: [frontend, accessibility, wcag, aria]
 ---
 
-# Accessibility (WCAG)
-
 Accessibility is a [quality attribute](../02-architecture/01-quality-attributes.md) with a published standard behind it: [WCAG 2.2](https://www.w3.org/TR/WCAG22/), a W3C Recommendation since 5 October 2023. This page gives frontend developers the version and level to build against, the four principles the success criteria are grouped under, and the ARIA patterns that recur in everyday markup.
 
 ## Version and Conformance Level

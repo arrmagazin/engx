@@ -5,8 +5,6 @@ description: Defines the system design vocabulary this chapter uses, grouped by 
 tags: [architecture, system-design, interview, glossary]
 ---
 
-# System Design Glossary
-
 Defines the vocabulary the rest of this chapter uses, grouped by the problem each set of terms addresses. Worked applications of these concepts are in [Canonical Systems](08-canonical-systems.md).
 
 ## Design Practice

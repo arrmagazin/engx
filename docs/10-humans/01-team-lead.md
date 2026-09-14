@@ -5,8 +5,6 @@ description: The team lead role — core responsibilities, way of working, and t
 tags: [people, leadership, team-lead, management]
 ---
 
-# Team Lead
-
 A team lead connects company strategy to daily engineering work, turning business goals into milestones a team can act on and removing the friction that stops it. This guide covers the role's responsibilities, the behaviors it models, and the workflow that moves a task from intake to release — for leads of hybrid software teams and for the engineers working with them.
 
 ## Core Responsibilities

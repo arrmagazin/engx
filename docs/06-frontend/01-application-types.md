@@ -5,8 +5,6 @@ description: How MPAs, SPAs, SSR, static generation, and PWAs differ in where HT
 tags: [frontend, spa, pwa, ssr, architecture]
 ---
 
-# Application Types
-
 Application types differ mainly in where HTML is produced: on the server for every request, once at build time, or in the browser after a JavaScript bundle loads. That single choice decides how navigation works, what a crawler sees, and how much has to happen before a first-time visitor sees content.
 
 | Type | HTML Produced | Navigation | Content Without JavaScript |

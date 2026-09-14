@@ -223,7 +223,9 @@ def shift_headings(text, by=1):
 
 
 def split_frontmatter(text):
-    """Return (title, body) and drop the frontmatter block."""
+    """Return (title, body): the frontmatter block dropped, and the body opened
+    with `# <title>`. A document carries no H1 of its own — its frontmatter title
+    is the heading — so the assembler writes the one the book needs."""
     if not text.startswith("---\n"):
         raise ValueError("file does not start with frontmatter")
     end = text.find("\n---\n", 3)
@@ -232,7 +234,8 @@ def split_frontmatter(text):
     title = TITLE_RE.search(text[4:end + 1])
     if not title:
         raise ValueError("frontmatter has no title")
-    return title.group(1), text[end + len("\n---\n"):].lstrip("\n")
+    body = text[end + len("\n---\n"):].lstrip("\n")
+    return title.group(1), f"# {title.group(1)}\n\n{body}"
 
 
 def rewrite_links(text, source, anchors):

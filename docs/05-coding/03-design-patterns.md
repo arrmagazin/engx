@@ -5,8 +5,6 @@ description: Catalogs the Gang of Four patterns by family, the patterns added ar
 tags: [coding, design-patterns]
 ---
 
-# Design Patterns
-
 A design pattern is a named, reusable approach to a problem that keeps recurring: a template to work from, not a finished design that converts straight into code. This page catalogs the twenty-three Gang of Four patterns by family, the patterns other catalogs added around them, the common concurrency patterns, and the anti-patterns worth naming, for a developer who needs the name other engineers will recognize.
 
 A pattern is a concrete structure; the general rules a structure is judged against live in [Design Principles](02-design-principles.md).

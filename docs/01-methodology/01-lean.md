@@ -5,8 +5,6 @@ description: Presents the seven principles of Lean Software Development and the 
 tags: [methodology, agile, lean]
 ---
 
-# Lean Software Development
-
 **Lean Software Development** applies the ideas of Lean manufacturing — maximize value, remove waste, improve continuously — to building software. Mary and Tom Poppendieck set it out as seven principles in *Lean Software Development: An Agile Toolkit* (2003); their sequel *Implementing Lean Software Development: From Concept to Cash* (2006) revises the list, so names such as *Build Quality In* and *Optimize the Whole* belong to that later book rather than to the seven below. It is an [agile method](02-agile.md) rather than an architectural style: it governs how a team works, not how a system is structured.
 
 ```mermaid

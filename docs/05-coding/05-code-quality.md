@@ -5,8 +5,6 @@ description: Explains functional vs. structural code quality, what late-found de
 tags: [coding, code-quality, maintainability]
 ---
 
-# Code Quality
-
 Code quality has two sides: whether the code does the right thing, and how it is built. This guide covers both dimensions, what a late-found defect costs, the standards and analysis tools that keep quality up, and the metrics that make it measurable — for the developers writing code and the peers reviewing it.
 
 ## Two Dimensions

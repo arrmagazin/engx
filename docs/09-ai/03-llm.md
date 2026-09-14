@@ -5,8 +5,6 @@ description: Covers LLM core mechanics, the training lifecycle, inference contro
 tags: [ai, llm, transformer, prompt-engineering]
 ---
 
-# Large Language Models (LLM)
-
 An **LLM** is a transformer-based model trained on vast text corpora to predict the next **token**,
 acquiring broad knowledge and language ability as an emergent side effect of that single objective.
 

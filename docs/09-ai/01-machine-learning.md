@@ -5,8 +5,6 @@ description: The learning paradigms and core concepts — model, training, infer
 tags: [ai, machine-learning, training, supervised-learning]
 ---
 
-# Machine Learning Foundations
-
 **Machine Learning (ML)** is the branch of AI where behavior is learned from data rather than written
 as explicit rules: a model's parameters are fitted to examples until it approximates the target function.
 

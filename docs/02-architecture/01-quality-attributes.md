@@ -5,8 +5,6 @@ description: Catalogs the design, runtime, system, and user quality attributes a
 tags: [architecture, quality-attributes, system-design]
 ---
 
-# Key Quality Attributes
-
 Quality attributes are the properties an architecture is judged by once it does what it is supposed to do: how fast it responds, how well it holds up, how cheaply it can be changed. They are grouped here by where each one is observed — at design time, at runtime, in operation, and by the user. The concepts used to achieve them, such as storage models, distribution, caching, and containers, are covered in [System Design](../03-system-design/index.md).
 
 ## Design Qualities

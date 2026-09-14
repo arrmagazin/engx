@@ -5,8 +5,6 @@ description: Chapter overview of the human side of engineering — the team lead
 tags: [people, teams, leadership, growth, feedback]
 ---
 
-# Humans and Teams
-
 This chapter covers **the people who do the work and the teams they form** — hiring them, growing them, giving them clarity and feedback, and keeping the team healthy enough to keep going.
 
 That is one half of an engineering manager's job. The other half allocates and sequences the work itself, and is covered separately as [Engineering Management](../01-methodology/06-engineering-management.md) — it sits in the methodology chapter because it is about how work is organized, not about the people doing it. A manager who optimizes only for delivery borrows capacity from this half and pays it back as attrition.

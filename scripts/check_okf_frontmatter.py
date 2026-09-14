@@ -25,12 +25,20 @@ def parse_frontmatter(text):
     return fields, match.end()
 
 
+FENCE_RE = re.compile(r"^\s*(`{3,}|~{3,})")
+
+
 def find_h1(text, after):
+    """The first level-1 heading in the body outside a code fence, or None."""
+    fence = None
     for line in text[after:].splitlines():
-        if line.startswith("# "):
+        match = FENCE_RE.match(line)
+        if match:
+            marker = match.group(1)[0]
+            fence = marker if fence is None else (None if fence == marker else fence)
+            continue
+        if fence is None and line.startswith("# "):
             return line[2:].strip()
-        if line.strip():
-            break
     return None
 
 
@@ -70,12 +78,13 @@ def check_file(path):
         if field in fields:
             errors.append(f"{path}: OKF optional field '{field}' is not used in this repo")
 
+    title = fields.get("title", "")
+    if title and title[0] in "\"'":
+        errors.append(f"{path}: 'title' must not be quoted, the quotes would print in the heading: {title}")
+
     h1 = find_h1(text, after)
-    title = fields.get("title")
-    if title and h1 and title != h1:
-        errors.append(f"{path}: frontmatter title '{title}' does not match H1 '{h1}'")
-    elif title and h1 is None:
-        errors.append(f"{path}: no H1 found after frontmatter to match against title")
+    if h1 is not None:
+        errors.append(f"{path}: H1 '{h1}' found; the frontmatter title is the heading, drop the H1")
 
     return errors
 

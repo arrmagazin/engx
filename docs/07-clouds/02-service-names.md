@@ -5,8 +5,6 @@ description: A three-column lookup from an AWS service to its Azure and Google C
 tags: [aws, azure, gcp, cloud, comparison]
 ---
 
-# Service Names Across the Clouds
-
 A lookup table, useful for orientation and dangerous if taken literally. The AWS column is the index because that is the vocabulary most readers arrive with, not because it is the reference implementation. Rows are grouped the way the concepts are grouped, not alphabetically, so that neighbouring rows are the ones you compare in practice.
 
 Every mapping is approximate. Where two services differ in shape, the note column names the difference — which is usually the more useful half, and usually what an interviewer is probing.
