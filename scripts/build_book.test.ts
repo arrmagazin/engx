@@ -211,6 +211,10 @@ describe("rewriteLinks", () => {
     expect(() => rewrite("see [x](../99-nope/01-missing.md)")).toThrow();
   });
 
+  test("a link to a document kept out of the book keeps its words and loses the link", () => {
+    expect(rewrite("read [the index](../INDEX.md) first")).toBe("read the index first");
+  });
+
   test("chapter image path is rewritten to the repository root", () => {
     expect(rewrite("![a](../../images/diagram.png)", "06-frontend/index.md")).toBe(
       "![a](images/diagram.png)",

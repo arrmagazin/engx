@@ -10,11 +10,15 @@
 -- \\ has no effect and patching \LT@tabularcr breaks the header. What works is to
 -- re-render the table through the very same writer and put the rules into the result.
 --
+-- The rule is written out in full rather than as a preamble macro, so this filter
+-- depends on nothing but colortbl, which the build's preamble loads. A quarter black,
+-- so a long table reads as banded rather than as a grid.
+--
 -- Because the table comes back as a raw block, pandoc no longer sees a table in the
 -- document and its template stops loading longtable and booktabs -- the build passes
 -- `-V tables=true` to keep them.
 
-local RULE = "\\engxrowrule\n"
+local RULE = "\\arrayrulecolor{black!25}\\hline\\arrayrulecolor{black}\n"
 
 function Table(tbl)
   if FORMAT ~= "latex" then

@@ -28,6 +28,7 @@ export const BUILD = path.join(ROOT, "build");
 const DIAGRAMS = path.join(BUILD, "diagrams");
 const METADATA = path.join(ROOT, "book", "metadata.yaml");
 const TABLE_RULES = path.join(ROOT, "book", "table-rules.lua");
+const CODE_BREAKS = path.join(ROOT, "book", "code-breaks.lua");
 const EPUB_CSS = path.join(ROOT, "book", "epub.css");
 const COVERS = path.join(BUILD, "cover");
 const COVER_PHOTO = path.join(ROOT, "images", "cover-bg.png");
@@ -114,17 +115,12 @@ const PANDOC_READER = "markdown-yaml_metadata_block";
 
 const TABLE_PADDING = "\\renewcommand{\\arraystretch}{1.3}" + "\\setlength{\\extrarowheight}{2pt}";
 
-// Two typesetting problems the book creates for itself.
-//
-// Identifiers like iam.disableServiceAccountKeyCreation are unbreakable in a
-// monospace font and run into the margin; seqsplit adds breakpoints TeX uses only
-// when it must, and breaks without a hyphen, which is right for code.
+// Long inline code is given breakpoints by book/code-breaks.lua, not here: a
+// preamble redefinition of \texttt through seqsplit fails on the escapes pandoc
+// writes for a caret or a brace.
 //
 // Comparison tables carry prose in four columns, so a step down inside a table keeps
-// them on the measure without shrinking the body text. Inside a table the plain
-// \texttt is restored: columns are narrow enough that seqsplit would break short
-// tokens like split("\n") mid-word, which reads as two tokens. A table cell may then
-// run a few points wide, which is the better of the two faults.
+// them on the measure without shrinking the body text.
 //
 // Those same four-column tables wrap one row to three or four lines, so rows need
 // separating or they run together. Each gets a little vertical padding and a hairline
@@ -167,13 +163,9 @@ const PDF_DEFINITION_LIST =
 const PDF_HEADER_INCLUDES =
   "header-includes=" +
   "\\usepackage{etoolbox}" +
-  "\\usepackage{seqsplit}" +
   "\\usepackage{colortbl}" +
-  "\\let\\oldtexttt\\texttt" +
-  "\\renewcommand{\\texttt}[1]{\\oldtexttt{\\seqsplit{#1}}}" +
-  "\\newcommand{\\bookrowrule}{\\arrayrulecolor{black!25}\\hline\\arrayrulecolor{black}}" +
-  "\\AtBeginEnvironment{longtable}{\\small\\let\\texttt\\oldtexttt" + TABLE_PADDING + "}" +
-  "\\AtBeginEnvironment{tabular}{\\small\\let\\texttt\\oldtexttt" + TABLE_PADDING + "}" +
+  "\\AtBeginEnvironment{longtable}{\\small" + TABLE_PADDING + "}" +
+  "\\AtBeginEnvironment{tabular}{\\small" + TABLE_PADDING + "}" +
   PDF_CALLOUT +
   PDF_DEFINITION_LIST;
 
@@ -288,6 +280,8 @@ export function rewriteLinks(text: string, source: string, anchors: Record<strin
     if (resolved.endsWith(".md") && resolved.startsWith(DOCS + path.sep)) {
       const key = path.relative(DOCS, resolved).split(path.sep).join("/");
       const targetAnchor = anchors[key];
+      // Kept out of the book on purpose: keep the words, drop the link.
+      if (targetAnchor === undefined && NOT_CONTENT.has(path.basename(key)) && !key.includes("/")) return label;
       if (targetAnchor === undefined) throw new Error(`${source} links to unknown document ${key}`);
       return anchor ? `${bang}[${label}](#${targetAnchor}--${anchor})` : `${bang}[${label}](#${targetAnchor})`;
     }
@@ -800,8 +794,8 @@ export function documentAnchors(documents: Document[]): Record<string, string> {
 }
 
 /**
- * welcome.md, then chapters in folder order, each led by its index.md, then any
- * other root file as back matter (quotations, a translations table).
+ * welcome.md, then folders in order, each led by its index.md, then any other root
+ * file (quotations, a translations table) as a closing chapter.
  */
 export function inReadingOrder(paths: string[]): string[] {
   const key = (docPath: string): [number, string, string] => {
@@ -856,12 +850,13 @@ export function startOnANewPage(body: string): string {
 
 /**
  * One markdown document. A folder's index.md keeps its level, so it reads as the
- * chapter opener; its siblings are demoted under it.
+ * chapter opener; its siblings are demoted under it. A root file is a chapter too:
+ * welcome.md opens the book, the others close it.
  */
 export function assemble(documents: Document[]): string {
   const anchors = documentAnchors(documents);
   const chunks = documents.map(({ path: docPath, body }) => {
-    const isChapterOpener = docPath === "welcome.md" || docPath.endsWith("/index.md");
+    const isChapterOpener = !docPath.includes("/") || docPath.endsWith("/index.md");
     let text = closeVoidTags(normalizeThematicBreaks(body));
     text = addHeadingIds(rewriteLinks(text, docPath, anchors), anchors[docPath]);
     return isChapterOpener ? text : startOnANewPage(shiftHeadings(text));
@@ -958,7 +953,7 @@ function render(markdownPath: string, target: "epub" | "pdf", outPath: string, c
       // table-rules.lua hands each table back as a raw block, so pandoc stops seeing
       // a table in the document and its template stops loading longtable and
       // booktabs. This says to load them anyway.
-      "--lua-filter", TABLE_RULES,
+      "--lua-filter", TABLE_RULES, "--lua-filter", CODE_BREAKS,
       "-V", "tables=true",
     );
     // A second -V of the same name: pandoc collects them, so this joins
