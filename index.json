@@ -59,6 +59,10 @@
       "type": "tree"
     },
     {
+      "path": "docs/01-methodology/00-engineering-management.md",
+      "type": "blob"
+    },
+    {
       "path": "docs/01-methodology/01-lean.md",
       "type": "blob"
     },
@@ -76,10 +80,6 @@
     },
     {
       "path": "docs/01-methodology/05-move-humans-to-the-left.md",
-      "type": "blob"
-    },
-    {
-      "path": "docs/01-methodology/00-engineering-management.md",
       "type": "blob"
     },
     {
