@@ -15,6 +15,10 @@
       "type": "tree"
     },
     {
+      "path": "book/code-breaks.lua",
+      "type": "blob"
+    },
+    {
       "path": "book/epub.css",
       "type": "blob"
     },
@@ -75,7 +79,7 @@
       "type": "blob"
     },
     {
-      "path": "docs/01-methodology/06-engineering-management.md",
+      "path": "docs/01-methodology/00-engineering-management.md",
       "type": "blob"
     },
     {
@@ -367,7 +371,15 @@
       "type": "blob"
     },
     {
-      "path": "scripts/bump-version.ts",
+      "path": "scripts/build_book.test.ts",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/build_book.ts",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/bump-version.sh",
       "type": "blob"
     },
     {
@@ -384,6 +396,10 @@
     },
     {
       "path": "scripts/gen-site-index.ts",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/link-modules.sh",
       "type": "blob"
     },
     {

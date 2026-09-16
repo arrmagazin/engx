@@ -7,7 +7,7 @@ tags: [people, management, roles, hiring, onboarding]
 
 Before anyone can run a useful 1:1 or write a growth plan, two structural questions have to be settled: who is accountable for what, and where in their time at the company this person currently stands. Both change rarely, and both are assumed by everything in [Growing and Keeping People](03-growing-and-keeping-people.md), so they are worth writing down once rather than re-deciding per person.
 
-Related: [Engineering Management](../01-methodology/06-engineering-management.md) · [Team Lead](01-team-lead.md) · [Knowledge Sharing](04-knowledge-sharing.md)
+Related: [Engineering Management](../01-methodology/00-engineering-management.md) · [Team Lead](01-team-lead.md) · [Knowledge Sharing](04-knowledge-sharing.md)
 
 ## Scope
 

@@ -7,7 +7,7 @@ tags: [people, management, feedback, growth, team-health]
 
 This is the part of the job that repeats every week. The structure in [Roles and the Employee Lifecycle](02-roles-and-lifecycle.md) decides who is accountable for whom; this guide covers what that accountability actually consists of — the private channel where problems surface, the feedback that keeps expectations honest, the assignments that raise what someone can handle alone, and the signals that say whether the current pace can continue.
 
-Related: [Engineering Management](../01-methodology/06-engineering-management.md) · [Team Lead](01-team-lead.md) · [Development Process](../04-development-process/index.md)
+Related: [Engineering Management](../01-methodology/00-engineering-management.md) · [Team Lead](01-team-lead.md) · [Development Process](../04-development-process/index.md)
 
 ## Core Concepts
 
@@ -109,7 +109,7 @@ Write down the target level's expectations and the evidence gathered so far. A p
 
 ## Team Health
 
-Health metrics **lead** delivery metrics — they degrade first, and they are the early warning for the DORA and flow numbers in [Engineering Management](../01-methodology/06-engineering-management.md#metrics).
+Health metrics **lead** delivery metrics — they degrade first, and they are the early warning for the DORA and flow numbers in [Engineering Management](../01-methodology/00-engineering-management.md#metrics).
 
 | Signal | What it reveals | Watch for |
 | --- | --- | --- |
@@ -121,7 +121,7 @@ Health metrics **lead** delivery metrics — they degrade first, and they are th
 | **1:1 sentiment** | Everything the metrics miss | Energy dropping over consecutive weeks |
 | **Time to first contribution** | Onboarding quality | Trending up as the team grows |
 
-Read these as properties of the system rather than as scores for the people in it — the reasoning, and what happens when individual output is measured instead, is in [Metrics](../01-methodology/06-engineering-management.md#metrics).
+Read these as properties of the system rather than as scores for the people in it — the reasoning, and what happens when individual output is measured instead, is in [Metrics](../01-methodology/00-engineering-management.md#metrics).
 
 ## Best Practices
 
@@ -134,7 +134,7 @@ Read these as properties of the system rather than as scores for the people in i
 - **Grow a successor.** If you cannot take two weeks off, you have a bus-factor problem of your own.
 - **Protect focus time.** Deep work is the job; meetings are overhead that must justify itself.
 
-Two more apply to people work without being specific to it, and are each stated once elsewhere: delegate the outcome rather than the steps, under [Delegation](01-team-lead.md#delegation), and raise bad news early enough for it to still be a decision, under [Best Practices](../01-methodology/06-engineering-management.md#best-practices).
+Two more apply to people work without being specific to it, and are each stated once elsewhere: delegate the outcome rather than the steps, under [Delegation](01-team-lead.md#delegation), and raise bad news early enough for it to still be a decision, under [Best Practices](../01-methodology/00-engineering-management.md#best-practices).
 
 ## Anti-patterns
 
@@ -146,7 +146,7 @@ Two more apply to people work without being specific to it, and are each stated 
 | Vague underperformance handling | Unfair to the person and to the team carrying them | Name the gap, write a plan, set a date |
 | Treating retention as an HR problem | The causes are manager, work, and growth | Manager owns retention risk per person |
 
-Two failure modes that show up as people problems are cataloged with the delivery ones in [Anti-Patterns](../01-methodology/06-engineering-management.md#anti-patterns): hero culture, and managing individuals by metrics.
+Two failure modes that show up as people problems are cataloged with the delivery ones in [Anti-Patterns](../01-methodology/00-engineering-management.md#anti-patterns): hero culture, and managing individuals by metrics.
 
 ## Checklists
 

@@ -20,7 +20,7 @@ The vocabulary lives on this page; each approach has its own guide. Terms the wh
 | **[Scrum](03-scrum.md)** | The team, events, and artifacts of Scrum, as the 2020 Scrum Guide defines them |
 | **[Extreme Programming](04-extreme-programming.md)** | The five values, fourteen principles, and twenty-four engineering practices of XP, and which have held up |
 | **[Move Humans to the Left](05-move-humans-to-the-left.md)** | Authoring machine-readable artifacts as the single source of truth, so machines apply every downstream change |
-| **[Engineering Management](06-engineering-management.md)** | Planning, prioritization, estimation, risk, delegation, and the metrics that show whether the loops are closing |
+| **[Engineering Management](00-engineering-management.md)** | Planning, prioritization, estimation, risk, delegation, and the metrics that show whether the loops are closing |
 
 ## Core Concepts
 
@@ -38,7 +38,7 @@ Best Practice
 
 A Framework in this sense runs a process, not code. The software sense — a component that owns the control flow and calls the application through the extension points it defines — is defined as [Software Framework](../03-system-design/index.md#information-system) in System Design.
 
-Strategy here is the chosen direction itself. The planning cadence that produces and corrects it is the Strategy stage of the [Management Flow](06-engineering-management.md#management-flow).
+Strategy here is the chosen direction itself. The planning cadence that produces and corrects it is the Strategy stage of the [Management Flow](00-engineering-management.md#management-flow).
 
 ## Solution Stages
 
@@ -86,7 +86,7 @@ Dependency
 Constraint
 : Fixed boundary — budget, deadline, compliance, headcount — that planning must respect rather than optimize away
 
-These are the terms [Engineering Management](06-engineering-management.md) plans with; that guide applies them, and does not redefine them.
+These are the terms [Engineering Management](00-engineering-management.md) plans with; that guide applies them, and does not redefine them.
 
 ### SWOT Analysis
 
