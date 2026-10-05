@@ -11,8 +11,24 @@
       "type": "blob"
     },
     {
+      "path": "biome.json",
+      "type": "blob"
+    },
+    {
       "path": "book",
       "type": "tree"
+    },
+    {
+      "path": "book/build_book.py",
+      "type": "blob"
+    },
+    {
+      "path": "book/build_book.test.ts",
+      "type": "blob"
+    },
+    {
+      "path": "book/build_book.ts",
+      "type": "blob"
     },
     {
       "path": "book/code-breaks.lua",
@@ -331,6 +347,10 @@
       "type": "blob"
     },
     {
+      "path": "index.ts",
+      "type": "blob"
+    },
+    {
       "path": "package-lock.json",
       "type": "blob"
     },
@@ -367,18 +387,6 @@
       "type": "blob"
     },
     {
-      "path": "scripts/build_book.py",
-      "type": "blob"
-    },
-    {
-      "path": "scripts/build_book.test.ts",
-      "type": "blob"
-    },
-    {
-      "path": "scripts/build_book.ts",
-      "type": "blob"
-    },
-    {
       "path": "scripts/bump-version.sh",
       "type": "blob"
     },
@@ -400,6 +408,10 @@
     },
     {
       "path": "scripts/link-modules.sh",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/release.sh",
       "type": "blob"
     },
     {
@@ -433,10 +445,6 @@
     {
       "path": "src",
       "type": "tree"
-    },
-    {
-      "path": "src/index.ts",
-      "type": "blob"
     },
     {
       "path": "tsconfig.json",

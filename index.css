@@ -2,6 +2,7 @@
 @import "tailwindcss";
 
 @source "./node_modules/arrmatura-web/**/*.xml";
+@source "./node_modules/arrmatura-books/**/*.xml";
 
 @plugin "daisyui" {
   themes:
@@ -13,6 +14,7 @@
 }
 
 @layer base {
+
   :root,
   :host {
     --font-sans: "IBM Plex Sans", system-ui, sans-serif;
@@ -46,12 +48,14 @@
   .text-success {
     color: #146c37 !important;
   }
+
   .text-error {
     color: #b91820 !important;
   }
 }
 
 @layer components {
+
   /* ── DIAGRAM ── */
   .diagram-wrap {
     background: #ffffff;
@@ -61,6 +65,7 @@
     margin-bottom: 20px;
     box-shadow: 0 1px 3px rgba(15, 22, 58, 0.04);
   }
+
   .diagram-label {
     font-size: 11px;
     font-weight: 500;
@@ -79,6 +84,7 @@
     margin-bottom: 20px;
     box-shadow: 0 1px 3px rgba(15, 22, 58, 0.06);
   }
+
   .code-header {
     display: flex;
     align-items: center;
@@ -87,11 +93,13 @@
     border-bottom: 1px solid var(--border-faint);
     background: rgba(15, 22, 58, 0.03);
   }
+
   .code-filename {
     font-size: 12px;
     font-family: var(--font-mono);
     color: var(--muted);
   }
+
   .code-lang {
     font-size: 11px;
     font-weight: 500;
@@ -99,6 +107,7 @@
     color: var(--muted);
     text-transform: uppercase;
   }
+
   .code-body {
     padding: 20px;
     overflow-x: auto;
@@ -112,24 +121,38 @@
   /* ── Syntax tokens — light bg palette ── */
   .kw {
     color: #6a3fc8;
-  } /* keywords   – deep violet */
+  }
+
+  /* keywords   – deep violet */
   .str {
     color: #2a7a44;
-  } /* strings    – forest green */
+  }
+
+  /* strings    – forest green */
   .cm {
     color: #8a97a8;
     font-style: italic;
-  } /* comments   – cool gray */
+  }
+
+  /* comments   – cool gray */
   .fn {
     color: #1060c8;
-  } /* functions  – blueprint blue */
+  }
+
+  /* functions  – blueprint blue */
   .num {
     color: #c05a10;
-  } /* numbers    – burnt orange */
+  }
+
+  /* numbers    – burnt orange */
   .typ {
     color: #9a6200;
-  } /* types      – dark amber */
+  }
+
+  /* types      – dark amber */
   .op {
     color: #1488a0;
-  } /* operators  – teal */
+  }
+
+  /* operators  – teal */
 }

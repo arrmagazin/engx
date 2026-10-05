@@ -2,7 +2,7 @@
 import type { BuildOptions } from "esbuild";
 
 export function getEsbuildOptions({
-  entryPoints = ["src/index.ts"],
+  entryPoints = ["./index.ts"],
   outdir = "./www/dist",
   plugins = [],
   loader = {},
@@ -14,9 +14,6 @@ export function getEsbuildOptions({
     outdir,
     platform: "browser",
     format: "esm",
-    // "external" emits the .map file but omits the `//# sourceMappingURL=` comment, so a
-    // deployed bundle carries no pointer to its sourcemap. serve.ts opts dev builds back
-    // into "linked" so devtools resolve original sources automatically.
     sourcemap: "external",
     target: "esnext",
     minify: true,

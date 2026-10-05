@@ -2,8 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": [
-      "ESNext",
-      "DOM"
+      "ESNext"
     ],
     "strict": true,
     "noImplicitAny": false,
@@ -18,19 +17,8 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "customConditions": [
-      "react-native"
-    ],
     "noEmit": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@/*": [
-        "./*"
-      ]
-    },
-    "types": [
-      "node"
-    ]
+    "skipLibCheck": true
   },
   "include": [
     "**/*.ts"
