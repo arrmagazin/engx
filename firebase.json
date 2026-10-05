@@ -2,13 +2,7 @@
   "hosting": {
     "site": "software-engineering",
     "public": "www",
-    "ignore": [
-      "firebase.json",
-      "**/*.js.map",
-      "**/.*",
-      "site/**/CLAUDE.md",
-      "site/**/.*/**"
-    ],
+    "ignore": ["firebase.json", "**/*.js.map", ".*", "CLAUDE.md"],
     "headers": [
       {
         "source": "version",
@@ -22,7 +16,7 @@
     ],
     "rewrites": [
       {
-        "source": "*.html",
+        "source": "**",
         "destination": "/index.html"
       }
     ]
