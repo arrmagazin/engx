@@ -81,7 +81,7 @@ Team
 : An interpersonal *agent* formed from individuals aligned around shared Goals.
 
 Project
-: A managed *endeavor* where a Team pursues Success against predefined Goals, 
+: A managed *endeavor* where a Team pursues Success against predefined Goals,
 : by choosing, adopting, and applying Paradigms, Methodologies, Technologies, and Platforms.
 
 Platform
@@ -103,13 +103,13 @@ Technology
 > Technology ensures that results are effective, reproducible, and verifiable.
 
 Standards
-: *unified* sets of rules, protocols, paradigms, and best practices 
+: *unified* sets of rules, protocols, paradigms, and best practices
 : that dictate how software is developed, reviewed, deployed, and maintained.
 
-> They exist so that a system's safety, reliability, security, maintainability, and interoperability 
+> They exist so that a system's safety, reliability, security, maintainability, and interoperability
 > *do not depend* on which Team happened to build it.
 
 Management
-: *process* of making *decisions* about organizing Teams to reach Success 
+: *process* of making *decisions* about organizing Teams to reach Success
 
 > Management concerns about governance, control, optimizing, securing, tracking, and growth.

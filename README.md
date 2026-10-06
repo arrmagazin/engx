@@ -59,21 +59,21 @@ npm install   # once: installs the toolchain and creates the symlinks
 npm run dev   # serves on http://localhost:8092
 ```
 
-It is a thin shell (`src/`, `index.css`, `www/`) over the `arrmatura-web/books` UI kit,
-which is developed in a sibling checkout. `npm install` links `../arrmatura-web` and
-`../ultimus` into `node_modules` and mounts `docs/`, `index.json` and `images/` under
-`www/`, so the site serves this working tree directly.
+It is a thin shell (`index.ts`, `index.css`, `www/`) over the `arrmatura-books` UI, which is
+developed in a sibling checkout. `npm install` links `../arrmatura-books` and `../ultimus`
+into `node_modules`.
 
 | Command | What it does |
 | --- | --- |
-| `npm run dev` | Regenerates the index, serves on :8092, opens a browser |
+| `npm run dev` | Serves on :8092, opens a browser |
 | `npm run build` | Bundles the app and the CSS into `www/dist` |
+| `npm run release` | Tags `package.json`'s version and pushes the tag |
 | `npm run deploy` | Builds, bumps `www/version`, deploys hosting to `software-engineering` |
-| `npm run gen:site-index` | Rewrites `index.json`, the file tree the sidebar navigates by |
 | `npm run stop` | Frees port 8092 |
 
-`index.json` is committed, and the deployed site navigates by it rather than by the live
-filesystem — so regenerate and commit it whenever docs are added, renamed or removed.
+The site reads the docs from jsDelivr at the tagged version set in `www/index.html`, not
+from this working tree. To publish doc changes, release a new tag, point `www/index.html`
+at it, and deploy.
 
 ## Contributing
 

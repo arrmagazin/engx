@@ -14,7 +14,6 @@
   "copyright": "© 2025. All rights reserved.",
   "scripts": {
     "dev": "PORT=8092 npm run start",
-    "prestart": "npm run gen:site-index",
     "start": "npm run stop && npx --yes npm-run-all --parallel start:*",
     "start:serve": "bun ./scripts/serve.ts",
     "start:css": "npm run build:css -- --watch",
