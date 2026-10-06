@@ -13,7 +13,7 @@
   "email": "contact@company.com",
   "copyright": "© 2025. All rights reserved.",
   "scripts": {
-    "dev": "PORT=8092 npm run start",
+    "dev": "PORT=8072 npm run start",
     "start": "npm run stop && npx --yes npm-run-all --parallel start:*",
     "start:serve": "bun ./scripts/serve.ts",
     "start:css": "npm run build:css -- --watch",
