@@ -4,7 +4,4 @@ __pycache__
 build/
 node_modules
 www/dist
-www/images
-www/site/docs
-www/site/index.json
 .firebase

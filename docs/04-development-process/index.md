@@ -21,13 +21,13 @@ The development process is the lifecycle that turns a stakeholder need into an o
 
 ## SDLC
 
-**SDLC (Software Development Lifecycle)**: One-pass or iterative cycle of interdependent phases and processes that turns a stakeholder need into an operated [Solution](../00-software-engineering/01-glossary.md#solution). Each phase consumes the verified output of the previous one and produces artifacts that make the next one verifiable — the lifecycle is what connects [Requirements](../00-software-engineering/01-glossary.md#solution) to [Metrics](../00-software-engineering/01-glossary.md#solution) in practice.
+**SDLC (Software Development Lifecycle)**: One-pass or iterative cycle of interdependent phases and processes that turns a stakeholder need into an operated [Solution](../00-software-engineering/01-glossary.md). Each phase consumes the verified output of the previous one and produces artifacts that make the next one verifiable — the lifecycle is what connects [Requirements](../00-software-engineering/01-glossary.md) to [Metrics](../00-software-engineering/01-glossary.md) in practice.
 
 | Phase | Definition |
 | --- | --- |
 | **Discovery** | Establishing the problem, stakeholders, constraints, and expected value before committing resources |
 | **Analysis** | Turning intent into Requirements — defined boundaries on Metrics that make success verifiable |
-| **[Design](../00-software-engineering/01-glossary.md#delivery)** | Deciding WHAT the solution should be and WHY, judged against usability from the end-user perspective |
+| **[Design](../00-software-engineering/01-glossary.md)** | Deciding WHAT the solution should be and WHY, judged against usability from the end-user perspective |
 | **Implementation** | Producing executable code, configuration, and metadata that realizes the design |
 | **Verification** | Confirming the built solution satisfies its functional and [non-functional requirements](../02-architecture/01-quality-attributes.md) |
 | **Release** | Delivering a versioned, reproducible artifact into a target environment |

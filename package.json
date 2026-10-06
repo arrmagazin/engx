@@ -28,7 +28,7 @@
     "release": "./scripts/release.sh",
     "postinstall": "npm run link",
     "link": "./scripts/link-modules.sh arrmatura-books ultimus",
-    "test": "bun test scripts/build_book.test.ts"
+    "test": "python3 -m unittest discover -s scripts -p 'test_*.py'"
   },
   "devDependencies": {
     "@types/node": "^26.5.1"

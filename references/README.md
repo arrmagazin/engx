@@ -1,4 +1,4 @@
-# reference/
+# references/
 
 Source material, not part of the book.
 
@@ -19,7 +19,7 @@ the other nine.
 - **Outside the checkers** — `.githooks/pre-commit` and the three `scripts/check_*.py`
   only ever see `docs/*.md`. Frontmatter, glossary and link conventions are not
   enforced here.
-- **Outside the build** — `scripts/build_book.py` assembles `docs/` only. Nothing here
+- **Outside the build** — `book/build.ts` assembles `docs/` only. Nothing here
   reaches the EPUB or the PDF.
 
 ## The one rule

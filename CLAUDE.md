@@ -1,14 +1,14 @@
 # Engx
 
-A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth; `scripts/build_book.py` renders it as an EPUB and a PDF on demand, and a thin web app in this repo serves the same tree as a site (see **The web app**). The code is `scripts/`: three checkers that enforce the conventions below, the book builder, and the site's TypeScript build tooling.
+A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth; `book/build.ts` renders it as an EPUB and a PDF on demand, and a thin web app in this repo serves the same tree as a site (see **The web app**). The code is three Python checkers in `scripts/` that enforce the conventions below, the book builder in `book/`, and the site's TypeScript build tooling in `scripts/`.
 
 ## Structure
 
-- `docs/` — the book: ten numbered folders plus one unnumbered entry point, `docs/welcome.md`.
+- `docs/` — the book: ten numbered folders plus one root entry point, `docs/index.md`.
 - `images/` — holds only `cover-bg.png`, the photograph on the book cover, which the builder reads directly. The docs carry no figures of their own: every illustration in the book is a mermaid diagram in the prose. An image added here is referenced by a relative path (`../images/…` from `docs/`, `../../images/…` from a chapter folder), never root-absolute, and must not be SVG — see **Image formats in the PDF**.
-- `reference/` — source material that is **not** part of the book: three single-cloud handbooks the Clouds chapter was distilled from. Outside `docs/`, so outside the checkers and outside the build. Nothing in `docs/` links into it. See `reference/README.md`.
-- `book/` — what the renderers need beyond the prose: `metadata.yaml` (title, author, rights, subjects), `table-rules.lua` (a pandoc filter putting a hairline between table rows in the PDF) and `epub.css` (that separation for the EPUB, plus the blockquote callouts and the glossary definition lists). `build/` — the rendered outputs, gitignored.
-- `scripts/` — the three checkers, the book builder, and their tests (stdlib Python), plus the site's build tooling (`serve.ts`, `build.ts`, `gen-site-index.ts`, run by bun, plus `bump-version.sh`). `.githooks/` — the hook that runs the checkers. `README.md` — the repository's front page, written for a human, not an agent.
+- `references/` — source material that is **not** part of the book: three single-cloud handbooks the Clouds chapter was distilled from. Outside `docs/`, so outside the checkers and outside the build. Nothing in `docs/` links into it. See `references/README.md`.
+- `book/` — what the renderers need beyond the prose: `build.ts` (the builder), `metadata.yaml` (title, author, rights, subjects), `table-rules.lua` (a pandoc filter putting a hairline between table rows in the PDF), `code-breaks.lua` (breakpoints in long inline code) and `epub.css` (that separation for the EPUB, plus the blockquote callouts and the glossary definition lists). `build/` — the rendered outputs, gitignored.
+- `scripts/` — the three checkers and their tests (stdlib Python), plus the site's tooling (`serve.ts`, `build.ts`, run by bun, plus `link-modules.sh`, `bump-version.sh`, `release.sh`). `.githooks/` — the hook that runs the checkers. `README.md` — the repository's front page, written for a human, not an agent.
 - The web app: `index.ts`, `index.css`, `www/`, `firebase.json`, `package.json`, `tsconfig.json`. See **The web app**.
 
 **The numbering rule.** Folder prefixes are unique and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-clouds`, `09-ai`, `10-humans`. `08` and `11` are unused — gaps left by earlier reorganizations, not placeholders. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
@@ -21,28 +21,28 @@ A personal engineering knowledge base written as markdown, organized as a number
 git ls-files 'docs/*.md' | xargs python3 scripts/check_links.py
 ```
 
-Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `python3 scripts/check_links.py $files` passes all 62 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
+Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `python3 scripts/check_links.py $files` passes all 60 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
 
 - `check_okf_frontmatter.py` — the frontmatter convention below.
 - `check_glossary.py` — the glossary convention below.
-- `check_links.py` — every relative link resolves, and every `#anchor` names a heading that exists in the target file. It reads the files it is given *plus their targets*, so staging the referring file catches a broken link; renaming a heading and staging only that file does not. Run it over the whole book after a merge for that reason. Its own tests: `python3 -m unittest discover -s scripts -p 'test_*.py'`.
+- `check_links.py` — every relative link resolves, and every `#anchor` names a heading that exists in the target file. It reads the files it is given *plus their targets*, so staging the referring file catches a broken link; renaming a heading and staging only that file does not. Run it over the whole book after a merge for that reason. Its own tests: `npm test`.
 
 ## The book build
 
-`scripts/build_book.py` assembles `docs/` into one document and renders it twice:
+`book/build.ts` assembles `docs/` into one document and renders it twice:
 
 ```sh
-python3 scripts/build_book.py              # build/engx.epub and build/engx.pdf
-python3 scripts/build_book.py --markdown   # assemble and verify only, render nothing
+npm run book                  # build/engx.epub and build/engx.pdf
+npm run book -- --epub        # one format (or --pdf)
+npm run book -- --markdown    # assemble and verify only, render nothing
 ```
 
-It is stdlib-only Python, like the checkers; pandoc and (for the PDF) xelatex do the
-rendering. Ten things it does that pandoc cannot, each with tests in
-`scripts/test_build_book.py`:
+It runs on bun with Node built-ins only; pandoc and (for the PDF) xelatex do the
+rendering. It has no tests at present. Ten things it does that pandoc cannot:
 
 - **Title heading.** A document carries no H1 — its frontmatter `title` is the heading — so
   the assembler opens every body with `# <title>` before reading order, ids or links see it.
-- **Reading order.** `welcome.md` first, then folders in numeric order, each led by its
+- **Reading order.** The root `index.md` first, then folders in numeric order, each led by its
   `index.md`, which keeps its heading level and so reads as the chapter opener. Siblings
   are demoted one level beneath it.
 - **One document, one page.** Every file opens at the top of a page rather than running on
@@ -61,7 +61,7 @@ rendering. Ten things it does that pandoc cannot, each with tests in
 - **Normalizing `---`.** A bare dashed line is ambiguous in pandoc's markdown — YAML
   metadata, a setext underline, or a multiline-table delimiter. Read as the last of those
   it swallows every following heading into table cells, with a zero exit code. The builder
-  emits `***` instead, and then `verify_anchors` re-renders the assembled file and fails the
+  emits `***` instead, and then `verifyAnchors` re-renders the assembled file and fails the
   build if any declared heading id or link target did not survive.
 - **Mermaid diagrams.** Neither output format renders a mermaid fence — pandoc prints it as
   a verbatim code block — so the 32 diagrams are rasterized before pandoc sees them, by
@@ -135,10 +135,12 @@ highlighting already uses for code blocks. The EPUB gets the same from `book/epu
 **The PDF layout.** A reading book rather than a paper: the `book` class one-sided on A4,
 11pt on 1.15 leading, 2.5cm/2.8cm margins, `--top-level-division=chapter` so a folder opens
 a chapter on a fresh page, and running heads carrying the chapter title. That is 307 pages.
-Inline code is made breakable with `seqsplit`, because identifiers like
-`iam.disableServiceAccountKeyCreation` are otherwise unbreakable and run into the margin —
-except inside a table, where the plain `\texttt` is restored, since narrow columns would
-break a short token like `split("\n")` mid-word and make it read as two.
+Long inline code gets breakpoints from `book/code-breaks.lua`, because identifiers like
+`iam.disableServiceAccountKeyCreation` are otherwise unbreakable and run into the margin.
+It allows a break only after a space, dot, slash, colon, hyphen or underscore, or between
+a lower- and an upper-case letter, and leaves code under 12 characters alone. `seqsplit`,
+which breaks between any two characters, cannot be used: it fails on the `\^{}` pandoc
+writes for a caret.
 
 One limit worth knowing: the PDF sets `Times New Roman` with `Menlo` for code, the
 fonts verified to cover the box-drawing characters the diagrams use; if either is missing
@@ -225,7 +227,7 @@ tags: [lowercase, kebab-or-single-word, tags]
 ## Working conventions
 
 - Prefer standard English; no fancy or rare words, no idioms.
-- The content is markdown. The checkers and the book builder are stdlib-only Python 3 and stay that way — no dependencies to install, and no test framework beyond `unittest` (pytest is not available here). The site's TypeScript tooling is separate and installs its own; keep the two apart.
+- The content is markdown. The checkers are stdlib-only Python 3 and stay that way — no dependencies to install, and no test framework beyond `unittest` (pytest is not available here). The book builder uses Node built-ins only. The site's TypeScript tooling is separate and installs its own; keep them apart.
 - Anything asserted in the book should be checkable. Prefer a claim a reader could falsify over one that merely sounds right.
 
 ## Glossary conventions

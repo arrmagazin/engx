@@ -8,9 +8,9 @@
  * still works when many files become one, and rasterize the mermaid diagrams, which
  * neither output format can render.
  *
- *     bun scripts/build_book.ts             # both formats into build/
- *     bun scripts/build_book.ts --epub      # one format
- *     bun scripts/build_book.ts --markdown  # assemble only, render nothing
+ *     bun book/build.ts             # both formats into build/
+ *     bun book/build.ts --epub      # one format
+ *     bun book/build.ts --markdown  # assemble only, render nothing
  *
  * The book takes its file name from the package: build/<name>.md, .epub and .pdf.
  */
@@ -794,13 +794,13 @@ export function documentAnchors(documents: Document[]): Record<string, string> {
 }
 
 /**
- * welcome.md, then folders in order, each led by its index.md, then any other root
+ * The root index.md, then folders in order, each led by its index.md, then any other root
  * file (quotations, a translations table) as a closing chapter.
  */
 export function inReadingOrder(paths: string[]): string[] {
   const key = (docPath: string): [number, string, string] => {
     const parts = docPath.split("/");
-    if (docPath === "welcome.md") return [0, "", ""];
+    if (docPath === "index.md") return [0, "", ""];
     if (parts.length === 1) return [2, parts[0], ""];
     return [1, parts[0], parts[1] === "index.md" ? "" : parts[1]];
   };
@@ -851,7 +851,7 @@ export function startOnANewPage(body: string): string {
 /**
  * One markdown document. A folder's index.md keeps its level, so it reads as the
  * chapter opener; its siblings are demoted under it. A root file is a chapter too:
- * welcome.md opens the book, the others close it.
+ * the root index.md opens the book, the others close it.
  */
 export function assemble(documents: Document[]): string {
   const anchors = documentAnchors(documents);
@@ -979,7 +979,7 @@ function render(markdownPath: string, target: "epub" | "pdf", outPath: string, c
   run("pandoc", args);
 }
 
-const USAGE = `usage: bun scripts/build_book.ts [--epub] [--pdf] [--markdown]
+const USAGE = `usage: bun book/build.ts [--epub] [--pdf] [--markdown]
 
   --epub      build the EPUB only
   --pdf       build the PDF only

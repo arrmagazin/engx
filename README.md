@@ -7,7 +7,7 @@ production. It is for practicing engineers who want one place to look something 
 for engineers preparing for an interview loop, who need the same material stated precisely
 enough to say out loud. It assumes you can already program, and does not teach a language.
 
-**Start reading at [docs/welcome.md](docs/welcome.md).**
+**Start reading at [docs/index.md](docs/index.md).**
 
 ## How the tree reads
 
@@ -31,9 +31,9 @@ The sequence skips `08` and `11`; both are gaps left by earlier reorganizations.
 
 Inside a folder the rule repeats: `index.md` is the chapter overview and links every one
 of its siblings, and the rest are numbered in the order they are best read.
-`docs/welcome.md` is the only unnumbered file in the tree, because it is the way in.
+`docs/index.md` is the only file at the root of `docs/`, because it is the way in.
 
-Two folders are also worth knowing about. [reference/](reference/) holds source material
+Two folders are also worth knowing about. [references/](references/) holds source material
 that is deliberately not part of the book — three single-cloud handbooks the Clouds chapter
 was distilled from. [book/](book/) holds the metadata the rendered book is built with.
 
@@ -42,11 +42,11 @@ was distilled from. [book/](book/) holds the metadata the rendered book is built
 The markdown is the source of truth. To read it as one document:
 
 ```sh
-python3 scripts/build_book.py
+npm run book
 ```
 
 That writes `build/engx.epub` and `build/engx.pdf`. It needs `pandoc`, and the PDF also
-needs `xelatex`; `--markdown` assembles and checks the structure without rendering either.
+needs `xelatex`; `npm run book -- --markdown` assembles and checks the structure without rendering either.
 Edit `book/metadata.yaml` to change the title, author or rights line: the cover is
 generated from those fields over `images/cover-bg.png`, so it follows them.
 
