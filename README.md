@@ -27,82 +27,15 @@ where they run. Any chapter still stands on its own.
 - `09` — [Artificial Intelligence](docs/09-ai/index.md)
 - `10` — [Humans and Teams](docs/10-humans/index.md)
 
-The sequence skips `08` and `11`; both are gaps left by earlier reorganizations.
+## Read it as a site
 
-Inside a folder the rule repeats: `index.md` is the chapter overview and links every one
-of its siblings, and the rest are numbered in the order they are best read.
-`docs/index.md` is the only file at the root of `docs/`, because it is the way in.
-
-Two folders are also worth knowing about. [references/](references/) holds source material
-that is deliberately not part of the book — three single-cloud handbooks the Clouds chapter
-was distilled from. [book/](book/) holds the metadata the rendered book is built with.
-
-## Build it as a book
-
-The markdown is the source of truth. To read it as one document:
-
-```sh
-npm run book
-```
-
-That writes `build/engx.epub` and `build/engx.pdf`. It needs `pandoc`, and the PDF also
-needs `xelatex`; `npm run book -- --markdown` assembles and checks the structure without rendering either.
-Edit `book/metadata.yaml` to change the title, author or rights line: the cover is
-generated from those fields over `images/cover-bg.png`, so it follows them.
-
-## Read it as a website
-
-The same book runs as a site — <https://software-engineering.web.app>, or locally:
-
-```sh
-npm install   # once: installs the toolchain and creates the symlinks
-npm run dev   # serves on http://localhost:8092
-```
-
-It is a thin shell (`index.ts`, `index.css`, `www/`) over the `arrmatura-books` UI, which is
-developed in a sibling checkout. `npm install` links `../arrmatura-books` and `../ultimus`
-into `node_modules`.
-
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Serves on :8092, opens a browser |
-| `npm run build` | Bundles the app and the CSS into `www/dist` |
-| `npm run release` | Tags `package.json`'s version and pushes the tag |
-| `npm run deploy` | Builds, bumps `www/version`, deploys hosting to `software-engineering` |
-| `npm run stop` | Frees port 8092 |
-
-The site reads the docs from jsDelivr at the tagged version set in `www/index.html`, not
-from this working tree. To publish doc changes, release a new tag, point `www/index.html`
-at it, and deploy.
+The site — <https://software-engineering.web.app>
 
 ## Contributing
 
-Every file under `docs/` carries exactly four frontmatter fields, in this order:
-
-```yaml
----
-type: Guide
-title: CI/CD
-description: Explains continuous integration and delivery pipelines and the environment stages code moves through before production.
-tags: [devops, ci-cd, development-process]
----
-```
-
-`title` must be identical to the file's `#` heading and is never quoted; `description` is
-capped at 140 characters. Three checkers enforce that, the rules for definition tables,
-and every relative link and heading anchor in the book:
-
 ```sh
-git ls-files 'docs/*.md' | xargs python3 scripts/check_okf_frontmatter.py
-git ls-files 'docs/*.md' | xargs python3 scripts/check_glossary.py
-git ls-files 'docs/*.md' | xargs python3 scripts/check_links.py
+npm run check         # all three, reporting every failure
+npm run check:links   # one of them (or check:frontmatter, check:glossary)
 ```
 
-Point git at the repo's hooks once per clone and they run on every commit, over the files
-that commit stages:
-
-```sh
-git config core.hooksPath .githooks
-```
-
-The checkers have their own tests: `python3 -m unittest discover -s scripts -p 'test_*.py'`.
+The checkers have their own tests: `npm test`.

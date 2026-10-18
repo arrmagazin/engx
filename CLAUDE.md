@@ -1,208 +1,32 @@
 # Engx
 
-A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth; `book/build.ts` renders it as an EPUB and a PDF on demand, and a thin web app in this repo serves the same tree as a site (see **The web app**). The code is three Python checkers in `scripts/` that enforce the conventions below, the book builder in `book/`, and the site's TypeScript build tooling in `scripts/`.
+A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth. The code is three Python checkers in `scripts/` that enforce the conventions below, and the release script. The site (<https://software-engineering.web.app>) and the EPUB / PDF builds live in the sibling `github-book` repo, which reads this repo at a tagged release (see **Releasing**).
 
 ## Structure
 
-- `docs/` — the book: ten numbered folders plus one root entry point, `docs/index.md`.
-- `images/` — holds only `cover-bg.png`, the photograph on the book cover, which the builder reads directly. The docs carry no figures of their own: every illustration in the book is a mermaid diagram in the prose. An image added here is referenced by a relative path (`../images/…` from `docs/`, `../../images/…` from a chapter folder), never root-absolute, and must not be SVG — see **Image formats in the PDF**.
-- `references/` — source material that is **not** part of the book: three single-cloud handbooks the Clouds chapter was distilled from. Outside `docs/`, so outside the checkers and outside the build. Nothing in `docs/` links into it. See `references/README.md`.
-- `book/` — what the renderers need beyond the prose: `build.ts` (the builder), `metadata.yaml` (title, author, rights, subjects), `table-rules.lua` (a pandoc filter putting a hairline between table rows in the PDF), `code-breaks.lua` (breakpoints in long inline code) and `epub.css` (that separation for the EPUB, plus the blockquote callouts and the glossary definition lists). `build/` — the rendered outputs, gitignored.
-- `scripts/` — the three checkers and their tests (stdlib Python), plus the site's tooling (`serve.ts`, `build.ts`, run by bun, plus `link-modules.sh`, `bump-version.sh`, `release.sh`). `.githooks/` — the hook that runs the checkers. `README.md` — the repository's front page, written for a human, not an agent.
-- The web app: `index.ts`, `index.css`, `www/`, `firebase.json`, `package.json`, `tsconfig.json`. See **The web app**.
+- `docs/` — the book: ten numbered folders plus one root entry point, `docs/index.md`. `docs/07-clouds/references/` is source material that is **not** part of the book: three single-cloud handbooks the Clouds chapter was distilled from. See its `README.md`.
+- `scripts/` — the three checkers and their tests (stdlib Python), plus `release.sh`. `README.md` — the repository's front page, written for a human, not an agent.
 
 **The numbering rule.** Folder prefixes are unique and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-clouds`, `09-ai`, `10-humans`. `08` and `11` are unused — gaps left by earlier reorganizations, not placeholders. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
 
 ## Checkers
 
-`.githooks/pre-commit` runs all three over the `docs/*.md` files a commit stages, under an `ACMR` filter so pure renames are checked too. Each clone enables the hook once with `git config core.hooksPath .githooks`. To run one over the whole book:
+`.githooks/pre-commit` runs all three over the `docs/*.md` files a commit stages, under an `ACMR` filter so pure renames are checked too. Each clone enables the hook once with `git config core.hooksPath .githooks`. To run them over the whole book, `npm run check` (all three, each run even if an earlier one fails) or `npm run check:frontmatter` / `check:glossary` / `check:links` (one).
 
-```sh
-git ls-files 'docs/*.md' | xargs python3 scripts/check_links.py
-```
-
-Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `python3 scripts/check_links.py $files` passes all 60 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
+Those scripts pipe `git ls-files 'docs/*.md'` through `xargs`; keep it that way. Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `python3 scripts/check_links.py $files` passes all 60 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
 
 - `check_okf_frontmatter.py` — the frontmatter convention below.
 - `check_glossary.py` — the glossary convention below.
 - `check_links.py` — every relative link resolves, and every `#anchor` names a heading that exists in the target file. It reads the files it is given *plus their targets*, so staging the referring file catches a broken link; renaming a heading and staging only that file does not. Run it over the whole book after a merge for that reason. Its own tests: `npm test`.
 
-## The book build
+## Releasing
 
-`book/build.ts` assembles `docs/` into one document and renders it twice:
+The site and the book read the docs from jsDelivr at a **tagged release** of this repo, not from the working tree. To publish doc changes: commit and push, bump `version` in `package.json`, then `npm run release` (tags the commit and pushes the tag; jsDelivr serves only tags). Pinning the new tag and deploying happen in `github-book`.
 
-```sh
-npm run book                  # build/engx.epub and build/engx.pdf
-npm run book -- --epub        # one format (or --pdf)
-npm run book -- --markdown    # assemble and verify only, render nothing
-```
+## Images and links
 
-It runs on bun with Node built-ins only; pandoc and (for the PDF) xelatex do the
-rendering. It has no tests at present. Ten things it does that pandoc cannot:
-
-- **Title heading.** A document carries no H1 — its frontmatter `title` is the heading — so
-  the assembler opens every body with `# <title>` before reading order, ids or links see it.
-- **Reading order.** The root `index.md` first, then folders in numeric order, each led by its
-  `index.md`, which keeps its heading level and so reads as the chapter opener. Siblings
-  are demoted one level beneath it.
-- **One document, one page.** Every file opens at the top of a page rather than running on
-  from the last. An `index.md` is a `\chapter` and breaks on its own; its siblings are
-  `\section`, which does not, so the assembler puts a raw `\clearpage` block before each —
-  raw, so every writer but LaTeX drops it. The same siblings' opening headings are marked
-  `.document`, which pandoc carries onto the `<section>` it wraps, and `book/epub.css`
-  hangs a `page-break-before` on that for readers that paginate. The 49 breaks cost
-  twenty-four pages. Note that a heading's id must be read as far as the first space now
-  that an attribute block can hold a class as well as an id.
-- **Unique heading ids.** Every heading gets an explicit `{#doc-anchor--section}` id,
-  because section names like "Best Practices" repeat across chapters and a renderer would
-  otherwise silently renumber them and send links to the wrong chapter.
-- **Link rewriting.** Cross-document links become intra-document anchors. A link with no
-  anchor points at the target document's title.
-- **Normalizing `---`.** A bare dashed line is ambiguous in pandoc's markdown — YAML
-  metadata, a setext underline, or a multiline-table delimiter. Read as the last of those
-  it swallows every following heading into table cells, with a zero exit code. The builder
-  emits `***` instead, and then `verifyAnchors` re-renders the assembled file and fails the
-  build if any declared heading id or link target did not survive.
-- **Mermaid diagrams.** Neither output format renders a mermaid fence — pandoc prints it as
-  a verbatim code block — so the 32 diagrams are rasterized before pandoc sees them, by
-  `mermaid-cli` under `npx` at a pinned version. Each PNG is named for a digest of its own
-  source and cached in `build/diagrams/`, so an unchanged diagram is never re-rendered; a
-  cold build costs about a minute, a warm one nothing. All the pending diagrams go through
-  one `mermaid-cli` run, because it numbers its output by each block's *position in the
-  input* rather than by the order the concurrent renders finish — that is what makes the
-  rename to `<hash>.png` safe. If `npx` is missing or a diagram will not parse, that block
-  stays a code block with a warning and the build continues, which is exactly the output
-  the book had before.
-- **The cover.** Generated, not drawn: an SVG built from `book/metadata.yaml` — title,
-  subtitle and author over `images/cover-bg.png`, which sits flush with the bottom edge at
-  its own aspect ratio and fades into the dark page across the top 45% of itself. It goes
-  through a headless Chrome rasterizer, cached in `build/cover/` by a digest
-  of the SVG, which carries the photograph inline as a data URI so a replaced photograph
-  re-renders the cover. The EPUB takes it as `--epub-cover-image`; the PDF opens on it
-  full-bleed, from `\AtBeginDocument` because pandoc's template puts `\maketitle` ahead of
-  any `--include-before-body`, and that same preamble empties `\maketitle`, since the cover
-  already carries all three lines. Generated rather than committed so what is printed on the
-  cover cannot drift from the metadata pandoc sets inside the book. No photograph or no
-  Chrome means no cover, and the build carries on.
-- **Closing void tags.** `<br>` becomes `<br/>` outside fenced blocks. EPUB3 is XHTML
-  and pandoc passes raw inline HTML through verbatim, so a bare `<br>` in the prose
-  reached the EPUB as a mismatched tag and a conforming reader abandoned the rest of
-  that page — which is what happened to three chapters until 2026-09-12.
-
-**Image formats in the PDF.** Diagrams are PNG at scale 3; the cover is JPEG at scale 2.
-The split is not arbitrary: a diagram is flat line art, where lossless costs almost
-nothing, while the cover is mostly photograph and barely compresses, so PNG would
-multiply its size for no visible gain. xelatex embeds JPEG without re-encoding it. Chrome
-picks the format from the extension and accepts `.jpg` but not `.jpeg`. Both scales are
-folded into the cache key, so retuning one re-renders rather than silently serving images
-made at the old setting.
-
-**No SVG in the docs.** xelatex cannot embed SVG, so an SVG figure either needs a
-rasterization pass of its own or is silently dropped from the PDF. The eleven chapter
-banners that needed one were removed on 2026-09-12, along with that pass and its
-`build/banners/` cache; the only SVG left in the build is the cover, which the builder
-generates rather than reads. Adding an SVG figure to `docs/` means restoring a rasterizer
-for it — use a mermaid diagram or a PNG instead.
-
-**Separated table rows.** The book has 297 tables and 2323 rows, carrying prose in up to
-four columns, so one row wraps to three or four lines. pandoc leaves nothing between body
-rows in either format, and rows ran together. Both now get modest cell padding and a
-hairline above each row — a quarter black in the PDF, `#ccc` in the EPUB — with a darker
-rule under the header. The padding costs twenty-one pages, which is why it is modest; the
-airier `\arraystretch` of 1.45 that reads best alone cost twenty-two on its own.
-
-Two things about how that is done. In the PDF the rules **cannot** come from the preamble:
-inside a `longtable` the row terminator is longtable's own `\LT@tabularcr`, installed when
-the environment begins, so patching `\\` does nothing and patching `\LT@tabularcr` breaks
-the header row. `book/table-rules.lua` instead re-renders each table through pandoc's own
-LaTeX writer and inserts the rules into the result; because the table comes back as a raw
-block pandoc stops seeing a table in the document, so the build passes `-V tables=true` to
-keep `longtable` and `booktabs` loaded. And in the EPUB, `--css` **replaces** pandoc's
-default stylesheet rather than adding to it, which silently drops the book's whole baseline
-typography — so the build writes pandoc's own default out with
-`--print-default-data-file epub.css` and layers `book/epub.css` on top of it, which also
-keeps that default in step with whatever pandoc is installed.
-
-**Blockquotes as callouts.** A blockquote here is an aside — a rule of thumb, a caution, a
-line worth stopping on — and both renderers set it as body text at a different margin, which
-says nothing. Each is drawn as a callout instead, the same in both formats: warm paper
-(`#FAF4E8`) with a 3pt amber bar (`#EFAE16`) down the left edge and the
-indent dropped, so the panel spans the measure. The PDF gets it from `mdframed` in the
-preamble, redefining the `quote` environment — `mdframed` rather than the `framed` package's
-`snugshade`, which draws no rule and takes its colour from `shadecolor`, the colour pandoc's
-highlighting already uses for code blocks. The EPUB gets the same from `book/epub.css`.
-
-**The PDF layout.** A reading book rather than a paper: the `book` class one-sided on A4,
-11pt on 1.15 leading, 2.5cm/2.8cm margins, `--top-level-division=chapter` so a folder opens
-a chapter on a fresh page, and running heads carrying the chapter title. That is 307 pages.
-Long inline code gets breakpoints from `book/code-breaks.lua`, because identifiers like
-`iam.disableServiceAccountKeyCreation` are otherwise unbreakable and run into the margin.
-It allows a break only after a space, dot, slash, colon, hyphen or underscore, or between
-a lower- and an upper-case letter, and leaves code under 12 characters alone. `seqsplit`,
-which breaks between any two characters, cannot be used: it fails on the `\^{}` pandoc
-writes for a caret.
-
-One limit worth knowing: the PDF sets `Times New Roman` with `Menlo` for code, the
-fonts verified to cover the box-drawing characters the diagrams use; if either is missing
-the PDF still builds, with those glyphs dropped.
-
-## The web app
-
-The same docs are also served as a site — <https://software-engineering.web.app>, locally
-`npm run dev` on :8092. It is a thin shell: `index.ts` calls `launchBook()` from
-`arrmatura-books`, which supplies the whole UI. Do **not** add a local `cml/` tree here; UI
-changes belong in `arrmatura-books`.
-
-- `index.ts` — bootstrap: `launchBook()`.
-- `index.css` — Tailwind v4 + DaisyUI entry: themes, accent palette, code-block styles.
-- `www/` — the served root: `index.html` (shell + config), `favicon.svg`, `site.webmanifest`, `service-worker.js`, `version`, and `dist/` (build output, gitignored).
-- `firebase.json` — hosting config: site `software-engineering`, project `parlang`.
-
-### Library links
-
-`npm install` runs `postinstall` → `link` → `scripts/link-modules.sh`, which symlinks two
-sibling checkouts into `node_modules`: `arrmatura-books` (the UI) and `ultimus` (its utility
-dependency). `npm run link` re-runs it.
-
-### The docs come from jsDelivr, not from this tree
-
-`window.R` in the inline `<script>` of `www/index.html` is the only config surface. Its
-`book` block points the app at a **tagged release** of this repo on jsDelivr:
-
-```js
-const repo = "arrmagazin/engx@1.0.1";
-book: {
-  indexUrl: "https://data.jsdelivr.com/v1/packages/gh/" + repo + "?structure=tree", // file tree
-  docUrl: "https://cdn.jsdelivr.net/gh/" + repo + "/docs/*",                       // one doc
-  scope: "docs",
-}
-```
-
-So the site — locally too — shows the docs as of that tag, not the working tree. To publish
-doc changes: commit and push, bump `version` in `package.json`, `npm run release` (tags and
-pushes the tag; jsDelivr serves only tags), then set the same version in `repo` and deploy.
-There is no generated `index.json` and no `gen:site-index` script any more.
-
-### Cross-document links
-
-Docs link to each other the way they do on GitHub — `sibling.md`, `sub/child.md`,
-`../other-dir/doc.md`. `DocsService.gotoLocalLink` resolves each href against the document
-it appears in and matches the result against the file tree, so all of them navigate in-app.
-A `.md` target missing from the tree logs `No such document: …` rather than opening a dead
-tab. Bare `#anchor` links do nothing: the renderer emits no heading ids to scroll to, and
-the app is hash-routed, so following one would clobber the current route.
-
-### Deploy
-
-`npm run deploy` builds, bumps `www/version`, then runs `firebase deploy --only hosting
---config ./firebase.json -P parlang`.
-
-- There is no `.firebaserc`; the project comes from the `-P` flag.
-- `service-worker.js` derives its cache name from `/version`, so that bump is what
-  invalidates stale client caches. Never hand-edit `www/version`.
-- The `version` file needs its `no-store` header (already in `firebase.json`) and must not
-  be named `.version` — firebase's `**/.*` ignore would silently drop it.
-- Port 8092. `npm run stop` frees it; 8091 is the almaat site.
+- The docs carry no figures of their own: every illustration is a mermaid diagram in the prose. An image, if one is ever added, is referenced by a relative path, never root-absolute, and must not be SVG — xelatex cannot embed SVG, so the PDF build would drop it. Use a mermaid diagram or a PNG instead.
+- Docs link to each other the way they do on GitHub — `sibling.md`, `sub/child.md`, `../other-dir/doc.md`. The site resolves each href against the document it appears in, so all of them navigate in-app; the book turns them into intra-document anchors. Bare `#anchor` links do nothing on the site, which is hash-routed.
 
 ## Frontmatter convention
 
@@ -227,7 +51,7 @@ tags: [lowercase, kebab-or-single-word, tags]
 ## Working conventions
 
 - Prefer standard English; no fancy or rare words, no idioms.
-- The content is markdown. The checkers are stdlib-only Python 3 and stay that way — no dependencies to install, and no test framework beyond `unittest` (pytest is not available here). The book builder uses Node built-ins only. The site's TypeScript tooling is separate and installs its own; keep them apart.
+- The content is markdown. The checkers are stdlib-only Python 3 and stay that way — no dependencies to install, and no test framework beyond `unittest` (pytest is not available here).
 - Anything asserted in the book should be checkable. Prefer a claim a reader could falsify over one that merely sounds right.
 
 ## Glossary conventions
