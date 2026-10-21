@@ -7,9 +7,9 @@ tags: [people, teams, leadership, growth, feedback]
 
 This chapter covers **the people who do the work and the teams they form** — hiring them, growing them, giving them clarity and feedback, and keeping the team healthy enough to keep going.
 
-That is one half of an engineering manager's job. The other half allocates and sequences the work itself, and is covered separately as [Engineering Management](../01-methodology/00-engineering-management.md) — it sits in the methodology chapter because it is about how work is organized, not about the people doing it. A manager who optimizes only for delivery borrows capacity from this half and pays it back as attrition.
+That is one half of an engineering manager's job. The other half — allocating and sequencing the work itself — is [Engineering Management](../01-methodology/00-engineering-management.md). It sits in the methodology chapter because it is about how work is organized, not about the people doing it. A manager who optimizes only for delivery borrows capacity from this half and pays it back as attrition.
 
-Within the people half, this chapter separates the structure that changes rarely — who is accountable for what, and where in the lifecycle a person stands — from the practice that repeats every week.
+Within the people half, this chapter separates the structure that changes rarely (who is accountable for what, and where in the lifecycle a person stands) from the practice that repeats every week.
 
 Outside this folder: [Engineering Management](../01-methodology/00-engineering-management.md) · [Development Process](../04-development-process/index.md) · [Methodology](../01-methodology/index.md)
 

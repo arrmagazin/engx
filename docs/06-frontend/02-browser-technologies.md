@@ -5,11 +5,11 @@ description: Covers the DOM, the event model, browser storage, and the Fetch, Hi
 tags: [frontend, browser, dom, css, web-apis]
 ---
 
-The browser is the runtime every frontend application ships into. This guide covers the DOM and its event model, the browser APIs for fetching, navigation, storage, and location, and the service worker that runs behind them all.
+The browser is the runtime every frontend application ships into. This guide covers the DOM and its event model, the browser APIs for fetching, navigation, storage, and location, and the service worker behind them all.
 
 ## DOM
 
-The DOM represents the page as a tree of nodes that JavaScript can read and change. Reading a geometric property (`offsetHeight`, `getBoundingClientRect`) forces the browser to settle any pending layout, so interleaving reads and writes makes it recompute layout on every iteration — [layout thrashing](03-performance-optimization.md#layout-thrashing), where the mechanism and the full list of layout-triggering properties are covered.
+The DOM represents the page as a tree of nodes that JavaScript can read and change. Reading a geometric property (`offsetHeight`, `getBoundingClientRect`) forces the browser to settle any pending layout. So interleaving reads and writes makes it recompute layout on every iteration: [layout thrashing](04-rendering-network-performance.md#layout-thrashing), which covers the mechanism and the full list of layout-triggering properties.
 
 | Pattern | Effect |
 | --- | --- |
@@ -29,11 +29,11 @@ for (let i = 0; i < 100; i++) {
 document.body.appendChild(fragment);
 ```
 
-Measuring which of these actually costs you anything belongs to [Performance Optimization](03-performance-optimization.md); the [Performance panel](../04-development-process/06-debugging.md#chrome-devtools) records the layout passes.
+Measuring which of these actually costs anything belongs to [Performance Optimization](03-performance-optimization.md). The [Performance panel](../04-development-process/07-debugging.md#chrome-devtools) records the layout passes.
 
 ## Events
 
-Events bubble from target up to Window (capture phase goes the other direction).
+Events bubble from the target up to Window. The capture phase runs in the opposite direction.
 
 **Event delegation** — attach one listener to the parent instead of many to children:
 
@@ -45,7 +45,7 @@ document.getElementById('list').addEventListener('click', (event) => {
 });
 ```
 
-A `click` handler on a non-interactive element such as a `div` gets no keyboard or screen reader behavior for free. Use a real `button` or `a`, or supply the role, tab order, and key handling yourself — see [Accessibility (WCAG)](04-accessibility-wcag.md).
+A `click` handler on a non-interactive element such as a `div` gets no keyboard or screen reader behavior for free. Use a real `button` or `a`, or supply the role, tab order, and key handling yourself — see [Accessibility (WCAG)](06-accessibility-wcag.md).
 
 ## Browser APIs
 
@@ -73,11 +73,12 @@ async function createUser(token, user) {
 // Usage: const created = await createUser(token, { name: 'New User' });
 ```
 
-The `catch` logs and rethrows rather than returning `null`, so the caller still has to deal with the failure; swallowing it here would turn a rejected request into an `undefined` that surfaces somewhere far less obvious.
+The `catch` logs and rethrows instead of returning `null`, so the caller still has to handle the failure. Swallowing it here would turn a rejected request into an `undefined` that surfaces somewhere far less obvious.
 
 ### Location and History API
 
-`window.location` describes the current URL and triggers full page loads. `window.history` manipulates the session stack without reloading — the basis of client-side routing in a [single-page application](01-application-types.md).
+- `window.location` describes the current URL and triggers full page loads.
+- `window.history` changes the session stack without reloading — the basis of client-side routing in a [single-page application](01-application-types.md).
 
 | Part | `https://site.com:8080/docs/page?tab=api#top` |
 | --- | --- |
@@ -127,20 +128,33 @@ window.addEventListener('popstate', (event) => {
 Notes:
 
 - `pushState` never fires `popstate` — call the renderer yourself.
-- State must be structured-cloneable and is capped, though no specification fixes the ceiling: Firefox rejects a state object over 16 MiB (its documented limit as of 2026), and Chromium and WebKit enforce their own unpublished limits rather than none. Keep it small and treat the URL as the source of truth.
+- State must be structured-cloneable, and its size is capped. No specification fixes the ceiling: Firefox rejects a state object over 16 MiB (its documented limit as of 2026), and Chromium and WebKit enforce their own unpublished limits. Keep state small and treat the URL as the source of truth.
 - The URL must be same-origin; cross-origin throws a `SecurityError`.
 - Changing only `location.hash` adds a history entry and fires `hashchange`, not a reload — the pre-`pushState` routing technique.
 
 ### Browser Storage
 
-| Storage | Capacity | Lifetime | Scope |
-| --- | --- | --- | --- |
-| **Cookie** | About 4 KB per cookie | `Expires` or `Max-Age`; cleared when the session ends if neither is set | Domain and path it was set for; sent from a third-party frame only with `SameSite=None; Secure`, which Safari and Firefox block by default and Chrome still allows, having abandoned its phase-out in July 2024 |
-| **`localStorage`** | Typically around 5 MB per origin; no specification fixes the number | Persists until cleared, except in Safari, where Intelligent Tracking Prevention deletes it after seven days without user interaction with the site | Same origin |
-| **`sessionStorage`** | Typically around 5 MB per origin | Until the tab or window closes | Same origin, one tab |
-| **IndexedDB** | Browser-managed quota against available disk space, reaching gigabytes | Persists until cleared or evicted; Safari's Intelligent Tracking Prevention deletes it on the same seven-day rule | Same origin |
+- **Cookie**
+  - **Capacity:** About 4 KB per cookie
+  - **Lifetime:** `Expires` or `Max-Age`; cleared when the session ends if neither is set
+  - **Scope:** Domain and path it was set for. Sent from a third-party frame only with `SameSite=None; Secure`. As of 2026, for such cookies:
+    - Safari blocks them by default
+    - Firefox partitions them into a separate jar per top-level site (Total Cookie Protection)
+    - Chrome still allows them, having abandoned its phase-out in July 2024
+- **`localStorage`**
+  - **Capacity:** Typically around 5 MB per origin; no specification fixes the number
+  - **Lifetime:** Persists until cleared, except in Safari, where Intelligent Tracking Prevention deletes it after seven days without user interaction with the site
+  - **Scope:** Same origin
+- **`sessionStorage`**
+  - **Capacity:** Typically around 5 MB per origin
+  - **Lifetime:** Until the tab or window closes
+  - **Scope:** Same origin, one tab
+- **IndexedDB**
+  - **Capacity:** Browser-managed quota against available disk space, reaching gigabytes
+  - **Lifetime:** Persists until cleared or evicted; Safari's Intelligent Tracking Prevention deletes it on the same seven-day rule
+  - **Scope:** Same origin
 
-Safari's seven-day rule — announced with full third-party cookie blocking in 2020 and still in force as of 2026 — also removes service worker registrations, so treat script-writable storage as a cache you can lose, not a database of record. The DevTools **Application** panel shows what is stored — see [Chrome DevTools](../04-development-process/06-debugging.md#chrome-devtools).
+Safari's seven-day rule was announced with full third-party cookie blocking in 2020 and is still in force as of 2026. It also removes service worker registrations. So treat script-writable storage as a cache you can lose, not a database of record. The DevTools **Application** panel shows what is stored — see [Chrome DevTools](../04-development-process/07-debugging.md#chrome-devtools).
 
 ```javascript
 // localStorage
@@ -159,7 +173,7 @@ request.onupgradeneeded = (event) => {
 
 ### Geolocation API
 
-Geolocation needs a secure context and explicit user permission; the first call raises the browser's permission prompt, and a refusal arrives as an error, not a rejection you can retry around.
+Geolocation needs a secure context and explicit user permission. The first call raises the browser's permission prompt. A refusal arrives as an error, not a rejection you can retry around.
 
 ```javascript
 navigator.geolocation.getCurrentPosition(
@@ -181,7 +195,7 @@ navigator.geolocation.clearWatch(watchId);
 
 ## Service Workers
 
-A service worker is a script that runs separately from any page and can intercept requests from the pages it controls, which is what makes offline behavior and [progressive web apps](01-application-types.md) possible. It needs a secure context, is registered from the page, and keeps its own cache storage independent of the HTTP cache.
+A service worker is a script that runs separately from any page and can intercept requests from the pages it controls. This is what makes offline behavior and [progressive web apps](01-application-types.md) possible. It needs a secure context, is registered from the page, and keeps its own cache storage, independent of the HTTP cache.
 
 ```javascript
 const CACHE_NAME = 'my-pwa-cache-v1';
@@ -208,7 +222,7 @@ self.addEventListener('fetch', (event) => {
 });
 ```
 
-Versioning the cache name, as above, is what lets `activate` delete the previous version. Which assets belong in it is a [performance](03-performance-optimization.md) decision.
+Versioning the cache name, as above, lets `activate` delete the previous version. Which assets belong in the cache is a [performance](04-rendering-network-performance.md#http-caching) decision.
 
 ## CSS Resources
 

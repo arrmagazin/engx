@@ -5,16 +5,16 @@ description: The layered AI stack — machine learning, deep learning, foundatio
 tags: [ai, machine-learning, llm, agentic-ai]
 ---
 
-**Artificial Intelligence** is the engineering discipline of building systems that perform tasks normally requiring human cognition — perception, reasoning, learning, planning, and language. It is not one technique but a nested stack, each layer built on the one below. This overview maps the stack and holds the vocabulary and references the whole chapter shares; each layer is documented in its own guide.
+**Artificial Intelligence** is the engineering discipline of building systems that perform tasks which normally need human cognition — perception, reasoning, learning, planning, and language. It is not one technique but a nested stack, each layer built on the one below. This overview maps the stack and holds the vocabulary and references the whole chapter shares; each layer has its own guide.
 
 ## In This Chapter
 
 | Doc | What it covers |
 | --- | --- |
 | **[Machine Learning Foundations](01-machine-learning.md)** | The learning paradigms, and the vocabulary of model, training, inference, and generalization that every layer above inherits |
-| **[Deep Learning](02-deep-learning.md)** | Why depth removes hand-crafted features, the concepts and training loop behind a neural network, and the architectures worth knowing |
+| **[Deep Learning](02-deep-learning.md)** | Why depth removes hand-crafted features, the concepts and training loop of a neural network, and the architectures worth knowing |
 | **[Large Language Models (LLM)](03-llm.md)** | Transformer mechanics, the training lifecycle from pre-training to alignment, the inference controls you tune at call time, and techniques such as RAG and tool calling |
-| **[Agentic AI](04-agents.md)** | The anatomy of an agent, the established agent patterns, the boundaries autonomy has to respect, and multi-agent topologies |
+| **[Agentic AI](04-agents.md)** | The anatomy of an agent, established agent patterns, the boundaries autonomy must respect, and multi-agent topologies |
 
 ## The Layered Map
 
@@ -42,7 +42,7 @@ graph TD
 
 ## Glossary
 
-Terms that cut across the whole chapter. Vocabulary belonging to one layer is defined in that layer's guide.
+Terms used across the whole chapter. Terms of a single layer are defined in that layer's guide.
 
 AGI
 : Artificial General Intelligence — the hypothetical point at which one system matches human breadth across arbitrary tasks
@@ -69,17 +69,17 @@ Vector Database
 
 | Lens | View |
 | --- | --- |
-| **Capability** | LLMs are pattern predictors, not reasoners with grounded truth — treat output as a draft to verify, not an oracle |
-| **Engineering** | Favor deterministic workflows, and introduce autonomy only where the task genuinely demands it. Measure, log, and evaluate as you would any other system |
-| **Reliability** | Non-determinism, hallucination, and prompt sensitivity make evaluation a first-class engineering concern rather than a research one |
+| **Capability** | LLMs are pattern predictors, not reasoners with grounded truth — treat output as a draft to verify, not as an oracle |
+| **Engineering** | Prefer deterministic workflows; add autonomy only where the task really needs it (after Anthropic's [Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents)). Measure, log, and evaluate as with any other system |
+| **Reliability** | Non-determinism, hallucination, and prompt sensitivity make evaluation a first-class engineering concern, not a research one |
 | **Economics** | Cost scales with tokens and model size, so caching, smaller models, and tight context control are the core optimizations |
 | **Safety and Ethics** | Bias, privacy, misuse, and alignment risks all grow with autonomy — keep a human in the loop for consequential actions |
-| **Scaling** | The Bitter Lesson: general methods that leverage compute and data tend to win over hand-crafted, domain-specific cleverness |
+| **Scaling** | The Bitter Lesson: general methods that use compute and data tend to beat hand-crafted, domain-specific tricks |
 | **Human Role** | The model accelerates; the human directs, judges, and owns the outcome |
 
 ## References
 
-The whole chapter draws on this list. The guides in this chapter link here rather than repeating it.
+The whole chapter draws on this list; its guides link here instead of repeating it.
 
 ### Foundational Papers
 
@@ -94,6 +94,7 @@ The whole chapter draws on this list. The guides in this chapter link here rathe
 | **ReAct: Synergizing Reasoning and Acting** | [arxiv.org/abs/2210.03629](https://arxiv.org/abs/2210.03629) |
 | **Toolformer: Language Models Can Teach Themselves to Use Tools** | [arxiv.org/abs/2302.04761](https://arxiv.org/abs/2302.04761) |
 | **Retrieval-Augmented Generation** | [arxiv.org/abs/2005.11401](https://arxiv.org/abs/2005.11401) |
+| **Lost in the Middle: How Language Models Use Long Contexts** (Liu et al., 2023) | [arxiv.org/abs/2307.03172](https://arxiv.org/abs/2307.03172) |
 
 ### Guides and Documentation
 

@@ -13,9 +13,9 @@ The steps below are ordered because each one makes the next cheaper. Skipping ah
 
 ### Reproduce Before You Change Anything
 
-A failure you cannot trigger on demand cannot be fixed, only guessed at, because nothing distinguishes a real fix from a coincidence. Pin down the exact input, environment, and sequence of steps that produce it, then run them twice to confirm they produce it both times. Intermittent failures still count: if it fails one run in twenty, that is the reproduction, and any fix has to survive far more than twenty runs before you believe it.
+A failure you cannot trigger on demand can only be guessed at, not fixed, because nothing distinguishes a real fix from a coincidence. Pin down the exact input, environment, and sequence of steps that produce it, then run them twice to confirm they produce it both times. Intermittent failures still count: if it fails one run in twenty, that is the reproduction, and a fix must survive far more than twenty runs before you believe it.
 
-A reliable reproduction is a failing test. Once you can state the input and the wrong output, write it down as a test case and let it drive the fix — [Test-Driven Development](05-testing.md#test-driven-development-tdd) covers that loop. The test then does double duty: it tells you when the bug is gone, and it stays in the suite to tell you if it returns.
+A reliable reproduction is a failing test. Once you can state the input and the wrong output, write it down as a test case and let it drive the fix — [Test-Driven Development](05-testing.md#test-driven-development-tdd) covers that loop. The test then does two jobs: it tells you when the bug is gone, and it stays in the suite to tell you if it returns.
 
 ### Reduce to the Smallest Failing Case
 
@@ -23,7 +23,7 @@ Strip the reproduction until removing anything else makes the failure disappear.
 
 ### Form One Falsifiable Hypothesis
 
-State what you think is wrong in a form that one check can prove false: "the total is wrong because the discount is applied before tax rather than after," not "something is off in the checkout math." Then run the single experiment that settles it, and change one thing per experiment — two changes and a passing test leave you unable to say which one mattered, so put back whatever did not help before trying the next idea. Explaining the hypothesis out loud, to a colleague or to nobody in particular, tends to expose the step you have been assuming rather than checking.
+State what you think is wrong in a form that one check can prove false: "the total is wrong because the discount is applied before tax rather than after," not "something is off in the checkout math." Then run the single experiment that settles it. Change one thing per experiment: two changes and a passing test leave you unable to say which one mattered, so undo whatever did not help before trying the next idea. Explaining the hypothesis out loud, to a colleague or to no one, tends to expose the step you have been assuming rather than checking.
 
 ### Bisect the Search Space
 
@@ -43,9 +43,9 @@ git bisect good                 # Or: git bisect bad
 git bisect reset
 ```
 
-`git bisect run ./check.sh` does the whole search unattended: any command that exits `0` for good and anything from `1` to `127` for bad drives it. Two exceptions matter when writing that command: `125` tells git the commit cannot be tested and should be skipped — a build failure is the usual reason — and anything from `128` up stops the bisect altogether rather than marking the commit. This is where the reproduction from the first step pays off a second time, because a failing test is exactly such a command. The answer is the first commit where the behavior changed, which is a far smaller diff to read than the whole feature. Small, self-contained commits are what keep bisect useful — see [Version Control](01-version-control.md) for how branch lifetime shapes that history.
+`git bisect run ./check.sh` runs the whole search unattended. Any command can drive it: exit `0` means good, and `1` to `127` means bad. Two exceptions matter when writing that command: `125` tells git the commit cannot be tested and should be skipped — usually because the build fails — and `128` or above stops the bisect instead of marking the commit. Here the reproduction from the first step pays off a second time, because a failing test is exactly such a command. The result is the first commit where the behavior changed — a far smaller diff to read than the whole feature. Small, self-contained commits keep bisect useful — see [Version Control](01-version-control.md) for how branch lifetime shapes that history.
 
-Adding logging everywhere and staring at the output is the usual alternative, and it loses on two counts. It searches linearly rather than by halves, so a range of a thousand commits costs about ten bisect steps and an unbounded amount of reading. It also prints only what you already suspected was relevant, so a wrong guess about the cause produces a wall of output that confirms nothing. Bisect needs no theory about the cause at all — only a verdict of pass or fail.
+The usual alternative — adding logging everywhere and reading the output — loses on two counts. It searches linearly rather than by halves, so a range of a thousand commits costs about ten bisect steps and an unbounded amount of reading. It also prints only what you already suspected was relevant, so a wrong guess about the cause produces a wall of output that confirms nothing. Bisect needs no theory about the cause at all — only a verdict of pass or fail.
 
 ### Verify the Fix
 

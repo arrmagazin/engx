@@ -5,7 +5,9 @@ description: Presents the seven principles of Lean Software Development and the 
 tags: [methodology, agile, lean]
 ---
 
-**Lean Software Development** applies the ideas of Lean manufacturing — maximize value, remove waste, improve continuously — to building software. Mary and Tom Poppendieck set it out as seven principles in *Lean Software Development: An Agile Toolkit* (2003); their sequel *Implementing Lean Software Development: From Concept to Cash* (2006) revises the list, so names such as *Build Quality In* and *Optimize the Whole* belong to that later book rather than to the seven below. It is an [agile method](02-agile.md) rather than an architectural style: it governs how a team works, not how a system is structured.
+**Lean Software Development** applies the ideas of Lean manufacturing — maximize value, remove waste, improve continuously — to building software. It is an [agile method](02-agile.md), not an architectural style: it governs how a team works, not how a system is structured.
+
+Mary and Tom Poppendieck set it out as seven principles in *Lean Software Development: An Agile Toolkit* (2003). Their sequel, *Implementing Lean Software Development: From Concept to Cash* (2006), revises the list. Names such as *Build Quality In* and *Optimize the Whole* come from that later book, not from the seven below.
 
 ```mermaid
 flowchart LR
@@ -21,11 +23,11 @@ flowchart LR
 | --------- | ------------- |
 | **Eliminate Waste** | Remove whatever does not add value for the customer — unused features, partial work, handoffs, delays, defects, task switching; complexity past what the need requires is waste too |
 | **Amplify Learning** | Treat development as a learning process: short cycles, frequent feedback, and experiments in place of arguments about what will work |
-| **Decide as Late as Possible** | Keep irreversible decisions open until the last responsible moment, when the most is known; this only works if the design stays modular enough to absorb the decision when it comes |
+| **Decide as Late as Possible** | Keep irreversible decisions open until the last responsible moment, when the most is known. This works only if the design stays modular enough to absorb the decision when it comes |
 | **Deliver as Fast as Possible** | Shorten the path from request to working software, so feedback arrives while it can still change the outcome |
 | **Empower the Team** | Give the people doing the work the authority to decide how it is done, the context to decide well, and direct communication with everyone the decision touches |
-| **Build Integrity In** | Keep the system coherent while it grows: it should do what the customer actually needs (perceived integrity) and its parts should read as one design rather than several (conceptual integrity), which comes from integrating, testing, and refactoring continuously instead of repairing the result at the end |
-| **See the Whole** | Think in systems: parts that are each optimized on their own do not add up to a good whole, so measure and contract for the end-to-end result — a local optimum in one team or stage usually costs more somewhere downstream |
+| **Build Integrity In** | Keep the system coherent as it grows. *Perceived integrity*: it does what the customer actually needs. *Conceptual integrity*: its parts read as one design, not several. Both come from integrating, testing, and refactoring continuously, not from repairing the result at the end |
+| **See the Whole** | Think in systems: parts optimized each on their own do not add up to a good whole. Measure and contract for the end-to-end result; a local optimum in one team or stage usually costs more somewhere downstream |
 
 ## Lean Manufacturing Roots
 

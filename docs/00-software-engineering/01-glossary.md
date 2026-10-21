@@ -10,41 +10,41 @@ These are the foundational terms the rest of the book uses without redefining th
 ---
 
 Solution
-: An artificial *object, phenomenon, or facility* (Product or Service):
+: A specific *way of satisfying* Stakeholder needs in a context — a Product, a Service, or both:
 
-    - which exists to be bring real Value to someone
-    - whose *condition* is observable and measurable
+    - which exists to bring real Value to someone
+    - whose State is observable and measurable
     - intentionally designed and made by a Team
 
 Stakeholder
-: Any *party*
+: Any individual, group, or organization
 
-    - whose *interests* are at stake in a Solution's outcome
-    - and who therefore holds *expectations* about what it should deliver:   sponsor, operator, regulator, user
+    - that affects, or is affected by, a Solution's outcome
+    - and therefore holds *expectations* about what it should deliver: sponsor, customer, End-User, operator, regulator
 
 End-User
-: The Stakeholder who directly interacts with the Solution
+: The Stakeholder who directly *uses* the Solution; not necessarily the customer who pays for it
 
 Value
-: The real *gain* a Stakeholder receives from a Solution according to its *interests*: new capability, time, money, problem solved, risk removed
+: The *worth* a Solution has for a Stakeholder in a given context: capability gained, time or money saved, problem solved, risk removed
 
 Satisfaction
-: A Stakeholder's *judgement* that the received Value matched their *expectations*; subjective, therefore elicited rather than measured
+: A Stakeholder's *perception* of the degree to which their expectations were fulfilled; subjective, therefore elicited rather than measured
 
 State
-: The observable *condition* of Solution at a point in *time*; it evolves, and everything verifiable is read from it
+: The *condition* of a Solution at a point in time, given by the values of its observable properties; everything verifiable is read from it
 
 Metric
-: A formalized, measurable criterion applicable to the State of a Solution
+: A quantitative *measure*, with a defined method and unit, of the degree to which the State of a Solution has a given attribute
 
 Requirements
-: Boundaries on Metrics; the bounds that make "done" falsifiable rather than a matter of opinion
+: *Conditions* a Solution must meet to satisfy a Stakeholder need, stated as bounds on Metrics; they make "done" falsifiable rather than a matter of opinion
 
 Objectives
-: Intermediate States, concrete enough to be bounded by Requirements and verified on their own
+: Specific, measurable *targets*: intermediate States bounded by Requirements and verified on their own
 
 Goals
-: Desired end States where Satisfaction is reached; too coarse to *verify* as stated, so decomposed into Objectives
+: Broad, desired *end States* in which Stakeholders are satisfied; too coarse to verify as stated, so decomposed into Objectives
 
 Success
 : The verified State where every Requirement holds and Satisfaction is confirmed — Value delivered, not scope delivered
@@ -52,64 +52,62 @@ Success
 ---
 
 Delivery
-: *process* of Moving a Solution into the State where a Stakeholder actually receives Value; it ends at Value received, not at handover
+: The *process* of bringing a Solution into use, so that Stakeholders actually receive its Value; it ends at Value received, not at handover
 
 Product
-: Any kind of tangible *objects or phenomena* (property/facility/guidance/accelerator)
+: A tangible or digital *artifact* made to be owned or used by others: software, device, facility, guidance
 
 Service
-: Facilities that allow getting some outcome from interaction
+: A *means* of delivering outcomes Stakeholders want through ongoing interaction, without them owning the specific costs and risks
 
 Design
-: Inventing, innovation, and research of WHAT a Product or Service should be and WHY — all against usability from the End-User perspective
+: The *activity* of deciding WHAT a Solution should be and WHY — its structure, behavior, and interactions — shaped by End-User needs and constraints
 
 Resources
-: The *means* (time, money, effort, materials) a Team consumes to deliver a Solution
+: The *means* a Team consumes to deliver a Solution: time, money, people's effort, equipment, materials
 
 Estimation
-: Anticipated amount of Resources needed, made in certain assumptions about constraints, complexity, risks, and contingency
+: A quantitative *forecast* of the Resources needed, made under stated assumptions about scope, complexity, risks, and contingency; a probable range, not a commitment
 
 Efficiency
-: Ratio of Value gained to Resources spent.
+: The *ratio* of Value delivered to Resources spent — doing things right; not to be confused with effectiveness, doing the right things
 
 ---
 
 Engineering
-: The disciplined *art* of delivering Solutions.
+: The application of a systematic, disciplined, quantifiable *approach*, grounded in science and math, to designing, building, and operating Solutions
 
 Team
-: An interpersonal *agent* formed from individuals aligned around shared Goals.
+: A small *group* of people with complementary skills, committed to shared Goals and mutually accountable for reaching them
 
 Project
-: A managed *endeavor* where a Team pursues Success against predefined Goals,
-: by choosing, adopting, and applying Paradigms, Methodologies, Technologies, and Platforms.
+: A *temporary endeavor* in which a Team creates a unique Solution and pursues Success against predefined Goals within limited Resources, by choosing and applying Paradigms, Methodologies, Technologies, and Platforms
 
 Platform
-: Comprehensive set of *facilities* to deliver software.
+: A *foundation* of facilities on which software is built and run
 
-> Such facilities are languages, protocols, environments, tools, ecosystems.
+  > Such facilities are languages, runtimes, operating systems, cloud services, tools, ecosystems.
 
 Paradigm
-: A way of applying *knowledge* toward Success
+: A shared, opinionated *model* of thinking — concepts, assumptions, and preferred methods — that frames how a problem is seen and how knowledge is applied to solve it
 
-> Paradigm is based applied science, math and includes domain expertise, approaches and methods.
+  > Paradigm is rooted in science, math, and domain expertise: e.g. object-oriented, functional, event-driven.
 
 Methodology
-: A coherent system of *practices* (roles, rituals, artifacts, workflows) a Team adopts to organize its work toward Success
+: A coherent *system* of practices (roles, rituals, artifacts, workflows) a Team adopts to organize its work toward Success: Scrum, Kanban, Waterfall
 
 Technology
-: A *standartized* way to set up and control *processes*.
-
-> Technology ensures that results are effective, reproducible, and verifiable.
+: The practical application of knowledge as reusable *means* — methods, techniques, and tools — that make a process controllable and its results reproducible and verifiable
 
 Standards
-: *unified* sets of rules, protocols, paradigms, and best practices
-: that dictate how software is developed, reviewed, deployed, and maintained.
+: Documented *norms*, agreed by consensus and approved by a recognized body, that set rules, guidelines, or characteristics for how software is developed, reviewed, deployed, and maintained
 
-> They exist so that a system's safety, reliability, security, maintainability, and interoperability
-> *do not depend* on which Team happened to build it.
+  > They exist so that a system's safety, reliability, security, maintainability, and interoperability *do not depend* on which Team happened to build it.
+
+Decision
+: An accountable *choice* of one option among weighed alternatives, with its tradeoffs agreed and its costs accepted up front
 
 Management
-: *process* of making *decisions* about organizing Teams to reach Success
+: The *process* of making Decisions, leading Teams, and allocating Resources to reach Goals
 
-> Management concerns about governance, control, optimizing, securing, tracking, and growth.
+  > Management is concerned with planning, organizing, governance, control, optimizing, securing, tracking, and growth.

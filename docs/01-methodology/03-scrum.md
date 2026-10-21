@@ -1,45 +1,45 @@
 ---
 type: Guide
 title: Scrum
-description: Summarizes Scrum as the 2020 Scrum Guide defines it — the team, the five events, the three artifacts, and the practices built around them.
+description: Scrum per the 2020 Scrum Guide — pillars, values, the team, five events, three artifacts with their commitments, and common add-ons.
 tags: [methodology, agile, scrum]
 ---
 
-**Scrum** is a lightweight framework for generating value through adaptive solutions to complex problems. It works [empirically](02-agile.md): the team inspects a real product Increment at short, fixed intervals and adapts, instead of committing to a plan written when the least was known. This guide follows the 2020 Scrum Guide, whose terms differ from the ones still in wide circulation.
+**Scrum** is a minimal framework for complex product work. The team ships a working Increment in short, fixed cycles, then inspects it and adapts. This [empirical](02-agile.md) loop replaces a plan made when the least was known. Terms follow the 2020 Guide; much older material uses earlier ones.
 
 ## Pillars and Values
 
-| Pillar | What it requires |
-| ------ | ---------------- |
-| **Transparency** | The work and its outcome are visible to everyone doing it and everyone receiving it |
-| **Inspection** | Progress toward the agreed goals is checked frequently and against something real |
-| **Adaptation** | The plan or the process is adjusted as soon as inspection shows it is off track |
+| Pillar | Means |
+| ------ | ----- |
+| **Transparency** | Those who do the work and those who receive it can see it and its result |
+| **Inspection** | Frequent checks of progress toward the goals, against real output |
+| **Adaptation** | The plan or process changes as soon as a check shows drift |
 
-The Guide names five values the team is expected to live by: commitment, focus, openness, respect, and courage.
+**Values:** commitment, focus, openness, respect, courage.
 
 ## The Scrum Team
 
-One Product Owner, one Scrum Master, and the Developers — a single team with no sub-teams and no hierarchy inside it. The 2020 Guide replaced the earlier **Development Team** with **Developers**, an accountability within the Scrum Team rather than a team inside a team; older material uses the retired term.
+One Product Owner, one Scrum Master and the Developers: one flat team, no sub-teams, no hierarchy. *Developers* (2020) replaced the *Development Team* of older texts; it is an accountability, not a team within the team.
 
-| Accountability | What it covers |
-| -------------- | -------------- |
-| **Product Owner** | Maximizing the value of the product; owns the Product Backlog and the order of its items |
-| **Scrum Master** | The team's effectiveness, and Scrum being understood and practiced as the Guide defines it |
-| **Developers** | Creating a usable Increment each Sprint, and holding themselves to the Definition of Done |
+| Accountability | Answers for |
+| -------------- | ----------- |
+| **Product Owner** | Product value; owns the Product Backlog and the order of its items |
+| **Scrum Master** | Team effectiveness; Scrum understood and practiced as the Guide defines it |
+| **Developers** | A usable Increment every Sprint, built to the Definition of Done |
 
 ## Scrum Events
 
-The Sprint contains the other four. Each is a formal opportunity to inspect and adapt, which is why skipping one removes an inspection point rather than saving time.
+The Sprint holds the other four. Each event is a planned inspect-and-adapt point: skipping one saves no time, it removes a check.
 
 | Event | Purpose | Timebox |
 | ----- | ------- | ------- |
-| **Sprint** | Fixed-length cycle that holds all other events; the next begins as soon as one ends | One month or less |
-| **Sprint Planning** | Agree the Sprint Goal, select Product Backlog items, and plan how to deliver them | Eight hours for a one-month Sprint |
-| **Daily Scrum** | Developers inspect progress toward the Sprint Goal and adapt the plan for the coming day | 15 minutes |
-| **Sprint Review** | Inspect the Increment with stakeholders and adapt the Product Backlog accordingly | Four hours for a one-month Sprint |
-| **Sprint Retrospective** | Inspect how the Sprint went and pick the most useful improvements to act on | Three hours for a one-month Sprint |
+| **Sprint** | Fixed-length cycle; the next starts the moment one ends | ≤ 1 month |
+| **Sprint Planning** | Set the Sprint Goal, choose Product Backlog items, plan the work | ≤ 8 h |
+| **Daily Scrum** | Developers check progress toward the Sprint Goal and adjust the next day's plan | 15 min |
+| **Sprint Review** | Team and stakeholders examine the Increment, then update the Product Backlog | ≤ 4 h |
+| **Sprint Retrospective** | Review how the Sprint went; pick the improvements most worth doing | ≤ 3 h |
 
-Backlog refinement is an ongoing activity, not an event: the Product Owner and Developers add detail, order, and size to Product Backlog items as the work ahead becomes clearer.
+The hour limits are for a one-month Sprint. Refinement runs all the time and is not an event: the Product Owner and Developers detail, order and size Product Backlog items as upcoming work becomes clearer.
 
 ```mermaid
 sequenceDiagram
@@ -59,53 +59,46 @@ sequenceDiagram
 
 ## Scrum Artifacts
 
-Scrum defines three, each paired with a commitment that gives it focus. Anything else a team tracks is a local practice, not an artifact.
+Three, each with a commitment that sets its aim. Whatever else a team tracks is a local practice.
 
-| Artifact | What it holds | Commitment |
-| -------- | ------------- | ---------- |
-| **Product Backlog** | Ordered list of everything known to be needed to improve the product | **Product Goal** — the long-term objective the team plans toward |
-| **Sprint Backlog** | The Sprint Goal, the items chosen for this Sprint, and the plan to deliver them | **Sprint Goal** — the single objective that makes the Sprint coherent |
-| **Increment** | A usable step toward the Product Goal, added to every Increment before it | **Definition of Done** — the quality bar an item must meet to count as complete |
+| Artifact | Contents | Commitment |
+| -------- | -------- | ---------- |
+| **Product Backlog** | Everything known to improve the product, in order | **Product Goal** — the long-term target |
+| **Sprint Backlog** | Sprint Goal, chosen items, delivery plan | **Sprint Goal** — the one objective that holds the Sprint together |
+| **Increment** | Usable result, built on all earlier ones, that moves toward the Product Goal | **Definition of Done** — the quality bar for calling work complete |
 
 ## Supporting Practices
 
-Widely used alongside Scrum, and absent from the Guide — a team can drop any of them and still be doing Scrum.
+Common around Scrum, outside the Guide, and optional: dropping any is still Scrum.
 
 | Practice | What it is |
 | -------- | ---------- |
-| **Task** | A unit a Sprint Backlog item is broken into, small enough that its progress is visible at the Daily Scrum |
-| **Spike** | A timeboxed investigation that answers a question or prototypes an approach before the work is estimated |
-| **Story Point** | Relative unit for the overall size of a backlog item — effort, complexity, and uncertainty together, deliberately not hours |
-| **Velocity** | Story Points a team completes per Sprint, averaged over recent Sprints to inform how much to plan for the next one |
-| **Sprint Burn-down Chart** | Remaining Sprint Backlog work plotted day by day across the Sprint |
-| **Release Burn-down Chart** | Remaining work across a release, tracked at Product Backlog item level |
+| **Task** | Piece of a Sprint Backlog item, small enough to show progress at each Daily Scrum |
+| **Spike** | Timeboxed research or prototype that answers a question before estimation |
+| **Story Point** | Relative size of a backlog item: effort, complexity and uncertainty together, on purpose not hours |
+| **Velocity** | Story Points done per Sprint, averaged over recent Sprints to size the next plan |
+| **Sprint Burn-down Chart** | Daily plot of Sprint Backlog work left |
+| **Release Burn-down Chart** | Work left in a release, counted in Product Backlog items |
 
 ```mermaid
 classDiagram
-    class ProductBacklog {
-        ordered items
-        Product Goal
-    }
-    class Sprint {
-        one month or less
-    }
-    class SprintBacklog {
-        Sprint Goal
-        selected items
-        delivery plan
-    }
-    class Task {
-        sized for daily progress
-    }
-    class Spike {
-        timeboxed investigation
-    }
-    class Increment {
-        meets Definition of Done
-    }
+    ProductBacklog : ordered items
+    ProductBacklog : Product Goal
+    Sprint : one month or less
+    SprintBacklog : Sprint Goal
+    SprintBacklog : selected items
+    SprintBacklog : delivery plan
+    Task : sized for daily progress
+    Spike : timeboxed investigation
+    Increment : meets Definition of Done
     ProductBacklog "1" --> "*" Sprint : feeds
     Sprint "1" --> "1" SprintBacklog : contains
     SprintBacklog "1" --> "*" Task : breaks into
     SprintBacklog "1" --> "*" Spike : may include
     Sprint "1" --> "1" Increment : produces
 ```
+
+## References
+
+- Facts follow *The 2020 Scrum Guide* by Ken Schwaber and Jeff Sutherland ([scrumguides.org](https://scrumguides.org/))
+- The Scrum Guide is licensed CC BY-SA 4.0; this page summarizes its facts in its own words.

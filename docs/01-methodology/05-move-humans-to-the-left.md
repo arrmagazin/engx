@@ -1,31 +1,27 @@
 ---
 type: Guide
 title: Move Humans to the Left
-description: Keeping humans on authoring machine-readable artifacts as the single source of truth, and generating everything downstream.
+description: Humans author machine-readable artifacts as the single source of truth; machines generate and apply everything downstream.
 tags: [methodology, automation, ssot, code-generation]
 ---
 
 ## Authoring on the Left, Deriving on the Right
 
-The core idea of the approach is:
+The core idea:
 
-- to allow humans to work collaboratively on machine-readable artifacts as SSOT
-- those artifacts are then transformed by code generation into software code, runtime metadata, or configuration
-- that covers the gaps in the process where humans have to do things by hand, keep them in sync, and safely apply the same change repeatedly, when a program could do it instead
+- Humans work together on machine-readable artifacts that are the single source of truth (SSOT).
+- Code generation transforms those artifacts into software code, runtime metadata, or configuration.
+- This closes the gaps where humans would otherwise work by hand — keeping copies in sync, applying the same change safely again and again — when a program could do it instead.
 
-> To move Humans to the Left!
+> Move humans to the left!
 
-*Left* and *right* describe a pipeline running from intent to a running system. On the left, someone
-decides what should be true. On the right, that decision takes effect — a service answers a request,
-a queue exists, a dashboard shows a number.
+*Left* and *right* describe a pipeline that runs from intent to a running system. On the left, someone decides what should be true. On the right, that decision takes effect: a service answers a request, a queue exists, a dashboard shows a number.
 
-This approach moves the *humans themselves*, and then removes them from the right entirely.
-
-A person still makes every decision that needs judgement, but makes it once, in one place, in a form a machine can read.
+The approach moves the *humans themselves* to the left, then removes them from the right entirely. A person still makes every decision that needs judgement, but makes it once, in one place, in a form a machine can read.
 
 > Everything downstream is derived.
 
-Moving humans left lowers the number of places a defect can be *introduced*: every manual step right of the source is an opportunity to mistype, forget an environment, or apply a change nobody reviewed.
+This lowers the number of places a defect can be *introduced*: every manual step right of the source is a chance to mistype, forget an environment, or apply a change nobody reviewed.
 
 ```mermaid
 flowchart LR
@@ -41,14 +37,18 @@ flowchart LR
     Run -.what was learned.-> Intent
 ```
 
-In [Lean](01-lean.md) terms this is *Eliminate Waste* aimed at a specific kind of waste — handoffs, partial work, and task switching — and *Build Integrity In*, because everything downstream is generated from one source that can be checked before anything is built from it, so the derived pieces cannot drift out of agreement with each other.
+In [Lean](01-lean.md) terms this is:
+
+- *Eliminate Waste*, aimed at one kind of waste: handoffs, partial work, and task switching.
+- *Build Integrity In*: everything downstream is generated from one source that can be checked before anything is built from it, so the derived pieces cannot drift out of agreement with each other.
 
 ### What Moves
 
-The unit of change is the *human touchpoint*: any step that cannot advance until a person reads
-something, decides, and applies the decision somewhere by hand. Each one costs latency (it waits for
-a person), attention (a person must hold the context), and correctness (a person can apply it wrong,
-partially, or not at all).
+The unit of change is the *human touchpoint*: any step that cannot advance until a person reads something, decides, and applies the decision somewhere by hand. Each one costs:
+
+- **latency** — it waits for a person
+- **attention** — a person must hold the context
+- **correctness** — a person can apply it wrong, partially, or not at all
 
 | Touchpoint on the right | Where it moves to | What the machine does instead |
 | --- | --- | --- |
@@ -141,36 +141,31 @@ Regeneration
 
 ### When It Pays
 
-Worth doing when the same decision is expressed in more than two places, when the artifact crosses a
-team boundary, or when inconsistency between copies is a correctness bug rather than a cosmetic one.
-Not worth doing for a decision made once, held in one place, and unlikely to fan out — there the
-generator costs more than the touchpoint it removes.
+- **Worth doing** when the same decision is expressed in more than two places, when the artifact crosses a team boundary, or when inconsistency between copies is a correctness bug rather than a cosmetic one.
+- **Not worth doing** for a decision made once, held in one place, and unlikely to fan out. There the generator costs more than the touchpoint it removes.
 
 ## Examples
 
-| Domain | Humans author on the left | Machines derive on the right | Manual gap it closes |
-| --- | --- | --- | --- |
-| **Service contracts** | OpenAPI, Protobuf, or GraphQL SDL | Server stubs, typed clients, request validation, mocks, reference docs | Hand-written clients drifting from the endpoint they call |
-| **Infrastructure** | Terraform or CDK definitions | Provisioned cloud resources, reconciled continuously | Console clicks nobody reviewed and nobody can reproduce |
-| **Cluster state** | Kubernetes manifests held in Git | Applied workloads, kept converged by a controller | Ad-hoc `kubectl apply` from a laptop, with no record of who changed what |
-| **Database schema** | Migration files or a schema definition | Tables, indexes, ORM entities, typed query results | Entity classes edited to match a schema someone else already changed |
-| **Configuration** | One typed declaration per concern | Rendered environment files, secret references, feature-flag accessors | The same value copied into three environments and updated in two |
-| **Analytics** | An event taxonomy with typed properties | Tracking SDK types, warehouse tables, dashboard queries | A spreadsheet of event names that stops matching what is emitted |
-| **Design system** | Design tokens | CSS custom properties, native theme files, editor variables | Hex codes retyped per platform and re-diverged at the next redesign |
-| **Authorization** | Policy as code | Enforcement at the gateway, inside services, and in CI checks | Permission rules restated per service, each version slightly different |
-| **Architecture docs** | A model written in a diagram DSL | Rendered diagrams embedded wherever they are needed | Diagrams exported as images, last accurate two releases ago |
+| Domain | Humans author on the left → machines derive on the right | Manual gap it closes |
+| --- | --- | --- |
+| **Service contracts** | OpenAPI, Protobuf, or GraphQL SDL → server stubs, typed clients, request validation, mocks, reference docs | Hand-written clients drifting from the endpoint they call |
+| **Infrastructure** | Terraform or CDK definitions → provisioned cloud resources, reconciled continuously | Console clicks nobody reviewed and nobody can reproduce |
+| **Cluster state** | Kubernetes manifests held in Git → applied workloads, kept converged by a controller | Ad-hoc `kubectl apply` from a laptop, with no record of who changed what |
+| **Database schema** | Migration files or a schema definition → tables, indexes, ORM entities, typed query results | Entity classes edited to match a schema someone else already changed |
+| **Configuration** | One typed declaration per concern → rendered environment files, secret references, feature-flag accessors | The same value copied into three environments and updated in two |
+| **Analytics** | An event taxonomy with typed properties → tracking SDK types, warehouse tables, dashboard queries | A spreadsheet of event names that stops matching what is emitted |
+| **Design system** | Design tokens → CSS custom properties, native theme files, editor variables | Hex codes retyped per platform and re-diverged at the next redesign |
+| **Authorization** | Policy as code → enforcement at the gateway, inside services, and in CI checks | Permission rules restated per service, each version slightly different |
+| **Architecture docs** | A model written in a diagram DSL → rendered diagrams embedded wherever they are needed | Diagrams exported as images, last accurate two releases ago |
 
 ### A Worked Example
 
-A team adds one field to an order record. Without a source artifact, that field has to appear in a
-migration, an entity class, a DTO, a serializer, an API document, two client SDKs, a test fixture,
-and a dashboard query — nine edits, spread across four people, taking as long as the slowest handoff
-between them. Any one can be missed, and a missed one becomes a defect discovered in production
-rather than in review.
+A team adds one field to an order record.
 
-With the record declared once, the same change is a single edit to the schema plus a regeneration.
-The nine artifacts still exist; nobody writes them. What remains for a person is whether the field
-belongs at all, which was the only part that ever needed judgement.
+- **Without a source artifact**, the field has to appear in a migration, an entity class, a DTO, a serializer, an API document, two client SDKs, a test fixture, and a dashboard query. That is nine edits, spread across four people, taking as long as the slowest handoff between them. Any one can be missed, and a missed one becomes a defect found in production rather than in review.
+- **With the record declared once**, the same change is a single edit to the schema plus a regeneration. The nine artifacts still exist; nobody writes them.
+
+What remains for a person is whether the field belongs at all — the only part that ever needed judgement.
 
 ## Tools
 
@@ -191,20 +186,14 @@ belongs at all, which was the only part that ever needed judgement.
 
 ### Where Generation Is Not Deterministic
 
-A language model can turn a specification into code no template could produce, which widens what is
-worth expressing as a Source Artifact. It also breaks the property the rest of this page rests on:
-the same input no longer yields the same output, so the result cannot be treated as a cache that
-Regeneration will restore.
+A language model can turn a specification into code no template could produce, which widens what is worth expressing as a Source Artifact. It also breaks the property the rest of this page rests on: the same input no longer yields the same output, so the result cannot be treated as a cache that Regeneration will restore.
 
-The workable position is to treat model output as human-authored code that a machine drafted —
-commit it, review it, test it — while keeping the specification as the artifact people actually
-argue over. What moves left is the writing. What stays is the judgement.
+The workable position: treat model output as human-authored code that a machine drafted — commit it, review it, test it — and keep the specification as the artifact people actually argue over. What moves left is the writing. What stays is the judgement.
 
-*Guidance*: look for the Manual Gaps first, not for something to generate. The gap is the evidence
-that a decision is being applied by hand; the notation and the generator are only how it gets
-closed.
+*Guidance*: look for the Manual Gaps first, not for something to generate. The gap is the evidence that a decision is being applied by hand; the notation and the generator are only how it gets closed.
 
-*See also*: [Single Source of Truth](../05-coding/02-design-principles.md#single-source-of-truth-ssot)
-for the design principle this rests on, [Metaprogramming](../05-coding/01-programming-paradigms.md#metaprogramming)
-for the generation mechanisms, and [Quality Assurance](../04-development-process/04-quality-assurance.md)
-for the classic shift left it extends.
+*See also*:
+
+- [Single Source of Truth](../05-coding/04-design-principles.md#single-source-of-truth-ssot) — the design principle this rests on
+- [Metaprogramming](../05-coding/03-metaprogramming.md#metaprogramming) — the generation mechanisms
+- [Automated Testing](../04-development-process/06-automated-testing.md#where-tests-run) — the classic shift left this extends

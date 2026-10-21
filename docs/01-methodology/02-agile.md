@@ -5,7 +5,7 @@ description: Covers Agile's core concepts, the Manifesto values, the twelve prin
 tags: [methodology, agile]
 ---
 
-**Agile** is an approach to organizing software development around rapid, flexible response to change rather than adherence to an up-front plan. It relies on self-organizing, cross-functional teams delivering working software in short cycles, so value reaches the customer while their needs are still current.
+**Agile** organizes software development around fast, flexible response to change, not around following an up-front plan. Self-organizing, cross-functional teams deliver running software in short cycles, so value reaches the customer while their needs are still current.
 
 ## Core Concepts
 
@@ -26,34 +26,38 @@ flowchart LR
 
 ## The Manifesto Values
 
-| Value | What it means |
-| ------- | ------------- |
-| **Individuals and Interactions** | Over processes and tools — a motivated, self-organizing team produces more than a well-defined process does |
-| **Working Software** | Over comprehensive documentation — running software tells you more than a document describing it |
-| **Customer Collaboration** | Over contract negotiation — requirements cannot be collected in full up front, so the stakeholder stays involved throughout |
-| **Responding to Change** | Over following a plan — the plan is an early estimate, and what the work teaches should be allowed to change it |
+Summarized from the [Agile Manifesto](https://agilemanifesto.org/). Each value ranks one thing above another; the second still matters, only less.
+
+| Put first | Before | In practice |
+| --------- | ------ | ----------- |
+| **People and how they work together** | Fixed procedures and tooling | A motivated team that organizes itself gets more done than a well-defined process does |
+| **Software that runs** | Complete written specifications | Running software tells you more than any document about it |
+| **Working with the customer** | Bargaining over terms | Needs cannot all be known at the start, so the stakeholder takes part the whole way through |
+| **Adapting to what you learn** | Keeping to the schedule | A plan is an early guess; let the work change it |
 
 ## The Twelve Principles
 
-These summarize the twelve principles published alongside the Manifesto; the authoritative wording is at [agilemanifesto.org](https://agilemanifesto.org/principles.html).
+Restated after the [principles behind the Manifesto](https://agilemanifesto.org/principles.html); the original wording is there.
 
-1. Satisfy the customer through early and continuous delivery of valuable software
-2. Welcome changing requirements, even late in development
-3. Deliver working software frequently — from a couple of weeks to a couple of months, favoring the shorter
-4. Business people and developers work together daily throughout the project
-5. Build projects around motivated individuals, give them what they need, and trust them
-6. Face-to-face conversation is the most effective way to convey information within a team
-7. Working software is the primary measure of progress
-8. Sustainable development — sponsors, developers, and users can maintain a constant pace indefinitely
-9. Continuous attention to technical excellence and good design enhances agility
-10. Simplicity — the art of maximizing the amount of work not done — is essential
-11. The best architectures, requirements, and designs emerge from self-organizing teams
-12. At regular intervals the team reflects on how to become more effective, then tunes its behavior accordingly
+| # | Idea | In practice |
+| - | ---- | ----------- |
+| 1 | Value early and often | Customers are kept happy by useful software that arrives soon and keeps arriving |
+| 2 | Change is welcome | New or changed needs are accepted at any stage, late ones included, when they help the customer |
+| 3 | Short release cycles | Ship running software every few weeks to a few months; shorter is better |
+| 4 | Business and engineering side by side | Business staff and developers work with each other every day until the project ends |
+| 5 | Trust the people | Staff the project with people who want to do it, give them the setting and support they need, and let them get on with it |
+| 6 | Talk in person | Inside a team, direct conversation carries information better than documents or messages |
+| 7 | Progress means running code | Judge how far along a project is by what works, not by documents written or hours spent |
+| 8 | A pace that lasts | Sponsors, developers and users should be able to keep the same speed with no end date — no crunch |
+| 9 | Engineering quality | Steady care for clean code and sound design keeps the system easy to change, and so keeps the team agile |
+| 10 | Simplicity | Do the least work that solves the problem; every task you can skip is a gain |
+| 11 | Teams that organize themselves | The team, not a manager, decides who does what; design, architecture and requirements turn out best when the people doing the work shape them |
+| 12 | Regular reflection | On a fixed schedule the team reviews how it works and changes its habits to improve |
 
 ## Agile Practices
 
 | Practice | What it is |
-| ---------- | ------------- |
+| -------- | ---------- |
 | **Acceptance Test-Driven Development (ATDD)** | Agreeing acceptance criteria as executable tests before the work starts, written by business and developers together |
 | **[Behavior-Driven Development (BDD)](../04-development-process/05-testing.md#behavior-driven-development-bdd)** | Specification by example: describing behavior in a shared language that doubles as the test |
 | **Iterative and Incremental Development (IID)** | Building in repeated cycles, each adding working functionality rather than one more partial layer |
@@ -70,32 +74,11 @@ These summarize the twelve principles published alongside the Manifesto; the aut
 
 ## Agile Methods
 
-- [Scrum](03-scrum.md)
-- Kanban
-- Scrumban
-- Agile Unified Process (AUP)
-- Dynamic Systems Development Method (DSDM)
-- [Lean Software Development](01-lean.md)
-- [Extreme Programming (XP)](04-extreme-programming.md)
-- Feature-Driven Development (FDD)
-- Adaptive Software Development (ASD)
-- Crystal Clear Methods
+Grouped by what each method is built around:
 
-```mermaid
-mindmap
-  root((Agile Methods))
-    Iteration
-      Scrum
-      AUP
-      DSDM
-    Flow
-      Kanban
-      Scrumban
-      Lean
-    Engineering
-      XP
-      FDD
-    Adaptive
-      ASD
-      Crystal
-```
+| Focus | Methods |
+| ----- | ------- |
+| **Iteration** | [Scrum](03-scrum.md), Agile Unified Process (AUP), Dynamic Systems Development Method (DSDM) |
+| **Flow** | Kanban, Scrumban, [Lean Software Development](01-lean.md) |
+| **Engineering** | [Extreme Programming (XP)](04-extreme-programming.md), Feature-Driven Development (FDD) |
+| **Adaptive** | Adaptive Software Development (ASD), Crystal Clear Methods |

@@ -5,9 +5,11 @@ description: Frames engineering management as turning goals into delivered outco
 tags: [management, leadership, process]
 ---
 
-**Engineering Management** is a *process* of making desionins, turning **goals into delivered outcomes** through people, process, and priorities, under constraints of time, budget, capacity, and quality.
+**Engineering Management** is the decision-making *process* that turns **goals into delivered outcomes** through people, process, and priorities, within limits of time, budget, capacity, and quality.
 
-This guide covers the vocabulary an engineering manager plans with, the loops that connect strategy to feedback, and the metrics that show whether the loops are working. Leadership sets direction and motivates; management allocates, sequences, and controls — a working engineering manager does both.
+Leadership sets direction and motivates; management allocates, sequences, and controls. A working engineering manager does both.
+
+This guide covers the loops that connect strategy to feedback, and the metrics that show whether those loops work. Its planning vocabulary — Scope, Capacity, Priority, Commitment, Risk, Dependency, and Constraint — is defined once in [Planning Concepts](index.md#planning-concepts), and Goals and Objectives in the [Glossary](../00-software-engineering/01-glossary.md). This guide applies those terms without restating them.
 
 ## Scope
 
@@ -19,9 +21,7 @@ This guide covers the vocabulary an engineering manager plans with, the loops th
 | **Process** | How does work flow end to end? | Workflow, definition of done |
 | **Technical** | Is the system sustainable? | Architecture decisions, tech-debt budget |
 
-A manager who covers only *delivery* produces burnout; only *people* produces drift. All five must be held at once.
-
-The vocabulary this guide plans with — Scope, Capacity, Priority, Commitment, Risk, Dependency, and Constraint — is defined once in [Planning Concepts](index.md#planning-concepts), and Goals and Objectives in the [Glossary](../00-software-engineering/01-glossary.md). This guide applies those terms rather than restating them.
+Hold all five at once. A manager who covers only *delivery* produces burnout; one who covers only *people* produces drift.
 
 ## Management Flow
 
@@ -39,15 +39,15 @@ graph TD
     F -->|"correct direction"| S
 ```
 
-| Stage | Input | Output | Cadence |
-| --- | --- | --- | --- |
-| **Business Strategy** | Business goals, market, constraints | Themes, success metrics | Quarterly / annually |
-| **Roadmap** | Themes | Sequenced initiatives with rough sizing | Quarterly |
-| **Backlog** | Initiatives, bugs, tech debt, requests | Ordered, refined items | Continuous |
-| **Plan** | Backlog and capacity | Sprint or cycle commitment | Per sprint / cycle |
-| **Execution** | Commitment | Working increments | Daily |
-| **Delivery** | Increments | Released, measured change | Per release |
-| **Feedback** | Metrics, retro, user signal | Corrections to backlog and strategy | Per cycle |
+| Stage | Input → Output | Cadence |
+| --- | --- | --- |
+| **Business Strategy** | Business goals, market, constraints → themes, success metrics | Quarterly / annually |
+| **Roadmap** | Themes → sequenced initiatives with rough sizing | Quarterly |
+| **Backlog** | Initiatives, bugs, tech debt, requests → ordered, refined items | Continuous |
+| **Plan** | Backlog and capacity → sprint or cycle commitment | Per sprint / cycle |
+| **Execution** | Commitment → working increments | Daily |
+| **Delivery** | Increments → released, measured change | Per release |
+| **Feedback** | Metrics, retro, user signal → corrections to backlog and strategy | Per cycle |
 
 **Key property:** the loop must close. A roadmap that is never corrected by feedback is a forecast presented as a plan.
 
@@ -55,22 +55,22 @@ graph TD
 
 Plan with decreasing precision as the horizon extends. Precision beyond the evidence is waste.
 
-| Horizon | Period | Granularity | Confidence |
-| --- | --- | --- | --- |
-| **Strategic** | 6–12 months | Themes, outcomes | Directional |
-| **Tactical** | 1–3 months | Initiatives, epics | Sized, not scheduled |
-| **Operational** | 1–4 weeks | Stories, tasks | Committed |
-| **Daily** | 1 day | Sub-tasks, blockers | Certain |
+| Horizon (period) | Granularity | Confidence |
+| --- | --- | --- |
+| **Strategic** (6–12 months) | Themes, outcomes | Directional |
+| **Tactical** (1–3 months) | Initiatives, epics | Sized, not scheduled |
+| **Operational** (1–4 weeks) | Stories, tasks | Committed |
+| **Daily** (1 day) | Sub-tasks, blockers | Certain |
 
 ## Delivery Phases
 
-The phases a solution passes through are defined once, as the SDLC, in [Development Process](../04-development-process/index.md). Management does not need a second lifecycle; it needs the one phase that lifecycle does not name, because its work is about the team rather than the product.
+The phases a solution passes through are defined once, as the SDLC, in [Development Process](../04-development-process/index.md). Management needs no second lifecycle — only the one phase the SDLC does not name, because its work concerns the team, not the product.
 
 | Phase | Activities |
 | --- | --- |
 | **Pre-production setup** | Staffing the team and covering the required skills; provisioning environments, tooling, and access; agreeing the workflow, the definition of done, and the escalation path |
 
-Complete it before implementation starts. Work that begins without it produces decisions no one can point to later — an undefined done, an unowned environment, an unagreed escalation path.
+Complete it before implementation starts. Work that begins without it produces decisions no one can point to later: an undefined done, an unowned environment, an unagreed escalation path.
 
 ## Prioritization
 
@@ -84,7 +84,7 @@ Pick one framework and apply it consistently; mixing frameworks produces argumen
 | **Eisenhower** | Urgent × Important quadrants | Personal and interrupt-driven work |
 | **Cost of Delay** | Value lost per period of delay | Deciding sequence, not selection |
 
-**Reserve capacity explicitly.** Planned feature work, tech debt and maintenance, and interrupt-driven support each need a named share of the cycle. Set the shares from the team's own measured unplanned-work share, and revise them when that measurement moves. Without an explicit reserve, unplanned work silently consumes the commitment and every sprint "fails".
+**Reserve capacity explicitly.** Give each kind of work a named share of the cycle: planned features, tech debt and maintenance, and interrupt-driven support. Set the shares from the team's own measured unplanned-work share, and revise them when that measurement moves. Without an explicit reserve, unplanned work silently consumes the commitment and every sprint "fails".
 
 ## Estimation
 
@@ -108,7 +108,7 @@ Use a single accountable decider per decision (`DACI`: Driver, Approver, Contrib
 
 **Record decisions.** Every non-trivial technical decision gets an ADR: context, options, decision, consequences. See [Architecture](../02-architecture/index.md).
 
-### Metrics
+## Metrics
 
 Measure the **system**, not individuals. Individual metrics get gamed and destroy trust.
 
@@ -135,7 +135,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 
 > Little's Law: `Cycle Time = WIP / Throughput`. To go faster, lower WIP before adding people.
 
-### Best Practices
+## Best Practices
 
 - **Limit WIP.** Finishing beats starting. Cap in-progress items per person.
 - **Make work visible.** One board, one source of truth. Untracked work cannot be managed.
@@ -148,7 +148,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 - **Change one process thing at a time.** Otherwise you cannot attribute the effect.
 - **Manage the interfaces.** Work waiting on another team sits outside either team's board, so the wait goes unmeasured until someone counts it.
 
-### Anti-Patterns
+## Anti-Patterns
 
 | Anti-pattern | Why it fails | Correction |
 | --- | --- | --- |
@@ -161,7 +161,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 | Retro actions never executed | Retros become ritual | Take on only as many actions as the next cycle can finish, each with an owner and a date |
 | Managing individuals by metrics | Gaming, distrust | Measure the system |
 
-### Checklists
+## Checklists
 
 **Before committing to a plan:**
 

@@ -5,7 +5,7 @@ description: Opens the book with the shared vocabulary, the published standards,
 tags: [engineering, foundations, standards, glossary]
 ---
 
-This chapter holds the shared vocabulary, the published standards, and the map of disciplines that the rest of the book assumes. Read it first if the book is new to you, and return to it when a term used elsewhere needs a precise definition.
+This chapter holds the shared vocabulary, the published standards, and the map of disciplines that the rest of the book assumes. Read it first if the book is new to you, and come back when a term used elsewhere needs a precise definition.
 
 ---
 
@@ -19,6 +19,10 @@ This chapter holds the shared vocabulary, the published standards, and the map o
 
 ## What Makes It Engineering
 
-Programming produces a program that works. Engineering produces a system that keeps working — under change, under load, and in the hands of people who did not write it. The difference is one of scope rather than skill: an engineering decision answers to constraints the code cannot express, and to whoever inherits it.
+Programming produces a program that works. Engineering produces a system that keeps working — under change, under load, and in the hands of people who did not write it. The difference is scope, not skill: an engineering decision answers to constraints the code cannot express, and to whoever inherits it.
 
-Everything else in this book follows from that. A practice, a process, or a measurement is there because software outlives the situation it was written for. Three things come first because the rest assumes them: a vocabulary precise enough that two people mean the same thing by *requirement*; a body of published standards that settles questions a team would otherwise argue from scratch; and a map of the field wide enough to show what this book leaves out.
+The rest of the book follows from that. Each practice, process, or measurement exists because software outlives the situation it was written for. Three things come first, because the rest assumes them:
+
+- a vocabulary precise enough that two people mean the same thing by *requirement*
+- published standards that settle questions a team would otherwise argue from scratch
+- a map of the field wide enough to show what this book leaves out

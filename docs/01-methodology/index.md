@@ -5,9 +5,9 @@ description: Opens the methodology chapter and defines the vocabulary of method,
 tags: [methodology, process, terminology]
 ---
 
-This chapter covers how engineering work gets organized: the vocabulary for turning a goal into executed work, and the named approaches built on top of it. 
+This chapter covers how engineering work is organized: the vocabulary for turning a goal into executed work, and the named approaches built on it.
 
-The vocabulary lives on this page; each approach has its own guide. Terms the whole book shares, such as Solution, Goals, Objectives, and Success, are defined once in the [Glossary](../00-software-engineering/01-glossary.md) and used here without redefinition.
+The vocabulary is on this page; each approach has its own guide. Terms the whole book shares — Solution, Goals, Objectives, Success — are defined once in the [Glossary](../00-software-engineering/01-glossary.md) and used here without redefinition.
 
 ---
 
@@ -36,9 +36,10 @@ Framework
 Best Practice
 : A Method accepted as superior for a given context because it reliably produces better outcomes there; context-bound, not absolute
 
-A Framework in this sense runs a process, not code. The software sense — a component that owns the control flow and calls the application through the extension points it defines — is defined as [Software Framework](../03-system-design/index.md#information-system) in System Design.
+Two terms have a second sense elsewhere in the book:
 
-Strategy here is the chosen direction itself. The planning cadence that produces and corrects it is the Strategy stage of the [Management Flow](00-engineering-management.md#management-flow).
+- **Framework** here runs a process, not code. The software sense — a component that owns the control flow and calls the application through the extension points it defines — is [Software Framework](../03-system-design/index.md#information-system) in System Design.
+- **Strategy** here is the chosen direction itself. The planning cadence that produces and corrects it is the Strategy stage of the [Management Flow](00-engineering-management.md#management-flow).
 
 ## Solution Stages
 
@@ -86,7 +87,7 @@ Dependency
 Constraint
 : Fixed boundary — budget, deadline, compliance, headcount — that planning must respect rather than optimize away
 
-These are the terms [Engineering Management](00-engineering-management.md) plans with; that guide applies them, and does not redefine them.
+[Engineering Management](00-engineering-management.md) plans with these terms; it applies them without redefining them.
 
 ### SWOT Analysis
 
@@ -153,7 +154,7 @@ Solving
 Dissolving
 : Redesigning the surrounding system so the conditions that produced the Problem no longer exist
 
-Dividing and Conquer
+Divide and Conquer
 : Breaking a Problem into sub-problems until each is trivial, then composing the results; a tactic rather than a stance, so it combines with any of the four
 
 ## Risk Management
@@ -173,4 +174,4 @@ graph LR
 | **Transfer** | Another party is better positioned (vendor, insurance, platform team) |
 | **Accept** | Cost of response exceeds expected loss — record the decision |
 
-Keep the risk list short and live. Each entry: description, probability, impact, owner, response, review date. A risk without an owner is not managed.
+Keep the risk list short and current. Each entry holds a description, probability, impact, owner, response, and review date. A risk without an owner is not managed.

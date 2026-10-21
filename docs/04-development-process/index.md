@@ -14,10 +14,11 @@ The development process is the lifecycle that turns a stakeholder need into an o
 | **[Version Control](01-version-control.md)** | Centralized and distributed systems, branch lifetime, and branching strategies |
 | **[Code Review](02-code-review.md)** | Review types and workflow, checklists, and how to give feedback |
 | **[CI/CD](03-ci-cd.md)** | Continuous integration and delivery, and the environment stages a change passes through |
-| **[Quality Assurance](04-quality-assurance.md)** | Test case and defect management, QA metrics, and the test automation strategy |
+| **[Quality Assurance](04-quality-assurance.md)** | The QA life cycle, the testing pyramid, test case and defect management, non-functional testing, and QA metrics |
 | **[Testing](05-testing.md)** | The F.I.R.S.T. principles, TDD and BDD, unit testing, test doubles, coverage types, and tests in CI |
-| **[Debugging](06-debugging.md)** | Reproducing, reducing, bisecting and verifying a fix, plus the Chrome DevTools panels and console utilities |
-| **[Technical Debt](07-technical-debt.md)** | Where debt comes from, the signals that expose it, and how to manage repayment |
+| **[Automated Testing](06-automated-testing.md)** | The test automation strategy: feedback time, where suites run, test data, and suite metrics |
+| **[Debugging](07-debugging.md)** | Reproducing, reducing, bisecting and verifying a fix, plus the Chrome DevTools panels and console utilities |
+| **[Technical Debt](08-technical-debt.md)** | Where debt comes from, the signals that expose it, and how to manage repayment |
 
 ## SDLC
 
@@ -32,7 +33,7 @@ The development process is the lifecycle that turns a stakeholder need into an o
 | **Verification** | Confirming the built solution satisfies its functional and [non-functional requirements](../02-architecture/01-quality-attributes.md) |
 | **Release** | Delivering a versioned, reproducible artifact into a target environment |
 | **Operation** | Running, observing, and supporting the Solution against its Metrics in production |
-| **Maintenance** | Correcting defects, absorbing change, and repaying [technical debt](07-technical-debt.md) over the solution's life |
+| **Maintenance** | Correcting defects, absorbing change, and repaying [technical debt](08-technical-debt.md) over the solution's life |
 
 Phases are *interdependent*, not merely sequential: verification is designed during Analysis, operability is decided during Design, and observations from Operation re-enter Discovery.
 

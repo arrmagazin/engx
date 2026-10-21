@@ -5,31 +5,27 @@ description: How layered neural networks learn representations from raw data, an
 tags: [ai, deep-learning, neural-networks, training]
 ---
 
-**Deep Learning** uses neural networks with many layers that learn hierarchical representations
-directly from raw data, removing the need for hand-crafted features.
+**Deep Learning** uses neural networks with many layers. They learn hierarchical representations directly from raw data, so no hand-crafted features are needed.
 
-It is the layer between [machine learning](01-machine-learning.md) and the foundation models that
-[large language models](03-llm.md) are built from: the paradigms, the loss-minimizing training loop,
-and the generalization concerns described in the machine learning guide all still apply here, and the
-transformer that this guide introduces is the architecture an LLM is a scaled-up instance of. Papers
-and books behind this material are collected under [References](index.md#references).
+It sits between [machine learning](01-machine-learning.md) and the foundation models that [large language models](03-llm.md) are built from:
+
+- The paradigms, the loss-minimizing training loop and the generalization concerns of machine learning all still apply.
+- The transformer introduced here is the architecture an LLM scales up.
+
+Papers and books behind this material are under [References](index.md#references).
 
 ## Why Depth Matters
 
-Classical machine learning asks an engineer to decide, in advance, which properties of the input the
-model should see — the edges in an image, the word counts in a document, the ratios in a table. That
-step is where most of the domain knowledge, and most of the effort, goes.
+Classical machine learning asks an engineer to decide in advance which properties of the input the model should see — the edges in an image, the word counts in a document, the ratios in a table. Most of the domain knowledge, and most of the effort, goes into that step.
 
-Depth replaces it. Each layer transforms the output of the one below, so a stack of layers can learn a
-progression of representations: early layers pick up local, generic structure, and later layers compose
-those into the abstractions the task actually needs. Nothing in that progression is specified by hand;
-it falls out of minimizing the loss. That is the trade deep learning makes — far less feature
-engineering, in exchange for far more data, compute, and opacity about what the intermediate layers
-have decided to represent.
+Depth replaces it. Each layer transforms the output of the layer below, so a stack of layers learns a progression of representations:
 
-Depth only buys this if the layers are separated by non-linearities. Composing linear maps yields
-another linear map, so a network of purely linear layers, however tall, is equivalent to a single one
-and can represent nothing more. The activation function is what keeps each added layer worth having.
+- Early layers pick up local, generic structure.
+- Later layers compose it into the abstractions the task needs.
+
+Nobody specifies this progression by hand; it comes out of minimizing the loss. That is the trade deep learning makes: far less feature engineering, in exchange for far more data, far more compute, and little insight into what the intermediate layers represent.
+
+Depth only helps if non-linearities separate the layers. Composing linear maps gives another linear map, so a network of purely linear layers, however tall, equals a single layer. The activation function is what makes each added layer worth having.
 
 ## Core Concepts
 
@@ -37,7 +33,7 @@ Neuron
 : A weighted sum of inputs passed through a non-linear activation
 
 Layer
-: A group of neurons; stacking them is what makes a network deep, and depth is what buys hierarchical features
+: A group of neurons; stacking them makes a network deep, and depth is what yields hierarchical features
 
 Activation Function
 : The non-linearity — ReLU, GELU, sigmoid — without which any stack of layers collapses into a single linear map
@@ -46,7 +42,7 @@ Backpropagation
 : The algorithm that computes the gradient of the error with respect to each weight, by applying the chain rule backward through the network
 
 Gradient Descent
-: Iterative weight update in the direction that reduces the error, with SGD and Adam the usual variants
+: Iterative weight update in the direction that reduces the error; SGD and Adam are the usual variants
 
 Loss Function
 : The scalar measure of prediction error that training minimizes
@@ -59,9 +55,7 @@ Embedding
 
 ## The Training Loop
 
-Training is the repeated application of four steps to batches of examples. Understanding them as one
-cycle explains most of what goes wrong in practice, because a failure in any step shows up as a model
-that will not improve.
+Training repeats four steps over batches of examples. A failure in any step shows up the same way — a model that will not improve — so seeing them as one cycle explains most practical problems.
 
 ```mermaid
 graph LR
@@ -71,35 +65,23 @@ graph LR
   U --> F
 ```
 
-1. **Forward pass.** Input flows through the layers and the network emits a prediction.
-2. **Loss.** The loss function reduces the gap between that prediction and the target to a single
-   number, which is the only definition of "wrong" the network has. Choosing it is a modeling decision,
-   not a detail.
-3. **Backpropagation.** The chain rule is applied backward through the network to obtain the gradient
-   of that loss with respect to every weight — the direction and magnitude by which each weight is
-   responsible for the error.
-4. **Weight update.** Gradient descent moves each weight a small step against its gradient. The step
-   size is the learning rate: too large and the optimization diverges, too small and it crawls. Adam
-   and the other adaptive variants of SGD exist to make this step less sensitive to that choice.
+1. **Forward pass.** Input flows through the layers, and the network emits a prediction.
+2. **Loss.** The loss function reduces the gap between prediction and target to one number. That number is the network's only definition of "wrong", so choosing the loss is a modeling decision, not a detail.
+3. **Backpropagation.** The chain rule, applied backward through the network, gives the gradient of the loss with respect to every weight — how much, and in which direction, each weight is responsible for the error.
+4. **Weight update.** Gradient descent moves each weight a small step against its gradient. The step size is the learning rate: too large and the optimization diverges, too small and it crawls. Adam and the other adaptive variants of SGD make this step less sensitive to that choice.
 
-Because the loop is driven entirely by training error, it will happily keep reducing that error by
-absorbing noise specific to the training set — the overfitting described in the
-[machine learning guide](01-machine-learning.md). Regularization is the counterweight: dropout removes
-random neurons during training so no single path can be relied on, and weight decay penalizes large
-weights so the fitted function stays smoother than the data strictly permits.
+The loop is driven only by training error. So it will keep reducing that error by absorbing noise specific to the training set — the overfitting described in the [machine learning guide](01-machine-learning.md). Regularization is the counterweight:
+
+- **Dropout** removes random neurons during training, so the network cannot rely on any single path.
+- **Weight decay** penalizes large weights, so the fitted function stays smoother than the data strictly allows.
 
 ## Embeddings
 
-An embedding is what a trained network's internal representation looks like from the outside: a dense
-vector in which position encodes meaning, so that inputs the model treats as similar end up near each
-other geometrically. This is why nearest-neighbor search over embeddings is a usable proxy for semantic
-similarity, and it is the property that retrieval systems and vector databases are built on.
+An embedding is a trained network's internal representation seen from the outside: a dense vector where position encodes meaning, so inputs the model treats as similar end up near each other. This is why nearest-neighbor search over embeddings works as a proxy for semantic similarity. Retrieval systems and vector databases are built on this property.
 
 ## Architectures
 
-An architecture is a prior about the structure of the data — which inputs are related to which, and
-how information should be allowed to flow. Picking one that matches the data is worth more than depth
-for its own sake.
+An architecture is a prior about the structure of the data: which inputs relate to which, and how information may flow. Choosing one that matches the data is worth more than depth for its own sake.
 
 | Architecture | Best suited for |
 | --- | --- |
@@ -109,12 +91,10 @@ for its own sake.
 | **Transformer** | Sequences via attention, and the foundation of modern LLMs |
 | **Diffusion** | Generative images and audio, by iterative denoising |
 
-The **MLP** assumes nothing about how its inputs relate, which makes it a general approximator and the
-default where no structure is known. A **CNN** assumes that meaning is local and position-independent,
-which is what makes it efficient on images. **RNNs** and **LSTMs** assume order, processing a sequence
-one element at a time — the assumption is right, but the sequential dependency limits how much of the
-work can be parallelized, which is a large part of why transformers displaced them for language. The
-**transformer** keeps the sequence assumption while letting attention relate any two positions
-directly, and scaling it is what produced [large language models](03-llm.md). **Diffusion** models
-invert a noising process instead of predicting a next element, generating images and audio by
-denoising step by step.
+What each one assumes about the data:
+
+- **MLP** — nothing about how inputs relate. This makes it a general approximator and the default when no structure is known.
+- **CNN** — meaning is local and position-independent. This makes it efficient on images.
+- **RNN / LSTM** — order. They process a sequence one element at a time. The assumption is right, but the sequential dependency limits parallel work, which is a large part of why transformers replaced them for language.
+- **Transformer** — order too, but attention relates any two positions directly. Scaling it produced [large language models](03-llm.md).
+- **Diffusion** — instead of predicting a next element, it inverts a noising process, generating images and audio by denoising step by step.

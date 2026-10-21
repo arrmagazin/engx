@@ -5,7 +5,11 @@ description: Index of the frontend chapter, with the standards, reference docume
 tags: [frontend, resources, reference]
 ---
 
-Frontend engineering spans the runtime the code ships into and the standards it is measured against — the browser, WCAG, and the OWASP attack classes rather than any one framework. What travels between the browser and the server is a system-design concern, and is treated as one in [Client-Server Communication](../03-system-design/06-client-server-communication.md) and [Data Formats](../03-system-design/07-data-formats.md). The guides here stay framework-agnostic; a framework's own documentation is linked below rather than restated. The languages are treated the same way: this book documents the engineering around HTML, CSS, and JavaScript rather than teaching any of them, so the specifications are collected under Web Standards below and the CSS reference material in [Browser Technologies](02-browser-technologies.md#css-resources).
+Frontend engineering covers the runtime the code ships into and the standards it is measured against: the browser, WCAG, and the OWASP attack classes, not any one framework.
+
+- What travels between browser and server is a system-design concern, covered in [Client-Server Communication](../03-system-design/06-client-server-communication.md) and [Data Formats](../03-system-design/07-data-formats.md).
+- The guides stay framework-agnostic. A framework's own documentation is linked below, not restated.
+- The same goes for the languages: this book documents the engineering around HTML, CSS, and JavaScript, not the languages themselves. Their specifications are under Web Standards below; CSS reference material is in [Browser Technologies](02-browser-technologies.md#css-resources).
 
 ## In This Chapter
 
@@ -13,9 +17,12 @@ Frontend engineering spans the runtime the code ships into and the standards it 
 | --- | --- |
 | **[Application Types](01-application-types.md)** | Where each kind of application produces its HTML — MPA, SPA, SSR, static generation, and PWA |
 | **[Browser Technologies](02-browser-technologies.md)** | The DOM and its event model, browser storage, and the Fetch, History, Geolocation, and Service Worker APIs |
-| **[Performance Optimization](03-performance-optimization.md)** | Core Web Vitals, performance budgets, and the render, network, and bundle work that moves them |
-| **[Accessibility (WCAG)](04-accessibility-wcag.md)** | The WCAG version and conformance level to build against, the POUR principles, and everyday ARIA patterns |
-| **[Web Application Security](05-security-web.md)** | Core web security principles, the OWASP Top 10, and the defenses that implement them |
+| **[Performance Optimization](03-performance-optimization.md)** | Core Web Vitals, performance budgets, and measuring them in the lab and in the field |
+| **[Rendering and Network Performance](04-rendering-network-performance.md)** | The critical rendering path, layout and paint costs, compression, HTTP caching, resource hints, and images |
+| **[JavaScript and Bundle Performance](05-javascript-bundle-performance.md)** | Code splitting, memory leaks, long tasks, tree shaking, and minification |
+| **[Accessibility (WCAG)](06-accessibility-wcag.md)** | The WCAG version and conformance level to build against, the POUR principles, and everyday ARIA patterns |
+| **[Web Application Security](07-security-web.md)** | Core web security principles, the OWASP Top 10, common vulnerabilities, and authentication |
+| **[Web Security Defenses](08-web-security-defenses.md)** | Security headers, TLS certificates, CSP, dependency security, and client-side storage, iframe, and JSON risks |
 
 ## Core Documentation
 
@@ -58,7 +65,7 @@ Frontend engineering spans the runtime the code ships into and the standards it 
 | **Same-Origin Policy** | [developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy) |
 | **Content Security Policy** | [content-security-policy.com](https://content-security-policy.com/) |
 
-Web security as a discipline — the attack classes rather than the reference links — is [Web Application Security](05-security-web.md).
+The attack classes themselves, beyond these reference links, are covered in [Web Application Security](07-security-web.md) and [Web Security Defenses](08-web-security-defenses.md).
 
 ## Roadmaps and Guides
 

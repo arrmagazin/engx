@@ -9,11 +9,11 @@ A **design principle** is a general, technology-agnostic constraint on *structur
 
 | Property | Meaning |
 | ---------- | --------- |
-| **Prescriptive, not procedural** | Comes without the concrete constructs that achieve it; states what must be true of a design, not the steps to get there |
+| **Prescriptive, not procedural** | States what must be true of a design, not the constructs or steps that achieve it |
 | **Justified by consequence** | Its authority comes from a predicted cost, usually the cost of future change; a principle with no consequence attached is a style rule |
-| **Non-absolute** | Principles conflict by design (DRY against premature normalization, SSOT against its own coupling cost) — applying them is trade-off resolution, not compliance |
-| **Falsifiable in review** | Concrete code can be pointed at and argued a violation; if no code could ever violate it, it is a value, not a principle |
-| **Scope-bearing** | Each governs a level — expression, module, service, or system — and applying a module-level principle at system scale is a common misuse |
+| **Non-absolute** | Principles conflict by design (DRY against premature normalization, SSOT against its own coupling cost); applying them means resolving trade-offs, not complying |
+| **Falsifiable in review** | Concrete code can be pointed at and argued to be a violation; if no code could ever violate it, it is a value, not a principle |
+| **Scope-bearing** | Each governs one level — expression, module, service, or system; applying a module-level principle at system scale is a common misuse |
 
 A principle's practical test must tell you which of two designs is better *before* either is built.
 
@@ -25,13 +25,13 @@ Properties of code that a person can *understand, assure, evolve, and maintain* 
 | ----------- | ------------- |
 | **Composability** | Ability of code to be combined into larger code without modifying the parts being combined; it depends on each part exposing a contract that states what it owns and what it leaves to callers |
 | **Maintainability** | How easily code can be understood, modified, or extended; the remaining criteria are the specific properties that produce it |
-| **Simplicity** | Code should be as simple as possible; avoid unnecessary complexity — simple code is easier to extend |
-| **Readability** | Code should be easily understandable using meaningful names and logical organization, so that others can read and edit it; a peer review confirms this |
-| **Consistency** | Follow one coding style, set of design principles, patterns, and best practices across the codebase; shared rules agreed early keep many developers aligned, and standard-conforming code is easier to find, reuse, and update |
-| **Comments/Documentation** | Explain WHY certain decisions were made, not HOW code works |
-| **Error Handling** | Handle errors gracefully; anticipate potential failures (**Fail-fast**) |
+| **Simplicity** | As simple as possible, with no unnecessary complexity; simple code is easier to extend |
+| **Readability** | Easy to understand through meaningful names and logical organization, so others can read and edit it; peer review confirms this |
+| **Consistency** | One coding style, set of design principles, patterns, and best practices across the codebase. Shared rules agreed early keep many developers aligned, and code that follows the standard is easier to find, reuse, and update |
+| **Comments/Documentation** | Explain WHY decisions were made, not HOW the code works |
+| **Error Handling** | Handle errors gracefully and anticipate likely failures (**Fail-fast**) |
 | **Observability** | Runtime behavior can be understood from what the code already emits — structured logs, metrics, traces — so a failure can be diagnosed without shipping new code to reproduce it |
-| **Testability** | Clean code is testable: small, independent behaviors that automated tests can verify, otherwise thorough testing is impractical |
+| **Testability** | Clean code is testable: small, independent behaviors that automated tests can verify; without them, thorough testing is impractical |
 
 ## Prominent Design Principles
 
@@ -41,14 +41,14 @@ Properties of code that a person can *understand, assure, evolve, and maintain* 
 | **Rule of Least Power** | Use the least powerful language suitable for the purpose, because the less a notation can express the more can be inferred from it (W3C TAG finding, Berners-Lee) |
 | **KISS** | "Keep It Simple, Stupid" — prefer the simplest design that meets the need (attributed to Kelly Johnson) |
 | **Separation of Concerns (SoC)** | Cut the system along axes of change, so each concern lives in one place and can be changed without touching the others |
-| **DRY (Don't Repeat Yourself)** | Every piece of knowledge must have a single, unambiguous, authoritative representation within a system (Hunt & Thomas, *The Pragmatic Programmer*) |
+| **DRY (Don't Repeat Yourself)** | "Every piece of knowledge must have a single, unambiguous, authoritative representation within a system" (Hunt & Thomas, *The Pragmatic Programmer*) |
 | **Delegation** | Do one thing yourself and hand the rest to the object that owns it |
 | **Inversion of Control** | Custom code receives the flow of control from a generic framework — "Don't call us, we'll call you", also known as the Hollywood Principle |
-| **Uniform Access** | All services offered by a module should be available through a uniform notation, which does not betray whether they are implemented through storage or through computation |
+| **Uniform Access** | "All services offered by a module should be available through a uniform notation, which does not betray whether they are implemented through storage or through computation" (Meyer, *Object-Oriented Software Construction*) |
 | **Least Astonishment** | A component should behave the way most of its users expect it to |
 | **Law of Demeter** | A method should only call methods of its immediate collaborators |
 | **Worse is Better** | A simple implementation is more valuable than complete functionality, because the simple one spreads first (Richard P. Gabriel) |
-| **YAGNI** | You Aren't Gonna Need It — don't implement until necessary |
+| **YAGNI** | "You Aren't Gonna Need It" — don't build something until it is needed |
 
 ## SOLID Principles of Object-Oriented Design
 
@@ -58,7 +58,7 @@ Five principles formulated by Robert C. Martin; the acronym is Michael Feathers'
 | ----------- | ------------- |
 | **Single Responsibility (S)** | An entity should be concerned with one function and have one reason to change, answering to a single business role |
 | **Open/Closed (O)** | An entity should be open for extension but closed for modification |
-| **Liskov Substitution (L)** | An object must be replaceable by an instance of any of its subtypes without altering the correctness of the program: a subtype may not strengthen the preconditions of an inherited operation, may not weaken its postconditions, and must preserve the invariants its base type guarantees. A subtype that throws where the base type returns, or that narrows an accepted input range, breaks substitutability even where the compiler accepts it |
+| **Liskov Substitution (L)** | An object must be replaceable by an instance of any of its subtypes without breaking the program's correctness. A subtype may not strengthen an inherited operation's preconditions or weaken its postconditions, and must preserve the invariants its base type guarantees. A subtype that throws where the base type returns, or that narrows an accepted input range, breaks substitutability even when the compiler accepts it |
 | **Interface Segregation (I)** | Make fine-grained interfaces that are client-specific, so no client depends on methods it does not use |
 | **Dependency Inversion (D)** | Depend upon abstractions, not concretions; Dependency Injection is its common implementation |
 
@@ -85,15 +85,10 @@ Each of the remaining patterns is a rationale for placing a duty on one type rat
 
 ## Single Source of Truth (SSOT)
 
-**Single Source of Truth (SSOT)** is the design principle that every piece of knowledge has exactly
-one authoritative representation, and everything else is *derived* from it rather than restated
-alongside it.
+**Single Source of Truth (SSOT)** is the design principle that every piece of knowledge has exactly one authoritative representation. Everything else is *derived* from it, not restated alongside it.
 
-Duplication is not forbidden — uncontrolled duplication is. A copy that a machine regenerates
-is a cache; a copy that a human maintains is a future contradiction.
-
-Writes converge on one place; reads fan out. The moment a derived artifact becomes
-independently editable, the arrow reverses and the guarantee is gone.
+- Duplication is not forbidden; uncontrolled duplication is. A copy that a machine regenerates is a cache; a copy that a human maintains is a future contradiction.
+- Writes converge on one place; reads fan out. Once a derived artifact can be edited on its own, the arrow reverses and the guarantee is gone.
 
 ### Key Concepts
 
@@ -118,10 +113,10 @@ Reconciliation
 Controlled Duplication
 : Copies that are generated, checked, or expired — caches, indexes, materialized views, replicas
 
-DRY and SSOT are not the same rule. DRY is about *knowledge*, not text: two identical lines
-expressing unrelated decisions are not a violation, and two divergent expressions of one decision
-are. SSOT is the stronger claim — where copies of one piece of knowledge must exist, it names which
-of them is authoritative and requires the rest to be derived from it.
+DRY and SSOT are not the same rule:
+
+- **DRY** is about *knowledge*, not text. Two identical lines expressing unrelated decisions are not a violation; two divergent expressions of one decision are.
+- **SSOT** is the stronger claim. Where copies of one piece of knowledge must exist, it names which one is authoritative and requires the rest to be derived from it.
 
 ### Where It Applies
 
@@ -155,8 +150,6 @@ of them is authoritative and requires the rest to be derived from it.
 | **Costs** | A generation or reconciliation step in the build, coupling of all consumers to the source's release cadence, latency and staleness where derivation is asynchronous, and a bad abstraction that spreads everywhere once it is canonical |
 | **Applicability** | Contracts crossing team or service boundaries, anything expressed in more than two places, and any value whose inconsistency is a correctness bug rather than a cosmetic one |
 
-*Guidance*: prefer *generating* the copies over *synchronizing* them — the derivation itself is what
-makes the source authoritative. Where derivation is impossible, make the duplication loud: a test
-that fails when the two disagree is a weaker but honest substitute.
+*Guidance*: prefer *generating* the copies over *synchronizing* them — the derivation itself is what makes the source authoritative. Where derivation is impossible, make the duplication loud: a test that fails when the two disagree is a weaker but honest substitute.
 
-*See also*: [Metaprogramming](01-programming-paradigms.md#metaprogramming) — schema-driven code generation is the usual mechanism for enforcing SSOT across languages and services.
+*See also*: [Metaprogramming](03-metaprogramming.md#metaprogramming) — schema-driven code generation is the usual mechanism for enforcing SSOT across languages and services.

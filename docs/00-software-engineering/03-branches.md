@@ -5,7 +5,7 @@ description: Maps the branches of software engineering across seven groups and l
 tags: [engineering, disciplines, foundations]
 ---
 
-Software engineering rests on computer science and applied mathematics, and covers more ground than any one engineer works across. This map names its branches in seven groups, from theory to practice. Where this book covers a branch, the branch is followed by the doc that covers it, named as it is titled — which is often narrower than the branch, and the gap is the point.
+Software engineering rests on computer science and applied mathematics, and covers more ground than any one engineer works across. This map names its branches in seven groups, from theory to practice. Where this book covers a branch, a link to that doc follows, under the doc's own title. The doc is often narrower than the branch, and that gap is the point.
 
 ## Theoretical Foundations
 
@@ -22,7 +22,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 
 - Programming Languages and Type Systems — [Programming Paradigms](../05-coding/01-programming-paradigms.md)
 - Compilers, Interpreters, and Runtimes
-- Concurrency and Parallel Computing — [Concurrency Patterns](../05-coding/03-design-patterns.md#concurrency-patterns)
+- Concurrency and Parallel Computing — [Concurrency Patterns](../05-coding/05-design-patterns.md#concurrency-patterns)
 - Quantum Computing
 
 ## Systems and Infrastructure
@@ -48,7 +48,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 ## Security and Trust
 
 - Cryptography
-- Application and Infrastructure Security — [Web Application Security](../06-frontend/05-security-web.md)
+- Application and Infrastructure Security — [Web Application Security](../06-frontend/07-security-web.md)
 - Identity, Privacy, and Compliance
 
 ## Engineering Practice
@@ -59,7 +59,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Quality Assurance and Testing — [Quality Assurance](../04-development-process/04-quality-assurance.md) and [Testing](../04-development-process/05-testing.md)
 - DevOps, SRE, and Operations — [CI/CD](../04-development-process/03-ci-cd.md)
 - Performance Engineering — [Performance Optimization](../06-frontend/03-performance-optimization.md)
-- Maintenance and Evolution — [Technical Debt](../04-development-process/07-technical-debt.md)
+- Maintenance and Evolution — [Technical Debt](../04-development-process/08-technical-debt.md)
 - Engineering Management and Process — [Humans and Teams](../10-humans/index.md) and [Methodology](../01-methodology/index.md)
 
 ## Human-Facing Systems
@@ -67,5 +67,5 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Human-Computer Interaction
 - Graphic and Web Design
 - Media Content and Visualization
-- Accessibility and Internationalization — [Accessibility (WCAG)](../06-frontend/04-accessibility-wcag.md)
+- Accessibility and Internationalization — [Accessibility (WCAG)](../06-frontend/06-accessibility-wcag.md)
 - Gaming, Metaverses, and Extended Reality

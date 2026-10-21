@@ -5,35 +5,32 @@ description: Explains how version control systems work and how to choose a branc
 tags: [development, git, version-control]
 ---
 
-A version control system records every change made to a codebase and lets a team work on it at once without overwriting each other. This chapter covers what such a system does, how centralized and distributed ones differ, and how to choose a branching strategy.
+A version control system records every change to a codebase and lets a team work on it at the same time without overwriting each other's work. This guide covers what such a system does, how centralized and distributed systems differ, and how to choose a branching strategy.
 
 ## Version Control Systems
 
 **Version control system (VCS)**: a system that tracks and controls changes to a document or codebase over time.
 
-A VCS supports six core tasks:
+It gives a team three things:
 
-- **Synchronization** — several developers work on the same project at the same time
-- **Reversal** — return the code to an earlier version
-- **Change tracking** — know who changed what, and when
-- **Sandboxing** — isolated space for development and test work
-- **Branching** — keep variations of the same base code
-- **Backup** — restorable copies of the source
+- **History** — every saved state stays recoverable, so a bad change can be undone and lost files restored.
+- **Accountability** — each change records its author, its time, and its reason.
+- **Parallel work** — many developers change the same codebase at once, each in an isolated space; variants of the code live side by side as branches and are combined when ready.
 
 Two components hold the code:
 
-- **Repository** — the shared storage that holds reviewed and edited code
+- **Repository** — shared storage for the reviewed and edited code
 - **Working copy** — a developer's local copy, where edits are made
 
-A developer **commits** finished edits from the working copy to the repository, and **updates** the working copy by pulling in the latest repository changes.
+A developer **commits** finished edits from the working copy to the repository, and **updates** the working copy with the latest repository changes.
 
 ### Centralized Version Control
 
-A single shared repository holds the history. Developers keep local working copies but must upload their edits to that one repository before anyone else can see them, so most operations need a connection to the server. Team Foundation Version Control (TFVC) is an example.
+One shared repository holds the history. Developers keep local working copies, but others see their edits only after they upload them to that repository, so most operations need a connection to the server. Example: Team Foundation Version Control (TFVC).
 
 ### Distributed Version Control
 
-Every developer's machine holds a full local repository — the complete history — alongside the working copy. Two actions are added to commit and update:
+Every developer's machine holds a full local repository, with the complete history, alongside the working copy. Two actions join commit and update:
 
 - **Pull** — bring changes from the remote repository into the local repository and working copy
 - **Push** — send committed local changes to the remote repository
@@ -52,7 +49,7 @@ Git is the most widely used distributed system.
 
 ## Branching
 
-**Branching**: copying code from the mainline so a developer can edit it without disrupting the work of others.
+**Branching**: copying code from the mainline so a developer can edit it without disrupting others' work.
 
 | Term | Meaning |
 | --- | --- |
@@ -61,15 +58,15 @@ Git is the most widely used distributed system.
 | **Merge** | Integration of a finished, tested branch back into the mainline |
 | **Fork** | A branch that is not intended to be merged back |
 
-A **merge conflict** happens when two branches change the same code in incompatible ways — one developer edits lines that another is deleting. Individually they are quick to resolve; at scale they delay delivery, and the branching strategy is what controls how often they occur.
+A **merge conflict** happens when two branches change the same code in incompatible ways — for example, one developer edits lines that another deletes. One conflict is quick to resolve; many of them delay delivery. The branching strategy controls how often they occur.
 
 ### Branch Lifetime
 
 How long a branch stays open shapes the cost of merging it more than any naming convention does.
 
-**Long-lived branches** stay open for weeks and carry the full history of a feature's development. They suit complex work and distributed teams, but the longer a branch runs, the further it drifts from the mainline, and the larger the eventual merge and any rollback become.
+**Long-lived branches** stay open for weeks and carry the full history of a feature's development. They suit complex work and distributed teams. But the longer a branch runs, the further it drifts from the mainline, and the larger the final merge and any rollback become.
 
-**Short-lived branches** are merged back within days. They suit [CI/CD](03-ci-cd.md) workflows and encourage small, frequent commits, at the cost of more discipline around partly finished work, which usually means keeping it behind feature flags.
+**Short-lived branches** merge back within days. They suit [CI/CD](03-ci-cd.md) workflows and encourage small, frequent commits. The cost is more discipline around partly finished work, which usually means keeping it behind feature flags.
 
 | Aspect | Long-Lived | Short-Lived |
 | --- | --- | --- |
@@ -80,7 +77,7 @@ How long a branch stays open shapes the cost of merging it more than any naming 
 
 ### Branching Strategies
 
-A branching strategy is the team's rule for when branches are created and when they are merged. The choice follows the release model: a team shipping on a fixed schedule and a team deploying continuously need different rules.
+A branching strategy is the team's rule for when to create branches and when to merge them. The choice follows the release model: a team that ships on a fixed schedule and a team that deploys continuously need different rules.
 
 | Strategy | Rule | Suits |
 | --- | --- | --- |
@@ -89,11 +86,11 @@ A branching strategy is the team's rule for when branches are created and when t
 | **Feature isolation** | One branch per feature, held until the feature is ready to merge | Work that must be kept out of the mainline as a unit |
 | **Release isolation** | A release branch is locked and accepts only critical hotfixes, while servicing branches carry patches for versions already released | Supporting software that is already in customers' hands |
 
-Record the strategy the team follows somewhere the whole team can find it — see [Knowledge Sharing](../10-humans/04-knowledge-sharing.md).
+Record the team's strategy where the whole team can find it — see [Knowledge Sharing](../10-humans/04-knowledge-sharing.md).
 
 ### GitFlow
 
-GitFlow gives each branch a fixed role. Its author, Vincent Driessen, later added a note to the original post advising teams that practice continuous delivery to adopt a simpler workflow instead of forcing GitFlow onto it; he still considers the model a fit for software that is explicitly versioned or that must support several released versions at once.
+GitFlow gives each branch a fixed role. In a 2020 note added to the [original post](https://nvie.com/posts/a-successful-git-branching-model/), its author, Vincent Driessen, suggests that teams practicing continuous delivery adopt a simpler workflow, such as GitHub flow, instead of forcing GitFlow onto it. He adds that GitFlow may still suit software that is explicitly versioned or must support several released versions at once.
 
 | Branch | Purpose | Lifetime |
 | --- | --- | --- |

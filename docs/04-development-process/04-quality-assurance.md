@@ -1,15 +1,15 @@
 ---
 type: Guide
 title: Quality Assurance
-description: Covers QA process and vocabulary, test case and defect management, non-functional requirement testing, metrics, and test automation.
+description: Covers QA process and vocabulary, the testing pyramid, test case and defect management, non-functional requirement testing, and metrics.
 tags: [testing, qa, quality, development-process]
 ---
 
-Quality assurance is the process, mostly run by test engineers, that gives confidence a product meets what clients and users expect. It costs time, money, and people, so its value has to be argued to stakeholders rather than assumed. This guide covers how QA is organized — its vocabulary, the life cycle it follows, test cases, defects, non-functional requirements, metrics, and automation. The practices that carry it out, including test principles, TDD, BDD, and unit testing, are in [Testing](05-testing.md).
+Quality assurance (QA) is the process, mostly run by test engineers, that gives confidence a product meets what customers and users expect. It costs time, money, and people, so its value must be argued to stakeholders, not assumed. This guide covers how QA is organized: its vocabulary, the life cycle it follows, test cases, defects, non-functional requirements, and metrics. The practices that carry it out — test principles, TDD, BDD, and unit testing — are in [Testing](05-testing.md), and the test automation strategy is in [Automated Testing](06-automated-testing.md).
 
 ## QA, Quality Control, and Testing
 
-The three terms are used interchangeably in conversation and mean different things in practice.
+People use the three terms interchangeably, but in practice they mean different things.
 
 Quality Assurance
 : Process-level work spanning the whole lifecycle, aimed at stopping defects from being introduced at all
@@ -20,11 +20,13 @@ Quality Control
 Testing
 : The activity of exercising a build to confirm it behaves as specified and carries no known faults
 
-They nest rather than compete: testing is one activity inside quality control, and quality control is one activity inside quality assurance. The distinction matters when a team says it "has QA" because someone runs tests before release. That is testing. The outermost ring — designing the process so that fewer defects arrive at all — is the part most often missing.
+They nest rather than compete: testing is one activity inside quality control, and quality control is one activity inside quality assurance. This matters when a team says it "has QA" because someone runs tests before release — that is testing. The outer ring, designing the process so that fewer defects arrive at all, is the part most often missing.
 
-What quality means on a given project has to be pinned to attributes someone can actually evaluate: functionality, availability, performance, testability, security, usability, and reliability. Agreeing that list early is what makes everything below possible, because test cases verify the first of them and the [non-functional suites](#testing-of-non-functional-requirements) cover the rest.
+On each project, quality must be pinned to attributes someone can evaluate: functionality, availability, performance, testability, security, usability, and reliability. Agreeing this list early makes everything below possible: test cases verify the first, and the [non-functional suites](#testing-of-non-functional-requirements) cover the rest.
 
 ### Error, Defect, and Failure
+
+The terms follow the [ISTQB glossary](https://glossary.istqb.org/).
 
 Error
 : A mistake a person makes while writing code or interpreting a requirement
@@ -35,22 +37,22 @@ Defect
 Failure
 : The event a user sees when the running system cannot do what it was built to do
 
-The three are a chain, and each link can break. An error only becomes a defect if it reaches the code; a defect only becomes a failure when something executes the affected path. That is why the counts never match, and why a report of zero failures in production says nothing about how many defects shipped.
+The three form a chain, and each link can break. An error becomes a defect only if it reaches the code; a defect becomes a failure only when something executes the affected path. So the counts never match, and zero failures in production says nothing about how many defects shipped.
 
 ## Testing Types and Methods
 
 Every test sits at one point on each of three independent axes: who runs it, what it asserts, and how much of the internals the tester can see.
 
-The first axis is who runs the test. Manual and automated testing answer different needs rather than competing for the same work.
+**Who runs it.** Manual and automated testing serve different needs; they do not compete for the same work.
 
 | Approach | Strengths | Costs |
 | --- | --- | --- |
 | **Manual Testing** | Flexible — a person can follow a hunch, change course mid-session, and judge whether a result merely looks wrong | Slow, and the cost is paid again on every repetition, so it scales badly across a large regression suite |
 | **Automated Testing** | Fast and repeatable, and the same suite can run on every commit for almost no marginal cost | Needs upfront investment in framework, environment, and ongoing maintenance before it returns anything |
 
-The second axis is what the test asserts. Functional testing asks what the system does; non-functional testing asks how well it does it, and is treated at length in [Testing of Non-Functional Requirements](#testing-of-non-functional-requirements).
+**What it asserts.** Functional testing asks what the system does; non-functional testing asks how well it does it — see [Testing of Non-Functional Requirements](#testing-of-non-functional-requirements).
 
-The third axis is how much of the internals the tester can see. The three box methods differ in the access the tester is granted, which decides what the tester is able to reason about.
+**What the tester sees.** The three box methods differ in the access the tester has, which decides what the tester can reason about.
 
 | Method | What the Tester Sees | Typical Use |
 | --- | --- | --- |
@@ -60,7 +62,7 @@ The third axis is how much of the internals the tester can see. The three box me
 
 ## Software Testing Life Cycle
 
-The Software Testing Life Cycle (STLC) is the sequence QA work moves through, from reading a requirement to closing out a release.
+The Software Testing Life Cycle (STLC) is the order of QA work, from reading a requirement to closing a release. A common breakdown has six phases.
 
 | Phase | What Happens |
 | --- | --- |
@@ -71,11 +73,11 @@ The Software Testing Life Cycle (STLC) is the sequence QA work moves through, fr
 | **Test Execution** | Cases are run, results recorded, defects logged, and fixes retested |
 | **Test Closure** | Results are reported, the suite is tidied, and what was learned is fed back into the next iteration |
 
-The order is one of dependency, not a timetable. The phases are not always strictly sequential: environment setup usually runs in parallel with case design, and in an iterative team all six repeat inside every iteration rather than once per project.
+The order shows dependencies; it is not a timetable. Environment setup usually runs in parallel with case design, and an iterative team repeats all six phases in every iteration, not once per project.
 
 ### Test Plan and Test Strategy
 
-Two documents come out of planning, and teams routinely merge them into one file and then lose track of which question they were answering.
+Planning produces two documents. Teams often merge them into one file and then lose track of which question each one answers.
 
 Test Plan
 : The document fixing scope, schedule, and resources — what gets verified and when
@@ -83,34 +85,34 @@ Test Plan
 Test Strategy
 : The document fixing the approach and the types of verification used — how the work gets done
 
-The plan changes when the release changes; the strategy changes when the team changes how it works. Keeping them separate makes it obvious which of those has happened.
+The plan changes when the release changes; the strategy changes when the team changes how it works. Separate documents make it obvious which of the two happened.
 
 ### QA in the Iteration
 
-QA fails quietly when it is treated as a phase at the end rather than as work planned alongside everything else. These practices are what keep it inside the iteration:
+QA fails quietly when it is treated as a final phase rather than as work planned alongside everything else. These practices keep it inside the iteration:
 
-- **Keep one documented test process** — where each tester follows a private version, results cannot be compared across people or releases, and a new joiner inherits an oral tradition instead of a process.
-- **Take part in planning, refinement, stand-up, and retrospective** — a tester in refinement can say a requirement is untestable while it is still cheap to reword, which is the earliest and cheapest defect any team catches.
-- **Put test estimates into iteration planning** — work that is not estimated is not scheduled, and testing that is not scheduled is what gets compressed when the iteration runs late.
-- **Keep the Test Plan and Test Strategy current** — a plan nobody has updated since project initiation stops being a reference and becomes a thing people work around.
-- **Publish a test report every release** — the go/no-go decision needs something to stand on, and the report is also the only record of what was and was not covered.
-- **Verify non-functional requirements too** — they are the ones most easily assumed to be someone else's job, and the ones most expensive to fix after release.
+- **Keep one documented test process** — when each tester follows a private version, results cannot be compared across people or releases, and a new joiner inherits an oral tradition instead of a process.
+- **Take part in planning, refinement, stand-up, and retrospective** — a tester in refinement can flag an untestable requirement while it is still cheap to reword; that is the earliest and cheapest defect any team catches.
+- **Put test estimates into iteration planning** — unestimated work is not scheduled, and unscheduled testing is what gets squeezed when the iteration runs late.
+- **Keep the Test Plan and Test Strategy current** — a plan not updated since project initiation stops being a reference and becomes something people work around.
+- **Publish a test report every release** — the go/no-go decision needs evidence, and the report is the only record of what was and was not covered.
+- **Verify non-functional requirements too** — they are the easiest to assume are someone else's job, and the most expensive to fix after release.
 
 ## Testing Pyramid
 
-Layers, bottom to top: Unit → Integration → UI/E2E tests. Width is the number of tests, height is scope, complexity, and instability. The pyramid prescribes a shape, not a ratio: many fast unit tests, fewer integration tests, and a thin layer of end-to-end tests. The proportion that fits a given system is a team decision, not a constant.
+Layers, bottom to top: Unit → Integration → UI/E2E tests. Width is the number of tests; height is scope, complexity, and instability. The pyramid prescribes a shape, not a ratio: many fast unit tests, fewer integration tests, and a thin layer of end-to-end tests. The right proportion for a given system is a team decision, not a constant.
 
-| Level | Speed | Isolation | Purpose |
-| --- | --- | --- | --- |
-| **Unit Tests** | Milliseconds | Full | Component/function logic |
-| **Integration Tests** | Seconds | Partial | Component interactions |
-| **E2E Tests** | Minutes | None | User journeys |
+| Level | Speed · isolation | Purpose |
+| --- | --- | --- |
+| **Unit Tests** | Milliseconds · full | Component/function logic |
+| **Integration Tests** | Seconds · partial | Component interactions |
+| **E2E Tests** | Minutes · none | User journeys |
 
-The principle underneath the shape is to verify everything at the lowest level that can verify it, and to push a test down the pyramid whenever it can be moved. A test that runs lower is faster, cheaper to maintain, and points at a smaller piece of code when it fails. That is also what keeps the feedback cycle short enough to run the unit suite on every code addition, where a failure is still cheap to fix.
+The principle underneath: verify everything at the lowest level that can verify it, and push a test down the pyramid whenever it can move. A lower test is faster, cheaper to maintain, and points at a smaller piece of code when it fails. It also keeps feedback short enough to run the unit suite on every code addition, where a failure is still cheap to fix.
 
 ### Unit vs. Integration Tests
 
-A unit test runs in isolation with every external dependency mocked or stubbed, which makes it fast, cheap, and precise: when it fails, it names the faulty code. An integration test involves the real dependency — a database, the network, a device — which makes it slower and costlier to run and maintain, and narrows a failure only as far as a module or component. The trade is diagnostic precision against realism, and it is the reason both layers exist rather than one.
+A unit test runs in isolation, with every external dependency mocked or stubbed. It is fast, cheap, and precise: when it fails, it names the faulty code. An integration test uses the real dependency — a database, the network, a device. It is slower and costlier to run and maintain, and narrows a failure only to a module or component. The trade is diagnostic precision against realism, which is why both layers exist.
 
 ## Test Case Management
 
@@ -120,11 +122,11 @@ Test Case
 Test Suite
 : A named group of cases run together for one purpose, such as a sanity, smoke, regression, UI, performance, or API run
 
-Cases group into suites, and suites are scheduled by the [Test Plan](#test-plan-and-test-strategy). A case is well formed when someone who did not write it can run it and reach the same verdict, and when it can be traced back to the requirement that justifies it. That is what the fields are for: ID, priority, title, description, steps, prerequisites, test data, expected result, requirement ID, environment, comments, defect ID, and automation status.
+Cases group into suites, and the [Test Plan](#test-plan-and-test-strategy) schedules the suites. A case is well formed when someone who did not write it can run it and reach the same verdict, and when it traces back to the requirement that justifies it. The fields serve that: ID, priority, title, description, steps, prerequisites, test data, expected result, requirement ID, environment, comments, defect ID, and automation status.
 
 ### Design Techniques
 
-Writing a case for every possible input is not an option, so the techniques below are ways of choosing which inputs are worth spending a case on.
+A case for every possible input is impossible, so these techniques choose which inputs deserve a case.
 
 | Technique | What It Does |
 | --- | --- |
@@ -137,15 +139,15 @@ Writing a case for every possible input is not an option, so the techniques belo
 
 ### Test Case Life Cycle
 
-A case is a maintained artifact, not a one-time write-up. It moves through: analyze the requirement, set up the environment and tools, write the case and self-review it, map it to the requirement it covers, put it through peer review, automate it where that pays, execute it, fold it into regression, and eventually retire it or merge it with a duplicate. The last step is the one teams skip, and skipping it is how a suite fills with cases that verify behavior the product no longer has.
+A case is a maintained artifact, not a one-time write-up. Its life cycle: analyze the requirement → set up the environment and tools → write the case and self-review it → map it to the requirement it covers → peer review → automate it where that pays → execute → fold it into regression → retire it, or merge it with a duplicate. Teams skip the last step, and that is how a suite fills with cases that verify behavior the product no longer has.
 
-Three levels of review apply, in increasing distance from the author: self-review against the SRS or FRD, peer review on the maker-checker principle, and supervisor review. The recurring problems they look for are missing coverage, spelling and grammar, non-standard templates, jargon a reader outside the team will not follow, duplication, and cases that have gone obsolete.
+Review happens at three levels, each further from the author: the author checks the case against the requirements document; a peer who did not write it checks it again; finally someone accountable for the whole suite, such as a senior tester, reviews it. They look for the recurring problems: missing coverage, spelling and grammar, non-standard templates, jargon a reader outside the team will not follow, duplication, and cases that have gone obsolete.
 
-Coverage itself is tracked in a Requirement Test Coverage Report or a Requirement Traceability Matrix, which is the artifact that answers "which requirements have no case at all" — a question no count of passing tests can answer.
+Coverage is tracked in a requirements traceability matrix, or a similar report that maps each requirement to its cases. It answers "which requirements have no case at all?" — a question no count of passing tests can answer.
 
 ### Regression Suites
 
-A regression suite grows until running it costs more than the confidence it returns, so it needs curating. Categorize the cases into those still reusable and those now obsolete, prioritize what remains by business impact, and select for the run the cases covering critical, frequently used, core, and recently changed functionality. The last of these matters most: recently changed code is where the next regression is.
+A regression suite grows until running it costs more than the confidence it returns, so it needs curating: sort the cases into still reusable and now obsolete, prioritize what remains by business impact, and select for the run the cases that cover critical, frequently used, core, and recently changed functionality. Recently changed matters most: that code is where the next regression is.
 
 **Practices:**
 
@@ -154,11 +156,11 @@ A regression suite grows until running it costs more than the confidence it retu
 - Prioritize and order regression execution, so a truncated run still covers the important cases.
 - Organize cases into suites that match how they will be run.
 - Trace every case to a requirement.
-- Have business analysts review cases, since they are the ones who can say a case verifies the wrong thing.
+- Have the requirement owners review cases, since only they can say a case verifies the wrong thing.
 
 ## Defect Management
 
-The Defect Management Process is the path a defect takes from being noticed to being reported on.
+Defect management is a defect's path from being noticed to being reported on.
 
 | Step | What Happens |
 | --- | --- |
@@ -169,11 +171,11 @@ The Defect Management Process is the path a defect takes from being noticed to b
 | **Closure** | The defect is closed once verification passes |
 | **Reporting** | What was found and fixed feeds the metrics below and the release report |
 
-Triage is the step that protects the rest: a backlog where change requests are logged as defects reports a defect count nobody can act on.
+Triage protects the rest: a backlog that logs change requests as defects reports a defect count nobody can act on.
 
 ### Defect Life Cycle
 
-The status flow is what the tracker shows, and it exists mainly to make the reopen path visible:
+The tracker shows this status flow; it exists mainly to make the reopen path visible:
 
 ```mermaid
 flowchart LR
@@ -189,46 +191,46 @@ flowchart LR
 
 ### Priority and Severity
 
-Two independent scales, measuring different things:
+Two independent scales that measure different things:
 
 - **Priority** is business urgency — Low, Medium, High, or Critical — and answers how soon this should be worked on.
 - **Severity** is technical impact — Trivial, Minor, Major, Critical, or Blocker — and answers how badly the system is affected.
 
-The two conflict routinely, and that is the point of having both. A typo in the company name on the landing page is trivial in severity and high in priority; a crash in a feature nobody uses yet is a blocker in severity and low in priority. A team that collapses the two into one field loses the ability to say either.
+The two often conflict, which is why both exist. A typo in the company name on the landing page is trivial in severity but high in priority; a crash in a feature nobody uses yet is a blocker in severity but low in priority. A team that merges them into one field can express neither.
 
 ### Root Cause Analysis
 
-Fixing a defect removes one symptom; root cause analysis is what stops the next one. It runs as: form a team, define the problem, determine the root cause, act on it, and prevent recurrence. The causes tend to fall into three groups — human error, organizational confusion such as vague instructions or poor task assignment, and mechanical or system failures. The middle group is the one worth watching, because it produces defects across unrelated parts of the product and no amount of code review will find it.
+Fixing a defect removes one symptom; root cause analysis stops the next one. Bring together the people who know the affected area, state the problem precisely, trace it to its cause, fix that cause, and add a check that would catch a repeat. Causes tend to fall into three groups: individual mistakes; unclear process, such as vague instructions or unclear task ownership; and failures of tools or infrastructure. Watch the middle group: it produces defects across unrelated parts of the product, and no amount of code review will find it.
 
 ### Production Defects
 
-A defect found in production is the same process run under time pressure and in front of an audience. Stay calm, reproduce it, gather information, find the cause, set a resolution timeframe and communicate it, verify the fix, and then analyze the root cause and act to prevent recurrence. That last part carries more weight than it does for an internal defect: this defect passed every filter the team has, so something in the process, not only in the code, did not work.
+A production defect runs the same process under time pressure and in public. Work through it calmly: reproduce it, collect logs and reports, find the cause, tell the affected people when to expect a fix, verify the fix, then run root cause analysis so it does not recur. That last step weighs more than for an internal defect: this defect passed every filter the team has, so something in the process, not only in the code, failed.
 
-**Metrics:** defect containment, the share of defects caught before release; the defect rejection ratio; the created-versus-resolved trend; and quality debt, the risk carried by a backlog of deferred fixes. These sit alongside the wider set in [QA Metrics](#qa-metrics).
+**Metrics:** defect containment, the share of defects caught before release; the defect rejection ratio; the created-versus-resolved trend; and the backlog of known defects deferred to later releases, with the risk it carries. These sit alongside the wider set in [QA Metrics](#qa-metrics).
 
 **Practices:**
 
-- Use one specialized defect tool — Jira, Bugzilla, Azure DevOps, or Rally — and link every defect to the user story it belongs to.
-- Write down what each severity and priority level means, and the workflow statuses, so two people classify the same defect the same way.
-- Resolve high and critical defects within the iteration that found them, rather than carrying them.
+- Log every defect in a tool built for defect tracking, not a spreadsheet or a chat, and link each defect to its user story.
+- Define each severity and priority level and each workflow status in writing, so two people classify the same defect the same way.
+- Resolve high and critical defects in the iteration that found them; do not carry them over.
 - Hold regular triage meetings, and keep defects separate from change requests.
 - Use one submission template, so every report arrives with the steps needed to reproduce it.
 - Make root cause analysis and metrics reporting recurring commitments, not a response to a bad release.
 
 ## Testing of Non-Functional Requirements
 
-Functional requirements say what the system does and are mandatory. Non-functional requirements say how well it does it — performance, usability, scalability, and the rest — and are often negotiable against time and cost, which is exactly why they are the first thing dropped and the most expensive thing to retrofit.
+Functional requirements say what the system does and are mandatory. Non-functional requirements say how well it does it — performance, usability, scalability, and the rest. They are often negotiable against time and cost, which is exactly why they are dropped first and are the most expensive to retrofit.
 
-Non-functional testing runs through its own phases: **Planning** → **Preparation** → **Test Execution** → **Record** → **Analysis and Improvement**. The two at the end are what distinguish it. A functional case ends in pass or fail; a non-functional run ends in a number that has to be recorded and then interpreted against the target the team agreed, and the interpretation is where the value is. A response time of 400 ms is neither a pass nor a failure until someone says what it was supposed to be.
+Non-functional testing has its own steps: plan, prepare, run, record the results, then analyze them and improve. The last two set it apart. A functional case ends in pass or fail; a non-functional run ends in a number that must be recorded and then judged against the agreed target, and that judgement is where the value is. A response time of 400 ms is neither a pass nor a failure until someone says what it should be.
 
-The categories to agree with stakeholders are compatibility, performance, capacity, security, reliability and availability, scalability, maintainability, usability, and accessibility. Performance alone splits into load, endurance, volume, scalability, spike, and stress testing, each of which puts a different shape of demand on the system.
+Categories to agree with stakeholders: compatibility, performance, capacity, security, reliability and availability, scalability, maintainability, usability, and accessibility. Performance alone splits into load, endurance, volume, scalability, spike, and stress testing, each putting a different shape of demand on the system.
 
-This work belongs inside the SDLC continuously rather than in a block before release, which in practice means automating it: every category except usability and accessibility needs a tool to generate the load or the conditions at all — JMeter and LoadRunner among them — and a tool-driven run is one a pipeline can repeat.
+This work belongs inside the SDLC continuously, not in a block before release. In practice that means automating it: every category except usability and accessibility needs a tool, such as JMeter or LoadRunner, just to generate the load or conditions, and a pipeline can repeat a tool-driven run.
 
 **Practices:**
 
 - Test non-functional requirements every release, not once per project.
-- Factor the results into the go/no-go release decision, which is what makes running them worthwhile.
+- Factor the results into the go/no-go release decision; that is what makes running them worthwhile.
 - Automate them and run them in [CI/CD](03-ci-cd.md), so a regression in performance is caught the same way a regression in behavior is.
 - Define quality attributes quantitatively wherever possible: "fast" cannot be tested, and "under 200 ms at the 95th percentile" can.
 
@@ -242,49 +244,11 @@ Result Metrics
 Predictive Metrics
 : Ratios derived from those counts that flag risk early, such as defect containment efficiency, defect leakage, the defect reopen ratio, the rejection rate, and test design efficiency
 
-Counts describe the release that just happened; ratios are what let a team act before the next one goes the same way. A rising reopen ratio says fixes are not being verified properly, and it says so while there is still time to change how they are verified.
+Counts describe the release that just happened; ratios let a team act before the next one goes the same way. A rising reopen ratio says fixes are not verified properly — while there is still time to change how they are verified.
 
-Metrics themselves follow a cycle: **Analyze**, picking metrics that answer a question someone actually has; **Communicate**, agreeing with the team what data has to be captured to produce them; **Evaluate**, collecting the data and automating the collection; and **Report and Analyze**, sharing findings against the targets the team agreed, and dropping targets that no longer change a decision. The improvement loop around it is PDCA — Plan, Do, Check, Act — which is what turns a number that moved into a change in how the team works.
+Metrics work as a cycle: pick metrics that answer a question someone actually has, agree with the team which data to capture, automate the collection, and report against the agreed targets, dropping targets that no longer change a decision. The improvement loop around it is PDCA (Plan, Do, Check, Act), which turns a number that moved into a change in how the team works.
 
 **Practices:**
 
 - Measure on a defined, automated schedule, so the numbers are comparable between releases.
-- Turn every result into a concrete action. A metric nobody acts on costs collection effort and returns nothing.
-
-## Automated Testing
-
-Automation speeds up repetitive verification, removes the human error that comes with running the same steps for the fiftieth time, and frees testers for the exploratory work only a person can do. It is not free: it costs maintenance, environment upkeep, training, and framework setup. Scaling a suite blindly raises all four costs without any guarantee of quality — the size of a suite is not evidence about the product.
-
-### Feedback Time and Determinism
-
-Two attributes decide whether an automated suite is worth having.
-
-- **Feedback time** — the faster a suite reports, the sooner defects are fixed and the more developers trust it enough to run it. A unit suite should finish in seconds.
-- **Determinism** — a good test returns the same result for the same code every time. Flaky tests erode trust in the whole suite and can hide a real defect behind a failure everyone assumes is noise.
-
-The two reinforce each other, and both are about whether people believe the result. See [Running Tests in CI](05-testing.md#running-tests-in-ci) for how that plays out in a pipeline gate.
-
-### Where Tests Run
-
-Verification runs at every stage of the [CI/CD environment pipeline](03-ci-cd.md) — Local → Development → Staging → Production — with unit tests before the commit, automated integration and regression suites in Development, and manual exploratory plus user acceptance testing (UAT) in Staging. This is what shifting left means in practice, and the arithmetic behind it is simple: the cost of a missed defect and the cost of verifying it both rise the later it is caught, while the number of defects remaining should fall. Catching one earlier is therefore cheaper twice over.
-
-The Testing Pyramid above applies to the automated suite as much as to the whole, topped by a thin layer of manual exploratory testing. Overusing UI-level automation is the common failure: it produces suites that are slow, fragile, and eventually ignored.
-
-### Test Data
-
-An automated suite needs data it can rely on, which comes down to three approaches: generate the data per test, maintain a dedicated test database that is backed up, or drive ingestion and preparation scripts. Whichever is chosen, the data must be reloadable and cleaned up after the run — a suite that only ever inserts will bloat the database and slow itself down until it is abandoned.
-
-### Metrics and Reporting
-
-The measures worth tracking for the automated suite are the share of production bugs that gain a new automated test, the share of developers writing tests, code coverage as a presence indicator rather than a quality guarantee, test coverage as the ratio of automated to total manual cases, and the flaky-test count, whose target is zero. [Coverage Types](05-testing.md#coverage-types) covers what a coverage percentage does and does not prove.
-
-Results have to be readable to be acted on: consolidated by build or version, transparent enough for a non-engineer to read, and available to everyone rather than to whoever opened the pipeline. In practice that is a dashboard showing version, changelog, results, and links to drill into a failure.
-
-**Practices:**
-
-- Make automation part of the test strategy rather than a side project, and automate regression within the sprint that created it.
-- Hold automated test code to the same standard as production code; it is maintained just as long.
-- Run full suites at least weekly and regression suites daily.
-- Gate the CI/CD pipeline with automated smoke tests, so a broken build stops before it reaches anyone.
-- Use production-like test data, since defects that only appear at real data volumes will not appear at any other.
-- Apply the Testing Pyramid, and revisit the shape as the system changes.
+- Turn every result into a concrete action; a metric nobody acts on costs collection effort and returns nothing.

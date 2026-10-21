@@ -11,7 +11,19 @@ Accessibility is a [quality attribute](../02-architecture/01-quality-attributes.
 
 WCAG 2.2 is the current W3C Recommendation and the version to cite. Conformance is claimed at one of three levels — A, AA, or AAA — in increasing strictness, each including the level below it.
 
-Target **AA**. It is the level nearly every legal and procurement policy cites, so it is what an audit, a public-sector tender, or a customer questionnaire will ask about. State the version and the level together: "WCAG 2.2 AA" is a claim someone can check, while "WCAG compliant" on its own says nothing.
+Target **AA**. Most legal and procurement policies that name a level name AA, so an audit, a public-sector tender, or a customer questionnaire will ask about it. Each law names its own WCAG version:
+
+| Law or standard | WCAG version |
+| --- | --- |
+| **US Section 508 standards** | 2.0 AA |
+| **US ADA Title II rule (2024)** | 2.1 AA |
+| **EU EN 301 549 v3.2.1** | 2.1 AA for web content ([W3C WAI summary](https://www.w3.org/WAI/policies/european-union/)) |
+
+- EN 301 549 is the harmonised standard under the Web Accessibility Directive for the public sector. As of October 2026 no version of it has been formally cited under the European Accessibility Act, but it is the usual working reference for that law; check the EU Official Journal for later citations.
+- WCAG 2.2 is designed to be backward compatible, so building to 2.2 AA meets the WCAG part of each law above. The laws also cover documents, software, and hardware.
+- Rules differ by country and change over time; this is not legal advice.
+
+State the version and the level together. "WCAG 2.2 AA" is a claim someone can check; "WCAG compliant" on its own says nothing.
 
 ## The Four Principles (POUR)
 
@@ -31,7 +43,10 @@ Robust
 
 ## ARIA Patterns
 
-ARIA attributes annotate the [DOM](02-browser-technologies.md) the browser already exposes: they add names, roles, and states, and nothing else. They add no behavior, so keyboard handling and focus management remain your code's job. Use a native HTML element whenever one carries the semantics you need, and reach for ARIA only when none does. The [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) documents the full keyboard and state contract for each widget pattern.
+ARIA attributes annotate the [DOM](02-browser-technologies.md) the browser already exposes. They add names, roles, and states — nothing else. They add no behavior, so keyboard handling and focus management remain your code's job.
+
+- Use a native HTML element whenever one carries the semantics you need. Use ARIA only when none does.
+- The [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) documents the full keyboard and state contract for each widget pattern.
 
 | Pattern | Key Attributes | Use When |
 | --- | --- | --- |
@@ -42,7 +57,9 @@ ARIA attributes annotate the [DOM](02-browser-technologies.md) the browser alrea
 
 ### Live Region
 
-`aria-live="polite"` queues the announcement until the user is idle; `aria-atomic="true"` makes the region read as a whole rather than only the changed part. The element must exist in the DOM before the update, or there is nothing for the screen reader to watch.
+- `aria-live="polite"` queues the announcement until the user is idle.
+- `aria-atomic="true"` makes the region read as a whole, not only the changed part.
+- The element must exist in the DOM before the update, or there is nothing for the screen reader to watch.
 
 ```html
 <div aria-live="polite" aria-atomic="true">Status: order saved</div>
@@ -60,7 +77,7 @@ The label lives on the control and the glyph is hidden from the accessibility tr
 
 ### Image With Extended Description
 
-`alt` carries the short equivalent; `aria-describedby` points at visible prose for the detail that will not fit in it. Write the description for someone who cannot see the image at all.
+`alt` carries the short equivalent. `aria-describedby` points at visible prose for the detail that does not fit in it. Write the description for someone who cannot see the image at all.
 
 ```html
 <img src="sales-by-quarter.png"
@@ -72,7 +89,11 @@ The label lives on the control and the glyph is hidden from the accessibility tr
 
 ### Expandable Control
 
-`aria-expanded` reports the current state, `aria-controls` names the region the control governs, and `hidden` keeps the collapsed region out of both the page and the accessibility tree. Your script updates `aria-expanded` and `hidden` together on every toggle.
+- `aria-expanded` reports the current state.
+- `aria-controls` names the region the control governs.
+- `hidden` keeps the collapsed region out of both the page and the accessibility tree.
+
+Your script updates `aria-expanded` and `hidden` together on every toggle.
 
 ```html
 <button aria-expanded="false" aria-controls="menu">Menu</button>

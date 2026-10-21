@@ -1,78 +1,76 @@
 ---
 type: Guide
 title: Knowledge Sharing
-description: Explains healthy vs. unhealthy knowledge sharing, its effect on delivery risk, and the practices that keep project knowledge findable.
+description: Healthy vs. unhealthy knowledge sharing, what each costs a team, and the practices that keep project knowledge findable.
 tags: [development-process, knowledge-sharing, team]
 ---
 
-Knowledge sharing is the exchange of information, expertise, and skills across a team — through conversations, regular meetings, documentation, workshops, and recorded sessions. Done well it keeps a project running, and it stops recurring work such as onboarding from costing the team the same hours over again. This guide describes what healthy and unhealthy sharing look like, what each one costs or saves a project, and the practices that keep project knowledge findable. It serves everyone on a delivery team, newcomers included.
+**Knowledge sharing** is how a team passes information, expertise and skills between its members: talk, meetings, documents, workshops and recordings. It keeps a project moving, and it stops repeated work, such as bringing in a new member, from costing the same hours every time. This guide is for every team member, new ones included.
 
 ## Healthy vs. Unhealthy Knowledge Sharing
 
-**Healthy knowledge sharing** keeps a project running and minimizes delivery risk. It covers general project areas — code, technology, client information — as well as individual expertise the team can use. Channels include team meetings, a shared knowledge base, chats, videos, and e-learning courses. Whatever the channel, sharing has to be mutually beneficial: everyone contributes, and everyone can rely on others in return.
+- **Healthy** sharing keeps delivery risk low. It covers shared topics (code, technology, domain facts) and what each person knows well, through meetings, a knowledge base, chats, videos or online courses. It is give and take: everyone adds, and everyone can count on the others.
+- **Unhealthy** sharing slows or stops delivery. It takes two forms:
+  - holding knowledge back, fully or in part — it looks careless or selfish and costs trust;
+  - material that is out of date or wrong — it misleads more than it helps.
 
-**Unhealthy knowledge sharing** puts delivery at risk of delay or blockage. It becomes unhealthy when people hold knowledge and do not pass it on, fully or partially, which reads as disorganized or self-serving and erodes trust. Outdated or inaccurate material is the other form: it becomes a liability rather than an asset. Keeping sharing healthy is the whole team's responsibility, not only that of managers and leads.
+Keeping it healthy is the whole team's duty, not only its leaders'.
 
 ## Risks and Benefits
 
 | Area | Unhealthy Sharing | Healthy Sharing |
 | --- | --- | --- |
-| **Priorities** | Priorities blur, so people do unnecessary work or redo work the wrong way | The team stays on the current priorities and on schedule |
-| **Standards** | Standards, processes, and conventions get disregarded, causing misunderstandings and lower quality | Documented practices and guidelines keep output consistent |
-| **Information Access** | Answers live only in conversation or a disorganized knowledge base, so people wait on colleagues and still may not get them | Information is written down and easy to find, and everyone helps keep it current |
-| **Bus Factor** | A bus factor of one: a single absence blocks progress | A bus factor above one: any single member can be away without disrupting delivery |
-| **Onboarding** | Incomplete knowledge transfer makes onboarding long and confusing, so newcomers contribute little and lose motivation | Onboarding takes little effort from the newcomer or the existing team |
+| **Priorities** | Unclear: people do needless work or redo it wrongly | Clear: the team works on what matters and keeps to schedule |
+| **Standards** | Ignored: confusion and weaker output | Written down: output stays consistent |
+| **Information Access** | Answers live in talk or a messy knowledge base; people wait, and may still not get them | Answers are written, easy to find, and kept current by all |
+| **Bus Factor** | One: a single absence stops progress | Above one: anyone can be away and delivery goes on |
+| **Onboarding** | Partial handover: slow, confusing, new members add little and lose drive | Quick and cheap for the new member and the team |
 
-The **bus factor** is the number of people who must become unavailable before a system or process stalls — see [Growing and Keeping People](03-growing-and-keeping-people.md#core-concepts). At a bus factor of one, a single person holds knowledge nobody else has, and vacation, leave, or departure stops the work.
+The **bus factor** is how many people must become unavailable before a system or process stops (see [Growing and Keeping People](03-growing-and-keeping-people.md#core-concepts)). At one, a holiday, leave or exit of the only person who knows something halts the work.
 
 ## Four Areas to Improve
 
 ### Software Development Life Cycle
 
-- **Review artifacts with rotating peers** — change reviewers periodically so different people give feedback on different aspects of the solution. See [Code Review](../04-development-process/02-code-review.md).
-- **Diversify task assignments** — keep more than one person familiar with each area instead of routing the same kind of task to the same person.
-- **Keep notes as you work** — save useful findings while a task is open, and update the knowledge base when something important changes.
-- **Plan time for documentation** — include documentation in task estimates so regular updates stay sustainable.
+- **Rotate reviewers**, so each part of the solution gets fresh eyes ([Code Review](../04-development-process/02-code-review.md)).
+- **Spread the work**: keep at least two people familiar with each area, instead of always giving one kind of task to the same person.
+- **Write findings down while the task is open**, and update the knowledge base when something important changes.
+- **Count documentation in estimates**, so keeping it current does not depend on spare time.
 
 ### Knowledge Base
 
-Maintain a shared space (wiki, Confluence, or similar) that everyone can reach and everyone is responsible for keeping current. It should hold:
+One shared space, such as a wiki, that every member can open and helps maintain. It holds:
 
-- The project goal and description
-- The team structure and roles
-- Links to project resources and environments
-- Standards, rules, and conventions for every competency — managers, developers, QA, BAs, DevOps ([Coding Standards](../00-software-engineering/02-standards.md))
-- The development process: branching, release process, and task life cycle ([Version Control](../04-development-process/01-version-control.md), [CI/CD](../04-development-process/03-ci-cd.md))
+- the project's goal and description
+- team members and their roles
+- links to project resources and environments
+- the standards and conventions for each role ([Coding Standards](../00-software-engineering/02-standards.md))
+- branching, releases and the task life cycle ([Version Control](../04-development-process/01-version-control.md), [CI/CD](../04-development-process/03-ci-cd.md))
 
 ### Onboarding Procedures
 
-- Maintain a **newcomer's guidebook** as the first reference for anyone joining the team, linking to project resources, the knowledge base, and environment setup instructions.
-- Treat the guidebook as the whole team's responsibility so it stays current.
-- **Assign a mentor** to every newcomer — one who stays available for questions and takes ownership of helping the new member settle in. See [Roles and the Employee Lifecycle](02-roles-and-lifecycle.md).
+- **A starter guide**: the first page a new member reads. It points to resources, the knowledge base and environment setup, and the whole team keeps it current.
+- **A mentor** for each new member, who answers questions and is accountable for helping them settle in ([Roles and the Employee Lifecycle](02-roles-and-lifecycle.md)).
 
 ### Team Communication
 
-- **Hold knowledge sharing sessions** on a regular schedule to communicate progress, discuss plans, and surface issues before they grow.
-- **Keep team chats focused** — one topic per chat, with all the relevant people in it.
-- **Post important updates in a dedicated channel**, tagging the people who must act so key information is not lost in daily traffic.
-- **Join project townhalls**, where managers and architects share updates and deadlines and connect the team to the wider project vision.
-- **Send meeting follow-ups** — the organizer shares outcomes with participants and other interested people, which also records what was agreed.
+- **Regular sharing sessions** on progress and plans, to catch problems while they are small.
+- **One topic per chat**, with everyone that topic needs.
+- **A separate channel for important news**, tagging who must act, so it is not lost in daily traffic.
+- **Project-wide updates** from the people who lead the project and its technical direction, on news, deadlines and the larger goal, so the team sees where its work fits.
+- **Meeting notes** from the organizer to attendees and anyone concerned, which also record what was decided.
 
 ## Suggesting Improvements
 
-Anyone, including newcomers, can and should suggest improvements to their team or manager.
+Anyone can spot a gap. A new member often spots it first, because they are the one who cannot find the answer. What to do with a gap depends on who can close it.
 
-**Raise a team discussion when you:**
-
-- Have a new idea or find information worth sharing.
-- Identify useful knowledge that exists only in verbal form.
-- Discover important information missing from the project documentation.
-- Find outdated pages or sections in the team's knowledge base.
-
-**Reach out to your manager or mentor when you:**
-
-- Cannot find important information about project status and updates.
-- Experience a lack of efficient communication inside or outside your team.
-- See development that better knowledge sharing would improve.
-- Identify problems caused by unhealthy knowledge sharing.
-- Find that the knowledge base is not being maintained.
+- **A gap in the content** — the team can close it itself, so raise it in the team's usual channel or fix it at once. Typical cases:
+  - an idea or fact others could use;
+  - an answer that so far lives only in conversation;
+  - an important fact the documents leave out;
+  - a knowledge-base page that no longer matches the project.
+- **A gap in the process** — it needs someone who can change how the team works, so take it to the team lead or your mentor. Typical cases:
+  - status or recent changes that nobody can find;
+  - communication that breaks down inside the team or with other teams;
+  - work that poor sharing slows down, or that better sharing would speed up;
+  - a knowledge base that nobody looks after.

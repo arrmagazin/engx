@@ -1,15 +1,16 @@
 ---
 type: Guide
 title: GCP Handbook
-description: The Google Cloud service catalog, the vocabulary underneath it, and the competency areas an infrastructure role is interviewed against.
+description: The Google Cloud service catalog, the vocabulary underneath it, and the questions an infrastructure interview commonly covers.
 tags: [gcp, google-cloud, cloud, devops, interview]
 ---
 
 # GCP Handbook
 
-Google Cloud offers around two hundred services. Most systems use about thirty of them, and this document covers those thirty three ways at once: what each one is and what it costs you in practice, the vocabulary the design conversation assumes, and the questions an infrastructure role is asked over both.
+Google Cloud offers around two hundred services. Most systems use about thirty of them, and this document covers those thirty in three ways at once: what each one is and what it costs you in practice, the vocabulary the design conversation assumes, and the questions an infrastructure interview commonly asks about both.
 
 The material is grouped the way a system is built.
+
 - First the **foundations** every service depends on,
 - the six things almost every system needs — somewhere to run code (**compute**),
 - a network to reach it (**networking**),
@@ -209,7 +210,7 @@ flowchart LR
 | **Instance Template** | the immutable recipe — Image, Machine Type, network, disks, Service Account — that everything else launches from |
 | **Managed Instance Group** | a fleet held at a target size across Zones, replacing what fails, healing what stops answering, and following an autoscaling policy |
 | **Local SSD** | disk physically attached to the host: the fastest available, and erased when the machine stops |
-| **Spot VM** | spare capacity at a deep discount, reclaimed after a thirty-second notice, with no maximum lifetime |
+| **Spot VM** | spare capacity at a deep discount, reclaimed after a thirty-second notice by default (120 seconds if set at creation, as of 2026), with no maximum lifetime |
 | **Live Migration** | Google moving a running machine to another host for maintenance without rebooting it, which is why planned host maintenance is not an event you handle |
 | **Sustained Use Discount** | an automatic price reduction that grows as an eligible machine runs for more of the month, with nothing to buy and nothing to commit |
 | **Committed Use Discount** | a one- or three-year commitment, to a quantity of vCPU and memory or to a level of spend, traded for a lower rate |
@@ -289,7 +290,7 @@ Compute Engine rents you virtual machines — **instances** — running Linux or
 
 ### GKE — Managed Kubernetes
 
-**Kubernetes** is the open-source container orchestrator most of the industry has standardised on, and Google originated it. It has two halves: the **control plane** (the API server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). GKE runs the control plane for you. The [containers guide](../../03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
+**Kubernetes** is the open-source container orchestrator most of the industry has standardised on, and Google originated it. It has two halves: the **control plane** (the API server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). GKE runs the control plane for you. The [containers guide](../docs/03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
 
 - **Entry point:** the **cluster**, and then the choice that shapes everything else — **Autopilot** or **Standard** mode. Standard gives you **node pools** you size, upgrade and autoscale; Autopilot gives you none of that and is covered in the next section. A second decision, harder to change, is **regional or zonal**: a regional cluster replicates the control plane across three zones and spreads nodes across them, a zonal cluster does not. Production clusters are regional.
 - **Use it when:** you need the Kubernetes ecosystem — Helm charts, operators, custom resources, GitOps tooling, a platform team that already knows it — or portability across clouds. If none of that applies, [Cloud Run](#cloud-run--containers-without-a-cluster) is far less work.
@@ -336,14 +337,14 @@ Three services you should recognise without reaching for them first.
 
 ### Choosing Between the Compute Options
 
-| Option | You manage | Google manages | Fits when |
-| --- | --- | --- | --- |
-| **Compute Engine** | The operating system, patching, scaling rules, everything installed | The hardware and the hypervisor | You need a full machine, or are moving an existing server |
-| **Cloud Run** | The container image, concurrency and the scaling bounds | Everything underneath | A service, API or job in a container with no cluster-level needs |
-| **Cloud Run functions** | The handler and its trigger | Everything else, including the build | The unit of work is one function and you want source-to-URL |
-| **GKE Autopilot** | Kubernetes objects and accurate resource requests | The control plane and every node | You need Kubernetes but not node-level control |
-| **GKE Standard** | Kubernetes objects, add-ons and the node pools | The control plane | You need DaemonSets, GPUs, custom kernels or tight bin-packing |
-| **App Engine standard** | The source and the runtime choice | Everything else | An existing App Engine application, or a plain web app |
+| Option | You manage · Google manages | Fits when |
+| --- | --- | --- |
+| **Compute Engine** | The operating system, patching, scaling rules, everything installed · The hardware and the hypervisor | You need a full machine, or are moving an existing server |
+| **Cloud Run** | The container image, concurrency and the scaling bounds · Everything underneath | A service, API or job in a container with no cluster-level needs |
+| **Cloud Run functions** | The handler and its trigger · Everything else, including the build | The unit of work is one function and you want source-to-URL |
+| **GKE Autopilot** | Kubernetes objects and accurate resource requests · The control plane and every node | You need Kubernetes but not node-level control |
+| **GKE Standard** | Kubernetes objects, add-ons and the node pools · The control plane | You need DaemonSets, GPUs, custom kernels or tight bin-packing |
+| **App Engine standard** | The source and the runtime choice · Everything else | An existing App Engine application, or a plain web app |
 
 The longer form of the Cloud Run versus GKE decision, with the organizational question that usually settles it, is in [Trade-Offs](#cloud-run-vs-gke-autopilot).
 
@@ -505,12 +506,12 @@ Because the global load balancer already terminates connections at the edge, cac
 
 - **Cloud CDN:** enable it on a backend service and responses are cached at Google's points of presence, keyed by the cache mode you choose (cache static content by extension, honour origin headers, or force caching). Signed URLs and signed cookies protect private content. There is no distribution to create and no separate origin to configure, because the backend service already is one.
 - **Cloud Armor:** a security policy attached to a backend service. It carries WAF rules (including preconfigured OWASP rule sets), IP and geography allow and deny lists, **rate limiting** per client, bot management with reCAPTCHA, and adaptive protection against layer-7 floods. Volumetric DDoS defence at the network layer is on by default and free for anything behind the global balancer.
-- **Media CDN:** the separate, higher-capacity product for video and large-file delivery, using the same infrastructure that serves YouTube. Reach for it when the workload is streaming, not when it is a website.
+- **Media CDN:** the separate, higher-capacity product for video and large-file delivery, built, Google says, on the same infrastructure that serves YouTube. Reach for it when the workload is streaming, not when it is a website.
 - **Trap:** caching a response that varies by user. A `Cache-Control: public` header on an authenticated response puts one user's data in a shared cache at the edge, and the bug surfaces as a report that someone saw someone else's page. Decide caching by route, and default to `private` for anything the request identity affects.
 
 ### Cloud DNS — Names, Public and Private
 
-**DNS** turns a name into an address. Cloud DNS is Google's authoritative service for it, and unusually it carries a 100% availability service level agreement, because it is served from the same anycast infrastructure as everything else at the edge.
+**DNS** turns a name into an address. Cloud DNS is Google's authoritative service for it, and unusually, as of 2026, it carries a 100% availability service level agreement, because it is served from the same anycast infrastructure as everything else at the edge.
 
 - **Entry point:** a **managed zone** — a container for the records of one domain — either **public** (answering the whole internet) or **private** (answering only inside the VPC networks you attach it to, for names like `db.internal`).
 - **Use it when:** you own a domain and want its records next to the infrastructure they point at, or you need internal names that do not exist on the public internet.
@@ -678,7 +679,7 @@ A **relational database** stores data in tables with a schema and is queried wit
 
 ### Spanner — Relational at Global Scale
 
-Spanner is the service with no equivalent on other clouds: a relational database with SQL, schemas and transactions that also **shards and replicates itself across zones or regions**, offering strongly consistent reads and externally consistent transactions everywhere at once. It is what Google runs its own business on.
+Spanner is the service with no equivalent on other clouds: a relational database with SQL, schemas and transactions that also **shards and replicates itself across zones or regions**, offering strongly consistent reads and externally consistent transactions everywhere at once. Google says it runs its own business on Spanner.
 
 - **Entry point:** an **instance** with a configuration (regional, dual-region or multi-region) and an amount of compute measured in **processing units** or nodes, then a database and a schema. Since granular instance sizing arrived, small workloads no longer start at a full node, which changed Spanner from an expensive last resort into something a normal service can begin on.
 - **Use it when:** the workload needs relational semantics *and* horizontal write scaling, or strong consistency across regions, or an availability target a single-primary database cannot reach. Financial ledgers, inventory, global user accounts.
@@ -691,7 +692,7 @@ Spanner is the service with no equivalent on other clouds: a relational database
 Two non-relational stores that answer completely different questions, and which people conflate because both are "NoSQL".
 
 - **Firestore:** a **document** database. It stores JSON-like documents in collections, and its distinguishing feature is the client side — mobile and web SDKs with **real-time listeners** (the client is pushed changes as they happen) and **offline persistence**, with access controlled by **security rules** evaluated at the database rather than by a backend you write. Use it for application state that clients read and write directly: chat, collaborative editing, user profiles, mobile app data. Native mode is the current one; Datastore mode exists for compatibility with the older App Engine API.
-- **Bigtable:** a **wide-column** store built for enormous, sustained write and scan rates at single-digit-millisecond latency — time series, telemetry, financial ticks, ad-tech, the storage under many of Google's own products. There is **one index, the row key**, no secondary indexes and no joins, and rows are stored sorted by that key. It speaks the HBase API, and it is the store BigQuery and Dataflow read alongside.
+- **Bigtable:** a **wide-column** store built for enormous, sustained write and scan rates at single-digit-millisecond latency — time series, telemetry, financial ticks, ad-tech, and what Google describes as the storage under many of its own products. There is **one index, the row key**, no secondary indexes and no joins, and rows are stored sorted by that key. It speaks the HBase API, and it is the store BigQuery and Dataflow read alongside.
 - **Use them when:** Firestore when clients talk to the database directly and the data is documents; Bigtable when the write rate is beyond what a relational database absorbs and every query is a key or a range of keys.
 - **Trap (Bigtable):** the row key again. Sequential keys — a timestamp prefix, a monotonically increasing id — send every write to the last tablet, and the cluster's other nodes sit idle. Put a high-cardinality field first (`deviceId#timestamp`, not `timestamp#deviceId`) so that writes spread. This is the same failure as a DynamoDB hot partition and a Spanner hotspot, and it is the single most reliably asked NoSQL design question.
 
@@ -711,7 +712,7 @@ BigQuery is a data warehouse with **no cluster to run**. You create a dataset, l
 Memorystore is managed in-memory storage — **Redis**, its open-source fork **Valkey**, or Memcached — for data that must be read in microseconds and can be rebuilt if lost.
 
 - **Entry point:** an **instance** (or, in the newer cluster form, a cluster with shards and replicas) reached at a private address in your VPC. The tier decides whether there is a replica and therefore whether a failure is a blip or an outage.
-- **Use it when:** the same values are read far more often than they change and the database is the bottleneck — **cache-aside**, session storage, rate limiting, distributed locks. See [caching](../../03-system-design/03-caching.md) for when a cache is the wrong answer, and [Redis — Core Concepts and Workflow](../../03-system-design/03-caching.md#redis--core-concepts-and-workflow) for the 2024 relicensing and the Valkey fork that followed it.
+- **Use it when:** the same values are read far more often than they change and the database is the bottleneck — **cache-aside**, session storage, rate limiting, distributed locks. See [caching](../docs/03-system-design/03-caching.md) for when a cache is the wrong answer, and [Redis — Core Concepts and Workflow](../docs/03-system-design/03-caching.md#redis--core-concepts-and-workflow) for the 2024 relicensing and the Valkey fork that followed it.
 - **Trap:** treating it as a system of record. It is memory: a failover, a version upgrade or an eviction under memory pressure loses whatever was not written somewhere durable, and the `maxmemory-policy` setting decides whether that happens silently.
 
 ## Messaging and Events
@@ -1034,7 +1035,7 @@ Every log entry — from Google's services, from the logging agent, from your ap
 
 Four streams, and the distinction between them is worth having ready.
 
-- **Admin Activity:** every call that creates, modifies or deletes configuration. Always on, cannot be turned off, free, retained 400 days. This is the log that answers "who deleted the database".
+- **Admin Activity:** every call that creates, modifies or deletes configuration. Always on, cannot be turned off, free, retained 400 days (as of 2026). This is the log that answers "who deleted the database".
 - **Data Access:** reads and writes of *data* — reading an object, querying a table. Off by default except for BigQuery, because the volume is enormous. Turn it on per service, with exemptions, where a compliance rule or a real threat model requires it.
 - **System Event:** actions Google takes on your resources, such as a live migration or an automatic instance restart.
 - **Policy Denied:** a request refused by a security policy, which is where VPC Service Controls and organization policy violations appear.
@@ -1043,7 +1044,7 @@ Route all four to an aggregated sink at the organization node, into a project wh
 
 ### Cloud Asset Inventory — What Do We Have
 
-Asset Inventory keeps a searchable index of every resource, every IAM policy and every organization policy in the estate, with **five weeks of history**. You can query it (`gcloud asset search-all-resources`), export it to BigQuery on a schedule, ask what a resource looked like last Tuesday, and subscribe to a **feed** that publishes to Pub/Sub whenever something changes.
+Asset Inventory keeps a searchable index of every resource, every IAM policy and every organization policy in the estate, with **five weeks of history** (as of 2026). You can query it (`gcloud asset search-all-resources`), export it to BigQuery on a schedule, ask what a resource looked like last Tuesday, and subscribe to a **feed** that publishes to Pub/Sub whenever something changes.
 
 - **Use it when:** answering "which projects have a public bucket", "where are the VMs with an external IP", "when did that firewall rule change", or building the cost and compliance reports that need a full inventory joined to something else.
 - **With Policy Analyzer:** the pair answers the access questions IAM alone makes hard — "who can read this bucket, by any path, including through group membership and inheritance". That is the query that finds the grant nobody remembers making.
@@ -1068,7 +1069,7 @@ The virtual machines still need patching, inventory and remote access, and doing
 
 Infrastructure as code means the estate is described in files kept in version control, and changes reach the cloud by changing those files. The benefit is not automation for its own sake — it is that the description is reviewable, repeatable across projects, and recoverable. A project rebuilt from a repository is a project you understand.
 
-Google Cloud's own history here is unusual: **Deployment Manager, its first-party tool, is deprecated**, and Google's answer is Terraform. That is not a hedge — Google publishes the provider, publishes reference architectures as Terraform modules, runs a hosted Terraform service, and generates Terraform from existing resources in the console. Anyone arguing for a Google-specific declarative language on this cloud is arguing against Google.
+Google Cloud's own history here is unusual: **Deployment Manager, its first-party tool, reached end of support on 31 March 2026**, and Google's answer is Terraform. That is not a hedge — Google publishes the provider, publishes reference architectures as Terraform modules, runs a hosted Terraform service, and generates Terraform from existing resources in the console. In this guide's view, arguing for a Google-specific declarative language on this cloud means working against the direction Google itself has chosen.
 
 ```mermaid
 flowchart LR
@@ -1119,7 +1120,7 @@ flowchart LR
 - **Terraform** is the default, and on this cloud it is close to unanimous. The Google provider covers essentially the whole platform, the **Cloud Foundation Toolkit** publishes maintained modules for projects, networks, GKE clusters and organization policies, and `gcloud beta resource-config bulk-export` generates Terraform from an estate that already exists — which is how a manually built environment gets brought under code without rewriting it by hand.
 - **Infrastructure Manager** runs that same Terraform as a Google service: it stores state, runs the apply under a service account, and keeps a deployment history. It removes the "where does state live and who can run apply" problem, at the cost of less control than a pipeline you own.
 - **Config Connector** is the genuinely different option. Google Cloud resources become Kubernetes custom resources in a GKE cluster, and a controller **continuously reconciles** them — drift is corrected rather than reported. Choose it when the team already lives in Kubernetes and wants one control plane for applications and infrastructure; the trade is that your infrastructure now depends on a cluster being healthy. (The trade-off is worked through in [Terraform vs. Config Connector](#terraform-vs-config-connector).)
-- **Deployment Manager** is deprecated. If you meet it in an existing estate, the migration path is export to Terraform.
+- **Deployment Manager** reached end of support on 31 March 2026. If you meet it in an existing estate, the migration path is export to Terraform.
 - **The client libraries and `gcloud`** are for the things code cannot express — a one-off investigation, a data migration, a script inside a pipeline. They are not an infrastructure tool, and a shell script that creates resources is an infrastructure tool nobody can review.
 
 ### Pipelines for Infrastructure
@@ -1134,7 +1135,7 @@ Beyond that: run `tflint` and a policy check in the same job. **Policy as code**
 
 The delivery side of the same story: **Cloud Build** builds and tests, **Artifact Registry** stores the image with its vulnerability scan, **Cloud Deploy** promotes one immutable artifact through dev, staging and production with approvals, and **Binary Authorization** refuses to run anything that was not signed along the way. The rule underneath is worth stating plainly: **build once, promote the same artifact**. An image rebuilt per environment is a different image, and it is the one that behaves differently in production.
 
-For the general practice, see [CI/CD](../../04-development-process/03-ci-cd.md).
+For the general practice, see [CI/CD](../docs/04-development-process/03-ci-cd.md).
 
 ### Configuration Management
 
@@ -1169,7 +1170,7 @@ Cloud-native is not "runs on a cloud"; it is a set of habits that assume elastic
 - **Everything as code.** Infrastructure, pipelines, policies, dashboards and alerts. If it exists only because someone clicked, it is gone after the person leaves.
 - **Observability from the start.** Structured logs, traces through OpenTelemetry, SLOs with error budgets. Instrumentation added during an incident arrives too late to help with it.
 
-See [Containers and Orchestration](../../03-system-design/05-containers.md) for the patterns underneath, and [The Twelve-Factor App](../../05-coding/index.md) for the application-side rules these assume.
+See [Containers and Orchestration](../docs/03-system-design/05-containers.md) for the patterns underneath, and [The Twelve-Factor App](../docs/05-coding/index.md) for the application-side rules these assume.
 
 ## Resilience and Recovery
 
@@ -1228,17 +1229,17 @@ Start by separating the two kinds of failure, because they have different answer
 
 **A region fails.** Now it is a business decision, and there are four positions.
 
-| Strategy | RTO | RPO | What runs continuously | Cost |
-| --- | --- | --- | --- | --- |
-| **Backup and restore** | hours to days | hours | nothing | lowest |
-| **Pilot light** | tens of minutes | minutes | data replication only | low |
-| **Warm standby** | minutes | seconds to minutes | a scaled-down copy | medium |
-| **Hot, multi-region** | near zero | near zero | full capacity in each region | highest |
+| Strategy | RTO · RPO | What runs continuously · Cost |
+| --- | --- | --- |
+| **Backup and restore** | hours to days · hours | nothing · lowest |
+| **Pilot light** | tens of minutes · minutes | data replication only · low |
+| **Warm standby** | minutes · seconds to minutes | a scaled-down copy · medium |
+| **Hot, multi-region** | near zero · near zero | full capacity in each region · highest |
 
 The mechanics for each on this cloud:
 
 - **Backup and restore:** dual-region or multi-region buckets, cross-region snapshot schedules, Cloud SQL backups with a cross-region replica, and the Backup and DR Service to schedule and catalogue it all. Put the critical copies in a **backup vault** so that compromised credentials cannot delete them.
-- **Pilot light:** a second project and subnets in the other region, a Cloud SQL cross-region read replica or a Spanner configuration kept current, images and Terraform ready, and no compute running. Recovery is promote the replica, `terraform apply`, shift DNS.
+- **Pilot light:** a second project and subnets in the other region, a Cloud SQL cross-region read replica or a Spanner configuration kept current, images and Terraform ready, and no compute running. Recovery is: promote the replica, `terraform apply`, shift DNS.
 - **Warm standby:** the same, with a small managed instance group or Cloud Run service already serving. Because the load balancer is global, "shifting traffic" is adding a backend to an existing URL map, not repointing DNS and waiting for caches.
 - **Hot:** a global external Application Load Balancer with backends in several regions, and a database that is genuinely multi-region — **Spanner** in a multi-region configuration, or **Firestore** in a multi-region location. Everything else in this list is a workaround for a database that is not.
 
@@ -1248,7 +1249,7 @@ Three things decide whether any of it works.
 - **The dependencies must exist there too.** Container images in a multi-region Artifact Registry, secrets replicated, KMS keys available in that region — a key ring is regional, and a workload cannot decrypt with a key from a region that is down.
 - **Untested means broken.** Run a game day: fail over on purpose, in production, on a scheduled afternoon, and time it. The gap between the documented RTO and the measured one is the finding.
 
-Related: [Reliability and Recovery](../../03-system-design/01-common-concepts.md).
+Related: [Reliability and Recovery](../docs/03-system-design/01-common-concepts.md).
 
 ## Running It Well
 
@@ -1259,7 +1260,7 @@ Everything above is what the services are. This section is what to do with them 
 - **Measure before changing anything.** Cloud Monitoring for the resource view, Cloud Trace for where a request's time went, Cloud Profiler for which code burns the CPU. Most "the cloud is slow" findings turn out to be one query, one missing index or one synchronous call in a loop.
 - **Right-size from data, not from a guess.** Recommender computes machine type suggestions from eight days of observed usage, and **custom machine types** let you act on them exactly — 6 vCPUs and 20 GB, rather than the next size up. This is the single largest source of easy savings on Compute Engine.
 - **Put the work near the user.** The global external Application Load Balancer terminates TLS at the nearest point of presence and carries the request over Google's own backbone from there, which is often a larger win than anything done inside the application. Add Cloud CDN for anything cacheable.
-- **Cache deliberately.** Memorystore in front of a database, Cloud CDN in front of static and cacheable dynamic responses, and application-level caching for computed results. Decide the invalidation rule before adding the cache; see [Caching](../../03-system-design/03-caching.md).
+- **Cache deliberately.** Memorystore in front of a database, Cloud CDN in front of static and cacheable dynamic responses, and application-level caching for computed results. Decide the invalidation rule before adding the cache; see [Caching](../docs/03-system-design/03-caching.md).
 - **Match the disk to the workload.** Balanced Persistent Disk for most things, SSD or Hyperdisk when IOPS matter, Local SSD only for scratch that can vanish. Remember that Persistent Disk performance scales with size and with the instance's vCPU count — a small disk on a small machine is slow for two reasons at once.
 - **Scale on the right signal.** CPU is a poor proxy for a service whose work is waiting on something else. Autoscale Cloud Run on concurrency, GKE on a custom metric or queue depth, managed instance groups on the load balancer's utilization rather than CPU where the two disagree.
 - **Reach for the tier above only when the tier below is exhausted.** Premium tier networking, a larger Cloud SQL instance and more Dataflow workers all work; they also all hide the query that should have been fixed.
@@ -1267,7 +1268,7 @@ Everything above is what the services are. This section is what to do with them 
 ### Cost Management
 
 - **Understand the discounts before buying anything.** **Sustained use discounts** apply automatically to Compute Engine when an instance runs a large fraction of the month — no commitment, no action. **Committed use discounts** are a one- or three-year commitment for a much larger reduction, and now come in a spend-based flavour that covers Cloud Run, GKE Autopilot and databases as well as VMs. Cover the steady baseline with commitments and let the variable part ride on the automatic discount.
-- **Use Spot VMs where interruption is acceptable** — batch, CI runners, stateless workers behind a queue, GKE node pools with a tolerance. The discount is 60–91%, and the price of it is a 30-second notice.
+- **Use Spot VMs where interruption is acceptable** — batch, CI runners, stateless workers behind a queue, GKE node pools with a tolerance. The discount is 60–91% as of 2026, and the price of it is a 30-second notice by default, or a 120-second one if set when the VM is created ([Spot VMs](https://cloud.google.com/compute/docs/instances/spot)).
 - **Delete what nobody is using.** Unattached disks, old snapshots, reserved but unassigned external IP addresses, idle Cloud SQL instances and forgotten dev projects. Recommender lists all of these; the difficulty is never finding them, it is having an owner willing to act.
 - **Set budgets with programmatic alerts.** A budget publishes to Pub/Sub as well as sending an email, so the response can be a function that stops a runaway job rather than a message somebody reads on Monday.
 - **Export billing to BigQuery on day one.** It is the only way to answer "why did this go up" with labels, projects and SKUs — and it is retrospective, so the export you did not enable last month cannot be backfilled.
@@ -1284,7 +1285,7 @@ Everything above is what the services are. This section is what to do with them 
 - **Encrypt with intent.** Everything is encrypted at rest already; use CMEK where you need the ability to revoke, audit or destroy, and Cloud HSM or Cloud EKM where a rule requires it. Enforce TLS in transit and turn on the internal encryption options where a service offers them.
 - **Keep the audit trail somewhere the audited cannot reach.** An aggregated sink at the organization node into a separate project with a short access list, retention set to the compliance period, and alerts on the events that matter: key creation, role grants at high nodes, firewall changes, policy denials.
 - **Shift security into the pipeline.** Artifact Registry vulnerability scanning, Binary Authorization to refuse unsigned images, policy checks on the Terraform plan, and secrets from Secret Manager rather than from the environment.
-- **Then check yourself continuously.** Security Command Center for misconfiguration and threat findings, Policy Analyzer for "who can actually reach this", and an owner for each finding class. Also see [Security](../../00-software-engineering/index.md) for the principles these implement.
+- **Then check yourself continuously.** Security Command Center for misconfiguration and threat findings, Policy Analyzer for "who can actually reach this", and an owner for each finding class. Also see [Security](../docs/00-software-engineering/index.md) for the principles these implement.
 
 ## Diagrams to Draw
 
@@ -1375,7 +1376,7 @@ Host project  Logging   app-prod  data-prod   app-dev   app-staging
 
 ## Trade-Offs
 
-Design questions rarely have one answer. What is being assessed is whether you know what the decision depends on. Three of the common pairs, worked through.
+Design questions rarely have one answer. What is being assessed is whether you know what the decision depends on. Three of the common pairs, worked through. The sample answers are illustrations, not real accounts; describe only work you have done.
 
 ### Terraform vs. Config Connector
 
@@ -1463,7 +1464,7 @@ Useful for orientation, and dangerous if taken literally. The third column is th
 | PrivateLink | **Private Service Connect** | Also covers reaching Google's own APIs by a private address, which is a case PrivateLink handles differently. |
 | EC2 | **Compute Engine** | Custom machine types, automatic sustained use discounts, and live migration through host maintenance instead of a forced stop. |
 | Auto Scaling group | **Managed instance group** | Regional MIGs spread across zones by default, and autohealing is a health check on the group. |
-| Spot Instances | **Spot VMs** | Simpler: a fixed discount and a 30-second notice, with no bidding and no capacity pools to reason about. |
+| Spot Instances | **Spot VMs** | Simpler: no bidding and no capacity pools to reason about, a 30-second notice by default (120 seconds if set at creation), and a variable price Google may change up to once a day (as of 2026). |
 | ECS | *(no equivalent)* | Google has no proprietary orchestrator. The answer is GKE or Cloud Run. |
 | Fargate | **GKE Autopilot** | Autopilot is Kubernetes with nodes managed for you, billed per Pod request — it is not a separate launch type. |
 | EKS | **GKE** | The mature one on this platform. Autopilot, Workload Identity Federation and container-native load balancing have no exact AWS equivalents. |
@@ -1492,10 +1493,10 @@ Useful for orientation, and dangerous if taken literally. The third column is th
 | CloudWatch Logs Insights | **Log Analytics** | SQL over a log bucket rather than a bespoke query language. |
 | X-Ray | **Cloud Trace** | Both take OpenTelemetry. Instrument with OpenTelemetry either way. |
 | CloudTrail | **Cloud Audit Logs** | Four streams, with data access logs off by default for cost reasons. |
-| AWS Config | **Cloud Asset Inventory** | Inventory with five weeks of history and a Pub/Sub feed, rather than rules with remediation. Security Command Center covers the rules half. |
+| AWS Config | **Cloud Asset Inventory** | Inventory with five weeks of history (as of 2026) and a Pub/Sub feed, rather than rules with remediation. Security Command Center covers the rules half. |
 | Systems Manager | **OS Config** + **OS Login** + **IAP** | Three narrower services. OS Login ties SSH to IAM, which Session Manager does differently. |
 | Trusted Advisor | **Recommender** + **Security Command Center** | Recommender's IAM role suggestions from observed usage have no direct AWS equivalent. |
-| CloudFormation | **Terraform** | Google's own tool is deprecated. Terraform is the answer, and Infrastructure Manager is Google's hosted way to run it. |
+| CloudFormation | **Terraform** | Google's own tool, Deployment Manager, reached end of support on 31 March 2026. Terraform is the answer, and Infrastructure Manager is Google's hosted way to run it. |
 | CodeBuild / CodePipeline | **Cloud Build** / **Cloud Deploy** | Comparable. Cloud Deploy is built around promoting one artifact through ordered targets. |
 | ECR | **Artifact Registry** | One registry for containers, language packages and OS packages, rather than a container-only service. |
 
@@ -1504,8 +1505,8 @@ Two habits make this table safe to use. Check the **boundary** — a project is 
 ## Where to Go Next
 
 - [AWS Handbook](aws-handbook.md) and [Azure Handbook](azure-handbook.md) — the same material for the other two platforms, with their own service maps.
-- [Containers and Orchestration](../../03-system-design/05-containers.md) — the Kubernetes concepts GKE assumes you have.
-- [CI/CD](../../04-development-process/03-ci-cd.md) — the delivery practice the pipeline section applies.
-- [Caching](../../03-system-design/03-caching.md) — what to put in Memorystore, and what not to.
-- [System Design](../../03-system-design/index.md) — the design vocabulary underneath all three clouds.
-- [Interview](../../10-humans/21-interview.md) — how to use the trade-off sections above under questioning.
+- [Containers and Orchestration](../docs/03-system-design/05-containers.md) — the Kubernetes concepts GKE assumes you have.
+- [CI/CD](../docs/04-development-process/03-ci-cd.md) — the delivery practice the pipeline section applies.
+- [Caching](../docs/03-system-design/03-caching.md) — what to put in Memorystore, and what not to.
+- [System Design](../docs/03-system-design/index.md) — the design vocabulary underneath all three clouds.
+- [Interview](../docs/10-humans/21-interview.md) — how to use the trade-off sections above under questioning.

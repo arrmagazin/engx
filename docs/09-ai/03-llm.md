@@ -5,21 +5,19 @@ description: Covers LLM core mechanics, the training lifecycle, inference contro
 tags: [ai, llm, transformer, prompt-engineering]
 ---
 
-An **LLM** is a transformer-based model trained on vast text corpora to predict the next **token**,
-acquiring broad knowledge and language ability as an emergent side effect of that single objective.
+An **LLM** is a transformer-based model trained on vast text corpora to predict the next **token**. Broad knowledge and language ability emerge as a side effect of that single objective.
 
-It sits between deep learning and agents in the stack described in
-[Artificial Intelligence](index.md): a transformer is the architecture, an LLM is that
-architecture trained at scale, and an [Agent](04-agents.md) is an LLM wrapped in a loop with tools
-and memory. This guide is written for engineers building on an LLM API; the papers and guides behind
-it are collected under [References](index.md#references).
+In the stack described in [Artificial Intelligence](index.md), it sits between deep learning and agents:
+
+- a transformer is the architecture;
+- an LLM is that architecture trained at scale;
+- an [Agent](04-agents.md) is an LLM wrapped in a loop with tools and memory.
+
+This guide is for engineers building on an LLM API. The papers and guides behind it are under [References](index.md#references).
 
 ## Core Mechanics
 
-Everything later in this guide is bounded by the mechanics below. The model has no unit of work
-smaller than a token, nothing it can attend to beyond the context window, and no output that was not
-drawn from a distribution — which is why cost, truncation, and non-determinism are properties of the
-architecture rather than quirks of a particular API.
+These mechanics bound everything later in this guide. The model has no unit of work smaller than a token, can attend to nothing beyond the context window, and draws every output from a distribution. That is why cost, truncation and non-determinism are properties of the architecture, not quirks of a particular API.
 
 Token
 : The atomic unit of text (sub-word fragment) the model reads and emits
@@ -44,11 +42,9 @@ Logits / Sampling
 
 ## Training Lifecycle
 
-Those mechanics describe the machinery; the stages below are how a particular model acquires the
-behavior you call. Each stage after pre-training narrows a general next-token predictor into
-something that follows instructions and answers the way its owners intended. For an engineer the
-lifecycle matters mostly as a boundary: whatever these stages put into the weights is settled by the
-time you hold an API key, and everything still adjustable happens at inference.
+These stages are how a particular model acquires its behavior. Each stage after pre-training narrows a general next-token predictor into one that follows instructions and answers as its owners intended.
+
+For an engineer, the lifecycle matters mostly as a boundary: whatever these stages put into the weights is fixed by the time you hold an API key. Everything still adjustable happens at inference.
 
 | Stage | Purpose |
 | --- | --- |
@@ -60,10 +56,7 @@ time you hold an API key, and everything still adjustable happens at inference.
 
 ## Inference Controls
 
-Inference is where the adjustable part starts, and these parameters are the cheapest thing in it to
-change. None of them alters what the model knows; they shape how it draws on that — how much of the
-distribution the next token may come from, how long generation runs, and what instruction stands
-over every turn. Reach for them before reaching for anything more elaborate.
+These parameters are the cheapest thing to change at inference — try them before anything more elaborate. None of them changes what the model knows. They shape how it uses that knowledge: how much of the distribution the next token may come from, how long generation runs, and what instruction applies to every turn.
 
 | Parameter | Effect |
 | --- | --- |
@@ -75,10 +68,7 @@ over every turn. Reach for them before reaching for anything more elaborate.
 
 ## Usage Techniques
 
-When the controls are not enough, what is left is the prompt and what you put around it. The
-techniques below differ in what they add — examples, intermediate reasoning, retrieved documents, a
-schema, the result of a tool call — but they work through the same channel, because the context
-window is the only route by which anything training did not supply reaches the model.
+When the controls are not enough, what is left is the prompt and what you put around it. The techniques below add different things — examples, intermediate reasoning, retrieved documents, a schema, a tool result — but all go through one channel: the context window is the only route by which anything training did not supply reaches the model.
 
 | Technique | Description |
 | --- | --- |
@@ -89,9 +79,7 @@ window is the only route by which anything training did not supply reaches the m
 | **Function / Tool Calling** | Model emits structured calls the host executes and feeds back |
 | **Structured Output** | Constrain responses to JSON/schema for reliable downstream parsing |
 
-Routing everything through that one channel is also what leaves two failures standing, both of them
-traceable to the mechanics at the top of this guide rather than to any technique above — which is
-why they are budgeted for rather than removed.
-
-> Two failure modes to design around: **hallucination** (confident but false output) and
-> **context limits** (truncation and "lost in the middle" degradation on long inputs).
+> **Design around two failure modes.** Both come from the core mechanics, not from any technique above, so budget for them rather than try to remove them.
+>
+> - **Hallucination** — confident but false output.
+> - **Context limits** — truncation and "lost in the middle" degradation on long inputs (Liu et al., 2023, [Lost in the Middle](https://arxiv.org/abs/2307.03172)).

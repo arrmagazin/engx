@@ -5,13 +5,18 @@ description: The accountabilities behind common engineering titles, and the six 
 tags: [people, management, roles, hiring, onboarding]
 ---
 
-Before anyone can run a useful 1:1 or write a growth plan, two structural questions have to be settled: who is accountable for what, and where in their time at the company this person currently stands. Both change rarely, and both are assumed by everything in [Growing and Keeping People](03-growing-and-keeping-people.md), so they are worth writing down once rather than re-deciding per person.
+Two structural questions must be settled before anyone can run a useful 1:1 or write a growth plan:
+
+- Who is accountable for what?
+- Where does this person currently stand in their time at the company?
+
+Both change rarely, and everything in [Growing and Keeping People](03-growing-and-keeping-people.md) assumes them. Write them down once instead of deciding them again for each person.
 
 Related: [Engineering Management](../01-methodology/00-engineering-management.md) · [Team Lead](01-team-lead.md) · [Knowledge Sharing](04-knowledge-sharing.md)
 
 ## Scope
 
-The people side of management splits into six areas. The first two are settled by structure — by the roles defined below and by the lifecycle stage a person is in — and the other four are worked continuously in [Growing and Keeping People](03-growing-and-keeping-people.md).
+The people side of management splits into six areas. Structure settles the first two: the roles defined below and the lifecycle stage a person is in. The other four are continuous work, covered in [Growing and Keeping People](03-growing-and-keeping-people.md).
 
 | Area | Question it answers | Primary artifact |
 | --- | --- | --- |
@@ -26,7 +31,7 @@ The six are sequential in a person's experience and simultaneous in a manager's 
 
 ## Roles
 
-Titles vary by company; the *accountabilities* do not. Confusion here is a common source of dropped work.
+Titles vary by company; the *accountabilities* do not. Confusion about them is a common cause of dropped work.
 
 | Role | Owns | Does not own |
 | --- | --- | --- |
@@ -36,7 +41,10 @@ Titles vary by company; the *accountabilities* do not. Confusion here is a commo
 | **Engineering Manager** | People, performance, hiring, headcount, delivery | Detailed technical decisions |
 | **Staff / Principal** | Technical scope across teams | Line management |
 
-Two rules: **one accountable person per accountability**, and **the person who runs someone's 1:1s is the person who owns their growth**. If those split across two people, say so explicitly and agree who gives which feedback.
+Two rules:
+
+- **One accountable person per accountability.**
+- **The person who runs someone's 1:1s owns their growth.** If these are two different people, say so explicitly and agree who gives which feedback.
 
 ## The Employee Lifecycle
 
@@ -60,9 +68,9 @@ graph LR
 | **Transition** | Promote, move, or reassign before frustration forces the issue | Internal moves outnumber surprise resignations |
 | **Offboard** | Capture knowledge, exit honestly, keep the relationship | Handover exists; the person would return |
 
-**Key property:** every stage is cheaper than the one before it fails into. Onboarding well is cheaper than re-hiring.
+**Key property:** doing a stage well is cheaper than the stage its failure leads to. Onboarding well is cheaper than re-hiring.
 
-The offboard stage is where an unexamined [Bus Factor](03-growing-and-keeping-people.md#core-concepts) turns into lost work, so treat handover as a deliverable with a reviewer rather than a conversation — the practices that keep the number above one are in [Knowledge Sharing](04-knowledge-sharing.md).
+At the offboard stage, an unexamined [Bus Factor](03-growing-and-keeping-people.md#core-concepts) turns into lost work. Treat handover as a deliverable with a reviewer, not as a conversation. The practices that keep the bus factor above one are in [Knowledge Sharing](04-knowledge-sharing.md).
 
 ## Anti-patterns
 
@@ -87,5 +95,5 @@ The offboard stage is where an unexamined [Bus Factor](03-growing-and-keeping-pe
 - [ ] Knowledge handover written, not just walked through
 - [ ] Ownership of systems and rituals reassigned by name
 - [ ] Access revoked on the last day
-- [ ] Honest exit conversation held and the cause recorded
-- [ ] Team told directly, before the rumor
+- [ ] Honest exit conversation held and the cause recorded per local privacy rules, kept only as long as the retention policy allows
+- [ ] Team told directly, in words agreed with the leaver, before the rumor

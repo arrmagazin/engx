@@ -3,15 +3,15 @@
   "private": true,
   "type": "module",
   "displayName": "Software Engineering",
-  "description": "Introduction into Software Engineering",
-  "version": "1.0.2",
-  "author": "Company, Inc",
+  "description": "Introduction to Software Engineering",
+  "version": "1.0.3",
+  "author": "Irvin Oldman",
   "keywords": [
     "engineering",
     "handbook"
   ],
-  "email": "contact@company.com",
-  "copyright": "© 2025. All rights reserved.",
+  "email": "alitskevich@gmail.com",
+  "copyright": "© 2026 Irvin Oldman. All rights reserved.",
   "scripts": {
     "check": "npx --yes npm-run-all --continue-on-error check:*",
     "check:frontmatter": "git ls-files 'docs/*.md' | xargs python3 scripts/check_okf_frontmatter.py",

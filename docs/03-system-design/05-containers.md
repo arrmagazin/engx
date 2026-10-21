@@ -5,190 +5,61 @@ description: Explains what a container is, how images are built and shipped, wha
 tags: [tech-stack, containers, docker, oci, deployment]
 ---
 
-A container is an application and its dependencies packaged as an image and run as an isolated process on the host's kernel. This guide covers the kernel primitives that make that isolation work, how images are built and shipped, what an orchestrator takes over once there are many of them, and what all of it implies for anything that has to hold state.
+A container is an application and its dependencies, packaged as an image and run as an isolated process on the host's kernel. This guide covers how that isolation works, how images are built and shipped, what an orchestrator does, and what it all means for state.
 
 ## Core Concepts
 
-- **Container** — one or more processes running on the *host's* kernel, isolated so they behave as if they owned the machine. Not a virtual machine: no guest OS and no boot sequence.
-- **Namespace** — the kernel primitive that controls *what a process can see*: its own process tree, network stack, mounts, hostname, users. Isolation is per-namespace rather than all-or-nothing, so a container can share the host's network while keeping its own filesystem.
-- **cgroup (control group)** — the kernel primitive that controls *how much a process can use*: CPU shares, memory ceiling, I/O bandwidth. Cross the hard memory limit (cgroup v2 `memory.max`) and the kernel kills the process; the softer ceiling (`memory.high`) throttles the process and reclaims from it instead.
-- **Image** — a read-only filesystem plus metadata (entrypoint, default environment, exposed ports, user). The image is the build-time artifact; a container is one running instance of it.
-- **Layer** — each build instruction produces a filesystem diff. Layers stack, are content-addressed, are cached between builds, and are shared between images that start the same way — so pulling a second image built on the same base only transfers what differs.
-- **Registry** — the store images are pushed to and pulled from (Docker Hub, ECR, GHCR).
+- **Namespace** — the kernel primitive controlling *what a process can see*: process tree, network, mounts, users. Isolation is per namespace, so a container can share the host's network but keep its own filesystem.
+- **cgroup** — the kernel primitive controlling *how much a process can use*: CPU, memory, I/O.
+- **Image** — a read-only filesystem plus metadata (entrypoint, environment, user). A container is one running instance of it.
+- **Layer** — the filesystem diff one build instruction produces. Layers are content-addressed, cached between builds, and shared between images, so pulling a second image on the same base transfers only what differs.
 - **Tag vs. digest** — a tag (`app:1.4`) is a *mutable pointer*; a digest (`app@sha256:…`) names exact bytes. Only the digest is a version.
-- **OCI (Open Container Initiative)** — three specifications (image, runtime, distribution) that make the ecosystem interchangeable: an image built by one tool runs under another runtime and lives in any registry. See [Standards](../00-software-engineering/02-standards.md).
-- **Container runtime** — split in two. A *high-level* runtime (containerd, CRI-O) pulls images and manages lifecycle; a *low-level* one (runc) actually asks the kernel for the namespaces and cgroups.
-- **Ephemeral filesystem** — the container's writable layer dies with the container. Anything that must survive goes to a **volume** (storage mounted in from outside) or, in a distributed system, out to a Database or Object Storage.
-- **Container vs. VM** — a VM virtualizes hardware and boots its own kernel: a stronger isolation boundary, paid for with a full guest OS that has to boot and stay resident. A container starts as a process on the host's kernel, with nothing to boot and no guest OS in memory, but the boundary is weaker — a kernel exploit escapes it. AWS Fargate narrows that gap by running each task inside its own Firecracker micro-VM.
-
-## Containers and deployment
-
-**Blue/green** — Standing up a complete second environment, switching traffic to
-it, and keeping the old one until you are confident. It buys the fastest
-possible rollback — flip the traffic back — at the cost of running two
-environments at once, and it is awkward when the two versions share a database
-that only one schema fits.
-
-**Canary** — Sending a small percentage of traffic to the new version and
-watching before proceeding. It differs from blue/green in what it optimises for:
-blue/green optimises rollback speed, canary optimises *detection*, by exposing
-the new version to real traffic while the blast radius is still small. It needs
-metrics good enough to tell the canary apart from the baseline, which is the
-part usually missing.
-
-**Draining** — Letting a task finish its in-flight requests after it has been
-taken out of rotation but before it is stopped. It is the difference between a
-deploy that is invisible and one that returns errors to whoever was mid-request.
-It requires cooperation from both sides: the load balancer must stop sending new
-work, and the process must keep serving until the existing work is done.
-
-**Liveness vs readiness** — Liveness answers "is this process broken and in need
-of restarting"; readiness answers "should this instance receive traffic right
-now". Conflating them causes a specific, common outage: on shutdown, an instance
-should report *not ready* while remaining *alive*, so the load balancer stops
-routing to it but the orchestrator does not kill it mid-drain. In this scaffold
-`/healthz` stays 200 through shutdown while `/readyz` flips to 503.
-
-**Rolling deploy** — Replacing instances a few at a time, with the load balancer
-shifting traffic as each new one becomes healthy. It is the default because it
-needs no extra capacity beyond the surge, but it means two versions serve
-simultaneously — so every change must be backwards compatible with the version
-it is replacing, for the duration of the roll.
-
-**Sidecar** — A second container in the same task, sharing its network and
-lifecycle, handling a cross-cutting concern such as a log shipper or a proxy.
-The concern is added without touching the application; the cost is that it
-consumes the task's CPU and memory and can hold up startup and shutdown.
-
-**Task definition vs service** — The task definition is the immutable template
-(image, CPU, memory, environment, roles); the service is the running controller
-that keeps N copies of it alive and registered with a load balancer. A deploy is
-therefore "register a new task definition revision, tell the service to use it",
-which is why rollback is cheap: the previous revision still exists.
-
----
+- **OCI (Open Container Initiative)** — the [standard](../00-software-engineering/02-standards.md) image, runtime, and registry specifications, so an image built by one tool runs under any runtime.
+- **Ephemeral filesystem** — the container's writable layer dies with it. Anything that must survive goes to a **volume** mounted from outside or, in a distributed system, to a Database or Object Storage.
+- **Container vs. VM** — a VM boots its own kernel: a stronger isolation boundary, paid for with a guest OS that must boot and stay resident. A container is a process on the shared kernel — nothing to boot — but a kernel exploit escapes it.
 
 ## Build and Ship Workflow
 
-1. **Write a Dockerfile** — an ordered recipe: base image, dependency install, source copy, entrypoint.
-2. **Send a build context** — the builder receives the directory you point it at. `.dockerignore` keeps `node_modules`, `.git`, and local secrets out of it; a large context slows every build.
-3. **Build, layer by layer** — each instruction is cached against the hash of its inputs and the layer below. The first instruction whose inputs changed invalidates itself *and everything after it*.
-4. **Tag, and record the digest** — the tag is for humans, the digest is what you deploy.
-5. **Push to a registry** — only layers the registry does not already hold travel over the wire.
-6. **Pull on the target host** — likewise, only the missing layers. A host that already ran a sibling image pulls almost nothing; a fresh host pulls everything.
-7. **Run** — the runtime stacks the layers into one filesystem, creates the namespaces and cgroups, and starts the entrypoint as process 1 inside them.
+1. **Build** from a Dockerfile. Each instruction is cached against the hash of its inputs; the first one whose inputs changed invalidates itself *and everything after it*.
+2. **Tag, and record the digest** — the tag is for humans; the digest is what you deploy.
+3. **Push to a registry, pull on the host** — only missing layers travel, so a fresh host pulls everything.
+4. **Run** — the runtime stacks the layers, creates the namespaces and cgroups, and starts the entrypoint as process 1.
 
-The same image, byte for byte, runs in every environment. What differs between environments is Configuration injected at step 7 — never a rebuild.
+The same image runs in every environment; only the Configuration injected at run time differs.
 
-## Running Many — What an Orchestrator Does
+## What an Orchestrator Does
 
-One container on one host is a single command. A real system is tens to thousands of them across a fleet, and everything below is the work an orchestrator takes over. The products differ; the jobs do not.
+A real system runs tens to thousands of containers across a fleet. The orchestrator products differ; the jobs do not.
 
-- **Desired-state reconciliation** — you declare "ten replicas of this image"; a controller continuously compares reality against that and acts. Declarative, not imperative: you never issue "start one more".
-- **Scheduling and bin-packing** — placing each container on a host with enough free CPU and memory, honoring constraints (spread across failure zones, keep these two apart, this one needs a GPU). Declared resource requests are the input, so getting them wrong either wastes half the fleet or packs it until everything degrades together.
-- **Health checks** — two different questions. *Liveness*: is this still working? If not, restart it. *Readiness*: can this take traffic right now? If not, remove it from the [load balancer](06-client-server-communication.md#load-balancing) but leave it running. Conflating them is a common outage — a slow-starting application fails its liveness check during warm-up and restarts forever.
-- **Service discovery and load balancing** — instances are created and destroyed constantly, so callers address a stable name that resolves to whichever instances are currently healthy.
-- **Rolling deploys** — replace instances in batches, bounded by how many may be down and how many extra may exist at once. Blue/green stands up a second full fleet and switches over; canary sends a small share of traffic to the new version first and watches the metrics.
-- **Autoscaling** — horizontal (more replicas, the normal answer for stateless work) or vertical (bigger replicas, for work that cannot be split).
-- **Configuration and secrets at run time** — injected as environment variables or mounted files, so one image serves every environment.
-- **Restart with backoff** — crash loops are slowed down rather than retried tightly, so a broken deploy does not hammer its dependencies.
+- **Desired-state reconciliation** — you declare "ten replicas of this image"; a controller keeps reality matching it. A deploy points it at a new versioned template; rollback points it back.
+- **Scheduling** — placing each container on a host with enough free CPU and memory, spread across failure zones. Declared resource requests are the input: wrong numbers waste the fleet or overload it.
+- **Health checks** — two different questions:
+  - *Liveness* — is it still working? If not, restart it.
+  - *Readiness* — can it take traffic now? If not, remove it from the [load balancer](06-client-server-communication.md#load-balancing) but leave it running.
+  - Conflating them causes outages: a slow-starting application fails liveness during warm-up and restarts forever. On shutdown, an instance reports *not ready* while staying *alive*, so traffic stops but the drain is not cut short.
+- **Deploy strategies**:
+  - *Rolling* — replace instances in batches. It needs no spare fleet, but two versions serve at once, so every change must stay backward compatible for the length of the roll.
+  - *Blue/green* — stand up a second fleet and switch traffic to it. Fastest rollback, at the cost of two fleets; awkward when both versions share a database only one schema fits.
+  - *Canary* — send a small share of traffic to the new version first. It optimizes *detection* while the blast radius is small, and needs metrics good enough to tell the canary from the baseline.
+- **Autoscaling and restarts** — more replicas for stateless work; crash loops restarted with backoff, so a broken deploy does not hammer its dependencies.
 
-For the managed implementations of all of this across the three clouds, see [Compute — Containers](../07-clouds/01-concept-map.md#compute--containers), and for the choice between a managed Kubernetes and a serverless container service, [Cross-Cloud Trade-Offs](../07-clouds/03-trade-offs.md#the-same-decision-in-three-vocabularies).
+The managed versions across the three clouds are in [Compute — Containers](../07-clouds/01-concept-map.md#compute--containers).
 
 ## Design Implications
 
-- **Stateless by default.** Instances appear and disappear without warning, so whatever a container writes locally is lost. Session data goes to a Cache, records to a Database, uploads to Object Storage. "Stateless" does not mean the system holds no state — it means no state lives in the compute tier.
-- **Shutdown is a contract.** The orchestrator sends SIGTERM, waits a grace period, then sends SIGKILL. In that window the application must stop accepting new work, finish what is in flight, and close its connections. Ignore SIGTERM and every deploy drops requests — invisible in staging, obvious under load.
-- **Image size is scale-out latency.** A host with no cached layers pulls the whole image before the container starts, and that pull lands exactly when the capacity was needed. Multi-stage builds matter operationally, not just aesthetically.
-- **Sidecars.** A second container in the same unit, sharing network and lifecycle — a log shipper, a proxy, a metrics agent. Useful, but platforms that bill per container make each sidecar a real cost, and platforms with no node-level agents force this pattern whether you wanted it or not.
-- **Requests and limits are two different numbers.** The request is what the scheduler reserves; the limit is what the kernel enforces. Set the request too low and hosts get oversubscribed. Set no memory limit and one leak takes its neighbors down. Set the limit too low and the kernel kills the process with no stack trace.
+- **Stateless by default.** Instances disappear without warning, so sessions go to a Cache, records to a Database, uploads to Object Storage.
+- **Shutdown is a contract.** The orchestrator sends SIGTERM, waits a grace period, then SIGKILL; in that window the application finishes in-flight work. Process 1 gets no default signal handlers, so an application that does not handle SIGTERM — or a shell-form `CMD npm start`, whose shell never forwards it — makes every deploy fail whoever was mid-request. Use exec form and handle the signal.
+- **Image size is scale-out latency.** A fresh host pulls the whole image before the container starts, exactly when the capacity is needed.
+- **Sidecars** — a second container in the same unit (a log shipper, proxy, or metrics agent) that adds a concern without touching the application, but shares its resources and can delay startup and shutdown.
+- **Requests and limits are two numbers.** The request is what the scheduler reserves; the limit is what the kernel enforces. With no memory limit, one leak takes its neighbors down; with too low a limit, the kernel kills the process with no stack trace.
 
-| Aspect | Container | Virtual Machine | Serverless Function |
-|---|---|---|---|
-| **Unit** | Process group on a shared kernel | Full guest operating system | One invocation |
-| **Start** | Process start, once the image is pulled | Full guest OS boot | Process start, plus a cold start on the first invocation |
-| **You operate** | Image and orchestrator config | OS, patching, capacity | Code only |
-| **Scales to zero** | Rarely, and slowly | No | Yes |
-| **Best for** | Long-running services with steady or shaped load | Legacy, kernel-level, or strict-isolation workloads | Spiky, short, event-driven work |
-| **Deciding question** | Does it need to stay up and hold connections? | Do you need your own kernel or hardware access? | Does every request finish well inside the timeout? |
-
-## Entities Diagram
-
-```text
-Dockerfile
-    │ build (each instruction becomes one cached layer)
-    ▼
-┌─────────── Image ────────────┐
-│ metadata: entrypoint, user   │
-│ ┌──────────────────────────┐ │
-│ │ layer 3 — app source     │ │
-│ ├──────────────────────────┤ │
-│ │ layer 2 — dependencies   │ │
-│ ├──────────────────────────┤ │
-│ │ layer 1 — base OS        │ │
-│ └──────────────────────────┘ │
-└──────────────┬───────────────┘
-               │ push / pull by digest
-               ▼
-        ┌──────────────┐
-        │   Registry   │
-        └──────┬───────┘
-               │
-               ▼
-┌─────────────── Host (shared kernel) ─┐
-│  ┌────────────┐    ┌────────────┐    │
-│  │ Container  │    │ Container  │    │
-│  │  writable  │    │  writable  │    │
-│  │   layer    │    │   layer    │    │
-│  └─────┬──────┘    └────────────┘    │
-│        │  namespaces + cgroups       │
-└────────┼─────────────────────────────┘
-         ▼
-   Volume — the only part that outlives the container
-
-Orchestrator: desired state → scheduling → health checks → rollout
-```
-
-Two containers from the same image share every layer on disk and differ only in their writable layer and the configuration handed to them at start.
+Choosing between compute models comes down to one question each: a **container** if it must stay up and hold connections; a **VM** if it needs its own kernel or hardware access; a **serverless function** if every request finishes well inside the timeout and the load is spiky enough to want scaling to zero.
 
 ## Details People Get Wrong
 
-- **Process 1 gets no default signal handlers.** The kernel gives process 1 no default action for SIGTERM, so an application that does not explicitly handle it simply ignores the signal and dies to SIGKILL when the grace period expires. Shell-form `CMD npm start` makes it worse: the shell becomes process 1 and never forwards the signal. Use exec form and handle SIGTERM in code.
-- **`latest` is not a version.** It is a mutable tag that can point at different bytes tomorrow, so two hosts pulling it an hour apart can run different code. Deploy by digest.
-- **Containers run as root unless told otherwise.** Root inside the container is root on the kernel it shares with everything else on the host. Declare a non-root user.
-- **Copying source before installing dependencies busts the cache on every build.** Any source change invalidates the copy layer and everything below it, including the dependency install. Copy the manifest, install, *then* copy the source.
-- **Deleting a secret in a later layer does not remove it.** Layers are additive diffs, so the earlier layer still holds it and anyone who pulls the image can read it. The same applies to build arguments. Use build secrets, or inject at run time.
-- **Shipping the build toolchain to production.** Compilers, dev dependencies, and test fixtures inflate the image and widen the attack surface. Leaving them behind is the point of a second build stage.
-- **Writing logs to a file inside the container.** The file dies with the container and nothing collects it. Write to standard output and standard error, and let the platform ship them.
-
-## Dockerfile — Multi-Stage Node Example
-
-```dockerfile
-# --- build stage: holds the toolchain, never ships ---
-FROM node:22-slim@sha256:<digest> AS build
-WORKDIR /app
-
-# manifest first, so this layer stays cached until dependencies actually change
-COPY package.json package-lock.json ./
-RUN npm ci
-
-# source last, so editing it invalidates only the layers below
-COPY . .
-RUN npm run build && npm prune --omit=dev
-
-# --- runtime stage: only what is needed to run ---
-FROM node:22-slim@sha256:<digest>
-WORKDIR /app
-ENV NODE_ENV=production
-
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
-
-# non-root; this user already exists in the base image
-USER node
-
-# exec form — node is process 1 and receives SIGTERM directly
-CMD ["node", "dist/server.js"]
-```
-
-Both `FROM` lines pin a digest rather than a tag, so the build is reproducible. The image carries no environment-specific values: the connection strings and secrets arrive at run time.
+- **`latest` is not a version.** Two hosts pulling it an hour apart can run different code. Deploy by digest.
+- **Containers run as root unless told otherwise**, and that root shares the host's kernel. Declare a non-root user.
+- **Copying source before installing dependencies** invalidates the install layer on every change. Copy the manifest, install, *then* copy the source.
+- **Deleting a secret in a later layer does not remove it** — the earlier layer still holds it. Use build secrets, or inject at run time.
+- **Shipping the build toolchain** — a multi-stage build leaves it behind.
+- **Logging to a file in the container** — the file dies with it. Write to standard output and let the platform collect it.

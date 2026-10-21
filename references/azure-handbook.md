@@ -1,13 +1,13 @@
 ---
 type: Guide
 title: Azure Handbook
-description: The Azure service catalog in plain language, the vocabulary underneath it, and the ground an Azure infrastructure role is interviewed on.
+description: The Azure service catalog in plain language, the vocabulary underneath it, and the questions an infrastructure interview commonly covers.
 tags: [azure, cloud, devops, interview]
 ---
 
 # Azure Handbook
 
-Azure has hundreds of services. Most systems use about thirty of them, and this document covers those thirty three ways at once: what each one is and what it costs you in practice, the vocabulary the design conversation assumes, and the questions an infrastructure role is asked over both.
+Azure has hundreds of services. Most systems use about thirty of them, and this document covers those thirty in three ways at once: what each one is and what it costs you in practice, the vocabulary the design conversation assumes, and the questions an infrastructure interview commonly asks about both.
 
 Nothing here assumes you have used Azure before. Every term is explained the first time it appears, and where Azure does something differently from AWS — which it does more often than the marketing pages suggest — the difference is called out rather than glossed over.
 
@@ -90,7 +90,7 @@ flowchart LR
 | **Tag** | a key/value label on a Resource, and the mechanism cost attribution and policy targeting both rely on |
 | **Region** | a named geographic group of data centres with its own copy of every regional service; nothing leaves one unless you ask |
 | **Availability Zone** | an independently powered group of data centres inside a Region; zone numbers are shuffled per Subscription, so two of them do not agree on zone 1 |
-| **Region Pair** | the second Region some redundancy options replicate to automatically, and that Azure never patches at the same time as its partner |
+| **Region Pair** | the second Region some redundancy options replicate to automatically, and whose planned updates Azure says it staggers with its partner (as of 2026) |
 
 ### The Resource Hierarchy — Where Everything Lives
 
@@ -117,7 +117,7 @@ Compute is where your code runs. Azure gives you several ways to run it, and the
 
 At one end, a **Virtual Machine** gives you a whole virtual server that you install software on and keep patched. At the other, **Azure Functions** runs one piece of your code when something calls it, and you never see a machine at all. **AKS** and **Container Apps** sit in between: you package your code as a Container, built with a tool such as Docker, and the service decides which machines run it.
 
-The general pattern: the less you manage, the less you can customise, and the more you pay per unit of work at steady high load — but the less you pay when the load is low or uneven, and the far less operator time you spend. Most teams end up with a mix.
+The general pattern: the less you manage, the less you can customise, and the more you pay per unit of work at steady high load — but the less you pay when the load is low or uneven, and you spend far less operator time. Most teams end up with a mix.
 
 ```mermaid
 flowchart LR
@@ -206,7 +206,7 @@ A Virtual Machine is a rented Linux or Windows server, billed by the second whil
 - **Reading a VM size:** the letter says what the machine is good at — `D` general purpose, `F` compute-optimized (more CPU per GB of memory), `E` memory-optimized, `B` burstable (cheap, with CPU credits that run out under sustained load), `L` storage-optimized, `N` GPU. Suffix letters stack and each means something: `a` = AMD processor, `p` = **Ampere Arm** processor (cheaper per unit of work, Azure's answer to AWS Graviton), `s` = can use premium SSD storage, `d` = has a local temporary disk.
 - **Scale set orchestration modes:** **Flexible** is the modern default — instances are ordinary VMs you can address and manage individually, spread across zones. **Uniform** is the older model, where instances are identical and anonymous; it still suits very large stateless fleets. An **availability set** is the pre-zone construct, spreading VMs across separate racks and power within a single data centre. Where a Region offers zones, zones are the better answer.
 - **Disk choice:** the operating system disk is normally a **managed disk**, which is network-attached and survives the machine being shut down. Some sizes also offer an **ephemeral OS disk**, stored on the host machine's own local storage: free, much faster to reimage, and **wiped whenever the machine is deallocated or reimaged**. That erasure is a feature if you never modify running servers, which makes ephemeral disks the natural fit for [immutable infrastructure](#immutable-infrastructure-and-cloud-native-delivery).
-- **Trap — "stopped" does not mean "not billed".** Shutting a VM down from inside the guest operating system leaves Azure still holding the hardware for you, and still charging for it. You have to **deallocate** the machine to stop paying. Deallocating also releases any dynamically assigned public IP address and destroys the contents of an ephemeral OS disk. Separately, the old Basic-tier public IPs and Basic Load Balancer were retired in September 2025; Standard tier is the only choice for new work.
+- **Trap — "stopped" does not mean "not billed".** Shutting a VM down from inside the guest operating system leaves Azure still holding the hardware for you, and still charging for it. You have to **deallocate** the machine to stop paying. Deallocating also releases any dynamically assigned public IP address and destroys the contents of an ephemeral OS disk. Separately, the old Basic-tier public IPs and Basic Load Balancer were retired on 30 September 2025 (as of 2026, existing ones may still run, but unsupported and without an SLA); Standard tier is the only choice for new work.
 
 ### AKS — Managed Kubernetes
 
@@ -215,7 +215,7 @@ Running Kubernetes yourself means operating its **control plane** — the set of
 - **Entry point:** the **cluster**, plus two decisions that are painful to reverse later. The first is the **node pool layout**: a `System` pool for Kubernetes' own internal services, and one or more `User` pools for your workloads, where each pool is a group of identical machines of one VM size. The second is the network plugin, below.
 - **Use it when:** you need the Kubernetes ecosystem specifically — custom operators, cluster-wide agents, network policies for tenant isolation, or a service mesh you chose yourself. If you do not need those, [Container Apps](#container-apps--serverless-containers) does the same job with far less to operate.
 - **The networking choice, which dates a cluster:** **Azure CNI Overlay** is the recommendation for new clusters. Pods get addresses from a private range that exists only inside the cluster and never consumes VNet address space, so your network address plan stays small. **Azure CNI (node subnet)** gives every pod a real, routable VNet address, which is what you want when something outside the cluster must reach a pod directly — and what exhausts your address space when you did not plan for it. **kubenet** is the legacy option, with a retirement already announced. Which plugin you get when you do not specify one depends on how the cluster was created, so specify it.
-- **How pods get permission to call Azure:** **Entra Workload ID**. The cluster publishes an OIDC issuer, a Kubernetes service account is federated to a [managed identity](#managed-identities--the-password-free-bridge), and the pod receives a short-lived token with no secret stored anywhere. It replaced AAD Pod Identity, retired in September 2024. The alternative people fall into — granting broad rights to the node's own identity — gives *every* pod on that node the same access, which is rarely what anyone intended.
+- **How pods get permission to call Azure:** **Entra Workload ID**. The cluster publishes an OIDC issuer, a Kubernetes service account is federated to a [managed identity](#managed-identities--the-password-free-bridge), and the pod receives a short-lived token with no secret stored anywhere. It replaced AAD Pod Identity: the open-source project was deprecated in October 2022 and archived in September 2023, and the AKS add-on was supported only through September 2025. The alternative people fall into — granting broad rights to the node's own identity — gives *every* pod on that node the same access, which is rarely what anyone intended.
 - **Scaling, at two levels:** the **cluster autoscaler** adds and removes nodes from existing pools within a min/max range, and is still the default. **Node Auto Provisioning** (built on the upstream Karpenter project) goes further and provisions right-sized nodes directly from the shape of the pending pods; it is the current recommendation. Separately, **KEDA** scales the number of *pods* based on external signals such as queue depth rather than CPU, which is what event-driven workloads actually need.
 - **Trap — the two identities.** A cluster has a **cluster identity**, which manages Azure resources on the cluster's behalf (load balancers, disks, route tables), and a **kubelet identity**, which the nodes use to pull container images from a registry. Granting the image-pull permission to the wrong one produces an `ImagePullBackOff` error that no amount of Kubernetes RBAC will fix, because the failure is happening in Azure, not in Kubernetes.
 
@@ -327,7 +327,7 @@ flowchart LR
 - **Entry point:** the Address Space, written in CIDR notation such as `10.0.0.0/16`, then the Subnets that divide it, then User-Defined Routes if you need to override where traffic goes.
 - **Use it when:** always, for anything that runs on a machine. Virtual machines, AKS nodes and VNet-integrated services all live in a subnet.
 - **Two differences from AWS worth saying out loud.** First, **a subnet is regional, not zonal** — it spans every Availability Zone in the Region, and the individual *resource* chooses which zone it sits in. Second, **every subnet in a VNet can already reach every other one**, because Azure creates system routes from the start. There is no internet gateway to attach and no route table to write before things work.
-- **Outbound internet must now be arranged deliberately.** It used to happen by default. **Default outbound access was retired for new deployments in September 2025**, so a new subnet needs an explicit method. The right answer is a **NAT Gateway**: a managed component that gives everything in the subnet a stable outbound address and does not run out of ports under load. The alternatives are a load balancer outbound rule, or giving the machine its own public IP.
+- **Outbound internet must now be arranged deliberately.** It used to happen by default. **Since 31 March 2026, new virtual networks get private subnets by default** (with API versions released after that date; existing networks are unchanged), so a new subnet needs an explicit method. The right answer is a **NAT Gateway**: a managed component that gives everything in the subnet a stable outbound address and does not run out of ports under load. The alternatives are a load balancer outbound rule, or giving the machine its own public IP.
 - **Forcing traffic through inspection:** a user-defined route that sends `0.0.0.0/0` (meaning "everything") to a `VirtualAppliance` next hop is how you push traffic through [Azure Firewall](#nsgs-asgs-and-azure-firewall--the-filtering-layers) or a third-party appliance instead of straight out to the internet. This is the mechanism behind hub-and-spoke designs.
 - **Trap — address planning bites twice.** Azure reserves **five** addresses in every subnet for its own use, so a `/29` gives you three usable addresses, not eight. And several services demand their own **dedicated, empty, exactly-named** subnet: `AzureFirewallSubnet`, `GatewaySubnet`, `AzureBastionSubnet`, and a subnet of its own for Application Gateway. Discovering the naming requirement after the address plan is agreed means rebuilding the network.
 
@@ -351,12 +351,12 @@ Two different things filter traffic, at two different levels of sophistication.
 
 - **Entry point:** for **Azure Load Balancer**, a **frontend IP address** → **rules** → a **backend pool** of machines → a **health probe** that decides which of them are fit to receive traffic. For **Application Gateway**, a **listener** → a **routing rule** → a **backend pool** plus its HTTP settings. In both, health checking lives with the backend, not the frontend.
 
-| Service | Works at | Scope | Use it for |
-|---|---|---|---|
-| **Load Balancer** | Layer 4 (TCP/UDP) | One Region | Very high throughput, non-HTTP protocols, zone-redundant frontends, outbound address translation |
-| **Application Gateway** | Layer 7 (HTTP) | One Region | Routing by URL path or hostname, **WAF** (a web application firewall that blocks common attacks), TLS termination, session affinity |
-| **Front Door** | Layer 7 (HTTP) | **Global** | An edge presence close to users, caching, WAF at the edge, failover between Regions |
-| **Traffic Manager** | DNS | Global | Steering users to a Region by priority, weight, latency or geography — including to endpoints outside Azure |
+| Service | Layer and scope | Use it for |
+|---|---|---|
+| **Load Balancer** | Layer 4 (TCP/UDP), one Region | Very high throughput, non-HTTP protocols, zone-redundant frontends, outbound address translation |
+| **Application Gateway** | Layer 7 (HTTP), one Region | Routing by URL path or hostname, **WAF** (a web application firewall that blocks common attacks), TLS termination, session affinity |
+| **Front Door** | Layer 7 (HTTP), **global** | An edge presence close to users, caching, WAF at the edge, failover between Regions |
+| **Traffic Manager** | DNS, global | Steering users to a Region by priority, weight, latency or geography — including to endpoints outside Azure |
 
 - **Use Front Door for new edge and CDN work.** **Azure CDN from Edgio** was announced for retirement on 15 January 2025, with service reportedly extended for some customers beyond that date, so check the current Microsoft retirement notice rather than assuming a given profile is already gone. **Azure CDN Standard from Microsoft** has its own, later retirement date. **Front Door Premium** can reach a backend over [Private Link](#private-link-and-service-endpoints--reaching-managed-services-privately), so the origin needs no public address at all.
 - **Traffic Manager is not in the traffic path.** It answers a DNS lookup and then steps aside. That means failover happens at the speed of DNS caching, not instantly — clients keep using the old answer until their cached record expires.
@@ -821,7 +821,7 @@ The Bicep-versus-Terraform decision comes up in almost every conversation and ha
 - **Azure DevOps Pipelines** and **GitHub Actions** both do this job. Choose by where the code already lives; the differences are covered in [Trade-Offs](#other-pairs-worth-a-rehearsed-answer).
 - **The pipeline shape** is the same either way: for Terraform, plan → manual approval → apply; for Bicep, validate → what-if → deploy.
 - **Authentication should use workload identity federation**, not a stored service principal secret. See [Workload Identity Federation](#workload-identity-federation--keyless-pipelines) — this is the highest-value change available in most existing pipelines.
-- **GitOps** is the application-layer counterpart: Flux or Argo CD watches a Git repository and reconciles the AKS cluster to match it, so the cluster's state is a consequence of the repository rather than of whoever last ran a command. See [CI/CD](../../04-development-process/03-ci-cd.md) for the general pipeline concepts.
+- **GitOps** is the application-layer counterpart: Flux or Argo CD watches a Git repository and reconciles the AKS cluster to match it, so the cluster's state is a consequence of the repository rather than of whoever last ran a command. See [CI/CD](../docs/04-development-process/03-ci-cd.md) for the general pipeline concepts.
 - **Testing infrastructure code** uses **Terratest** or **Pester** for behaviour, linting (`tflint`, `bicep lint`) for style, and **checkov** or **tfsec** to scan for insecure configurations before they are deployed.
 
 ### Configuration Management
@@ -845,12 +845,12 @@ Once a machine exists, something has to put software and settings on it — unle
 
 ### Cloud-Native Practices on Azure
 
-- **Containers.** Multi-stage builds to keep images small, and image scanning with Trivy or Defender for Containers in the pipeline. The underlying concepts are in [Containers](../../03-system-design/05-containers.md).
+- **Containers.** Multi-stage builds to keep images small, and image scanning with Trivy or Defender for Containers in the pipeline. The underlying concepts are in [Containers](../docs/03-system-design/05-containers.md).
 - **Kubernetes objects worth knowing by name:** Deployments (stateless replicas), StatefulSets (replicas with stable identity and storage), DaemonSets (one copy per node, for agents), Services (a stable address in front of pods), and Ingress (HTTP routing into the cluster, via the Application Gateway Ingress Controller on Azure).
 - **Helm** packages a set of Kubernetes objects as one versioned, parameterised unit.
 - **Scaling** comes in three forms: the Horizontal Pod Autoscaler (more pods), the Vertical Pod Autoscaler (bigger pods), and the cluster autoscaler or Node Auto Provisioning (more nodes). [KEDA](#aks--managed-kubernetes) adds event-driven scaling from queue depth.
 - **Network policies** restrict which pods may talk to which, implemented by Azure Network Policy Manager, Calico or Cilium. This is one of the capabilities that genuinely requires AKS rather than Container Apps.
-- **Service mesh** adds traffic management and mutual TLS between services. On AKS the supported route is the Istio-based add-on; the older Open Service Mesh add-on is retired and the project archived.
+- **Service mesh** adds traffic management and mutual TLS between services. On AKS the supported route is the Istio-based add-on; the older Open Service Mesh add-on loses AKS support on 30 September 2027, and the CNCF has retired the upstream project.
 - **Dapr** provides publish/subscribe, state management and service invocation behind a uniform API, and is built into [Container Apps](#container-apps--serverless-containers).
 - **The twelve-factor app** principles — configuration from the environment, stateless processes, logs as streams — are the philosophy all of the above assumes.
 
@@ -941,7 +941,7 @@ The order matters, because engineers habitually start with the smallest lever.
 
 ## Diagrams to Draw
 
-Being able to sketch these while talking is worth more than being able to recognise them. How to practise narrating a diagram while drawing it is covered in [Interview Technique](../../10-humans/21-interview.md); what follows is the Azure-specific content.
+Being able to sketch these while talking is worth more than being able to recognise them. How to practise narrating a diagram while drawing it is covered in [Interview Technique](../docs/10-humans/21-interview.md); what follows is the Azure-specific content.
 
 ### Landing Zone and Hub-Spoke
 
@@ -983,6 +983,8 @@ Draw order: management groups top-down, then the hub, then the spokes, then the 
                  │ └─────────┘ │      (no public access)
                  └─────────────┘
 ```
+
+Adapted from Microsoft's Azure landing zone reference architecture (Cloud Adoption Framework).
 
 Points to make **while** drawing:
 
@@ -1047,7 +1049,7 @@ Points to make while drawing:
 
 ## Trade-Offs — The "It Depends on X" Answers
 
-A good trade-off answer names the deciding variable first, then argues both sides, then commits. The general technique is in [Interview Technique](../../10-humans/21-interview.md); these are the Azure pairs worth having ready.
+A good trade-off answer names the deciding variable first, then argues both sides, then commits. The general technique is in [Interview Technique](../docs/10-humans/21-interview.md); these are the Azure pairs worth having ready. The sample answers here and in [Interview Rehearsal](#interview-rehearsal) are illustrations, not real accounts; describe only work you have done.
 
 ### Bicep versus Terraform
 
@@ -1061,7 +1063,7 @@ A good trade-off answer names the deciding variable first, then argues both side
 | **Preview run** | `what-if`, which is approximate | `plan`, which is precise because it has state |
 | **Deletes** | Leaves out-of-band resources alone unless in Complete mode | Tracks and destroys what it created |
 | **Ecosystem** | Azure Verified Modules, growing | A large, mature module registry |
-| **Cost and support** | Free, supported by Microsoft | Open-source core; the licence change matters to some organisations → OpenTofu |
+| **Cost and support** | Free, supported by Microsoft | Source-available core (BUSL 1.1 since v1.6, 2023; providers stay MPL); the licence matters to some organisations → OpenTofu, the open-source fork |
 
 **Sample answer:** *"If the estate is Azure-only and the team lives in the portal and PowerShell, Bicep — no state file to corrupt, day-zero support for new resource types, and it's supported by the same vendor as the platform. I flip to Terraform the moment there's a second provider in play, and there usually is: Entra ID app registrations, GitHub repositories, DNS at an external registrar. That's not multi-cloud, but it is multi-provider, and Bicep can't reach it. The real cost of Terraform is that state becomes a production asset — it needs remote storage, locking, backup and an access model of its own. If a team isn't ready to own that, Bicep is the safer choice."*
 
@@ -1092,7 +1094,7 @@ A good trade-off answer names the deciding variable first, then argues both side
 | **Reach** | Anywhere the agent runs, including Arc-connected on-premises | Needs a network path from a control node |
 | **Best at** | Holding a steady state | Orchestrating ordered, multi-host sequences |
 
-**Sample answer:** *"Machine Configuration when the goal is 'this baseline must never drift' — it's pull-based, it re-asserts on a schedule, and compliance lands in Azure Policy next to everything else, so auditors get one dashboard. Ansible when the work is orchestration rather than enforcement: sequenced steps across multiple hosts, mixed operating systems, anything with ordering between machines. They aren't really competing — I've run both, Machine Configuration holding the security baseline and Ansible doing app deployment on top. But the answer I'd push for is neither: if you're configuring VMs at boot, ask why the image doesn't already have it. Bake it with Image Builder and the drift problem stops existing. Config management is what you keep for the cases you can't bake."*
+**Sample answer:** *"Machine Configuration when the goal is 'this baseline must never drift' — it's pull-based, it re-asserts on a schedule, and compliance lands in Azure Policy next to everything else, so auditors get one dashboard. Ansible when the work is orchestration rather than enforcement: sequenced steps across multiple hosts, mixed operating systems, anything with ordering between machines. They aren't really competing — I've run both (if true), Machine Configuration holding the security baseline and Ansible doing app deployment on top. But the answer I'd push for is neither: if you're configuring VMs at boot, ask why the image doesn't already have it. Bake it with Image Builder and the drift problem stops existing. Config management is what you keep for the cases you can't bake."*
 
 ### Other Pairs Worth a Rehearsed Answer
 
@@ -1110,7 +1112,7 @@ A good trade-off answer names the deciding variable first, then argues both side
 
 ## Interview Rehearsal
 
-Azure infrastructure roles are consistently assessed against five competency areas. Everything needed to answer them is above; this section is the checklist and the story structure.
+This handbook groups the usual ground of an Azure infrastructure interview into five areas. The grouping is a study aid, not an official list. Everything needed to answer them is above; this section is the checklist and the story structure.
 
 ### The Five Areas, and What to Be Ready to Say
 
@@ -1124,11 +1126,11 @@ Azure infrastructure roles are consistently assessed against five competency are
 
 ### Behavioural Stories
 
-The story structure, the two rules for telling one, and the two stories asked in every loop whatever the cloud are in [Interview Technique](../../10-humans/21-interview.md). What follows is Azure-specific.
+The story structure, the two rules for telling one, and the two stories asked in every loop whatever the cloud are in [Interview Technique](../docs/10-humans/21-interview.md). What follows is Azure-specific.
 
 #### Worked Example — Automation
 
-Every figure below is a placeholder. Substitute your own resource counts, timings and outcomes, and keep the shape of the answer.
+This is a sample answer, not a real account, and every figure below is a placeholder. Substitute your own resource counts, timings and outcomes, and keep the shape of the answer.
 
 > **Situation:** "Three environments, about 200 resources, all built in the portal over two years and described by nothing but a wiki page. Deployments ran from an Azure DevOps variable group holding one service principal secret that was Owner on every subscription and had not been rotated since the pipeline was written."
 >
@@ -1168,11 +1170,11 @@ Mappings are approximate. Where the two services differ in shape, the third colu
 
 | AWS | Azure | Where the analogy breaks down |
 |---|---|---|
-| **Account** | Subscription | The billing, quota and isolation boundary on both sides. Management groups sit above it and answer to Organizations OUs; resource groups sit below and have no AWS equivalent |
+| **Account** | Subscription | The billing, quota and isolation boundary on both sides. Management groups sit above it and correspond to Organizations OUs; resource groups sit below and have no AWS equivalent |
 | **EC2** | Virtual Machines | Subnets are regional in Azure, so the machine picks its zone |
 | **Auto Scaling group** | Virtual Machine Scale Sets | Flexible orchestration keeps instances individually addressable; Uniform is the older anonymous model |
 | **ECS / Fargate** | Container Apps | Container Apps bundles KEDA, Dapr and revision-based traffic splitting |
-| **EKS** | AKS | The control plane is free on the AKS Free tier, which carries no availability guarantee |
+| **EKS** | AKS | The control plane is free on the AKS Free tier, which, as of 2026, carries no uptime SLA |
 | **ECR** | Azure Container Registry | The AKS *kubelet* identity needs the pull permission, not the cluster identity |
 | **Lambda** | Azure Functions | Bindings are declarative input and output; Durable Functions has no Lambda equivalent |
 | **Step Functions** | Durable Functions / Logic Apps | Durable orchestrators are ordinary code and must be deterministic; Logic Apps is the low-code path |
@@ -1214,6 +1216,6 @@ Mappings are approximate. Where the two services differ in shape, the third colu
 
 - [AWS Handbook](aws-handbook.md) maps the same ground onto the other major cloud, and is the fastest route in for anyone arriving from AWS — read it alongside the [service map](#aws-to-azure-service-map) above.
 - [GCP Handbook](gcp-handbook.md) covers the third platform, where a global VPC and an inherited resource hierarchy change several of the answers given here.
-- [Containers — Core Concepts and Orchestration](../../03-system-design/05-containers.md) explains the ideas behind AKS and Container Apps for readers who want the concepts before the products.
-- [CI/CD](../../04-development-process/03-ci-cd.md) covers the pipeline concepts the delivery section here assumes.
-- [Interview Technique](../../10-humans/21-interview.md) covers how to actually deliver the trade-off answers and stories above.
+- [Containers — Core Concepts and Orchestration](../docs/03-system-design/05-containers.md) explains the ideas behind AKS and Container Apps for readers who want the concepts before the products.
+- [CI/CD](../docs/04-development-process/03-ci-cd.md) covers the pipeline concepts the delivery section here assumes.
+- [Interview Technique](../docs/10-humans/21-interview.md) covers how to actually deliver the trade-off answers and stories above.

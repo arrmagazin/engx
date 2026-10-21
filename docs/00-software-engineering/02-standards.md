@@ -7,27 +7,37 @@ tags: [standards, engineering, code-quality, best-practices]
 
 ## Categories of Standards
 
-* Product Standards: Rules applied directly to the artifact being built. Examples include Google's Style Guides for formatting, unified document structures, and specific file schemas.
-* Process Standards: Frameworks defining the operational methodologies teams must follow. These encompass validation steps, specification workflows, and continuous deployment tracking.
+| Category | Governs | Examples |
+| --- | --- | --- |
+| **Product standards** | The artifact being built | Google's Style Guides for formatting, unified document structures, specific file schemas |
+| **Process standards** | The methods teams must follow | Validation steps, specification workflows, continuous deployment tracking |
 
 ## Key Areas Covered by Standards
 
 ### 1. Code Quality & Maintenance
 
-* Coding Conventions: Standardizing naming formats (e.g., camelCase vs. snake_case) and file directory organization so any developer can read the code.
-* Design Principles: Enforcing heuristics such as [SOLID](../05-coding/02-design-principles.md) to keep systems flexible and modular.
-* Architecture Rules: Using established conventions such as [REST](../03-system-design/06-client-server-communication.md) and interchange formats such as JSON.
+| Standard | What it sets |
+| --- | --- |
+| **Coding conventions** | Naming formats (e.g., camelCase vs. snake_case) and directory layout, so any developer can read the code |
+| **Design principles** | Heuristics such as [SOLID](../05-coding/04-design-principles.md) that keep systems flexible and modular |
+| **Architecture rules** | Established conventions such as [REST](../03-system-design/06-client-server-communication.md) and interchange formats such as JSON |
 
 ### 2. Operations & DevOps
 
-* Containerization: Following [Open Container Initiative (OCI)](https://opencontainers.org/) specifications so that an image built by one tool runs on any compliant runtime.
-* [CI/CD](../04-development-process/03-ci-cd.md) Pipelines: Standardizing automated test coverage targets and roll-back workflows to deploy code in small batches.
-* Semantic Versioning (SemVer): Using `major.minor.patch` numbering to communicate what kind of change a release contains.
+| Standard | What it sets |
+| --- | --- |
+| **Containerization** | [Open Container Initiative (OCI)](https://opencontainers.org/) specifications, so an image built by one tool runs on any compliant runtime |
+| **[CI/CD](../04-development-process/03-ci-cd.md) pipelines** | Automated test coverage targets and roll-back workflows, to deploy code in small batches |
+| **Semantic Versioning (SemVer)** | `major.minor.patch` numbers that tell what kind of change a release contains |
 
 ### 3. Security & Compliance
 
-* Secure Coding: Adhering to references such as the [OWASP Top 10](https://owasp.org/www-project-top-ten/) to protect systems from vulnerabilities such as SQL injection or broken access control.
-* Regulatory Compliance: Meeting legally binding data handling laws, such as HIPAA for health data in the United States or GDPR for personal data in the EU.
+| Standard | What it sets |
+| --- | --- |
+| **Secure coding** | References such as the [OWASP Top 10](https://owasp.org/www-project-top-ten/), to protect against vulnerabilities such as SQL injection or broken access control |
+| **Regulatory compliance** | Legally binding data-handling laws, such as HIPAA for health data held by US covered entities (health plans, health care clearinghouses, and certain providers) and their business associates, or GDPR for personal data in the EU |
+
+Which laws apply depends on the organization and where it operates; involve legal counsel to confirm.
 
 ## Major International Standards Bodies
 

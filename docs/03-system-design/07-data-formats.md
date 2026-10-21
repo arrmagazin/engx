@@ -1,137 +1,44 @@
 ---
 type: Guide
 title: Data Formats
-description: Compares data exchange and configuration formats such as JSON and YAML with examples.
+description: Compares JSON, YAML, Markdown, XML, CSV, and Parquet, and lists the parsing traps each one carries.
 tags: [frontend, data-formats, json, yaml]
 ---
 
-JSON, YAML, Markdown, XML, CSV, and Parquet trade readability, size, and type fidelity against each other. This is a working reference for picking one and for the parsing traps each carries; shared vocabulary is defined in the [glossary](../00-software-engineering/01-glossary.md).
+Data formats trade readability, size, and type fidelity against each other. This is a working reference for picking one and for the parsing traps each carries.
 
-## JSON
-
-The default payload format of web APIs — [Client-Server Communication](06-client-server-communication.md) covers how REST and GraphQL carry it. Values are limited to string, number, boolean, null, object, and array: no comments, no trailing commas, no date type.
-
-```json
-{
-    "users": [
-        {
-            "id": 1,
-            "name": "John Doe",
-            "email": "john@example.com",
-            "active": true,
-            "scores": [95, 87, 92]
-        }
-    ],
-    "total": 1
-}
-```
+| Format | Use it for | Watch out for |
+| --- | --- | --- |
+| **JSON** | API payloads ([Client-Server Communication](06-client-server-communication.md)) | No comments, no trailing commas, no date type — dates travel as ISO 8601 strings |
+| **YAML** | Configuration (CI, Kubernetes, OpenAPI) | Implicit typing; tabs are invalid indentation |
+| **Markdown** | Documents rendered to HTML | Raw HTML passes through, so sanitize user-supplied Markdown after rendering |
+| **XML** | Existing ecosystems: SOAP, RSS/Atom, SVG, Office files | Verbosity; rarely chosen for a new API |
+| **CSV** | Flat tabular exchange | No types, no standard encoding |
+| **Parquet** | Large analytical datasets (Spark, Pandas, DuckDB) | Not human-readable |
 
 ## YAML
 
-Indentation-based configuration format, and a superset of JSON as of YAML 1.2 (2009) — YAML 1.1 is not. Dominant for CI pipelines, Kubernetes, and OpenAPI because it supports comments and reads with less punctuation.
-
-```yaml
-# Same data as the JSON example above
-users:
-    - id: 1
-      name: John Doe
-      email: john@example.com
-      active: true
-      scores: [95, 87, 92]
-total: 1
-```
-
-| Feature | Notes |
-| --- | --- |
-| **Comments** | `#` to end of line — the main advantage over JSON |
-| **Anchors** | `&name` defines, `*name` reuses a node |
-| **Multi-line strings** | `\|` keeps newlines, `>` folds them into spaces |
-| **Documents** | `---` separates multiple documents in one file |
-
-**Pitfalls:**
+YAML 1.2 is a superset of JSON; YAML 1.1 is not. It dominates configuration because it allows `#` comments and needs less punctuation, and it adds anchors (`&name` defines, `*name` reuses a node) and multi-line strings (`|` keeps newlines, `>` folds them).
 
 | Pitfall | Example | Fix |
 | --- | --- | --- |
-| **Norway problem** | `country: NO` parses as boolean `false` under YAML 1.1, which also resolves `yes`, `no`, `on`, and `off` | Quote the value: `"NO"`. The YAML 1.2 core schema resolves only `true` and `false`, but the loader decides which schema applies, so quote regardless |
-| **Version strings** | `version: 1.10` parses as the float `1.1`, losing the trailing zero | Quote it: `"1.10"` |
-| **Tabs** | Tab characters are invalid for indentation | Use spaces only |
+| **Norway problem** | `country: NO` parses as boolean `false` under YAML 1.1, which also resolves `yes`, `no`, `on`, and `off` | Quote the value: `"NO"`. YAML 1.2 resolves only `true` and `false`, but the loader decides which schema applies, so quote anyway |
+| **Version strings** | `version: 1.10` parses as the float `1.1` | Quote it: `"1.10"` |
 | **Untrusted input** | Some loaders instantiate arbitrary types | Use a safe loader (`yaml.safe_load`, `js-yaml` default) |
-
-## Markdown
-
-Plain-text format for documents, converted to HTML for display. Used for READMEs, docs sites, and LLM output.
-
-```markdown
-# Heading
-
-Text with **bold**, *italic*, `code`, and a [link](https://example.com).
-
-- List item
-- Another item
-
-| Column | Column |
-| --- | --- |
-| Cell | Cell |
-```
-
-| Flavor | Adds |
-| --- | --- |
-| **CommonMark** | Strict, unambiguous base specification |
-| **GitHub Flavored Markdown (GFM)** | Tables, task lists, strikethrough, autolinks |
-| **MDX** | Embedded JSX components |
-| **Front matter** | Leading `---` block of YAML metadata |
-
-Markdown source may contain raw HTML, and most renderers pass it through, so treat user-supplied Markdown as untrusted and sanitize the rendered HTML (e.g. with DOMPurify) before inserting it into the page.
-
-## XML
-
-Verbose, schema-oriented format met through existing ecosystems rather than new API design: SOAP services, RSS and Atom feeds, and document formats such as SVG and Office Open XML. It carries attributes alongside elements, namespaces, and external schema validation (XSD).
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<users>
-    <user id="1">
-        <name>John Doe</name>
-        <email>john@example.com</email>
-    </user>
-</users>
-```
 
 ## CSV
 
-Flat, row-based text format for tabular data. No nested structures or types — every value is a string until the reader parses it.
-
-```csv
-id,name,email,active
-1,John Doe,john@example.com,true
-```
+Every value is a string until the reader parses it, and there is no nesting.
 
 | Pitfall | Example | Fix |
 | --- | --- | --- |
-| **Delimiter in value** | `John "Doe", Jr.` splits into extra columns | Quote fields containing the delimiter: `"Doe, Jr."` |
-| **Embedded quotes** | `She said "hi"` breaks quoting | Escape by doubling: `"She said ""hi"""` |
-| **No types** | `"true"`, `"1"`, `"1.10"` are all strings | Cast explicitly after parsing; don't infer |
-| **No standard encoding** | Excel's plain CSV export uses the system ANSI code page (1252 in Western Europe, 1251 Cyrillic, 932 Japanese), not UTF-8; its separate "CSV UTF-8" option does | Specify or detect the encoding when reading |
-| **Line endings** | CRLF vs. LF differs by OS and tool | Use a CSV parser, not manual `split("\n")` |
+| **Delimiter in value** | `Doe, Jr.` splits into two columns | Quote the field: `"Doe, Jr."` |
+| **Embedded quotes** | `She said "hi"` breaks quoting | Double them: `"She said ""hi"""` |
+| **No types** | `"true"`, `"1"`, `"1.10"` are all strings | Cast explicitly after parsing |
+| **No standard encoding** | Excel's plain CSV export uses the system code page, not UTF-8 | Specify or detect the encoding when reading |
 
-Always parse and generate with a library (e.g. Papa Parse, `csv-parse`) rather than splitting on commas — quoting and escaping rules make naive parsing unsafe.
+Parse and generate CSV with a library, never by splitting on commas and newlines: the quoting rules make naive parsing unsafe.
 
 ## Parquet
 
-Columnar binary format for large datasets, built for analytics rather than transport. Not human-readable; used with data tools (Spark, Pandas, DuckDB) rather than in application code.
-
-```text
-row group
-├── column: id       [1, 2, 3, ...]
-├── column: name     ["John Doe", "Jane Roe", ...]
-└── column: active   [true, false, ...]
-```
-
-| Feature | Notes |
-| --- | --- |
-| **Columnar layout** | Reading one column doesn't require reading the rest — fast for analytical queries |
-| **Compression** | Per-column encoding (dictionary, run-length) — much smaller than CSV/JSON |
-| **Schema** | Embedded in the file, with types — no inference needed |
-| **Splittable** | Row groups can be read independently for parallel or distributed processing |
-
-Expect it on the backend and data-pipeline side (data lakes, exports, warehouse tables), not in frontend request or response bodies.
+A columnar binary format built for analytics, not transport. Reading one column does not read the rest, per-column encoding makes files much smaller than CSV or JSON, the typed schema is embedded so nothing is inferred, and row groups can be read in parallel.

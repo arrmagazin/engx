@@ -5,7 +5,7 @@ description: Opens the architecture chapter — what architecture decides, the l
 tags: [architecture, system-design]
 ---
 
-**System architecture** is the practice of making the decisions about a solution that are expensive to reverse: what its parts are, how they interact, and how it is expected to change. This chapter covers those decisions and the quality attributes they are judged against. Architecture stops at the decisions — turning them into schemas, endpoints, and algorithms is [System Design](../03-system-design/index.md), and the attack classes a web application is built to withstand are [Web Application Security](../06-frontend/05-security-web.md).
+**System architecture** is the practice of making the decisions about a solution that are expensive to reverse: what its parts are, how they interact, and how it is expected to change. This chapter covers those decisions and the quality attributes they are judged against. Architecture stops at the decisions. Turning them into schemas, endpoints, and algorithms is [System Design](../03-system-design/index.md); the attack classes a web application must withstand are in [Web Application Security](../06-frontend/07-security-web.md).
 
 ## In This Chapter
 
@@ -33,11 +33,16 @@ tags: [architecture, system-design]
 | **Pattern** | A reusable solution shape | Strategy, Repository, Observer |
 | **Idiom** | A language-local form | RAII, context managers, `defer` |
 
-Confusing the levels is the usual failure: a pattern applied where no principle demanded it is accidental complexity, and a principle restated as a rule loses the trade-off that justified it. The patterns that shape a whole system rather than a single class are covered in [Architectural Patterns](03-architectural-patterns.md).
+Confusing the levels is the usual failure:
+
+- a pattern applied where no principle demanded it is accidental complexity
+- a principle restated as a rule loses the trade-off that justified it
+
+Patterns that shape a whole system, not a single class, are in [Architectural Patterns](03-architectural-patterns.md).
 
 ## Architectural Views
 
-No single diagram holds the whole architecture, so it is described through four views, each answering one set of concerns.
+No single diagram holds the whole architecture, so it is described through four views, each for one set of concerns.
 
 | View | What it describes |
 | ------ | ------------- |
@@ -46,4 +51,4 @@ No single diagram holds the whole architecture, so it is described through four 
 | **Deployment View** | How the system is placed in its runtime environment |
 | **Technology View** | Detailed design documents, prototypes, and technical specifications |
 
-What each view records, who reads it, and which ones are worth producing when: [Architectural Views](02-architectural-views.md).
+What each view records, who reads it, and when each is worth producing: [Architectural Views](02-architectural-views.md).

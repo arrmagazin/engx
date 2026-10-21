@@ -5,7 +5,7 @@ description: Explains continuous integration and delivery pipelines and the envi
 tags: [devops, ci-cd, development-process]
 ---
 
-Continuous integration (CI) *verifies* every commit against the shared mainline; continuous delivery (CD) *moves* each verified build toward production. This page covers both, and the environment stages a change passes through before it reaches users.
+Continuous integration (CI) *verifies* every commit against the shared mainline; continuous delivery (CD) *moves* each verified build toward production. This guide covers both, and the environment stages a change passes through before it reaches users.
 
 ```mermaid
 flowchart LR
@@ -26,12 +26,12 @@ flowchart LR
 
 ## Environment Stages
 
-| Environment | Purpose | Data | Promotion |
-| --- | --- | --- | --- |
-| **Local** | Individual development | Mocked/sample | Push to a shared branch |
-| **Development** | Integration testing | Test database | Promote once CI passes |
-| **Staging** | Pre-production and user acceptance testing | Production-like | Release to production |
-| **Production** | End users | Real data | None — telemetry feeds the next change |
+| Environment | Purpose *(data)* | Promotion |
+| --- | --- | --- |
+| **Local** | Individual development *(mocked/sample)* | Push to a shared branch |
+| **Development** | Integration testing *(test database)* | Promote once CI passes |
+| **Staging** | Pre-production and user acceptance testing *(production-like)* | Release to production |
+| **Production** | End users *(real data)* | None — telemetry feeds the next change |
 
 ## References
 

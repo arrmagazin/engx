@@ -1,24 +1,25 @@
 ---
 type: Guide
 title: AWS Handbook
-description: The AWS service catalog, the vocabulary underneath it, and the competency areas an infrastructure role is interviewed against, in one file.
+description: The AWS service catalog, the vocabulary underneath it, and the questions an infrastructure interview commonly covers, in one file.
 tags: [aws, cloud, devops, interview]
 ---
 
 # AWS Handbook
 
-AWS offers more than two hundred services. Most systems use about thirty of them, and this document covers those thirty three ways at once: what each one is and what it costs you in practice, the vocabulary the design conversation assumes, and the questions an infrastructure role is asked over both.
+AWS offers more than two hundred services. Most systems use about thirty of them, and this document covers those thirty in three ways at once: what each one is and what it costs you in practice, the vocabulary the design conversation assumes, and the questions an infrastructure interview commonly asks about both.
 
-The material is grouped the way a system is built. 
-- First the **foundations** every service depends on, 
-- the six things almost every system needs — somewhere to run code (**compute**), 
-- a network to reach it (**networking**), 
-- somewhere to keep data (**storage and data**), 
-- a way for the parts to talk (**messaging and events**), 
-- a way to decide who may do what (**identity**), 
-- and a way to see what is happening (**observability**). 
+The material is grouped the way a system is built:
 
-After those come the cross-cutting concerns that only appear once a system is real: **infrastructure as code and delivery**, **resilience**, and the performance, cost and security practices that keep it running. 
+- First the **foundations** every service depends on,
+- then the six things almost every system needs — somewhere to run code (**compute**),
+- a network to reach it (**networking**),
+- somewhere to keep data (**storage and data**),
+- a way for the parts to talk (**messaging and events**),
+- a way to decide who may do what (**identity**),
+- and a way to see what is happening (**observability**).
+
+After those come the cross-cutting concerns that only appear once a system is real: **infrastructure as code and delivery**, **resilience**, and the performance, cost and security practices that keep it running.
 
 ```mermaid
 flowchart LR
@@ -294,7 +295,7 @@ Fargate is not a service you set up on its own. It is a **capacity type** for EC
 
 ### EKS — Managed Kubernetes
 
-**Kubernetes** is the open-source container orchestrator most of the industry has standardised on. It has two halves: the **control plane** (the API server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). EKS (Elastic Kubernetes Service) runs the control plane for you, spread across AZs and kept up to date. Everything else is standard upstream Kubernetes, so tools and knowledge transfer from anywhere else Kubernetes runs. The [containers guide](../../03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
+**Kubernetes** is the open-source container orchestrator most of the industry has standardised on. It has two halves: the **control plane** (the API server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). EKS (Elastic Kubernetes Service) runs the control plane for you, spread across AZs and kept up to date. Everything else is standard upstream Kubernetes, so tools and knowledge transfer from anywhere else Kubernetes runs. The [containers guide](../docs/03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
 
 - **Entry point:** the **cluster** (the control plane, billed hourly) plus a decision about the data plane: **managed node groups** (Auto Scaling Groups that AWS keeps in step with the cluster version), **Karpenter** (a provisioner that watches for pods with nowhere to run and launches right-sized nodes for them directly — AWS-originated, now a CNCF project, and the modern default over the older Cluster Autoscaler), or **Fargate profiles** (one micro-VM per pod, no nodes).
 - **Use it when:** you need the Kubernetes ecosystem — Helm charts, operators, GitOps tooling, a platform team that already knows it — or portability across clouds. If none of that applies, ECS is less work.
@@ -324,14 +325,14 @@ These three trade control for set-up time. You give them an application and they
 
 ### Choosing Between the Compute Options
 
-| Option | You manage | AWS manages | Fits when |
-| --- | --- | --- | --- |
-| **EC2** | The operating system, patching, scaling rules, everything installed | The hardware and the hypervisor | You need a full machine, or are moving an existing server |
-| **ECS on Fargate** | The container image and its size | Everything underneath, including the machines | You have containers and want the least operations work |
-| **ECS on EC2** | The container image plus the node fleet | The scheduling | Steady high load, where a well-packed fleet is cheaper |
-| **EKS** | The Kubernetes objects, the add-ons and often the nodes | The control plane | You need the Kubernetes ecosystem or portability |
-| **Lambda** | The function code and its memory setting | Everything else | Event-driven, short, uneven work |
-| **App Runner** | The image or the repository | Everything else | A plain web service with no special networking |
+| Option | You manage · AWS manages | Fits when |
+| --- | --- | --- |
+| **EC2** | **You:** the operating system, patching, scaling rules, everything installed · **AWS:** the hardware and the hypervisor | You need a full machine, or are moving an existing server |
+| **ECS on Fargate** | **You:** the container image and its size · **AWS:** everything underneath, including the machines | You have containers and want the least operations work |
+| **ECS on EC2** | **You:** the container image plus the node fleet · **AWS:** the scheduling | Steady high load, where a well-packed fleet is cheaper |
+| **EKS** | **You:** the Kubernetes objects, the add-ons and often the nodes · **AWS:** the control plane | You need the Kubernetes ecosystem or portability |
+| **Lambda** | **You:** the function code and its memory setting · **AWS:** everything else | Event-driven, short, uneven work |
+| **App Runner** | **You:** the image or the repository · **AWS:** everything else | A plain web service with no special networking |
 
 The longer form of the ECS-versus-EKS decision, with the organizational question that usually settles it, is in [Trade-Offs](#ecs-fargate-vs-eks).
 
@@ -504,7 +505,7 @@ S3, DynamoDB, ECR and the other AWS services have public internet endpoints. By 
 - **Gateway endpoints:** available for **S3 and DynamoDB only**. They are a single line in a route table, and they are **free**. There is no good reason for a VPC not to have both.
 - **Interface endpoints:** an **ENI with a private IP address in your subnet** that represents one service — ECR, Systems Manager, Secrets Manager, KMS and many others. Billed per hour per AZ plus per gigabyte, which is still usually cheaper than sending the same traffic through the NAT Gateway.
 - **PrivateLink** (endpoint services): the same mechanism in the other direction, so that *you* can publish a service. You put your service behind an NLB and expose it as an endpoint service; other VPCs and other accounts create an interface endpoint to it in their own network. No peering, no shared routes, and overlapping address ranges stop mattering. This is how software vendors deliver a service privately to customers on AWS.
-- **Use them when:** whenever private subnets talk to AWS services — gateway endpoints always, interface endpoints wherever the NAT bill or a compliance rule says traffic must stay private — and PrivateLink whenever you offer a service to another account without opening a network path.
+- **Use them when:** private subnets talk to AWS services — gateway endpoints always, interface endpoints wherever the NAT bill or a compliance rule says traffic must stay private — and PrivateLink whenever you offer a service to another account without opening a network path.
 
 ## Storage and Data
 
@@ -646,7 +647,7 @@ DynamoDB is a **NoSQL** database: it stores items (JSON-like documents) and find
 
 Two services that sit next to the main database rather than replacing it.
 
-- **ElastiCache:** a managed in-memory store — **Redis**, its open-source fork **Valkey**, or Memcached — for data that must be read in microseconds and can be rebuilt if lost. The entry point is a **cluster endpoint**; *cluster mode disabled* means one shard with replica copies, *enabled* means data split across many shards. **Valkey** is the cheaper default since the fork; the fork, and the 2024 relicensing that caused it, are explained in [Redis — Core Concepts and Workflow](../../03-system-design/03-caching.md#redis--core-concepts-and-workflow). Used for **cache-aside** (check the cache first, then the database, then fill the cache), session storage, rate limiting and distributed locks.
+- **ElastiCache:** a managed in-memory store — **Redis**, its open-source fork **Valkey**, or Memcached — for data that must be read in microseconds and can be rebuilt if lost. The entry point is a **cluster endpoint**; *cluster mode disabled* means one shard with replica copies, *enabled* means data split across many shards. **Valkey** is the cheaper default since the fork; the fork, and the 2024 relicensing that caused it, are explained in [Redis — Core Concepts and Workflow](../docs/03-system-design/03-caching.md#redis--core-concepts-and-workflow). Used for **cache-aside** (check the cache first, then the database, then fill the cache), session storage, rate limiting and distributed locks.
 - **OpenSearch:** managed full-text search and log analytics, the open-source fork of Elasticsearch. The entry point is a **domain** (a cluster you size) or a **serverless collection** (sized for you). Use it when CloudWatch Logs Insights is no longer enough — search across text fields, dashboards over logs, and retention measured in years.
 - **Use them when:** ElastiCache when the same values are read far more often than they change and the database is the bottleneck; OpenSearch when users search text, or when operators need to slice logs in ways CloudWatch cannot.
 
@@ -928,6 +929,8 @@ flowchart LR
 | **Trusted Advisor** | automated checks of an Account against cost, security, quota and resilience best practice |
 | **Well-Architected Framework** | the six pillars a design is reviewed against: operations, security, reliability, performance, cost and sustainability |
 
+The six pillars are AWS's own, from the [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html).
+
 ### CloudWatch — Metrics, Logs and Alarms
 
 CloudWatch is where numbers and log lines go. Every AWS service publishes **metrics** (numbers over time — CPU use, request count, queue depth) to it automatically, applications send their **logs** to it, and **alarms** watch a metric and act when it crosses a threshold.
@@ -978,7 +981,7 @@ Systems Manager (SSM) is an umbrella over a dozen tools for managing servers at 
 
 Three services that look at your account and tell you things, rather than doing things.
 
-- **Trusted Advisor:** automated checks across cost, security, fault tolerance, performance and **service limits** — "this security group allows SSH from anywhere", "this instance has been idle for two weeks", "you are at 80% of your VPC quota". The full set of checks requires a Business or Enterprise support plan.
+- **Trusted Advisor:** automated checks across cost, security, fault tolerance, performance and **service limits** — "this security group allows SSH from anywhere", "this instance has been idle for two weeks", "you are at 80% of your VPC quota". As of 2026, the full set of checks requires a Business support plan or higher.
 - **AWS Health Dashboard:** events affecting *your* account specifically — a scheduled hardware retirement for one of your instances, a degraded service in your Region, an end-of-life notice for a version you run. Connect it to EventBridge so that the events reach a ticket queue or a chat channel instead of waiting to be read.
 - **Compute Optimizer:** right-sizing recommendations for EC2 instances, Auto Scaling Groups, EBS volumes, Lambda memory and Fargate tasks, based on your actual CloudWatch history rather than on guesses. This is where a cost review should start.
 - **Use them when:** monthly, as a routine — none of them interrupts you, and all three find money and risk that nobody was looking for.
@@ -1022,22 +1025,22 @@ flowchart LR
 | --- | --- | --- |
 | **CloudFormation** | Native | YAML/JSON, stacks + change sets, StackSets for multi-account/region; drift detection built in |
 | **AWS CDK** | Native | TypeScript/Python/etc. that *synthesizes* CloudFormation; constructs and aspects for reuse |
-| **Terraform (aws provider)** | OSS (HashiCorp) | Multi-cloud, explicit state, common in mixed estates |
+| **Terraform (aws provider)** | Source-available (HashiCorp, BUSL 1.1 since v1.6); provider MPL | Multi-cloud, explicit state, common in mixed estates |
 | **Pulumi** | OSS | IaC in general-purpose languages, own state backend |
-| **SAM / Serverless Framework** | Native / OSS | Opinionated shorthand for Lambda-centric stacks |
+| **SAM / Serverless Framework** | Native / Commercial (v4 is paid above $2M annual revenue, as of 2026) | Opinionated shorthand for Lambda-centric stacks |
 | **Ansible (`amazon.aws`)** | OSS | Config management + light provisioning |
 
 - **State management:** Terraform remote state in S3 with locking — a DynamoDB lock table is still supported, and S3-native locking arrived as the opt-in `use_lockfile` in Terraform 1.10 (November 2024). State is a production asset: remote storage, locking, backup and an access model of its own, because state files hold secrets in plain text.
 - **Modules:** CDK constructs vs. Terraform modules — reuse, versioning, private registries, and the point at which a shared module becomes a bottleneck rather than a convenience.
 - **Drift detection:** `terraform plan`, CloudFormation drift detection, and AWS Config rules. A nightly plan that alerts on a non-empty diff is what proves the code is the source of truth rather than a hopeful description.
-- **Idempotency:** declarative tools converge safely on repeated runs, and the places AWS makes that hard are eventual consistency and non-updatable properties that force a replacement. See the [System Design Glossary](../../03-system-design/01-common-concepts.md).
+- **Idempotency:** declarative tools converge safely on repeated runs, and the places AWS makes that hard are eventual consistency and non-updatable properties that force a replacement. See the [System Design Glossary](../docs/03-system-design/01-common-concepts.md).
 - **Testing:** **Terratest**, **cfn-lint**, **CDK assertions and snapshot tests**, and `checkov` / `tfsec` / `cfn-nag` for policy-as-code scanning. **Open Policy Agent / Conftest** or CloudFormation **Guard** carry org-specific rules into the pipeline.
 
 The full comparison, with the failure mode that usually decides it, is in [Trade-Offs](#cloudformationcdk-vs-terraform).
 
 ### Pipelines for Infrastructure
 
-- **Where it runs:** **GitHub Actions** or **GitLab CI** against native **CodePipeline + CodeBuild** (and CodeCatalyst). Where the application code already lives usually decides it. See [CI/CD](../../04-development-process/03-ci-cd.md).
+- **Where it runs:** **GitHub Actions** or **GitLab CI** against native **CodePipeline + CodeBuild** (and CodeCatalyst). Where the application code already lives usually decides it. See [CI/CD](../docs/04-development-process/03-ci-cd.md).
 - **Pipeline shape:** plan → manual approval → apply for Terraform; `cdk diff` or change set → review → execute for CloudFormation and the CDK. Apply the *saved plan artifact* from the pull request rather than a fresh plan at apply time, or you are approving something you did not review.
 - **Credentials:** OIDC federation to an IAM role. Never store access keys in CI.
 - **Multi-account deploys:** a pipeline in a tooling account assuming a deployment role in each target account, with separate state per environment so that a corrupted dev state cannot reach production.
@@ -1058,7 +1061,7 @@ The worked drawing of this pipeline is in [Diagrams to Draw](#diagrams-to-draw).
 
 - **Golden AMIs:** EC2 Image Builder or Packer — bake configuration into the image rather than mutating running servers. Share images across accounts with AWS RAM.
 - **Rolling replacement:** ASG **instance refresh** rather than in-place patching, with **lifecycle hooks** for graceful drain.
-- **Immutable containers:** pin images by digest rather than tag, set ECR immutable tags, and keep `latest` out of production. See [containers](../../03-system-design/05-containers.md).
+- **Immutable containers:** pin images by digest rather than tag, set ECR immutable tags, and keep `latest` out of production. See [containers](../docs/03-system-design/05-containers.md).
 - **Blue/green and canary:** **CodeDeploy** for ECS, Lambda and EC2 blue/green; ALB weighted target groups; Lambda alias traffic shifting; and Argo Rollouts or Flagger on EKS. Draw the rollback alarm explicitly — a canary that nothing watches is just a slow deploy.
 - **Patch management:** SSM Patch Manager for the fleets that stay mutable, image-based patching for the ones that do not.
 
@@ -1104,6 +1107,8 @@ flowchart LR
 | **Idempotency** | the property that repeating a request changes nothing further, which is what makes at-least-once delivery safe |
 | **Exponential Backoff with Jitter** | retrying after a randomized, growing delay, so that failures do not resynchronize the callers |
 
+The four recovery strategies follow AWS's whitepaper [Disaster Recovery of Workloads on AWS](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html).
+
 ### Choosing a Recovery Strategy
 
 The four strategies in the table are ordered cheapest and slowest first, and each step down the list buys a shorter RTO at a higher standing cost. The choice is which of the two numbers the business is actually paying for, and it is a business answer rather than a technical one.
@@ -1122,7 +1127,7 @@ Every service this section names has already been introduced above. What is here
 The order matters more than any individual technique — the first three steps are free, and the fourth is the only one that costs money.
 
 1. **Measure.** Load testing and [tracing](#x-ray-and-adot--distributed-tracing) find the actual bottleneck. Resizing before measuring buys a bigger instance for a problem that was in the database.
-2. **Cache what is read repeatedly.** [CloudFront](#cloudfront--the-global-edge) at the edge, [ElastiCache](#elasticache-and-opensearch--the-supporting-data-stores) in front of a database, and **DAX** in front of [DynamoDB](#dynamodb--managed-key-value-at-any-scale). See [caching](../../03-system-design/03-caching.md) for when a cache is the wrong answer.
+2. **Cache what is read repeatedly.** [CloudFront](#cloudfront--the-global-edge) at the edge, [ElastiCache](#elasticache-and-opensearch--the-supporting-data-stores) in front of a database, and **DAX** in front of [DynamoDB](#dynamodb--managed-key-value-at-any-scale). See [caching](../docs/03-system-design/03-caching.md) for when a cache is the wrong answer.
 3. **Fix the data layer before the compute layer.** [Aurora](#rds-and-aurora--managed-relational-databases) read replicas for read scaling, **RDS Proxy** for connection storms — a thousand concurrent [Lambda](#lambda--functions-no-servers) invocations otherwise mean a thousand database connections — and **Performance Insights** to find the slow query rather than guessing at it.
 4. **Then right-size.** Choose the instance family before the size, take [Compute Optimizer's](#trusted-advisor-health-dashboard-and-compute-optimizer--the-advisory-layer) recommendations over an opinion, and prefer **Graviton** where the runtime supports it. On [storage](#ebs--block-storage-for-one-instance), gp3 lets you buy IOPS and throughput independently of capacity; on [S3](#s3--object-storage), throughput scales with key prefixes, so a naming scheme that spreads objects parallelizes better than one that concentrates them.
 
@@ -1268,7 +1273,7 @@ Points to make while drawing:
 
 ## Trade-Offs
 
-Every question of the form "X or Y?" has the same shape of answer: name the variable the decision turns on, give your default, and say what would make you switch. [Interview Technique](../../10-humans/21-interview.md) covers the pattern and the phrasing. The pairs below are the AWS ones worth having rehearsed.
+Every question of the form "X or Y?" has the same shape of answer: name the variable the decision turns on, give your default, and say what would make you switch. [Interview Technique](../docs/10-humans/21-interview.md) covers the pattern and the phrasing. The pairs below are the AWS ones worth having rehearsed. The sample answers are illustrations, not real accounts; describe only work you have done.
 
 ### CloudFormation/CDK vs. Terraform
 
@@ -1283,7 +1288,7 @@ Every question of the form "X or Y?" has the same shape of answer: name the vari
 | **Failure mode** | Automatic rollback — good, until a stack is `UPDATE_ROLLBACK_FAILED` | Partial apply; you re-run and converge |
 | **Multi-account** | StackSets, natively org-aware | Per-account state plus assume-role providers |
 | **Abstraction** | CDK gives you real code (loops, types, unit tests) | HCL: deliberately limited, more predictable to read |
-| **Cost/support** | Free, AWS-supported | OSS core; the BUSL license change matters to some organizations → OpenTofu |
+| **Cost/support** | Free, AWS-supported | Source-available core (BUSL 1.1 since v1.6, 2023; providers stay MPL); the license matters to some organizations → OpenTofu, the open-source fork |
 
 **Sample answer:** *"If the estate is AWS-only and the team is application engineers who would rather write TypeScript than HCL, CDK — the constructs give real reuse, you can unit-test your infrastructure, and there is no state file to corrupt or back up. I flip to Terraform the moment there is a second provider in play, and there usually is: GitHub repos, Okta apps, DNS at an external registrar, Datadog monitors. That is not multi-cloud, it is multi-provider, and CDK cannot reach it. The real cost of Terraform is that state becomes a production asset — remote storage, locking, backup, and an access model of its own, because state files contain secrets in plaintext. The real cost of CloudFormation is the day a production stack lands in UPDATE_ROLLBACK_FAILED at 2am and you have to repair a stack whose internals you do not control. I would pick based on which of those two failures the team is better equipped to handle."*
 
@@ -1315,7 +1320,7 @@ Every question of the form "X or Y?" has the same shape of answer: name the vari
 | **Access model** | IAM — no inbound ports, no SSH keys | Requires SSH/WinRM credentials and reachability |
 | **Best at** | Enforcing a steady state, fleet-wide, with no bastion | Orchestrating ordered, multi-host sequences |
 
-**Sample answer:** *"State Manager when the goal is 'this baseline must never drift' — it is pull-based, it re-asserts on a schedule, it needs no inbound network path, and compliance lands next to everything else in Config, so auditors get one dashboard. Ansible when the work is orchestration rather than enforcement: ordered steps across multiple hosts, anything with a dependency between machines. They are not really competing — I have run both, State Manager holding the security baseline and Ansible doing application deployment on top. But the answer I would actually push for is neither: if you are configuring instances at boot, ask why the AMI does not already have it. Bake it with Image Builder, replace instances instead of patching them, and the drift problem stops existing. Configuration management is what you keep for the cases you genuinely cannot bake."*
+**Sample answer:** *"State Manager when the goal is 'this baseline must never drift' — it is pull-based, it re-asserts on a schedule, it needs no inbound network path, and compliance lands next to everything else in Config, so auditors get one dashboard. Ansible when the work is orchestration rather than enforcement: ordered steps across multiple hosts, anything with a dependency between machines. They are not really competing — I have run both (if true), State Manager holding the security baseline and Ansible doing application deployment on top. But the answer I would actually push for is neither: if you are configuring instances at boot, ask why the AMI does not already have it. Bake it with Image Builder, replace instances instead of patching them, and the drift problem stops existing. Configuration management is what you keep for the cases you genuinely cannot bake."*
 
 ### Other Pairs Worth a Rehearsed Answer
 
@@ -1337,8 +1342,8 @@ Each row names the variable that decides it; the section linked from the pair ho
 
 ## Where to Go Next
 
-- [Containers — Core Concepts and Orchestration](../../03-system-design/05-containers.md) explains the ideas behind ECS and EKS — images, containers, pods, orchestration — for readers who want the concepts before the products.
+- [Containers — Core Concepts and Orchestration](../docs/03-system-design/05-containers.md) explains the ideas behind ECS and EKS — images, containers, pods, orchestration — for readers who want the concepts before the products.
 - [Azure Handbook](azure-handbook.md) maps the same ground onto the other major cloud, which is the fastest route in for anyone arriving from Azure.
 - [GCP Handbook](gcp-handbook.md) does the same for Google Cloud, and ends with an [AWS to Google Cloud service map](gcp-handbook.md#aws-to-google-cloud-service-map) that names where each analogy stops being true.
-- [CI/CD](../../04-development-process/03-ci-cd.md) covers the pipeline concepts that the delivery section here assumes.
-- [Interview Technique](../../10-humans/21-interview.md) covers how to deliver the trade-off answers above.
+- [CI/CD](../docs/04-development-process/03-ci-cd.md) covers the pipeline concepts that the delivery section here assumes.
+- [Interview Technique](../docs/10-humans/21-interview.md) covers how to deliver the trade-off answers above.
