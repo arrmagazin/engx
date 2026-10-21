@@ -10,7 +10,7 @@
     "engineering",
     "handbook"
   ],
-  "email": "alitskevich@gmail.com",
+  "publisher": "https://irvin-oldman.myshopify.com/pages/contact",
   "copyright": "© 2026 Irvin Oldman. All rights reserved.",
   "scripts": {
     "check": "npx --yes npm-run-all --continue-on-error check:*",

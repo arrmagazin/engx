@@ -29,7 +29,7 @@ Without the author's written permission, you may not:
 - sell it or use it commercially, including as course or training material;
 - use it to train, fine-tune or evaluate an AI model, or add it to a dataset.
 
-To ask for a use this licence does not cover, write to the author at <alitskevich@gmail.com>.
+To ask for a use this licence does not cover, write to the author at <https://irvin-oldman.myshopify.com/pages/contact>.
 
 ## The Source Repository
 
