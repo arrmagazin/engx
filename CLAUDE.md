@@ -1,11 +1,11 @@
 # Engx
 
-A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth. The code is three Python checkers in `scripts/` that enforce the conventions below, and the release script. The site (<https://software-engineering.web.app>) and the EPUB / PDF builds live in the sibling `github-book` repo, which reads this repo at a tagged release (see **Releasing**).
+A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth. The code is three Python checkers in `scripts/` that enforce the conventions below. This repo also hosts the site (<https://software-engineering.web.app>) and builds the book as EPUB and PDF, with tooling from the sibling checkout `../arrmatura-books` (see **Site and book**).
 
 ## Structure
 
 - `docs/` — the book: ten numbered folders plus one root entry point, `docs/index.md`. `references/` (repo root) is source material that is **not** part of the book: three single-cloud handbooks the Clouds chapter was distilled from.
-- `scripts/` — the three checkers and their tests (stdlib Python), plus `release.sh`. `README.md` — the repository's front page, written for a human, not an agent.
+- `scripts/` — the three checkers and their tests (stdlib Python). `README.md` — the repository's front page, written for a human, not an agent.
 
 **The numbering rule.** Folder prefixes are unique and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-clouds`, `09-ai`, `10-humans`. `08` and `11` are unused — gaps left by earlier reorganizations, not placeholders. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
 
@@ -19,9 +19,24 @@ Those scripts pipe `git ls-files 'docs/*.md'` through `xargs`; keep it that way.
 - `check_glossary.py` — the glossary convention below.
 - `check_links.py` — every relative link resolves, and every `#anchor` names a heading that exists in the target file. It reads the files it is given *plus their targets*, so staging the referring file catches a broken link; renaming a heading and staging only that file does not. Run it over the whole book after a merge for that reason. Its own tests: `npm test`.
 
-## Releasing
+## Site and book
 
-The site and the book read the docs from jsDelivr at a **tagged release** of this repo, not from the working tree. To publish doc changes: commit and push, bump `version` in `package.json`, then `npm run release` (tags the commit and pushes the tag; jsDelivr serves only tags). Pinning the new tag and deploying happen in `github-book`.
+- `www/` — the Firebase public root. `index.html`, `service-worker.js` and `onload.js` are written by `npm run gen`; never edit them by hand. `favicon.svg`, `site.webmanifest` and `robots.txt` (AI crawlers disallowed, see LICENSE.md) are this site's own. `firebase.json` adds the `tdm-reservation: 1` header to every response.
+- `index.ts` — the UI entry: calls `launchBook` from `../arrmatura-books`. Built into `www/dist/` (gitignored) by `npm run build`, which `deploy` runs first.
+- `book/` — `cover.png`, the book's cover photograph. Not served. The book's metadata is `package.json` `book`.
+- `package.json` is the site's config: `displayName`, `description`, `author`, `keywords`, `copyright` and `store` reach the page through `gen`.
+
+The site reads the docs from jsDelivr at the **tag** of `package.json` `version`, not from the working tree. The book builds from the working tree.
+
+| Command | What it does |
+| --- | --- |
+| `npm run release` | Publishes doc changes: bump, `gen`, commit, push, tag, deploy. Needs a clean `main` |
+| `npm run book` | `build/engx.epub` and `.pdf` from `docs/`; `-- --markdown` checks structure only |
+| `npm start` / `npm run stop` | Serves `www/` on :8092, rebuilds the UI on change, opens the browser / frees :8092 |
+| `npm run build` | `www/dist/` (gitignored): the UI bundle from `index.ts`, which calls `launchBook`, and its CSS |
+| `npm run gen` / `deploy` | The two steps of a release, alone; `deploy` runs `build` first |
+
+How the tooling works: `../arrmatura-books/site/README.md` and `../arrmatura-books/book/README.md`.
 
 ## Images and links
 

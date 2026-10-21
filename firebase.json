@@ -1,0 +1,24 @@
+{
+  "hosting": {
+    "site": "software-engineering",
+    "public": "www",
+    "ignore": ["**/.*"],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "tdm-reservation",
+            "value": "1"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -10,14 +10,45 @@
     "engineering",
     "handbook"
   ],
+  "logo": "/favicon.svg",
   "publisher": "https://irvin-oldman.myshopify.com/pages/contact",
   "copyright": "© 2026 Irvin Oldman. All rights reserved.",
+  "store": "https://irvin-oldman.myshopify.com/products/introduction-to-software-engineering",
+  "book": {
+    "title": "Introduction to Software Engineering",
+    "subtitle": "The distilled knowledge for practising engineers",
+    "language": "en-GB",
+    "description": "A reference book covering the most fields of knowledge every Software engineer must know.",
+    "subject": [
+      "Software engineering",
+      "System design",
+      "Cloud computing"
+    ],
+    "coverPhoto": "book/cover.png"
+  },
   "scripts": {
+    "start": "export PORT=${PORT:-8092} && npm run stop && npx --yes npm-run-all --parallel start:*",
+    "start:serve": "bun ../arrmatura-books/site/serve.ts",
+    "start:css": "npm run build:css -- --watch",
+    "start:open": "npx --yes wait-on http://localhost:${PORT:-8092} && open http://localhost:${PORT:-8092}/",
+    "stop": "lsof -t -sTCP:LISTEN -i tcp:${PORT:-8092} | xargs -r kill -9",
     "check": "npx --yes npm-run-all --continue-on-error check:*",
     "check:frontmatter": "git ls-files 'docs/*.md' | xargs python3 scripts/check_okf_frontmatter.py",
     "check:glossary": "git ls-files 'docs/*.md' | xargs python3 scripts/check_glossary.py",
     "check:links": "git ls-files 'docs/*.md' | xargs python3 scripts/check_links.py",
-    "release": "./scripts/release.sh",
-    "test": "python3 -m unittest discover -s scripts -p 'test_*.py'"
+    "test": "python3 -m unittest discover -s scripts -p 'test_*.py'",
+    "gen": "bun ../arrmatura-books/site/gen.ts",
+    "build": "npx --yes npm-run-all --parallel build:*",
+    "build:ts": "bun ../arrmatura-books/scripts/build.ts",
+    "build:css": "npx --yes @tailwindcss/cli --cwd ../arrmatura-books -i index.css -o \"$PWD/www/dist/index.css\"",
+    "book": "bun ../arrmatura-books/book/build.ts",
+    "predeploy": "npm run build",
+    "deploy": "firebase deploy --only hosting -P parlang",
+    "release": "../arrmatura-books/site/release.sh"
+  },
+  "esbuild": {
+    "entryPoints": [
+      "index.ts"
+    ]
   }
 }
