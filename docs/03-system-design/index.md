@@ -29,9 +29,9 @@ flowchart LR
 | **[Kafka — Core Concepts and Workflow](04-messaging.md)** | Partitions, consumer groups, delivery guarantees, queue patterns, and ordering |
 | **[Containers — Core Concepts and Orchestration](05-containers.md)** | Images, isolation, orchestration, and what containers mean for state |
 | **[Client-Server Communication](06-client-server-communication.md)** | Load balancing, HTTP semantics, REST and GraphQL, and streaming transports |
-| **[Data Formats](07-data-formats.md)** | JSON, YAML, XML, CSV, Markdown, and Parquet, and the parsing traps of each |
+| **[Data Formats](../99-appendicies/07-data-formats.md)** | JSON, YAML, XML, CSV, Markdown, and Parquet, and the parsing traps of each |
 | **[Canonical Systems](08-canonical-systems.md)** | Eleven worked problems, each filed under the bottleneck it tests |
-| **[Abbreviations](09-abbreviations.md)** | The abbreviations used across this book |
+| **[Abbreviations](../99-appendicies/09-abbreviations.md)** | The abbreviations used across this book |
 
 ## Information System
 

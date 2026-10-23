@@ -7,7 +7,7 @@ tags: [frontend, resources, reference]
 
 Frontend engineering covers the runtime the code ships into and the standards it is measured against: the browser, WCAG, and the OWASP attack classes, not any one framework.
 
-- What travels between browser and server is a system-design concern, covered in [Client-Server Communication](../03-system-design/06-client-server-communication.md) and [Data Formats](../03-system-design/07-data-formats.md).
+- What travels between browser and server is a system-design concern, covered in [Client-Server Communication](../03-system-design/06-client-server-communication.md) and [Data Formats](../99-appendicies/07-data-formats.md).
 - The guides stay framework-agnostic. A framework's own documentation is linked below, not restated.
 - The same goes for the languages: this book documents the engineering around HTML, CSS, and JavaScript, not the languages themselves. Their specifications are under Web Standards below; CSS reference material is in [Browser Technologies](02-browser-technologies.md#css-resources).
 
