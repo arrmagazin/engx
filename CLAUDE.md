@@ -34,7 +34,7 @@ The site reads the docs from jsDelivr at the **tag** of `package.json` `version`
 | `npm run book` | `build/engx.epub` and `.pdf` from `docs/`; `-- --markdown` checks structure only |
 | `npm start` / `npm run stop` | Serves `www/` on :8092, rebuilds the UI on change, opens the browser / frees :8092 |
 | `npm run build` | `www/dist/` (gitignored): the UI bundle from `index.ts`, which calls `launchBook`, and its CSS |
-| `npm run gen` / `deploy` | The two steps of a release, alone; `deploy` runs `build` first |
+| `npm run deploy` | `deploy` runs `build` first |
 
 How the tooling works: `../arrmatura-books/site/README.md` and `../arrmatura-books/book/README.md`.
 
