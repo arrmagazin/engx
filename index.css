@@ -3,8 +3,9 @@
    https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap */
 @import "tailwindcss";
 
-@source "./node_modules/arrmatura-web/**/*.xml";
-@source "./cml/**/*.xml";
+@source "../arrmatura-books/node_modules/arrmatura-web/**/*.xml";
+@source "../arrmatura-books/cml/**/*.xml";
+@source "./www/index.html";
 
 @plugin "daisyui" {
   themes:
@@ -12,8 +13,7 @@
     corporate,
     caramellatte,
     bumblebee,
-    winter,
-    dark;
+    winter;
 }
 
 @layer base {
@@ -47,20 +47,14 @@
   }
 
   /* DaisyUI success/error on light bg — enforce readable contrast */
-  body:not([data-theme="dark"]) .text-success {
+  .text-success {
     /* biome-ignore lint/complexity/noImportantStyles: base layer must beat DaisyUI's utility-layer colour */
     color: #146c37 !important;
   }
 
-  body:not([data-theme="dark"]) .text-error {
+  .text-error {
     /* biome-ignore lint/complexity/noImportantStyles: base layer must beat DaisyUI's utility-layer colour */
     color: #b91820 !important;
-  }
-
-  /* Dark mode: ThemeService puts data-theme="dark" on <body>, over the light page colours above. */
-  body[data-theme="dark"] {
-    background: var(--color-base-100);
-    color: var(--color-base-content);
   }
 }
 

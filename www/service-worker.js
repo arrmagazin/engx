@@ -16,44 +16,56 @@ const offlineResponse = (request) =>
     ? new Response(OFFLINE_PAGE, { status: 503, headers: { "Content-Type": "text/html; charset=utf-8" } })
     : new Response("", { status: 504, statusText: "Offline" });
 
+// CDN files: their URLs carry a version, so they never change.
 const filters = [
   "https://fonts.googleapis.com/",
   "https://fonts.gstatic.com/",
   "https://unpkg.com/",
   "https://data.jsdelivr.com/v1/",
-  "https://cdn.jsdelivr.net/gh/",
+  "https://cdn.jsdelivr.net/",
 ];
 
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches
-      .keys()
-      .then((cacheNames) =>
-        Promise.all(cacheNames.filter((name) => name.startsWith("cache-")).map((name) => caches.delete(name))),
-      ),
-  );
-});
+// Site files: network first, so a deploy shows at once; the cache answers offline.
+// Every route of the single-page app is index.html, kept under "/".
+const fromSite = async (cache, request) => {
+  const key = request.mode === "navigate" ? "/" : request;
+  try {
+    const response = await fetch(request);
+    if (response.ok) await cache.put(key, response.clone());
+    return response;
+  } catch {
+    return (await cache.match(key)) ?? offlineResponse(request);
+  }
+};
+
+// CDN files: cache first. Stylesheets load without CORS and come back opaque (status 0): keep them too.
+const fromCdn = async (cache, request) => {
+  const cached = await cache.match(request);
+  if (cached) return cached;
+  const response = await fetch(request);
+  if (response.ok || response.type === "opaque") await cache.put(request, response.clone());
+  return response;
+};
 
 self.addEventListener("fetch", (event) => {
-  const url = event.request.url;
+  const { request } = event;
+  if (request.method !== "GET") return;
+  const url = request.url;
+  const handle = url.startsWith(`${self.location.origin}/`)
+    ? fromSite
+    : filters.some((f) => url.startsWith(f))
+      ? fromCdn
+      : null;
+
+  if (!handle) return;
+
   event.respondWith(
     caches
       .open(CACHE_NAME)
-      .then(async (cache) => {
-        const cached = await cache.match(event.request);
-        if (cached) return cached;
-
-        const response = await fetch(event.request.clone());
-
-        if (response.status === 200 && filters.some((f) => url.startsWith(f))) {
-          await cache.put(event.request, response.clone());
-        }
-
-        return response;
-      })
+      .then((cache) => handle(cache, request))
       .catch((error) => {
         console.error("Error in fetch:", error);
-        return offlineResponse(event.request);
+        return offlineResponse(request);
       }),
   );
 });
