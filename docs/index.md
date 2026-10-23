@@ -47,7 +47,7 @@ Three rules shape the content:
 - **A snapshot, not a feed.** Service names, quotas, limits and prices change without notice, and the cloud chapters age fastest. Where a number matters, the provider's documentation is authoritative.
 - **Standards are summarized, not reproduced.** References to IEEE 12207, IEEE 29119, IEEE 29148, IEEE 42010, IEEE 830 and ISO/IEC 25010 describe what those documents cover. Where the exact wording matters, read the published standard.
 - **Trademarks.** Product and company names belong to their owners and are used for identification only. Their use implies no affiliation with, or endorsement by, the owners.
-- **Licence.** The book is free to read online as published. Any other use needs the author's written permission — see the [Licence](https://github.com/arrmagazin/engx/blob/main/LICENSE.md).
+- **Licence.** Share and adapt the book for non-commercial use, with credit, under the same terms — [CC BY-NC-SA 4.0](https://github.com/arrmagazin/engx/blob/main/LICENSE.md).
 
 ---
 

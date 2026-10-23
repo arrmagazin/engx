@@ -1,11 +1,11 @@
 # Engx
 
-A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth. The code is three Python checkers in `scripts/` that enforce the conventions below. This repo also hosts the site (<https://software-engineering.web.app>) and builds the book as EPUB and PDF, with tooling from the sibling checkout `../arrmatura-books` (see **Site and book**).
+A personal engineering knowledge base written as markdown, organized as a numbered-folder "book" under `docs/`. The markdown is the source of truth. Three checkers in `../arrmatura-books/scripts/` enforce the conventions below. This repo also hosts the site (<https://software-engineering.web.app>) and builds the book as EPUB and PDF, with tooling from the sibling checkout `../arrmatura-books` (see **Site and book**).
 
 ## Structure
 
 - `docs/` — the book: ten numbered folders plus one root entry point, `docs/index.md`. `references/` (repo root) is source material that is **not** part of the book: three single-cloud handbooks the Clouds chapter was distilled from.
-- `scripts/` — the three checkers and their tests (stdlib Python). `README.md` — the repository's front page, written for a human, not an agent.
+- `README.md` — the repository's front page, written for a human, not an agent.
 
 **The numbering rule.** Folder prefixes are unique and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-clouds`, `09-ai`, `10-humans`. `08` and `11` are unused — gaps left by earlier reorganizations, not placeholders. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
 
@@ -13,15 +13,15 @@ A personal engineering knowledge base written as markdown, organized as a number
 
 `.githooks/pre-commit` runs all three over the `docs/*.md` files a commit stages, under an `ACMR` filter so pure renames are checked too. Each clone enables the hook once with `git config core.hooksPath .githooks`. To run them over the whole book, `npm run check` (all three, each run even if an earlier one fails) or `npm run check:frontmatter` / `check:glossary` / `check:links` (one).
 
-Those scripts pipe `git ls-files 'docs/*.md'` through `xargs`; keep it that way. Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `python3 scripts/check_links.py $files` passes all 60 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
+Those scripts pipe `git ls-files 'docs/*.md'` through `xargs`; keep it that way. Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `bun ../arrmatura-books/scripts/check-links.ts $files` passes all 60 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
 
-- `check_okf_frontmatter.py` — the frontmatter convention below.
-- `check_glossary.py` — the glossary convention below.
-- `check_links.py` — every relative link resolves, and every `#anchor` names a heading that exists in the target file. It reads the files it is given *plus their targets*, so staging the referring file catches a broken link; renaming a heading and staging only that file does not. Run it over the whole book after a merge for that reason. Its own tests: `npm test`.
+- `check-okf-frontmatter.ts` — the frontmatter convention below.
+- `check-glossary.ts` — the glossary convention below.
+- `check-links.ts` — every relative link resolves, and every `#anchor` names a heading that exists in the target file. It reads the files it is given *plus their targets*, so staging the referring file catches a broken link; renaming a heading and staging only that file does not. Run it over the whole book after a merge for that reason.
 
 ## Site and book
 
-- `www/` — the Firebase public root. `index.html`, `service-worker.js` and `onload.js` are written by `npm run gen`; never edit them by hand. `favicon.svg`, `site.webmanifest` and `robots.txt` (AI crawlers disallowed, see LICENSE.md) are this site's own. `firebase.json` adds the `tdm-reservation: 1` header to every response.
+- `www/` — the Firebase public root. `index.html`, `service-worker.js` and `onload.js` are written by `npm run gen`; never edit them by hand. `favicon.svg`, `site.webmanifest` and `robots.txt` (AI crawlers disallowed) are this site's own. `firebase.json` adds the `tdm-reservation: 1` header to every response.
 - `index.ts` — the UI entry: calls `launchBook` from `../arrmatura-books`. Built into `www/dist/` (gitignored) by `npm run build`, which `deploy` runs first.
 - `book/` — `cover.png`, the book's cover photograph. Not served. The book's metadata is `package.json` `book`.
 - `package.json` is the site's config: `displayName`, `description`, `author`, `keywords`, `copyright` and `store` reach the page through `gen`.
@@ -66,14 +66,14 @@ tags: [lowercase, kebab-or-single-word, tags]
 ## Working conventions
 
 - Prefer standard English; no fancy or rare words, no idioms.
-- The content is markdown. The checkers are stdlib-only Python 3 and stay that way — no dependencies to install, and no test framework beyond `unittest` (pytest is not available here).
+- The content is markdown. The checkers are TypeScript on the Node standard library, run by `bun`, and stay that way — no dependencies to install.
 - Anything asserted in the book should be checkable. Prefer a claim a reader could falsify over one that merely sounds right.
 
 ## Glossary conventions
 
 These apply to any file that defines terms in a **definition list** — the [extended markdown syntax](https://www.markdownguide.org/extended-syntax/#definition-lists) — such as `docs/00-software-engineering/01-glossary.md`. They were two-column tables until 2026-09-12; a definition is now free to hold a list or a second paragraph, and a long one wraps to the full measure instead of a narrow column.
 
-`check_glossary.py` checks the mechanical rules below: entries a renderer would silently fold together, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. Definition lists are used in this book for exactly one thing, so every one of them is in scope and no header row marks them; comparisons, ladders and nav tables stay tables and are not read. Indirect loops and oversized lists print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked.
+`check-glossary.ts` checks the mechanical rules below: entries a renderer would silently fold together, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. Definition lists are used in this book for exactly one thing, so every one of them is in scope and no header row marks them; comparisons, ladders and nav tables stay tables and are not read. Indirect loops and oversized lists print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked.
 
 Note also what it cannot see: its duplicate-term check is per file, so the same term defined once in each of two chapters passes. That is a real hazard in a book this size — see the two senses of *Framework* in `01-methodology/index.md` and `03-system-design/index.md`, which are disambiguated in prose because no checker could catch them.
 

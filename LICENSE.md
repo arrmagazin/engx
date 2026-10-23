@@ -1,38 +1,30 @@
 ---
 type: Guide
 title: Licence
-description: The terms the book is offered under — free to read online as published; any other use needs the author's written permission.
-tags: [licence, copyright, terms]
+description: The book is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0).
+tags: [licence, copyright, terms, cc-by-nc-sa]
 ---
 
-© 2026 Irvin Oldman. All rights reserved.
+© 2026 Irvin Oldman. Some rights reserved.
 
-These terms cover everything in this repository, including `references/`, and the site built from it. Copyright covers the text and the author's selection and arrangement of it.
+This work is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/) (CC BY-NC-SA 4.0). The [legal code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) is the binding text; this page is a summary of it.
 
-## What You May Do
+It covers everything in this repository, and the site built from it at <https://software-engineering.web.app>.
 
-- **Read it online, as is.** Read the book free of charge at <https://software-engineering.web.app>, in a web browser, as the site presents it. Assistive technology, reader modes, automatic translation, and printing a page for your own use are part of reading it.
-- **Link to it.** Link to the site or to any page in it.
-- **Use what you learn.** Apply the ideas in your own work, paid or not.
-- **copy, reproduce, republish, mirror or distribute** any part of the book, in any form;
-- **build** an EPUB, PDF or any other edition from the source;
-- **translate, adapt or modify it,** or make derivative works from it;
+## You Are Free To
 
-Nothing in this licence limits what the law already allows, such as a short quotation with attribution.
+- **Share** — copy and redistribute the material in any medium or format.
+- **Adapt** — remix, transform, translate and build upon the material.
 
-Any other use needs the author's written permission.
+## Under These Terms
 
-## What Is Not Allowed
+- **Attribution** — credit "Irvin Oldman, *Introduction to Software Engineering*", link to the licence, and say whether you made changes. Do not suggest the author endorses you or your use.
+- **NonCommercial** — do not use the material for commercial purposes.
+- **ShareAlike** — if you adapt the material, distribute your work under this same licence.
+- **No additional restrictions** — do not add legal terms or technical measures that stop others doing what the licence permits.
 
-Without the author's written permission, you may not:
+Exceptions and limitations in copyright law, such as quotation, still apply.
 
-- sell it or use it commercially, including as course or training material;
-- use it to train, fine-tune or evaluate an AI model, or add it to a dataset.
+## Other Uses
 
-To ask for a use this licence does not cover, write to the author at <https://irvin-oldman.myshopify.com/pages/contact>.
-
-## The Source Repository
-
-The markdown source is kept in a public GitHub repository <https://github.com/arrmagazin/engx> so that the site can read it.
-
-Public does not mean open: it gives no rights beyond the licence that GitHub's Terms of Service (section D.5) give its users, which is to use, display and fork the repository on GitHub.
+For a use this licence does not cover, such as a commercial one, write to the author at <https://irvin-oldman.myshopify.com/pages/contact>.

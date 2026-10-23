@@ -6,17 +6,17 @@
   "description": "Introduction to Software Engineering",
   "version": "1.0.3",
   "author": "Irvin Oldman",
+  "publisher": "https://irvin-oldman.myshopify.com/pages/contact",
+  "copyright": "© 2026 Irvin Oldman. CC BY-NC-SA 4.0.",
+  "license": "CC-BY-NC-SA-4.0",
+  "storeUrl": "https://irvin-oldman.myshopify.com/products/introduction-to-software-engineering",
   "repository": {
     "url": "https://github.com/arrmagazin/engx"
   },
   "keywords": [
     "engineering",
-    "handbook"
+    "software"
   ],
-  "logo": "/favicon.svg",
-  "publisher": "https://irvin-oldman.myshopify.com/pages/contact",
-  "copyright": "© 2026 Irvin Oldman. All rights reserved.",
-  "storeUrl": "https://irvin-oldman.myshopify.com/products/introduction-to-software-engineering",
   "book": {
     "title": "Introduction to Software Engineering",
     "subtitle": "The distilled knowledge for practising engineers",
@@ -27,7 +27,7 @@
       "System design",
       "Cloud computing"
     ],
-    "coverPhoto": "book/cover.png"
+    "coverPhoto": "cover.png"
   },
   "scripts": {
     "start": "export PORT=${PORT:-8092} && npm run stop && npx --yes npm-run-all --parallel start:*",
@@ -37,10 +37,9 @@
     "start:open": "npx --yes wait-on http://localhost:${PORT:-8092} && open http://localhost:${PORT:-8092}/",
     "stop": "lsof -t -sTCP:LISTEN -i tcp:${PORT:-8092} | xargs -r kill -9",
     "check": "npx --yes npm-run-all --continue-on-error check:*",
-    "check:frontmatter": "git ls-files 'docs/*.md' | xargs python3 scripts/check_okf_frontmatter.py",
-    "check:glossary": "git ls-files 'docs/*.md' | xargs python3 scripts/check_glossary.py",
-    "check:links": "git ls-files 'docs/*.md' | xargs python3 scripts/check_links.py",
-    "test": "python3 -m unittest discover -s scripts -p 'test_*.py'",
+    "check:frontmatter": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/check-okf-frontmatter.ts",
+    "check:glossary": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/check-glossary.ts",
+    "check:links": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/check-links.ts",
     "build": "npx --yes npm-run-all --parallel build:*",
     "build:ts": "bun ../arrmatura-books/scripts/build.ts",
     "build:index": "bun ../arrmatura-books/scripts/index-docs.ts docs",
@@ -56,6 +55,7 @@
   },
   "devDependencies": {
     "daisyui": "^5.7.50",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "esbuild": "^0.28.2"
   }
 }
