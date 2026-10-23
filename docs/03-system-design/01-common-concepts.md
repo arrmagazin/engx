@@ -5,7 +5,25 @@ description: Defines the system design vocabulary this chapter uses, grouped by 
 tags: [architecture, system-design, interview, glossary]
 ---
 
-The vocabulary the rest of this chapter uses, grouped by the problem each set of terms addresses. [Canonical Systems](08-canonical-systems.md) applies it to worked problems, and [System Design Loop](../10-humans/21-interview.md#system-design-loop) gives the order to work one in. Abbreviations are in [Abbreviations](09-abbreviations.md).
+## System Design Loop
+
+A framework for any system design question, and the signals that separate a senior or staff answer from a mid-level one. Its worked problems are in [Canonical Systems](../03-system-design/08-canonical-systems.md): eleven of them, each filed under the bottleneck it tests.
+
+Care about:
+
+1. **Justified assumptions** — every number (scale, storage, ratios) should be defensible, not invented.
+2. **Generating options before picking one** — for any key decision, name 2–3 alternatives and explain the trade-off, instead of stating your first idea.
+3. **Recognizing the *actual* hard problem** — different systems have different bottlenecks (write-heavy vs. read-heavy, strong vs. eventual consistency, connection-state vs. stateless). Applying the same pattern to every problem by reflex is a mid-level sign.
+4. **Naming failure modes and cross-cutting concerns unprompted** — cache stampedes, hot shards, clock skew, idempotency, moderation, and cost.
+
+Work these six steps in order, whatever the problem.
+
+1. **Requirements** — functional and non-functional, stating explicitly what is out of scope.
+2. **Scale estimates** — traffic (reads/writes per sec), storage growth, and which ratio (read:write) dominates. Check them against real-world reference points.
+3. **High-level architecture** — draw the boxes: clients, load balancer, services, cache, DB, and async pipeline.
+4. **Data model and sharding** — what is the shard key, and why does it match the dominant query pattern?
+5. **Deep dives** — 2–4 of the *actually hard* parts; not everything deserves equal depth.
+6. **Cross-cutting concerns** — failure modes, caching, consistency trade-offs, and cost, named without being asked.
 
 ## Capacity Estimation
 

@@ -33,6 +33,7 @@
     "start": "export PORT=${PORT:-8092} && npm run stop && npx --yes npm-run-all --parallel start:*",
     "start:serve": "bun ../arrmatura-books/scripts/serve.ts",
     "start:css": "npm run build:css -- --watch",
+    "start:index": "npm run build:index",
     "start:open": "npx --yes wait-on http://localhost:${PORT:-8092} && open http://localhost:${PORT:-8092}/",
     "stop": "lsof -t -sTCP:LISTEN -i tcp:${PORT:-8092} | xargs -r kill -9",
     "check": "npx --yes npm-run-all --continue-on-error check:*",
@@ -42,11 +43,11 @@
     "test": "python3 -m unittest discover -s scripts -p 'test_*.py'",
     "build": "npx --yes npm-run-all --parallel build:*",
     "build:ts": "bun ../arrmatura-books/scripts/build.ts",
+    "build:index": "bun ../arrmatura-books/scripts/index-docs.ts docs",
     "build:css": "npx --yes @tailwindcss/cli -i index.css -o \"$PWD/www/dist/index.css\"",
     "book": "bun ../arrmatura-books/book/build.ts",
     "predeploy": "npm run build",
-    "deploy": "firebase deploy --only hosting -P parlang",
-    "release": "../arrmatura-books/site/release.sh"
+    "deploy": "firebase deploy --only hosting -P parlang"
   },
   "esbuild": {
     "entryPoints": [

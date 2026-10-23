@@ -6,3 +6,5 @@ build/
 firebase-debug*.log
 www/dist/
 node_modules/
+www/index.json
+www/docs

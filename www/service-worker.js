@@ -21,7 +21,6 @@ const filters = [
   "https://fonts.googleapis.com/",
   "https://fonts.gstatic.com/",
   "https://unpkg.com/",
-  "https://data.jsdelivr.com/v1/",
   "https://cdn.jsdelivr.net/",
 ];
 
