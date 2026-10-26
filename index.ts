@@ -1,7 +1,7 @@
 import { launchBook } from "../arrmatura-books";
 import pkg from "./package.json";
 
-const { author, copyright, description, displayName, keywords, name } = pkg;
+const { author, copyright, description, displayName, hotPort, keywords, name } = pkg;
 const logo = "/favicon.svg";
 const {
   storeUrl,
@@ -17,4 +17,4 @@ const book = {
   scope: "docs",
 };
 
-launchBook({ app, book });
+launchBook({ app, book, hotPort });
