@@ -1,6 +1,5 @@
-/* Web fonts are not imported here — a CSS @import chain swaps them in late and shifts
-   layout. The consuming app loads them with a <link> in its index.html:
-   https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap */
+/* Web fonts load from <link> tags in www/index.html — a CSS @import chain swaps them in late and shifts
+   layout. The design is bombarbia's: keep this file in step with packages/bbb-client/index.css there. */
 @import "tailwindcss";
 
 @source "../arrmatura-books/node_modules/arrmatura-web/**/*.xml";
@@ -8,156 +7,153 @@
 @source "./www/index.html";
 
 @plugin "daisyui" {
-  themes:
-    lofi --default,
-    corporate,
-    caramellatte,
-    bumblebee,
-    winter;
+  themes: false;
+}
+/* The only theme: deep space glass, after dewiar.pro. A night gradient with violet, rose and cyan glows under a faint grid; translucent navy panels; thin, widely tracked type; glass pill actions. */
+@plugin "daisyui/theme" {
+  name: "deep-space";
+  default: true;
+  color-scheme: dark;
+  --color-base-100: oklch(34% 0.04 278 / 0.62);
+  --color-base-200: oklch(37% 0.045 280);
+  --color-base-300: oklch(100% 0 0 / 0.05);
+  --color-base-content: oklch(95% 0.012 270);
+  --color-primary: oklch(76% 0.1 278);
+  --color-primary-content: oklch(18% 0.04 278);
+  --color-secondary: oklch(82% 0.09 225);
+  --color-secondary-content: oklch(20% 0.04 225);
+  --color-accent: oklch(74% 0.16 350);
+  --color-accent-content: oklch(20% 0.05 350);
+  --color-neutral: oklch(32% 0.03 278);
+  --color-neutral-content: oklch(95% 0.012 270);
+  --color-info: oklch(75% 0.12 230);
+  --color-info-content: oklch(20% 0.04 230);
+  --color-success: oklch(78% 0.14 160);
+  --color-success-content: oklch(20% 0.04 160);
+  --color-warning: oklch(84% 0.14 85);
+  --color-warning-content: oklch(22% 0.05 85);
+  --color-error: oklch(70% 0.18 22);
+  --color-error-content: oklch(18% 0.04 22);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@theme {
+  /* One light grotesk; display text goes thin and wide. Mono is for code. */
+  --font-sans: "Inter", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, ui-monospace, monospace;
+
+  /* The small step is 13px: no text on the site is smaller. */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: calc(1.125 / 0.8125);
+
+  /* Enter and leave on ease-out, travel on ease-in-out; no ease-in, no bounce. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Panels rest flat on the night sky; only what floats casts a shadow (`shadow-overlay`): a bright edge, a
+     tight contact shadow and a deep drop. */
+  --shadow-overlay:
+    0 0 0 1px oklch(100% 0 0 / 0.22),
+    0 2px 8px oklch(0% 0 0 / 0.45),
+    0 32px 72px -8px oklch(0% 0 0 / 0.75);
+
+  --shadow-2xs: 0 0 #0000;
+  --shadow-xs: 0 0 #0000;
+  --shadow-sm: 0 0 #0000;
+  --shadow-md: 0 0 #0000;
+  --shadow-lg: var(--shadow-overlay);
+  --shadow-xl: var(--shadow-overlay);
+  --shadow-2xl: var(--shadow-overlay);
 }
 
 @layer base {
-  :root,
-  :host {
-    --font-sans: "IBM Plex Sans", system-ui, sans-serif;
-    --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-
-    /* Domain accent palette — vivid on light */
-    --d1: #5b4fe8;
-    --d2: #0d9e6f;
-    --d3: #1470d6;
-    --d4: #d08000;
-    --d5: #cc2c2c;
-
-    /* Surface colors — cool engineering white */
-    --surf: #f7f8fc;
-    --surf2: #eceef4;
-    --code-bg: #edf0f5;
-    --border-faint: rgba(15, 22, 58, 0.07);
-    --border-soft: rgba(15, 22, 58, 0.13);
-    --muted: #64748b;
-    --text-primary: #0f1520;
-    --text-body: #2c3348;
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: oklch(100% 0 0 / 0.1);
   }
 
-  html,
+  /* The sky: a 22px grid over three glows on a night gradient, fixed behind the scrolling page. */
   body {
-    background: #f2f4f9;
-    color: var(--text-body);
-  }
-
-  /* DaisyUI success/error on light bg — enforce readable contrast */
-  .text-success {
-    /* biome-ignore lint/complexity/noImportantStyles: base layer must beat DaisyUI's utility-layer colour */
-    color: #146c37 !important;
-  }
-
-  .text-error {
-    /* biome-ignore lint/complexity/noImportantStyles: base layer must beat DaisyUI's utility-layer colour */
-    color: #b91820 !important;
+    background-color: #1c1c2e;
+    background-image:
+      linear-gradient(oklch(100% 0 0 / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(100% 0 0 / 0.04) 1px, transparent 1px),
+      radial-gradient(circle at 20% 80%, rgb(120 119 198 / 0.36) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgb(255 119 198 / 0.26) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgb(120 219 255 / 0.18) 0%, transparent 50%),
+      linear-gradient(135deg, #1c1c2e 0%, #2a2a46 50%, #26335a 100%);
+    background-size: 22px 22px, 22px 22px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-attachment: fixed;
   }
 }
 
-@layer components {
-  /* ── DIAGRAM ── */
-  .diagram-wrap {
-    background: #ffffff;
-    border: 1px solid var(--border-soft);
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(15, 22, 58, 0.04);
-  }
+/* Unlayered, so they win over the library's component layer. */
 
-  .diagram-label {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 16px;
-  }
+/* Glass panels: a light edge, drawn inside so it takes no room, lifted off the sky by a soft resting shadow —
+   lower than the overlay's. Zero specificity, so a floating panel's overlay shadow below wins over it. */
+:where(.rounded-box.bg-base-100, .md\:rounded-box.bg-base-100, .card) {
+  box-shadow:
+    inset 0 0 0 1px oklch(100% 0 0 / 0.12),
+    0 1px 3px oklch(0% 0 0 / 0.3),
+    0 12px 28px -10px oklch(0% 0 0 / 0.5);
+}
 
-  /* ── CODE BLOCK ── */
-  .code-wrap {
-    background: var(--code-bg);
-    border: 1px solid var(--border-soft);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(15, 22, 58, 0.06);
-  }
+/* The hairline (`border-base-content/10`) reads at 18% on the translucent navy. */
+.border-base-content\/10 {
+  border-color: color-mix(in oklab, var(--color-base-content) 18%, transparent);
+}
 
-  .code-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border-faint);
-    background: rgba(15, 22, 58, 0.03);
-  }
+/* What floats is frosted. Kept off resting panels: a backdrop filter traps fixed popups inside. */
+.modal-box,
+.dropdown-content,
+.shadow-overlay,
+[class*="shadow-lg"],
+[class*="shadow-xl"],
+[class*="shadow-2xl"] {
+  backdrop-filter: blur(20px) saturate(140%);
+}
+.modal-box,
+.shadow-overlay,
+[class*="shadow-lg"],
+[class*="shadow-xl"],
+[class*="shadow-2xl"] {
+  box-shadow: var(--shadow-overlay);
+}
 
-  .code-filename {
-    font-size: 12px;
-    font-family: var(--font-mono);
-    color: var(--muted);
-  }
+/* Actions are pills; the main one is a glass capsule with a thin tracked caption. */
+.btn {
+  --radius-field: 9999px;
+  font-weight: 400;
+}
+.btn-primary,
+.btn-primary.btn-active {
+  --btn-bg: oklch(100% 0 0 / 0.08);
+  --btn-fg: oklch(100% 0 0 / 0.9);
+  --btn-border: oklch(100% 0 0 / 0.3);
+  backdrop-filter: blur(16px);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.btn-primary:hover {
+  --btn-bg: oklch(100% 0 0 / 0.16);
+  --btn-border: oklch(100% 0 0 / 0.5);
+}
 
-  .code-lang {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    text-transform: uppercase;
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
   }
-
-  .code-body {
-    padding: 20px;
-    overflow-x: auto;
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-    color: var(--text-body);
-    white-space: pre;
-  }
-
-  /* ── Syntax tokens — light bg palette ── */
-  .kw {
-    color: #6a3fc8;
-  }
-
-  /* keywords   – deep violet */
-  .str {
-    color: #2a7a44;
-  }
-
-  /* strings    – forest green */
-  .cm {
-    color: #8a97a8;
-    font-style: italic;
-  }
-
-  /* comments   – cool gray */
-  .fn {
-    color: #1060c8;
-  }
-
-  /* functions  – blueprint blue */
-  .num {
-    color: #c05a10;
-  }
-
-  /* numbers    – burnt orange */
-  .typ {
-    color: #9a6200;
-  }
-
-  /* types      – dark amber */
-  .op {
-    color: #1488a0;
-  }
-
-  /* operators  – teal */
 }
 
 /* Lucide 1.x dropped brand icons; `icon-github` restores its outline GitHub mark, drawn
