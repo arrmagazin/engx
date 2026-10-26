@@ -8,7 +8,7 @@ tags: [frontend, resources, reference]
 Frontend engineering covers the runtime the code ships into and the standards it is measured against: the browser, WCAG, and the OWASP attack classes, not any one framework.
 
 - What travels between browser and server is a system-design concern, covered in [Client-Server Communication](../03-system-design/06-client-server-communication.md) and [Data Formats](../99-appendices/07-data-formats.md).
-- The guides stay framework-agnostic. A framework's own documentation is linked below, not restated.
+- The guides stay framework-agnostic, with one exception: [Next.js](09-nextjs.md), distilled as the reference full-stack React framework. Other frameworks' documentation is linked below, not restated.
 - The same goes for the languages: this book documents the engineering around HTML, CSS, and JavaScript, not the languages themselves. Their specifications are under Web Standards below; CSS reference material is in [Browser Technologies](02-browser-technologies.md#css-resources).
 
 ## In This Chapter
@@ -23,6 +23,7 @@ Frontend engineering covers the runtime the code ships into and the standards it
 | **[Accessibility (WCAG)](06-accessibility-wcag.md)** | The WCAG version and conformance level to build against, the POUR principles, and everyday ARIA patterns |
 | **[Web Application Security](07-security-web.md)** | Core web security principles, the OWASP Top 10, common vulnerabilities, and authentication |
 | **[Web Security Defenses](08-web-security-defenses.md)** | Security headers, TLS certificates, CSP, dependency security, and client-side storage, iframe, and JSON risks |
+| **[Next.js](09-nextjs.md)** | The Next.js 16 App Router: routing files, Server Components, Cache Components, Server Functions, proxy, and assets |
 
 ## Core Documentation
 
@@ -33,6 +34,7 @@ Frontend engineering covers the runtime the code ships into and the standards it
 | **TypeScript Docs** | [typescriptlang.org/docs](https://www.typescriptlang.org/docs/) |
 | **React Docs** | [react.dev](https://react.dev/) |
 | **React Native Docs** | [reactnative.dev](https://reactnative.dev/) |
+| **Next.js Docs** | [nextjs.org/docs](https://nextjs.org/docs) |
 | **GraphQL Documentation** | [graphql.org](https://graphql.org/) |
 | **Web.dev PWA Guide** | [web.dev/learn/pwa](https://web.dev/learn/pwa/) |
 | **DevDocs** | [devdocs.io](https://devdocs.io/) |
