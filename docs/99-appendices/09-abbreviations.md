@@ -5,7 +5,7 @@ description: Expands the abbreviations used across this book, most of them from 
 tags: [system-design, glossary, abbreviations]
 ---
 
-Every abbreviation below appears somewhere in the book. Cloud product names such as S3 or SQS are mapped across providers in [Clouds](../07-clouds/index.md).
+Every abbreviation below appears somewhere in the book. Cloud product names such as S3 or SQS are mapped across providers in [Clouds](../08-clouds/index.md).
 
 | Abbreviation | Expansion |
 | --- | --- |

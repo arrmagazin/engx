@@ -34,3 +34,13 @@ Three readings for three purposes:
   - What does the billing meter count?
   - Is the resilience a property or a topology?
 - **Rehearsal.** An interview loop is coming. Read [Concepts Across the Clouds](01-concept-map.md) and [Data and Operations Across the Clouds](02-data-and-operations.md) end to end: the test is whether you can say the comparison out loud, not whether it looks familiar. The four recurring decisions at the end of the trade-offs page are the ones most often asked.
+
+## References
+
+One handbook per cloud, for depth on a single vendor: the service catalog, the vocabulary underneath it, and the interview questions both raise.
+
+| Handbook | What it covers |
+| --- | --- |
+| **[AWS Handbook](_references/aws-handbook.md)** | The thirty AWS services most systems use, what each costs you in practice, and the design vocabulary they assume |
+| **[Azure Handbook](_references/azure-handbook.md)** | The same thirty for Azure, with every place Azure departs from AWS called out |
+| **[GCP Handbook](_references/gcp-handbook.md)** | The same thirty for Google Cloud |

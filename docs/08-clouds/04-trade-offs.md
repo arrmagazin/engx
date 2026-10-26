@@ -28,6 +28,8 @@ What differs is how expensive that wall is to build, and so how freely a design 
 
 **The question to ask first.** Which wall is this design relying on, and does the target cloud put a wall in the same place?
 
+**In depth.** AWS [Multi-Account Structure — The Landing Zone](_references/aws-handbook.md#multi-account-structure--the-landing-zone) · Azure [The Resource Hierarchy — Where Everything Lives](_references/azure-handbook.md#the-resource-hierarchy--where-everything-lives) · Google Cloud [Resource Hierarchy — The Landing Zone](_references/gcp-handbook.md#resource-hierarchy--the-landing-zone)
+
 ## 2. Whether the Network Is Regional or Global
 
 An AWS VPC and an Azure VNet are regional. A Google Cloud VPC network is **global**, with regional subnets inside it.
@@ -41,6 +43,8 @@ This is the single difference that reshapes the most diagrams.
 **What it changes.** Expansion cost. On a global network, "we are adding eu-west" means a subnet and a firewall rule. On a regional one, it means a network, a route propagation decision, an address-plan review and a new failure mode in the hub.
 
 **The question to ask first.** Is the network in this design one object or one object per region — and is the address plan written accordingly?
+
+**In depth.** AWS [VPC, Subnets and Routing — The Foundation Everything Else Sits In](_references/aws-handbook.md#vpc-subnets-and-routing--the-foundation-everything-else-sits-in) · Azure [VNets, Subnets and Routing — The Foundation Everything Sits In](_references/azure-handbook.md#vnets-subnets-and-routing--the-foundation-everything-sits-in) · Google Cloud [VPC, Subnets and Routes — The Foundation Everything Else Sits In](_references/gcp-handbook.md#vpc-subnets-and-routes--the-foundation-everything-else-sits-in)
 
 ## 3. What Inherits, and Whether Anything Can Say No
 
@@ -63,6 +67,8 @@ A guardrail written as the first cannot always be translated into the second.
 
 **The question to ask first.** When this control fails, is it because someone was allowed to call something, or because something was allowed to exist in the wrong shape? Then write it in the mechanism that matches.
 
+**In depth.** AWS [Concepts — Identity and Access](_references/aws-handbook.md#concepts--identity-and-access) · Azure [Azure Policy — The Guardrail RBAC Cannot Provide](_references/azure-handbook.md#azure-policy--the-guardrail-rbac-cannot-provide) · Google Cloud [Organization Policy and VPC Service Controls — The Guardrails](_references/gcp-handbook.md#organization-policy-and-vpc-service-controls--the-guardrails)
+
 ## 4. What the Billing Unit Is
 
 Two services can do the same job and meter on different axes. This is where migration estimates go wrong, and it is the second habit to apply to every row of the service map.
@@ -82,6 +88,8 @@ Two services can do the same job and meter on different axes. This is where migr
 
 **The question to ask first.** What does this service count, and does the workload's shape make that number large?
 
+**In depth.** AWS [Cost Management](_references/aws-handbook.md#cost-management) · Azure [Cost — The Levers in Order of Size](_references/azure-handbook.md#cost--the-levers-in-order-of-size) · Google Cloud [Cost Management](_references/gcp-handbook.md#cost-management)
+
 ## 5. Which Failures the Platform Absorbs
 
 Every cloud offers zone tolerance. They disagree about whether you receive it as a setting or assemble it as a topology.
@@ -95,6 +103,8 @@ Cross-region is the mirror image. Azure ships **Site Recovery** for orchestrated
 **What it changes.** The number of objects in the design, and where review attention goes. A Google Cloud design review asks "is this resource regional?". An AWS design review asks "are all four of these things spread across zones, and does the failover actually work?".
 
 **The question to ask first.** Is this resilience a property I can read off the resource, or a topology someone has to keep correct?
+
+**In depth.** AWS [Resilience and Recovery](_references/aws-handbook.md#resilience-and-recovery) · Azure [Resilience and Operating at Scale](_references/azure-handbook.md#resilience-and-operating-at-scale) · Google Cloud [Resilience and Recovery](_references/gcp-handbook.md#resilience-and-recovery)
 
 ---
 
@@ -126,3 +136,5 @@ Four decisions recur on every cloud. The product names differ; the reasoning is 
 - Up: these engines take a single-writer workload a very long way. That is the right answer far more often than people admit.
 - Out is a different commitment. Spanner is the only horizontally scalable relational option with external consistency across the three clouds. The closest AWS or Azure answer is a managed engine plus sharding you own.
 - The deciding questions: will you really outgrow one machine's writes? Does the database itself need more than one region? What is the availability target worth?
+
+**In depth.** AWS [Trade-Offs](_references/aws-handbook.md#trade-offs) · Azure [Trade-Offs — The "It Depends on X" Answers](_references/azure-handbook.md#trade-offs--the-it-depends-on-x-answers) · Google Cloud [Trade-Offs](_references/gcp-handbook.md#trade-offs)

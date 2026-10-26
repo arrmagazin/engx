@@ -10,6 +10,7 @@ A lookup table: useful for orientation, dangerous if taken literally.
 - **Order.** Each row names AWS first, then Azure, then Google Cloud. AWS is the index because most readers arrive with its vocabulary, not because it is the reference implementation.
 - **Grouping.** Rows are grouped like the concepts, not alphabetically, so neighbouring rows are the ones you compare in practice.
 - **Accuracy.** Every mapping is approximate. Where two services differ in shape, the last column names the difference — usually the more useful half, and usually what an interviewer is probing.
+- **Full maps.** Each handbook keeps a longer one-cloud lookup: [AWS to Azure](_references/azure-handbook.md#aws-to-azure-service-map) · [AWS to Google Cloud](_references/gcp-handbook.md#aws-to-google-cloud-service-map).
 
 ---
 
@@ -26,6 +27,8 @@ A lookup table: useful for orientation, dangerous if taken literally.
 | Trusted Advisor, Compute Optimizer · Azure Advisor · Recommender, Security Command Center | Recommender's IAM suggestions from observed usage have no AWS equivalent |
 | AWS Config · Azure Policy, Resource Graph · Cloud Asset Inventory | Azure Policy is preventative and detective; Config is detective only; Asset Inventory is inventory, and the rules half lives in Security Command Center |
 
+**In depth.** AWS [Foundations](_references/aws-handbook.md#foundations) · Azure [Foundations](_references/azure-handbook.md#foundations) · Google Cloud [Foundations](_references/gcp-handbook.md#foundations)
+
 ## Compute
 
 | AWS · Azure · Google Cloud | The difference that matters |
@@ -40,6 +43,8 @@ A lookup table: useful for orientation, dangerous if taken literally.
 | Lambda · Azure Functions · Cloud Run functions | One Cloud Run instance or Azure Functions host serves many requests at once; a standard Lambda instance serves one. Azure bindings are declarative input and output |
 | App Runner · App Service, Container Apps · Cloud Run | Cloud Run is the default for stateless HTTP on its cloud; App Runner is peripheral on AWS |
 | Step Functions, Lambda durable functions · Durable Functions, Logic Apps · Workflows | Both durable-function services replay ordinary code, which must be deterministic; Workflows is YAML priced per step |
+
+**In depth.** AWS [Compute](_references/aws-handbook.md#compute) · Azure [Compute](_references/azure-handbook.md#compute) · Google Cloud [Compute](_references/gcp-handbook.md#compute)
 
 ## Networking
 
@@ -60,6 +65,8 @@ A lookup table: useful for orientation, dangerous if taken literally.
 | Site-to-Site VPN · VPN Gateway · Cloud VPN | Deploy Azure gateways active-active across zones; the SKU sets the ceiling |
 | *(none)* · *(none)* · Shared VPC | One host project lends subnets to service projects — a consequence of the global network |
 
+**In depth.** AWS [Networking](_references/aws-handbook.md#networking) · Azure [Networking](_references/azure-handbook.md#networking) · Google Cloud [Networking](_references/gcp-handbook.md#networking)
+
 ## Storage and Data
 
 | AWS · Azure · Google Cloud | The difference that matters |
@@ -76,6 +83,8 @@ A lookup table: useful for orientation, dangerous if taken literally.
 | Athena · Synapse serverless SQL · BigQuery external tables | Query over object storage in all three, with very different pricing shapes |
 | OpenSearch · Azure AI Search · *(no direct equivalent)* | Azure AI Search is content search only; log search belongs to Log Analytics and KQL |
 
+**In depth.** AWS [Storage and Data](_references/aws-handbook.md#storage-and-data) · Azure [Storage and Data](_references/azure-handbook.md#storage-and-data) · Google Cloud [Storage and Data](_references/gcp-handbook.md#storage-and-data)
+
 ## Messaging and Events
 
 | AWS · Azure · Google Cloud | The difference that matters |
@@ -85,6 +94,8 @@ A lookup table: useful for orientation, dangerous if taken literally.
 | Kinesis, MSK · Event Hubs · Pub/Sub | Event Hubs has a Kafka protocol endpoint built in. Pub/Sub makes retention and seek a subscription setting |
 | EventBridge · Event Grid system topics · Eventarc | Eventarc sources from audit logs, so any administrative change is routable |
 | *(SQS with a delay)* · *(scheduled message)* · Cloud Tasks | Per-task deferred dispatch is its own service on Google Cloud |
+
+**In depth.** AWS [Messaging and Events](_references/aws-handbook.md#messaging-and-events) · Azure [Messaging and Events](_references/azure-handbook.md#messaging-and-events) · Google Cloud [Messaging and Events](_references/gcp-handbook.md#messaging-and-events)
 
 ## Identity, Encryption and Secrets
 
@@ -99,6 +110,8 @@ A lookup table: useful for orientation, dangerous if taken literally.
 | Secrets Manager · Key Vault · Secret Manager | Key Vault holds secrets, keys and certificates in one place. As of 2026, only Secrets Manager rotates supported databases for you |
 | ACM · Key Vault certificates · Certificate Manager | Comparable |
 
+**In depth.** AWS [Identity, Encryption and Secrets](_references/aws-handbook.md#identity-encryption-and-secrets) · Azure [Identity, Secrets and Access](_references/azure-handbook.md#identity-secrets-and-access) · Google Cloud [Identity, Encryption and Secrets](_references/gcp-handbook.md#identity-encryption-and-secrets)
+
 ## Observability and Delivery
 
 | AWS · Azure · Google Cloud | The difference that matters |
@@ -110,6 +123,8 @@ A lookup table: useful for orientation, dangerous if taken literally.
 | Systems Manager · Update Manager, Automation, Run Command, Bastion · OS Config, OS Login, IAP | No single umbrella service on either of the others. OS Login ties SSH to IAM |
 | CloudFormation, CDK · ARM templates, Bicep · Terraform | Bicep compiles to ARM JSON and everything ends at ARM. Google's own tool, Deployment Manager, reached end of support on 31 March 2026, so Terraform is the answer, hosted as Infrastructure Manager |
 | CodeBuild, CodePipeline · Azure Pipelines · Cloud Build, Cloud Deploy | Cloud Deploy promotes one artifact through ordered targets |
+
+**In depth.** AWS [Observability and Governance](_references/aws-handbook.md#observability-and-governance) · Azure [Observability and Governance](_references/azure-handbook.md#observability-and-governance) · Google Cloud [Observability and Governance](_references/gcp-handbook.md#observability-and-governance)
 
 ---
 

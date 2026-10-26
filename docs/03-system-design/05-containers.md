@@ -43,7 +43,7 @@ A real system runs tens to thousands of containers across a fleet. The orchestra
   - *Canary* — send a small share of traffic to the new version first. It optimizes *detection* while the blast radius is small, and needs metrics good enough to tell the canary from the baseline.
 - **Autoscaling and restarts** — more replicas for stateless work; crash loops restarted with backoff, so a broken deploy does not hammer its dependencies.
 
-The managed versions across the three clouds are in [Compute — Containers](../07-clouds/01-concept-map.md#compute--containers).
+The managed versions across the three clouds are in [Compute — Containers](../08-clouds/01-concept-map.md#compute--containers).
 
 ## Design Implications
 
@@ -63,3 +63,8 @@ Choosing between compute models comes down to one question each: a **container**
 - **Deleting a secret in a later layer does not remove it** — the earlier layer still holds it. Use build secrets, or inject at run time.
 - **Shipping the build toolchain** — a multi-stage build leaves it behind.
 - **Logging to a file in the container** — the file dies with it. Write to standard output and let the platform collect it.
+
+## References
+
+1. [Docker Cheat Sheet](https://devsheets.io/sheets/docker-commands) — DevSheets
+2. [Kubernetes Essentials Cheat Sheet](https://devsheets.io/sheets/kubernetes-essentials) — DevSheets

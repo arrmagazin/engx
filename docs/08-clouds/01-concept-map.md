@@ -36,6 +36,8 @@ How to read a section:
 - **Only AWS has a guardrail inside the permission system.** SCPs filter API calls by principal. Azure RBAC has no user-authored deny, and Google Cloud IAM has no ordinary explicit deny, so both push guardrails into a policy service that constrains configuration instead.
 - **Projects are meant to be numerous.** Google Cloud expects many cheap projects, so project-per-workload is routine there. An AWS account is heavier to create, so account-per-environment is a considered decision.
 
+**In depth.** AWS [Concepts — Accounts and Regions](_references/aws-handbook.md#concepts--accounts-and-regions) · Azure [Concepts — Tenants and Subscriptions](_references/azure-handbook.md#concepts--tenants-and-subscriptions) · Google Cloud [Concepts — Projects and Regions](_references/gcp-handbook.md#concepts--projects-and-regions)
+
 ## Geography
 
 | Concept | AWS · Azure · Google Cloud |
@@ -57,6 +59,8 @@ How to read a section:
   - Google Cloud: a multi-region is a location you can buy.
   - AWS: cross-region replication is something you assemble.
 
+**In depth.** AWS [Accounts, Regions and Availability Zones — Where Everything Lives](_references/aws-handbook.md#accounts-regions-and-availability-zones--where-everything-lives) · Azure [Concepts — Regions and Resources](_references/azure-handbook.md#concepts--regions-and-resources) · Google Cloud [Organizations, Projects, Regions and Zones — Where Everything Lives](_references/gcp-handbook.md#organizations-projects-regions-and-zones--where-everything-lives)
+
 ## The Control Plane
 
 | Concept | AWS · Azure · Google Cloud |
@@ -74,6 +78,8 @@ How to read a section:
 - **Enabling the API is a real step on Google Cloud.** Calls fail with `SERVICE_NAME has not been used in project N before or it is disabled`, at apply time rather than plan time. Enable a project's APIs in the project's own Terraform, ahead of anything that depends on them.
 - **Moving a resource changes its identifier on Azure.** Anything written against the old Resource ID breaks. ARNs and Resource Names also encode their container, so the same caution applies wherever a move is possible at all.
 - **Audit coverage is not equivalent.** Azure's Activity Log is control plane only; data-plane auditing is enabled per service. Google Cloud has four audit streams, with data-access logs off by default for cost.
+
+**In depth.** AWS [The Console, the CLI and the API — How You Talk to AWS](_references/aws-handbook.md#the-console-the-cli-and-the-api--how-you-talk-to-aws) · Azure [ARM — The One Control Plane](_references/azure-handbook.md#arm--the-one-control-plane) · Google Cloud [The Console, the gcloud CLI and the API — How You Talk to Google Cloud](_references/gcp-handbook.md#the-console-the-gcloud-cli-and-the-api--how-you-talk-to-google-cloud)
 
 ## Compute — Machines
 
@@ -97,6 +103,8 @@ How to read a section:
 - **Spot is simplest on Google Cloud:** no bidding and no capacity pools to reason about, a 30-second notice by default ([120 seconds](https://cloud.google.com/compute/docs/instances/spot) if set at creation), and a variable price Google may change up to once a day (as of 2026).
 - **Google Cloud spreads across zones by default.** A regional managed instance group spreads across zones unless told otherwise; an AWS Auto Scaling group spreads only across the subnets you list.
 
+**In depth.** AWS [Concepts — Compute Instances](_references/aws-handbook.md#concepts--compute-instances) · Azure [Concepts — Compute Instances](_references/azure-handbook.md#concepts--compute-instances) · Google Cloud [Concepts — Compute Instances](_references/gcp-handbook.md#concepts--compute-instances)
+
 ## Compute — Containers
 
 | Concept | AWS · Azure · Google Cloud |
@@ -118,6 +126,8 @@ How to read a section:
 - **Registry permissions catch people out on Azure:** the AKS *kubelet* identity needs the pull permission, not the cluster identity.
 - **Artifact Registry is broader than ECR** — containers, language packages and OS packages in one service.
 
+**In depth.** AWS [Concepts — Compute Containers](_references/aws-handbook.md#concepts--compute-containers) · Azure [Concepts — Compute Containers](_references/azure-handbook.md#concepts--compute-containers) · Google Cloud [Concepts — Compute Containers](_references/gcp-handbook.md#concepts--compute-containers)
+
 ## Compute — Functions
 
 | Concept | AWS · Azure · Google Cloud |
@@ -137,6 +147,8 @@ How to read a section:
 - **Concurrency is the headline difference.** One Cloud Run instance, like one Azure Functions host, serves many requests at once; a standard Lambda execution environment serves exactly one (Lambda Managed Instances are the exception). Cost models, connection pooling and the meaning of "per-instance memory" all follow from that single fact.
 - **Durable Functions and Lambda durable functions are the code-first pair.** Both replay ordinary code from checkpoints, so orchestration code must be deterministic — a different discipline from authoring a Step Functions state machine. Logic Apps is the low-code path Azure offers alongside.
 - **Step Functions and Workflows price differently** — per state transition against per step. That changes how fine-grained a workflow it is sensible to write.
+
+**In depth.** AWS [Concepts — Compute Functions](_references/aws-handbook.md#concepts--compute-functions) · Azure [Concepts — Compute Functions](_references/azure-handbook.md#concepts--compute-functions) · Google Cloud [Concepts — Compute Functions](_references/gcp-handbook.md#concepts--compute-functions)
 
 ## Networking — Inside the Network
 
@@ -162,6 +174,8 @@ How to read a section:
 - **Cloud NAT is not an instance.** It is a feature of the router, so there is no per-zone deployment and no bandwidth bottleneck to size.
 - **Google Cloud firewall rules apply by tag or service account**, not by attachment. That makes identity-shaped network policy natural, and makes "which rules hit this VM" a query rather than a lookup.
 
+**In depth.** AWS [Concepts — Inside the VPC](_references/aws-handbook.md#concepts--inside-the-vpc) · Azure [Concepts — Inside the VNet](_references/azure-handbook.md#concepts--inside-the-vnet) · Google Cloud [Concepts — Inside the VPC](_references/gcp-handbook.md#concepts--inside-the-vpc)
+
 ## Networking — Edge and Load Balancing
 
 | Concept | AWS · Azure · Google Cloud |
@@ -183,6 +197,8 @@ How to read a section:
 - **Cloud CDN is a switch, not a distribution.** You enable it on a backend rather than configuring a separate object.
 - **The Google Cloud forwarding-rule chain has more parts to assemble** — forwarding rule, target proxy, URL map, backend service. That means more setup and more places for a misconfiguration to hide.
 - **Private DNS is the first place to look when an Azure private endpoint misbehaves.**
+
+**In depth.** AWS [Concepts — Edge and Connections](_references/aws-handbook.md#concepts--edge-and-connections) · Azure [Concepts — Edge and Connections](_references/azure-handbook.md#concepts--edge-and-connections) · Google Cloud [Concepts — Load Balancing and the Edge](_references/gcp-handbook.md#concepts--load-balancing-and-the-edge)
 
 ## Identity and Access
 
@@ -211,6 +227,8 @@ How to read a section:
 - **Azure managed identities come in two kinds** — system-assigned and user-assigned. User-assigned avoids the deploy-time race where a resource needs a permission before it exists.
 - **Entra ID is the directory itself**, not a layer on top of one as IAM Identity Center is.
 - **Service account keys are the single largest own-goal on Google Cloud.** `iam.disableServiceAccountKeyCreation` is the most effective one-line control on the platform.
+
+**In depth.** AWS [Concepts — Identity and Access](_references/aws-handbook.md#concepts--identity-and-access) · Azure [Concepts — Identity and Access](_references/azure-handbook.md#concepts--identity-and-access) · Google Cloud [Concepts — Identity and Access](_references/gcp-handbook.md#concepts--identity-and-access)
 
 ---
 

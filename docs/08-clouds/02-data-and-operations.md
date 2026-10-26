@@ -38,6 +38,8 @@ The second half of the concept map, after [Concepts Across the Clouds](01-concep
 - **Cloud Storage keeps one API across classes**, so changing class does not change how an object is read. Dual-region and multi-region buckets are native, not replication you configure.
 - **Regional Persistent Disk replicates synchronously across two zones.** EBS does not do this, so a Google Cloud single-instance design can survive a zone loss in a way its AWS translation cannot.
 
+**In depth.** AWS [Concepts — Data Stores](_references/aws-handbook.md#concepts--data-stores) · Azure [Concepts — Data Stores](_references/azure-handbook.md#concepts--data-stores) · Google Cloud [Concepts — Data Stores](_references/gcp-handbook.md#concepts--data-stores)
+
 ## Messaging and Events
 
 | Concept | AWS · Azure · Google Cloud |
@@ -60,6 +62,8 @@ The second half of the concept map, after [Concepts Across the Clouds](01-concep
 - **Event Hubs speaks Kafka natively** through a protocol endpoint, which removes the MSK-versus-Kinesis decision.
 - **Eventarc makes any administrative change routable** by sourcing from audit logs. EventBridge has that reach only for services that publish events.
 
+**In depth.** AWS [Concepts — Messaging and Events](_references/aws-handbook.md#concepts--messaging-and-events) · Azure [Concepts — Messaging and Events](_references/azure-handbook.md#concepts--messaging-and-events) · Google Cloud [Concepts — Messaging and Events](_references/gcp-handbook.md#concepts--messaging-and-events)
+
 ## Encryption and Secrets
 
 | Concept | AWS · Azure · Google Cloud |
@@ -80,6 +84,8 @@ The second half of the concept map, after [Concepts Across the Clouds](01-concep
 - **Rotation is built in on only one cloud.** Secrets Manager rotates supported databases for you. Secret Manager sends a notification and expects your own function.
 - **Cloud KMS key rings are regional and permanent** — a naming decision you cannot take back.
 - **Deletion windows break redeploy-from-scratch pipelines.** Azure's soft delete and purge protection are the strictest form: a deleted vault or key lingers, and its name cannot be reused until it is purged. AWS has the same effect for a secret in its recovery window and for a KMS key pending deletion.
+
+**In depth.** AWS [Concepts — Encryption and Secrets](_references/aws-handbook.md#concepts--encryption-and-secrets) · Azure [Concepts — Secrets and Keys](_references/azure-handbook.md#concepts--secrets-and-keys) · Google Cloud [Concepts — Encryption and Secrets](_references/gcp-handbook.md#concepts--encryption-and-secrets)
 
 ## Observability and Governance
 
@@ -109,6 +115,8 @@ The second half of the concept map, after [Concepts Across the Clouds](01-concep
 - **Systems Manager has no single counterpart.** Azure spreads it across Update Manager, Automation, Run Command and Bastion; Google Cloud across OS Config, OS Login and IAP.
 - **Instrument with OpenTelemetry on any cloud.** All three trace services accept it, and it is the one choice that survives a migration.
 
+**In depth.** AWS [Concepts — Observability and Governance](_references/aws-handbook.md#concepts--observability-and-governance) · Azure [Concepts — Governance](_references/azure-handbook.md#concepts--governance) · Google Cloud [Concepts — Observability and Governance](_references/gcp-handbook.md#concepts--observability-and-governance)
+
 ## Infrastructure as Code and Delivery
 
 | Concept | AWS · Azure · Google Cloud |
@@ -130,6 +138,8 @@ The second half of the concept map, after [Concepts Across the Clouds](01-concep
 - **Cloud Deploy is built around promoting one artifact** through ordered targets — a narrower, more opinionated model than CodePipeline's stage graph.
 - **Deployment slots are an Azure idea.** A swap is a platform operation on App Service, not a load-balancer manoeuvre you assemble.
 
+**In depth.** AWS [Concepts — Infrastructure as Code and Delivery](_references/aws-handbook.md#concepts--infrastructure-as-code-and-delivery) · Azure [Concepts — Infrastructure as Code and Delivery](_references/azure-handbook.md#concepts--infrastructure-as-code-and-delivery) · Google Cloud [Concepts — Infrastructure as Code and Delivery](_references/gcp-handbook.md#concepts--infrastructure-as-code-and-delivery)
+
 ## Resilience and Recovery
 
 | Concept | AWS · Azure · Google Cloud |
@@ -149,6 +159,8 @@ The second half of the concept map, after [Concepts Across the Clouds](01-concep
 - **Regional services absorb the problem on Google Cloud.** A regional managed instance group, a regional disk and a regional Cloud SQL instance each survive a zone loss without a second object to manage.
 - **Azure Site Recovery fills a real gap.** The other two clouds expect you to assemble region failover from replication plus DNS plus automation.
 - **The pattern ladder is the one thing identical on all three clouds.** Learn it once, in the vocabulary of RTO and RPO, and recite it cloud-neutrally.
+
+**In depth.** AWS [Concepts — Resilience and Responsibility](_references/aws-handbook.md#concepts--resilience-and-responsibility) · Azure [Concepts — Resilience and Recovery](_references/azure-handbook.md#concepts--resilience-and-recovery) · Google Cloud [Concepts — Resilience and Recovery](_references/gcp-handbook.md#concepts--resilience-and-recovery)
 
 ---
 

@@ -23,7 +23,7 @@ For a cloud or platform role, four decisions come up often enough to deserve a r
 - configuration management vs. baked images;
 - scaling a relational database up vs. out.
 
-All four are stated cloud-neutrally in [Cross-Cloud Trade-Offs](../07-clouds/04-trade-offs.md#the-same-decision-in-three-vocabularies).
+All four are stated cloud-neutrally in [Cross-Cloud Trade-Offs](../08-clouds/04-trade-offs.md#the-same-decision-in-three-vocabularies).
 
 ### The Format
 
