@@ -109,3 +109,10 @@ Version-controlled, incremental schema changes, applied in order so every enviro
 
 - **Backward compatible during rollout** — old and new code run at once in a rolling deploy, so a rename or drop breaks the old code. Split it across deploys: add the new column → dual-write → backfill → switch reads → drop the old one.
 - **Reversible** — each migration has a rollback, even if for a destructive change that means restoring a backup.
+
+## References
+
+1. [SQL Cheat Sheet](https://devsheets.io/sheets/sql) — DevSheets
+2. [PostgreSQL Advanced Features Cheat Sheet](https://devsheets.io/sheets/postgresql-advanced) — DevSheets
+3. [MySQL Advanced Features Cheat Sheet](https://devsheets.io/sheets/mysql-advanced) — DevSheets
+4. [MongoDB Cheat Sheet](https://devsheets.io/sheets/mongodb) — DevSheets

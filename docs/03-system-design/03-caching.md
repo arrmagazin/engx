@@ -65,3 +65,7 @@ For a durable event backbone between services, use a log such as [Kafka](04-mess
 - **Rate limiting** — atomic `INCR` plus `EXPIRE`, or a sliding window on a sorted set.
 - **Leaderboards** — sorted sets: insert is O(log N), reading the top M is O(log N + M).
 - **Distributed locks** — `SET key value NX PX ttl` on one instance. The multi-node Redlock algorithm is publicly disputed: [Kleppmann](https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html) argues its safety depends on bounded clock drift and pauses; [antirez disputes that](https://antirez.com/news/101). Where a lock lost mid-operation corrupts data, use a system that issues a fencing token.
+
+## References
+
+1. [Redis Cheat Sheet](https://devsheets.io/sheets/redis) — DevSheets

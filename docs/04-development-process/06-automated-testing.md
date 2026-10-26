@@ -54,3 +54,7 @@ Results must be readable to be acted on: consolidated by build or version, clear
 - Gate the CI/CD pipeline with automated smoke tests, so a broken build stops before it reaches anyone.
 - Use production-like test data, since defects that appear only at real data volumes appear at no other.
 - Apply the Testing Pyramid, and revisit the shape as the system changes.
+
+## References
+
+1. [Playwright Cheat Sheet](https://devsheets.io/sheets/playwright) — DevSheets

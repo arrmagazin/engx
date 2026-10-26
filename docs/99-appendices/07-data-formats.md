@@ -42,3 +42,8 @@ Parse and generate CSV with a library, never by splitting on commas and newlines
 ## Parquet
 
 A columnar binary format built for analytics, not transport. Reading one column does not read the rest, per-column encoding makes files much smaller than CSV or JSON, the typed schema is embedded so nothing is inferred, and row groups can be read in parallel.
+
+## References
+
+1. [JSON Cheat Sheet](https://devsheets.io/sheets/json) — DevSheets
+2. [Markdown Cheat Sheet](https://devsheets.io/sheets/markdown) — DevSheets

@@ -235,3 +235,13 @@ Versioning the cache name, as above, lets `activate` delete the previous version
 | **A Complete Guide to Grid** | [css-tricks.com/complete-guide-css-grid-layout](https://css-tricks.com/complete-guide-css-grid-layout/) |
 | **Tailwind CSS Docs** | [tailwindcss.com/docs](https://tailwindcss.com/docs) |
 | **DaisyUI** | [daisyui.com](https://daisyui.com/) |
+| **CSS Cheat Sheet** (DevSheets) | [devsheets.io/sheets/css](https://devsheets.io/sheets/css) |
+| **CSS Flexbox Cheat Sheet** (DevSheets) | [devsheets.io/sheets/flexbox](https://devsheets.io/sheets/flexbox) |
+| **CSS Grid Cheat Sheet** (DevSheets) | [devsheets.io/sheets/css-grid](https://devsheets.io/sheets/css-grid) |
+| **Tailwind CSS Cheat Sheet** (DevSheets) | [devsheets.io/sheets/tailwind-css](https://devsheets.io/sheets/tailwind-css) |
+| **Screen Sizes & Responsive Breakpoints** (DevSheets) | [devsheets.io/sheets/screen-sizes](https://devsheets.io/sheets/screen-sizes) |
+
+## References
+
+1. [DOM Manipulation Cheat Sheet](https://devsheets.io/sheets/dom-manipulation) — DevSheets
+2. [Fetch API Cheat Sheet](https://devsheets.io/sheets/fetch-api) — DevSheets

@@ -150,3 +150,4 @@ git checkout develop && git merge --no-ff release/v1.0.0
 ## References
 
 1. [A Successful Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/) — Vincent Driessen
+2. [Git Cheat Sheet](https://devsheets.io/sheets/git) — DevSheets

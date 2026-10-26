@@ -108,3 +108,5 @@ The whole chapter draws on this list; its guides link here instead of repeating 
 | **Hugging Face Documentation** | [huggingface.co/docs](https://huggingface.co/docs) |
 | **Prompt Engineering Guide** (DAIR.AI) | [promptingguide.ai](https://www.promptingguide.ai/) |
 | **Model Context Protocol** | [modelcontextprotocol.io](https://modelcontextprotocol.io/) |
+| **AI Prompting Cheat Sheet** (DevSheets) | [devsheets.io/sheets/ai-prompting](https://devsheets.io/sheets/ai-prompting) |
+| **AI Workflow Cheat Sheet** (DevSheets) | [devsheets.io/sheets/ai-workflow](https://devsheets.io/sheets/ai-workflow) |
