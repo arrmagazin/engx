@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/registry.ts", "!**/index-cml.ts"]
+    "includes": ["**", "!**/*.md", "!**/registry.ts", "!**/index-cml.ts"]
   },
   "formatter": {
     "enabled": true,
