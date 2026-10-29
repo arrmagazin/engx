@@ -47,6 +47,7 @@
     "build:index": "bun ../proton/ops/index-docs.ts docs",
     "build:css": "npx --yes @tailwindcss/cli -i index.css -o \"$PWD/www/dist/index.css\"",
     "book": "bun ../arrmatura-books/book/build.ts",
+    "gates": "npm run check",
     "predeploy": "npm run build",
     "deploy": "firebase deploy --only hosting -P parlang"
   },

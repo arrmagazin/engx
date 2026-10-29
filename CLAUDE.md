@@ -11,7 +11,7 @@ A personal engineering knowledge base written as markdown, organized as a number
 
 ## Checkers
 
-`.githooks/pre-commit` runs all three over the `docs/*.md` files a commit stages, under an `ACMR` filter so pure renames are checked too. Each clone enables the hook once with `git config core.hooksPath .githooks`. To run them over the whole book, `npm run check` (all three, each run even if an earlier one fails) or `npm run check:frontmatter` / `check:glossary` / `check:links` (one).
+`.githooks/pre-commit` runs all three over the `docs/*.md` files a commit stages, under an `ACMR` filter so pure renames are checked too. Each clone enables the hook once with `git config core.hooksPath .githooks`. To run them over the whole book, `npm run check` (all three, each run even if an earlier one fails; `npm run gates` runs it before a commit) or `npm run check:frontmatter` / `check:glossary` / `check:links` (one).
 
 Those scripts pipe `git ls-files 'docs/*.md'` through `xargs`; keep it that way. Pipe through `xargs` rather than collecting the paths in a variable: zsh does not word-split unquoted *parameter* expansions, so `files=$(git ls-files 'docs/*.md')` followed by `bun ../arrmatura-books/scripts/check-links.ts $files` passes all 60 paths as one filename. `.githooks/pre-commit` is written in that shape and is correct only because its `#!/bin/sh` shebang selects a shell that does split.
 
