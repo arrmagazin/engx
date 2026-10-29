@@ -1,8 +1,8 @@
 ---
 type: Guide
 title: Architectural Patterns
-description: Compares layered, MVC, and hexagonal structure inside a unit with monolith, microservices, and event-driven shapes across units.
-tags: [architecture, patterns, mvc, hexagonal, microservices, event-driven]
+description: Compares layered, MVC, and hexagonal structure inside a unit with monolith, MACH, and event-driven shapes across units.
+tags: [architecture, patterns, mvc, hexagonal, microservices, mach, event-driven]
 ---
 
 An **architectural pattern** is a reusable solution shape for a whole system or a whole deployable unit. It sits at the pattern level of the [architectural levels](index.md#architectural-levels): below the principle that justifies it, above the idiom that expresses it in one language. It is a [design pattern](../05-coding/05-design-patterns.md) scaled up — the unit of reuse is a component boundary, not a class.
@@ -12,7 +12,7 @@ The patterns here answer three different questions, and confusing them is the us
 | Axis | Question | Patterns, and the view they show in |
 | ---- | -------- | ----------------------------------- |
 | **Internal structure** | How is one deployable unit divided, and which way do its dependencies point? | Layered, MVC, Hexagonal — [Logical view](02-architectural-views.md#logical-view) |
-| **Deployment shape** | How many units ship, and can each ship alone? | Monolith, Microservices — [Deployment view](02-architectural-views.md#deployment-view) |
+| **Deployment shape** | How many units ship, and can each ship alone? | Monolith, Microservices and MACH — [Deployment view](02-architectural-views.md#deployment-view) |
 | **Interaction style** | Once there is more than one unit, how does one reach another — by asking, or by announcing? | Request-driven, Event-driven — [Process view](02-architectural-views.md#process-view) |
 
 "MVC or microservices" is therefore not a choice: a microservice organized internally as MVC and fed by events is ordinary.
@@ -123,7 +123,31 @@ The last row decides whether a monolith stays workable. Module boundaries hold o
 
 Monolith describes deployment, not quality. It is the correct starting shape for most systems: it costs nothing operationally, and it keeps boundaries cheap to move while they are still guesses.
 
-## Microservices
+## MACH Architecture
+
+**MACH** names four properties that are usually adopted together: **M**icroservices, **A**PI-first, **C**loud-native SaaS, and **H**eadless. The term comes from the [MACH Alliance](https://machalliance.org/), a vendor association formed in 2020, and is used most in e-commerce and content platforms. It is not a new deployment shape. It is microservices plus three rules: how each unit is reached, where it runs, and how users see it. A system built this way is often called **composable**, because each capability is a part that can be replaced, whether the team builds it or buys it.
+
+| Letter | Property | What it requires | The check |
+| ------ | -------- | ---------------- | --------- |
+| **M** | Microservices | Each capability is a unit that deploys on its own and owns its data | A unit ships without coordinating with another |
+| **A** | API-first | Every capability is reachable through a published API, designed before the implementation; the UI is one client among many | No function is reachable only through a UI or a shared database |
+| **C** | Cloud-native SaaS | Units run on managed infrastructure that scales on demand, or are bought as SaaS that the vendor upgrades | No team patches or upgrades a component it did not write |
+| **H** | Headless | The front end is separate from the back end and reaches it only through the APIs | A new channel — mobile app, kiosk, voice — is added without changing a back-end unit |
+
+```mermaid
+flowchart LR
+  WEB[Web shop] --> GW[API gateway]
+  APP[Mobile app] --> GW
+  KIOSK[In-store kiosk] --> GW
+  GW --> CAT[Catalog service]
+  GW --> CART[Cart service]
+  GW --> CMS[Content SaaS]
+  GW --> PAY[Payment SaaS]
+```
+
+Headless plus API-first is the hexagonal idea at system scale: every front end is a driving adapter, and the APIs are the driving ports.
+
+### Microservices
 
 A microservice owns one capability and the data behind it, and is released on its own schedule. The defining property is independent deployability — not size, not the number of endpoints, not whether it fits in one repository. The trade-offs are listed under [Service Decomposition](../03-system-design/01-common-concepts.md#service-decomposition); this section covers the architectural decision itself.
 
@@ -150,6 +174,19 @@ The forces that justify a split are usually organizational or operational, not t
 - a compliance boundary that must be isolated
 
 Conway's law is the practical guide: the boundaries that survive are the ones that match how teams communicate.
+
+### API-first, Cloud-native, Headless
+
+The other three letters add their own costs on top of the microservices ones.
+
+| You get | You pay |
+| ------- | ------- |
+| Any channel can use any capability, so a new front end needs no back-end change | Someone must own the glue — gateway, API versions, rate limits, and the backend-for-frontend layers |
+| A bought capability (search, payments, content) arrives built, hosted, and upgraded | Each vendor is a separate contract, bill, data model, and outage; your data lives in their systems |
+| Upgrades arrive without a migration project | Upgrades arrive on the vendor's schedule, including breaking API changes |
+| Front-end teams release without the back end | The team now builds what a suite used to give for free: preview, routing, rendering for search engines |
+
+MACH fits when several channels share one back end, or when a vendor does a capability better than the team could. With one channel and one team, it returns as little as a microservice split does. The claim to check is the one in its name: a capability can be replaced — built or bought — without changing the front ends or the other units.
 
 ## Event-Driven Architecture
 
@@ -202,6 +239,7 @@ The claim to check is the one the pattern exists for: a new consumer can be adde
 | Downstream work that the caller does not need an answer to | Events, choreographed |
 | A multi-unit operation that must complete or be undone as a whole | Events, orchestrated by a saga |
 | A read load or shape that has diverged from the write side | CQRS, with read models fed by events |
+| Several channels sharing one back end, or capabilities better bought than built | MACH: headless front ends over API-first services and SaaS |
 
 ## How They Combine
 

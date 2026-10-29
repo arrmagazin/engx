@@ -13,7 +13,7 @@ tags: [architecture, system-design]
 | --- | --- |
 | **[Key Quality Attributes](01-quality-attributes.md)** | The design, runtime, system, and user properties an architecture is evaluated against |
 | **[Architectural Views](02-architectural-views.md)** | The logical, process, deployment, and technology views an architecture is described through |
-| **[Architectural Patterns](03-architectural-patterns.md)** | Layered, MVC, and hexagonal inside a unit; monolith, microservices, and event-driven across units |
+| **[Architectural Patterns](03-architectural-patterns.md)** | Layered, MVC, and hexagonal inside a unit; monolith, microservices (MACH), and event-driven across units |
 
 ## What Architecture Captures
 
