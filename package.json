@@ -35,7 +35,7 @@
     "start:serve": "bun ../arrmatura-books/scripts/serve.ts",
     "start:css": "npm run build:css -- --watch",
     "start:index": "npm run build:index -- --watch",
-    "start:hot": "bun ../arrmatura-web/devops/hot/server/main.ts www/dist $(jq .hotPort package.json)",
+    "start:hot": "bun ../proton/devops/hot/server/main.ts www/dist $(jq .hotPort package.json)",
     "start:open": "npx --yes wait-on http://localhost:${PORT:-8092} && open http://localhost:${PORT:-8092}/",
     "stop": "lsof -t -sTCP:LISTEN -i tcp:${PORT:-8092},$(jq .hotPort package.json) | xargs -r kill -9",
     "check": "npx --yes npm-run-all --continue-on-error check:*",
