@@ -1,4 +1,5 @@
 import { launchBook } from "../arrmatura-books";
+import components from "./index.xml";
 import pkg from "./package.json";
 
 const { author, copyright, description, displayName, hotPort, keywords, name } = pkg;
@@ -17,4 +18,5 @@ const book = {
   scope: "docs",
 };
 
-launchBook({ app, book, hotPort });
+
+launchBook({ app, book, hotPort, components });

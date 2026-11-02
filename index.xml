@@ -1,0 +1,12 @@
+<Components>
+  <Component id="Attribution">
+    <Bar class="px-2 py-1 border-t border-base-300">
+      <a href="{R.app.repoUrl}" target="_blank" rel="noopener noreferrer">
+        <IBtn icon="github" size="sm" title="Source on GitHub" />
+      </a>
+      <a href="{R.app.storeUrl}" target="_blank" rel="noopener noreferrer">
+        <IBtn icon="shopping-cart" size="sm" title="Buy the book" />
+      </a>
+    </Bar>
+  </Component>
+</Components>
