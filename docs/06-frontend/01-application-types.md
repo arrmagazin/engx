@@ -26,7 +26,7 @@ SPAs update the current page without full reloads, which gives app-like navigati
 | --- | --- |
 | **Initial Load** | Downloads the application bundle before the first view renders — see [code splitting](05-javascript-bundle-performance.md#code-splitting) for splitting it |
 | **Navigation** | Client-side routing, no page reloads |
-| **Data Fetching** | [API calls](../03-system-design/06-client-server-communication.md) for dynamic content |
+| **Data Fetching** | [API calls](../03-system-design/06-client-server.md) for dynamic content |
 | **SEO** | Content exists only after JavaScript runs, unless paired with [SSR](#server-side-rendering-ssr) or pre-rendering |
 
 ## Server-Side Rendering (SSR)
@@ -100,6 +100,6 @@ A PWA is a capability layer, not a rendering model: any type above can add insta
 
 ## Related Guides
 
-- [Client-Server Communication](../03-system-design/06-client-server-communication.md) — the HTTP, REST, and GraphQL calls every type above uses to fetch data
+- [Client-Server Communication](../03-system-design/06-client-server.md) — the HTTP, REST, and GraphQL calls every type above uses to fetch data
 - [Browser Technologies](02-browser-technologies.md) — service workers, browser storage, and the other APIs a PWA builds on
 - [Performance Optimization](03-performance-optimization.md) — bundle splitting, caching, and the metrics that separate these types in practice

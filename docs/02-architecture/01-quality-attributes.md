@@ -21,7 +21,7 @@ The four groups are adapted from the "Quality Attributes" chapter of Microsoft's
 
 | Quality | Description |
 | --------- | ------------- |
-| **Scalability** | Load can grow while response times hold, by adding bigger machines or more of them (vertical vs. horizontal scaling, [load balancing](../03-system-design/06-client-server-communication.md#load-balancing), database sharding) |
+| **Scalability** | Load can grow while response times hold, by adding bigger machines or more of them (vertical vs. horizontal scaling, [load balancing](../03-system-design/06-client-server.md#load-balancing), database sharding) |
 | **Performance** | How fast the system answers and how much work it completes per second — latency and throughput (caching, database indexing, asynchronous processing) |
 | **Availability** | The share of time users can reach a working system, usually stated as a percentage of uptime, such as 99.9% a month |
 | **Reliability** | The system keeps producing correct results for long periods, even when one of its parts fails (fault tolerance, disaster recovery, data replication) |

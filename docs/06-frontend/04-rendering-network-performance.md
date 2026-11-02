@@ -107,7 +107,7 @@ Leaving `will-change` on an element permanently keeps its layer alive and costs 
 - `s-maxage` overrides `max-age` for shared caches such as a CDN, and is ignored by the browser.
 - `Vary: Accept-Encoding` stops a shared cache from handing a Brotli body to a client that only asked for gzip. `ETag` supplies the validator that revalidation compares.
 
-Header syntax and the rest of HTTP's semantics are in [Client-Server Communication](../03-system-design/06-client-server-communication.md). Caching as a system-design concept is in [Caching](../03-system-design/03-caching.md).
+Header syntax and the rest of HTTP's semantics are in [Client-Server Communication](../03-system-design/06-client-server.md). Caching as a system-design concept is in [Caching](../03-system-design/03-caching.md).
 
 A [service worker](02-browser-technologies.md) can implement stale-while-revalidate for requests the HTTP cache does not cover:
 

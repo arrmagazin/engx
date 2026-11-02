@@ -28,7 +28,7 @@ flowchart LR
 | **[Caching — Core Concepts](03-caching.md)** | Caching patterns, CDNs, and Redis |
 | **[Kafka — Core Concepts and Workflow](04-messaging.md)** | Partitions, consumer groups, delivery guarantees, queue patterns, and ordering |
 | **[Containers — Core Concepts and Orchestration](05-containers.md)** | Images, isolation, orchestration, and what containers mean for state |
-| **[Client-Server Communication](06-client-server-communication.md)** | Load balancing, HTTP semantics, REST and GraphQL, and streaming transports |
+| **[Client-Server Communication](06-client-server.md)** | Load balancing, HTTP semantics, REST and GraphQL, and streaming transports |
 | **[Data Formats](../99-appendices/07-data-formats.md)** | JSON, YAML, XML, CSV, Markdown, and Parquet, and the parsing traps of each |
 | **[Canonical Systems](08-canonical-systems.md)** | Eleven worked problems, each filed under the bottleneck it tests |
 | **[Abbreviations](../99-appendices/09-abbreviations.md)** | The abbreviations used across this book |
@@ -51,12 +51,12 @@ Software Framework
 : Component that owns the control flow and *calls* the Application's code through the extension points it defines (*inversion of control*); it dictates structure, so it is chosen once and swapped rarely
 
 API
-: The contract a Component exposes for others to call — operations, inputs, outputs, and errors — stated independently of how it is implemented; see [Client-Server Communication](06-client-server-communication.md)
+: The contract a Component exposes for others to call — operations, inputs, outputs, and errors — stated independently of how it is implemented; see [Client-Server Communication](06-client-server.md)
 
 Configuration
 : Data that *parameterizes* Software without changing it — what varies per environment, tenant, or deployment; versioned like code, but applied without rebuilding
 
-This chapter says **Software Framework**, never plain *Framework*: [Methodology](../01-methodology/index.md#core-concepts) defines a Framework as a Method made executable. One is a piece of code; the other is a way of running a process.
+This chapter says **Software Framework**, never plain *Framework*: [Management](../01-methodology/00-management.md#core-concepts) defines a Framework as a Method made executable. One is a piece of code; the other is a way of running a process.
 
 ## Hardware
 

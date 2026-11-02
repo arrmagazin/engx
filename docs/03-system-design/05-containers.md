@@ -35,7 +35,7 @@ A real system runs tens to thousands of containers across a fleet. The orchestra
 - **Scheduling** — placing each container on a host with enough free CPU and memory, spread across failure zones. Declared resource requests are the input: wrong numbers waste the fleet or overload it.
 - **Health checks** — two different questions:
   - *Liveness* — is it still working? If not, restart it.
-  - *Readiness* — can it take traffic now? If not, remove it from the [load balancer](06-client-server-communication.md#load-balancing) but leave it running.
+  - *Readiness* — can it take traffic now? If not, remove it from the [load balancer](06-client-server.md#load-balancing) but leave it running.
   - Conflating them causes outages: a slow-starting application fails liveness during warm-up and restarts forever. On shutdown, an instance reports *not ready* while staying *alive*, so traffic stops but the drain is not cut short.
 - **Deploy strategies**:
   - *Rolling* — replace instances in batches. It needs no spare fleet, but two versions serve at once, so every change must stay backward compatible for the length of the roll.

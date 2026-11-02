@@ -12,7 +12,7 @@ This is the part of the job that repeats every week. [Roles and the Employee Lif
 - the assignments that raise what someone can handle alone;
 - the signals that show whether the current pace can continue.
 
-Related: [Engineering Management](../01-methodology/00-engineering-management.md) · [Team Lead](01-team-lead.md) · [Development Process](../04-development-process/index.md)
+Related: [Management](../01-methodology/00-management.md) · [Team Lead](01-team-lead.md) · [Development Process](../04-development-process/index.md)
 
 ## Core Concepts
 
@@ -117,7 +117,7 @@ Write down the target level's expectations and the evidence gathered so far. A p
 
 ## Team Health
 
-Health metrics **lead** delivery metrics — they degrade first, and they are the early warning for the DORA and flow numbers in [Engineering Management](../01-methodology/00-engineering-management.md#metrics).
+Health metrics **lead** delivery metrics — they degrade first, and they are the early warning for the DORA and flow numbers in [Management](../01-methodology/00-management.md#metrics).
 
 | Signal | What it reveals | Watch for |
 | --- | --- | --- |
@@ -131,7 +131,7 @@ Health metrics **lead** delivery metrics — they degrade first, and they are th
 
 Commit and pull request timestamps are employee personal data. In the EU the GDPR applies, and member states may add stricter rules for employment (Art. 88); in Germany, technical monitoring of employees needs the works council's agreement where one exists (BetrVG §87(1) no. 6). Rules differ by country; this is not legal advice.
 
-Read these as properties of the system, not as scores for the people in it. [Metrics](../01-methodology/00-engineering-management.md#metrics) explains why, and what happens when individual output is measured instead.
+Read these as properties of the system, not as scores for the people in it. [Metrics](../01-methodology/00-management.md#metrics) explains why, and what happens when individual output is measured instead.
 
 ## Best Practices
 
@@ -147,7 +147,7 @@ Read these as properties of the system, not as scores for the people in it. [Met
 Two more apply to people work but are not specific to it, so each is stated once elsewhere:
 
 - Delegate the outcome, not the steps — [Delegation](01-team-lead.md#delegation).
-- Raise bad news early enough that it is still a decision — [Best Practices](../01-methodology/00-engineering-management.md#best-practices).
+- Raise bad news early enough that it is still a decision — [Best Practices](../01-methodology/00-management.md#best-practices).
 
 ## Anti-patterns
 
@@ -159,7 +159,7 @@ Two more apply to people work but are not specific to it, so each is stated once
 | Vague underperformance handling | Unfair to the person and to the team carrying them | Name the gap, write a plan, set a date |
 | Treating retention as an HR problem | The causes are manager, work, and growth | Manager owns retention risk per person, based only on what the person says |
 
-Two failure modes that look like people problems — hero culture, and managing individuals by metrics — are listed with the delivery ones in [Anti-Patterns](../01-methodology/00-engineering-management.md#anti-patterns).
+Two failure modes that look like people problems — hero culture, and managing individuals by metrics — are listed with the delivery ones in [Anti-Patterns](../01-methodology/00-management.md#anti-patterns).
 
 ## Checklists
 

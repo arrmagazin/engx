@@ -1,17 +1,49 @@
 ---
 type: Guide
-title: Engineering Management
+title: Management
 description: Frames engineering management as turning goals into delivered outcomes across product, delivery, people, process, and technical scope.
 tags: [management, leadership, process]
 ---
 
-**Engineering Management** is the decision-making *process* that turns **goals into delivered outcomes** through people, process, and priorities, within limits of time, budget, capacity, and quality.
 
-Leadership sets direction and motivates; management allocates, sequences, and controls. A working engineering manager does both.
+This guide covers the loops that connect strategy to feedback, and the metrics that show whether those loops work. Its planning vocabulary — Scope, Capacity, Priority, Commitment, Risk, Dependency, and Constraint — is defined once in [Planning Concepts](00-management.md#planning-concepts), and Goal in [Core concepts](../00-software-engineering/01-core_concepts.md).
 
-This guide covers the loops that connect strategy to feedback, and the metrics that show whether those loops work. Its planning vocabulary — Scope, Capacity, Priority, Commitment, Risk, Dependency, and Constraint — is defined once in [Planning Concepts](index.md#planning-concepts), and Goals and Objectives in the [Glossary](../00-software-engineering/01-glossary.md). This guide applies those terms without restating them.
+## Core Concepts
 
-## Scope
+Decision
+: An accountable *choice* of one option among weighed alternatives in given context,\
+  > with its tradeoffs agreed and its risks and costs accepted up front
+
+Strategy
+: context-free generalized approach for reaching a Goals — set of values/principles to make reasonable Decisions ("why")
+
+Method
+: An organized set of predefined constraints/rules and decisions, that control "howto" run a process in a given context
+
+Best Practice
+: A Method accepted as superior amongst others because it reliably produces better outcomes there
+
+Framework
+: A Method offered a predefined options a user chooses from, so the results become predictable
+
+Management
+: The *process* of making Decisions, leading Teams, and allocating Resources to reach Goals
+
+    - through people, process, and priorities
+    - within limits of time, budget, capacity, and quality
+    - Concerned with planning, organizing, governance, control, optimizing, securing, tracking, and growth
+    - that turns Goals into predictably delivered outcomes
+
+Management bodies
+: personal involved into management process
+
+    - Leadership sets direction and motivates - Strategy;
+    - operations management allocates, sequences, and controls.
+    - A working engineering manager does both.
+
+## Flow
+
+### Dimensions
 
 | Dimension | Question it answers | Primary artifact |
 | --- | --- | --- |
@@ -21,9 +53,25 @@ This guide covers the loops that connect strategy to feedback, and the metrics t
 | **Process** | How does work flow end to end? | Workflow, definition of done |
 | **Technical** | Is the system sustainable? | Architecture decisions, tech-debt budget |
 
-Hold all five at once. A manager who covers only *delivery* produces burnout; one who covers only *people* produces drift.
+> Hold all five at once. A manager who covers only *delivery* produces burnout; one who covers only *people* produces drift.
 
-## Management Flow
+### Stages
+
+The stages by which a goal becomes executed work.
+
+Analysis
+: Survey of internal resources and external conditions, partitioned as a SWOT
+
+Plan
+: Ordered sequence of work with the resources, roles, and schedule that realize an objective
+
+Task
+: Atomic unit of a Plan, carrying a purpose, a definition of done, required resources, an owner, a timeline, dependencies, and a status
+
+Monitoring
+: Continuous evaluation of progress against the Plan and adaptation when conditions shift; failure to monitor is failure to act
+
+### The loop
 
 ```mermaid
 graph TD
@@ -51,7 +99,7 @@ graph TD
 
 **Key property:** the loop must close. A roadmap that is never corrected by feedback is a forecast presented as a plan.
 
-## Planning Horizons
+### Planning Horizons
 
 Plan with decreasing precision as the horizon extends. Precision beyond the evidence is waste.
 
@@ -62,7 +110,7 @@ Plan with decreasing precision as the horizon extends. Precision beyond the evid
 | **Operational** (1–4 weeks) | Stories, tasks | Committed |
 | **Daily** (1 day) | Sub-tasks, blockers | Certain |
 
-## Delivery Phases
+### Delivery Phases
 
 The phases a solution passes through are defined once, as the SDLC, in [Development Process](../04-development-process/index.md). Management needs no second lifecycle — only the one phase the SDLC does not name, because its work concerns the team, not the product.
 
@@ -72,7 +120,39 @@ The phases a solution passes through are defined once, as the SDLC, in [Developm
 
 Complete it before implementation starts. Work that begins without it produces decisions no one can point to later: an undefined done, an unowned environment, an unagreed escalation path.
 
-## Prioritization
+## How to
+
+### Planning Concepts
+
+The variables a Plan is negotiated with, and the conditions that constrain it.
+
+Scope
+: Set of work items accepted as in-bounds for an objective\
+  *The cheapest planning variable to change; time and quality are not*
+
+Capacity
+: Effort realistically available in a period, once meetings, support, and leave are taken out\
+  *Always below headcount multiplied by working hours*
+
+Priority
+: Total ordering of work items by value against cost and risk\
+  *If everything is priority one, nothing is*
+
+Commitment
+: Promise made with known Scope, known Capacity, and accepted Risk\
+  *Without capacity data it is a wish*
+
+Risk
+: Uncertain event that would affect an objective, sized as probability multiplied by impact
+
+Dependency
+: Work whose completion is required by other work, inside or outside the team\
+  *Cross-team ones sit outside the team's control, so track them explicitly*
+
+Constraint
+: Fixed boundary — budget, deadline, compliance, headcount — that planning must respect rather than optimize away
+
+### Prioritization
 
 Pick one framework and apply it consistently; mixing frameworks produces arguments, not order.
 
@@ -86,7 +166,7 @@ Pick one framework and apply it consistently; mixing frameworks produces argumen
 
 **Reserve capacity explicitly.** Give each kind of work a named share of the cycle: planned features, tech debt and maintenance, and interrupt-driven support. Set the shares from the team's own measured unplanned-work share, and revise them when that measurement moves. Without an explicit reserve, unplanned work silently consumes the commitment and every sprint "fails".
 
-## Estimation
+### Estimation
 
 - Estimate **relatively** (points, sizes) rather than in hours; relative sizing stays stable when the person doing the work changes.
 - Estimate as a **range**, not a point value, and carry the range through to the plan instead of collapsing it early.
@@ -96,7 +176,7 @@ Pick one framework and apply it consistently; mixing frameworks produces argumen
 
 **Anti-pattern:** negotiating estimates downward. It changes the number, not the work.
 
-## Decision Making
+### Decision Making
 
 | Decision type | Approach |
 | --- | --- |
@@ -108,7 +188,42 @@ Use a single accountable decider per decision (`DACI`: Driver, Approver, Contrib
 
 **Record decisions.** Every non-trivial technical decision gets an ADR: context, options, decision, consequences. See [Architecture](../02-architecture/index.md).
 
-## Metrics
+### SWOT Analysis
+
+**SWOT**: Four-cell partition of a situation into Strengths, Weaknesses, Opportunities, and Threats.
+
+Strengths
+: Internal factors that give an advantage — resources, expertise, processes, relationships
+
+Weaknesses
+: Internal factors that hold back — missing resources, skills, or capabilities
+
+Opportunities
+: External factors worth exploiting — market trends, emerging technologies, unserved segments
+
+Threats
+: External factors that can cause harm — competition, downturns, shifting preferences, disruption
+
+### SMART Goals
+
+**SMART**: Five criteria that make a goal *actionable*: Specific, Measurable, Achievable, Relevant, and Time-bound.
+
+Specific
+: Clear and well-defined enough to answer who, what, when, where, and why
+
+Measurable
+: Quantifiable, so progress can be tracked by Monitoring
+
+Achievable
+: Realistic given the resources and conditions in play
+
+Relevant
+: Aligned with the higher-level aims it serves, so local wins do not cost more elsewhere
+
+Time-bound
+: Anchored to a defined timeframe or deadline
+
+### Metrics
 
 Measure the **system**, not individuals. Individual metrics get gamed and destroy trust.
 
@@ -135,7 +250,61 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 
 > Little's Law: `Cycle Time = WIP / Throughput`. To go faster, lower WIP before adding people.
 
-## Best Practices
+## Problem Solving
+
+Problem
+: A factor that prevents or impedes progress toward a goal: conflicting interests, missing resources, a runtime failure, or a misunderstanding
+
+Failure
+: An attempt that does not reach its goal, or reaches it at a cost that outweighs the gain; informative, because it narrows what the next attempt must account for
+
+Trade-off
+: A choice in which one need is met at a measurable cost to another; unavoidable whenever resources are bounded and needs are multiple
+
+Contingency
+: Buffer reserved for Problems that cannot be anticipated, as distinct from the risks that can be
+
+### Solving Approaches
+
+The four stances a team can take toward a Problem, as set out by Russell Ackoff, plus one decomposition tactic.
+
+Absolving
+: Ignoring a Problem in the hope that it resolves itself; valid when acting costs more than the Problem does
+
+Resolving
+: Settling for a good-enough answer drawn from past experience, trial and error, or common sense; fast, not optimal
+
+Solving
+: Studying the Problem deeply enough to build a predictable model and choose the best available answer
+
+Dissolving
+: Redesigning the surrounding system so the conditions that produced the Problem no longer exist
+
+Divide and Conquer
+: Breaking a Problem into sub-problems until each is trivial, then composing the results; a tactic rather than a stance, so it combines with any of the four
+
+### Risk Management
+
+```mermaid
+graph LR
+    ID["Identify"] --> AS["Assess — probability × impact"]
+    AS --> PL["Plan response"]
+    PL --> MO["Monitor"]
+    MO --> ID
+```
+
+| Response | When to use |
+| --- | --- |
+| **Avoid** | Impact unacceptable, alternative path exists |
+| **Mitigate** | Reduce probability or impact (spike, prototype, phased rollout) |
+| **Transfer** | Another party is better positioned (vendor, insurance, platform team) |
+| **Accept** | Cost of response exceeds expected loss — record the decision |
+
+Keep the risk list short and current. Each entry holds a description, probability, impact, owner, response, and review date. A risk without an owner is not managed.
+
+## Practical aspects
+
+### Best Practices
 
 - **Limit WIP.** Finishing beats starting. Cap in-progress items per person.
 - **Make work visible.** One board, one source of truth. Untracked work cannot be managed.
@@ -148,7 +317,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 - **Change one process thing at a time.** Otherwise you cannot attribute the effect.
 - **Manage the interfaces.** Work waiting on another team sits outside either team's board, so the wait goes unmeasured until someone counts it.
 
-## Anti-Patterns
+### Anti-Patterns
 
 | Anti-pattern | Why it fails | Correction |
 | --- | --- | --- |
@@ -161,7 +330,7 @@ Measure the **system**, not individuals. Individual metrics get gamed and destro
 | Retro actions never executed | Retros become ritual | Take on only as many actions as the next cycle can finish, each with an owner and a date |
 | Managing individuals by metrics | Gaming, distrust | Measure the system |
 
-## Checklists
+### Checklists
 
 **Before committing to a plan:**
 

@@ -51,7 +51,7 @@ A `click` handler on a non-interactive element such as a `div` gets no keyboard 
 
 ### Fetch API
 
-`fetch` returns a promise that rejects only on network failure. An HTTP error status resolves normally, so check `response.ok` yourself. Methods, status codes, and the rest of the protocol are in [Client-Server Communication](../03-system-design/06-client-server-communication.md).
+`fetch` returns a promise that rejects only on network failure. An HTTP error status resolves normally, so check `response.ok` yourself. Methods, status codes, and the rest of the protocol are in [Client-Server Communication](../03-system-design/06-client-server.md).
 
 ```javascript
 // The credential is a parameter, not a free variable the module hopes exists

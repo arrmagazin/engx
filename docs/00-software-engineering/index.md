@@ -13,7 +13,7 @@ This chapter holds the shared vocabulary, the published standards, and the map o
 
 | Doc | What it covers |
 | --- | --- |
-| **[Glossary](01-glossary.md)** | The foundational terms — solution, stakeholder, value, requirements, state — that the rest of the book uses without redefining |
+| **[Core concepts](01-core_concepts.md)** | The foundational terms — solution, stakeholder, value, requirements, state — that the rest of the book uses without redefining |
 | **[Software Engineering Standards](02-standards.md)** | What engineering standards are, the areas they cover, and the bodies that publish them |
 | **[Branches of Software Engineering](03-branches.md)** | The branches of the field in seven groups, with links to the ones this book covers |
 

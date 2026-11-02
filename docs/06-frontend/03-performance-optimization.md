@@ -35,7 +35,7 @@ The thresholds above are published. The numbers below are not: no standard fixes
 | **Total page weight, compressed** | 500 KB | Convention |
 | **Critical CSS, inlined** | 14 KB | Roughly what TCP sends before waiting for the first acknowledgement — the initial congestion window is 10 segments (RFC 6928) |
 
-A request-count budget is no longer worth keeping. Under HTTP/2 one connection multiplexes many streams. The limit is `SETTINGS_MAX_CONCURRENT_STREAMS` (RFC 9113), not the six-connections-per-host convention browsers apply to HTTP/1.1. So the number of requests stopped being a good proxy for latency. See [Client-Server Communication](../03-system-design/06-client-server-communication.md) for the connection model.
+A request-count budget is no longer worth keeping. Under HTTP/2 one connection multiplexes many streams. The limit is `SETTINGS_MAX_CONCURRENT_STREAMS` (RFC 9113), not the six-connections-per-host convention browsers apply to HTTP/1.1. So the number of requests stopped being a good proxy for latency. See [Client-Server Communication](../03-system-design/06-client-server.md) for the connection model.
 
 ---
 

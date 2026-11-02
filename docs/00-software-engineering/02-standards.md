@@ -20,7 +20,7 @@ tags: [standards, engineering, code-quality, best-practices]
 | --- | --- |
 | **Coding conventions** | Naming formats (e.g., camelCase vs. snake_case) and directory layout, so any developer can read the code |
 | **Design principles** | Heuristics such as [SOLID](../05-coding/05-design-principles.md) that keep systems flexible and modular |
-| **Architecture rules** | Established conventions such as [REST](../03-system-design/06-client-server-communication.md) and interchange formats such as JSON |
+| **Architecture rules** | Established conventions such as [REST](../03-system-design/06-client-server.md) and interchange formats such as JSON |
 
 ### 2. Operations & DevOps
 

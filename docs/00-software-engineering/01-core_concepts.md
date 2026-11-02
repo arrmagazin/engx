@@ -1,16 +1,16 @@
 ---
 type: Guide
-title: Glossary
+title: Core concepts
 description: Introduces foundational concepts of solutions, delivery, and engineering.
 tags: [introduction, engineering]
 ---
 
-These are the foundational terms the rest of the book uses without redefining them: the solution and its stakeholders, the delivery that carries value to them, and the engineering that organizes the work.
+These are the core concepts the rest of the book is based on, explores in deep and uses without redefining them.
 
 ---
 
 Solution
-: A specific *way of satisfying* Stakeholder needs in a context — a Product, a Service, or both:
+: A specific *way*  of satisfying Stakeholder's needs/constraints:
 
     - which exists to bring real Value to someone
     - whose State is observable and measurable
@@ -26,28 +26,31 @@ End-User
 : The Stakeholder who directly *uses* the Solution; not necessarily the customer who pays for it
 
 Value
-: The *worth* a Solution has for a Stakeholder in a given context: capability gained, time or money saved, problem solved, risk removed
+: The *worth* a Solution has for a Stakeholder in a given context, through the needs/constraints it covers\
+  > such as: capability gained, time or money saved, problem solved, risk removed
 
 Satisfaction
-: A Stakeholder's *perception* of the degree to which their expectations were fulfilled; subjective, therefore elicited rather than measured
+: A Stakeholder's *opinion* of how well a Solution covers their needs/constraints, judged against their expectations;\
+  > it is *subjective* and *perceptive*, therefore elicited, not read from the Solution's State
 
-Goals
-: Broad, desired *end States* in which Stakeholders are satisfied; too coarse to verify as stated, so decomposed into Objectives
+Goal
+: A *statement* of how far needs/constraints must be covered for Stakeholders to feel "enough" satisfied;\
+  > too coarse to *verify* on its own
 
-Objectives
-: Specific, measurable *targets*: intermediate States bounded by Requirements and verified on their own
+Requirement
+: a boundary on Solution's State, broken down from a Goal, that must hold to achieve it:\
+  >it gives "enough" a *falsifiable* test, which stands in for opinion but does not replace it
 
 State
-: The *condition* of a Solution at a point in time, given by the values of its observable properties; everything verifiable is read from it
+: The *condition* of a Solution at a point in time, given by the measured values of its attributes/capabilities
 
 Metric
-: A quantitative *measure*, with a defined method and unit, of the degree to which the State of a Solution has a given attribute
-
-Requirements
-: *Conditions* a Solution must meet to satisfy a Stakeholder need, stated as bounds on Metrics; they make "done" falsifiable rather than a matter of opinion
+: A defined *method* of evaluation and unit of measure, for the degree to which a Solution has a given attribute/capability\
+  > value can be numeric, enumeration, or a pass/fail
 
 Success
-: The verified State where every Requirement holds and Satisfaction is confirmed — Value delivered, not scope delivered
+: The *outcome* in which the verified State meets every Requirement and key Stakeholders confirm their Satisfaction —\
+  > Value received, not scope delivered
 
 ---
 
@@ -63,7 +66,7 @@ Service
 
 Design
 : The *activity* and *result* of deciding WHAT a Solution should be and WHY —\
-  its structure, behavior, and interactions — shaped by End-User needs and constraints
+  its structure, behavior, and interactions — shaped by End-User needs/constraints
 
 Resources
 : The *means* a Team consumes to deliver a Solution:\
@@ -86,7 +89,7 @@ Team
 : A small *group* of people with complementary skills, committed to shared Goals and mutually accountable for reaching them
 
 Project
-:   A *temporary endeavor* in which a Team creates a unique Solution and pursues Success against predefined Goals within limited Resources
+: A *temporary endeavor* in which a Team creates a unique Solution and pursues Success against predefined Goals within limited Resources
 
     Project is going by choosing and applying Paradigms, Methodologies, Technologies, and Platforms.
 
@@ -101,7 +104,8 @@ Paradigm
   > Paradigm is rooted in science, math, and domain expertise: e.g. object-oriented, functional, event-driven.
 
 Methodology
-: A coherent *system* of practices (roles, rituals, artifacts, workflows) a Team adopts to organize its work toward Success: Scrum, Kanban, Waterfall
+: A coherent *system* of practices (roles, rituals, artifacts, workflows) a Team adopts to organize its work toward Success\
+  > such as Scrum, Kanban, Waterfall
 
 Technology
 : The practical application of knowledge as reusable *means* —\
@@ -114,12 +118,3 @@ Standards
   how software is developed, reviewed, deployed, and maintained
 
   > They exist so that a system's safety, reliability, security, maintainability, and interoperability *do not depend* on which Team happened to build it.
-
-Decision
-: An accountable *choice* of one option among weighed alternatives,\
-  with its tradeoffs agreed and its risks and costs accepted up front
-
-Management
-: The *process* of making Decisions, leading Teams, and allocating Resources to reach Goals
-
-  > Management is concerned with planning, organizing, governance, control, optimizing, securing, tracking, and growth.

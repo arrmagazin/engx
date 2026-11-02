@@ -12,7 +12,7 @@ Two structural questions must be settled before anyone can run a useful 1:1 or w
 
 Both change rarely, and everything in [Growing and Keeping People](03-growing-and-keeping-people.md) assumes them. Write them down once instead of deciding them again for each person.
 
-Related: [Engineering Management](../01-methodology/00-engineering-management.md) · [Team Lead](01-team-lead.md) · [Knowledge Sharing](04-knowledge-sharing.md)
+Related: [Management](../01-methodology/00-management.md) · [Team Lead](01-team-lead.md) · [Knowledge Sharing](04-knowledge-sharing.md)
 
 ## Scope
 

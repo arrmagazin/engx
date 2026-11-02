@@ -71,11 +71,11 @@ tags: [lowercase, kebab-or-single-word, tags]
 
 ## Glossary conventions
 
-These apply to any file that defines terms in a **definition list** — the [extended markdown syntax](https://www.markdownguide.org/extended-syntax/#definition-lists) — such as `docs/00-software-engineering/01-glossary.md`. They were two-column tables until 2026-09-12; a definition is now free to hold a list or a second paragraph, and a long one wraps to the full measure instead of a narrow column.
+These apply to any file that defines terms in a **definition list** — the [extended markdown syntax](https://www.markdownguide.org/extended-syntax/#definition-lists) — such as `docs/00-software-engineering/01-core_concepts.md`. They were two-column tables until 2026-09-12; a definition is now free to hold a list or a second paragraph, and a long one wraps to the full measure instead of a narrow column.
 
 `check-glossary.ts` checks the mechanical rules below: entries a renderer would silently fold together, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. Definition lists are used in this book for exactly one thing, so every one of them is in scope and no header row marks them; comparisons, ladders and nav tables stay tables and are not read. Indirect loops and oversized lists print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked.
 
-Note also what it cannot see: its duplicate-term check is per file, so the same term defined once in each of two chapters passes. That is a real hazard in a book this size — see the two senses of *Framework* in `01-methodology/index.md` and `03-system-design/index.md`, which are disambiguated in prose because no checker could catch them.
+Note also what it cannot see: its duplicate-term check is per file, so the same term defined once in each of two chapters passes. That is a real hazard in a book this size — see the two senses of *Framework* in `01-methodology/00-management.md` and `03-system-design/index.md`, which are disambiguated in prose because no checker could catch them.
 
 ### Shape
 
