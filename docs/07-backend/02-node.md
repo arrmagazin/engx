@@ -182,6 +182,6 @@ The permission model (`--permission`, stable) denies file system, network, child
 
 ## Related Guides
 
-- [Reactive Programming and FRP](../05-coding/02-reactive-programming.md) — event streams and back-pressure beyond Node's own streams
+- [Reactive Programming and FRP](../05-coding/03-reactive-programming.md) — event streams and back-pressure beyond Node's own streams
 - [Messaging](../03-system-design/04-messaging.md) — queues and events between Node services
 - [Java and Spring Boot](01-java-spring.md) and [.NET and ASP.NET Core](03-dot-net.md) — the same concerns on thread-per-request stacks

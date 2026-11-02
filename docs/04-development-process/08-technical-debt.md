@@ -57,7 +57,7 @@ Three approaches, best used together:
 Issue trackers such as Jira also make intentional debt visible, for example by charting logged vs. fixed defects over time. Two tool metrics carry most of the signal:
 
 - **Code coverage** — flags areas of the codebase that lack unit tests.
-- **[Code smells](../05-coding/06-code-smells.md)** — count and density of patterns that point at underlying design problems.
+- **[Code smells](../05-coding/07-code-smells.md)** — count and density of patterns that point at underlying design problems.
 
 ## Managing Technical Debt
 
@@ -84,7 +84,7 @@ Control comes from three habits: let less debt in, keep what is there in plain v
 
 **Let less debt in:**
 
-- Apply [design principles](../05-coding/04-design-principles.md) such as SOLID and DRY, so fewer smells enter the code.
+- Apply [design principles](../05-coding/05-design-principles.md) such as SOLID and DRY, so fewer smells enter the code.
 - Catch inconsistencies early in [code review](02-code-review.md).
 - Spread knowledge, so no part of the codebase depends on a few people.
 - Let static analysis do the checks people would otherwise do by hand.

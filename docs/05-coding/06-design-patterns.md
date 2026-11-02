@@ -7,7 +7,7 @@ tags: [coding, design-patterns]
 
 A design pattern is a named, reusable approach to a recurring problem: a template to work from, not a finished design that converts straight into code. This page catalogs the twenty-three Gang of Four patterns by family, the patterns other catalogs added around them, common concurrency patterns, and the anti-patterns worth naming. It serves a developer who needs the name other engineers will recognize.
 
-A pattern is a concrete structure; the general rules a structure is judged against live in [Design Principles](04-design-principles.md).
+A pattern is a concrete structure; the general rules a structure is judged against live in [Design Principles](05-design-principles.md).
 
 ## Gang of Four Patterns
 
@@ -140,7 +140,7 @@ Active Object, Reactor, and the Double-Checked Locking optimization are cataloge
 
 ## Anti-Patterns
 
-An anti-pattern is a solution people keep choosing that reliably ends badly. Symptoms in code that already exists — a class grown too large, structure that is hard to follow, unexplained literals, leaky encapsulation — are cataloged as [Code Smells](06-code-smells.md). Duplication is covered by DRY in [Design Principles](04-design-principles.md).
+An anti-pattern is a solution people keep choosing that reliably ends badly. Symptoms in code that already exists — a class grown too large, structure that is hard to follow, unexplained literals, leaky encapsulation — are cataloged as [Code Smells](07-code-smells.md). Duplication is covered by DRY in [Design Principles](05-design-principles.md).
 
 ### Software Design Anti-Patterns
 

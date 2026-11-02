@@ -92,7 +92,7 @@ class OrderService {
 - **Factory methods.** `@Bean` methods in a `@Configuration` class create beans from third-party classes.
 - **Back-off.** Auto-configuration is guarded by `@ConditionalOnMissingBean`: declare your own `DataSource` or `JsonMapper` and Boot's version steps aside.
 - **Scope.** Beans are singletons by default, shared across threads. Keep them stateless.
-- **Proxies.** `@Transactional`, `@Cacheable`, `@Async` and `@Retryable` work through a proxy around the bean, so they apply only to calls that come *through* the proxy — see [Aspect-Oriented Programming](../05-coding/03-metaprogramming.md#aspect-oriented-programming-aop).
+- **Proxies.** `@Transactional`, `@Cacheable`, `@Async` and `@Retryable` work through a proxy around the bean, so they apply only to calls that come *through* the proxy — see [Aspect-Oriented Programming](../05-coding/04-metaprogramming.md#aspect-oriented-programming-aop).
 
 ```mermaid
 sequenceDiagram
@@ -256,4 +256,4 @@ class OrderControllerTest {
 
 - [Databases](../03-system-design/02-databases.md#transactions-and-locking) — transactions, isolation and migrations beneath Spring Data
 - [Caching](../03-system-design/03-caching.md) — the strategies behind `@Cacheable`
-- [Metaprogramming and AOP](../05-coding/03-metaprogramming.md) — the proxy mechanism Spring's annotations rely on
+- [Metaprogramming and AOP](../05-coding/04-metaprogramming.md) — the proxy mechanism Spring's annotations rely on

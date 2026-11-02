@@ -37,7 +37,7 @@ Agree on a turnaround time, or reviews stall the board. [The team lead guide](..
 
 ## What Reviewers Check
 
-Five areas span both dimensions of [code quality](../05-coding/07-code-quality.md) — what the code does, and how it is organized.
+Five areas span both dimensions of [code quality](../05-coding/08-code-quality.md) — what the code does, and how it is organized.
 
 | Area | What to Verify |
 | --- | --- |

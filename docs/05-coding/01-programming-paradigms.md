@@ -5,7 +5,7 @@ description: Surveys programming paradigms—imperative, object-oriented, declar
 tags: [coding, programming-paradigms]
 ---
 
-A **programming paradigm** is an opinionated view of what computation is. It dictates how data and code are organized, accessed, and changed. This guide surveys the imperative, object-oriented, declarative, and functional families, for engineers choosing a style for a component or reading code written in an unfamiliar one. It is also the canonical home for the OOP pillars. The reactive family has its own guide, [Reactive Programming and FRP](02-reactive-programming.md), and so do metaprogramming and AOP, in [Metaprogramming and AOP](03-metaprogramming.md).
+A **programming paradigm** is an opinionated view of what computation is. It dictates how data and code are organized, accessed, and changed. This guide surveys the imperative, object-oriented, and declarative families, for engineers choosing a style for a component or reading code written in an unfamiliar one. It is also the canonical home for the OOP pillars. The functional family has its own guide, [Functional Programming](02-functional-programming.md), as does the reactive family, [Reactive Programming and FRP](03-reactive-programming.md), and so do metaprogramming and AOP, in [Metaprogramming and AOP](04-metaprogramming.md).
 
 ```mermaid
 mindmap
@@ -49,7 +49,7 @@ A prominent approach that treats computation as a side effect of stateful object
 | **Inheritance** | Mechanism that lets one class borrow or extend state and behavior from a base class |
 | **Polymorphism** | Mechanism that lets descendants override method implementations while keeping signatures and semantics |
 
-For language-agnostic design heuristics such as SOLID, GRASP, and DRY, see [Design Principles](04-design-principles.md).
+For language-agnostic design heuristics such as SOLID, GRASP, and DRY, see [Design Principles](05-design-principles.md).
 
 ### OOP Concepts
 
@@ -103,94 +103,11 @@ Examples: query languages such as SQL; logic languages such as Prolog and Datalo
 
 ## Functional Programming
 
-A paradigm that treats computation as the declarative composition of pure (mathematical) functions.
-
-### Functions and Purity
-
-Operation
-: Correspondence of input with unambiguous output: (x..., y1) & (x..., y2) => y1 ≡ y2
-
-Parameter
-: Reference to an elementary piece of the input data structure, by name or index
-
-Argument
-: Input data value applied to the corresponding Parameter when an Operation is performed
-
-Function
-: Operation mapping elements of a domain to elements of a codomain
-
-Arity
-: Dimension of the domain space: unary, binary, n-ary, variadic
-
-Partial Function
-: Mapping not defined for every value of its domain
-
-Deterministic Function
-: Mapping that always produces the same result for the same input
-
-Pure Function
-: Deterministic Function without side effects
-
-Side Effects
-: Interactions (reads or writes) with external mutable state
-
-Higher-Order Function (HOF)
-: Function that takes a function as argument, returns a function, or both
-
-Immutability
-: Inability to destructively change input parameters, context, or state
-
-Idempotent
-: Property of an operation whose reapplication to its own result changes nothing; see [System Design Glossary](../03-system-design/01-common-concepts.md)
-
-### Function Composition
-
-Function Pipe
-: Chain of functions in which each output is the input of the next
-
-Fun-Arg Problem
-: Difficulty of keeping a function's free variables alive after the scope that defined them has returned
-
-Closure
-: Function retaining a reference to its free variables from the outer scope
-
-Point-Free Style
-: Defining functions without naming the arguments they use
-
-Partial Application
-: Creating a new function by pre-filling some arguments of the original
-
-Currying
-: Transformation of an n-ary function into a chain of unary functions, each taking one Argument
-
-Auto Currying
-: Transforming a multi-argument function so that, given fewer arguments, it returns a function taking the rest
-
-Fixed-point Combinator
-: Function Y returning the fixed point of its argument function: Y(f) == f(Y(f))
-
-### Evaluation Strategy
-
-Evaluation order is independent of the paradigm: Haskell is lazy by default, while Standard ML, OCaml, Scheme, Clojure, and Erlang are strict.
-
-Lazy Evaluation
-: Call-by-need strategy that defers computing an expression until its value is demanded, allowing infinite data structures
-
-Continuation
-: The part of code yet to be executed at any given point
-
-Memoization
-: Cache of previously computed results, reused instead of recomputing
-
-Recursion
-: Function calling itself during execution
-
-Tail Recursion
-: Recursion whose recursive call is the last step of the function, so a compiler that eliminates tail calls can run it as a loop
+A paradigm that treats computation as the declarative composition of pure (mathematical) functions. Its terms are defined in [Functional Programming](02-functional-programming.md).
 
 ## Other Paradigms
 
-The families above, together with [Reactive Programming and FRP](02-reactive-programming.md) and [Metaprogramming and AOP](03-metaprogramming.md), cover most production code. Engineers still meet the paradigms below, usually as a specialized language or framework inside an otherwise conventional system. Each is described by the unit it treats as primitive, because that choice is what separates it from the paradigms covered above.
+The families above, together with [Reactive Programming and FRP](03-reactive-programming.md) and [Metaprogramming and AOP](04-metaprogramming.md), cover most production code. Engineers still meet the paradigms below, usually as a specialized language or framework inside an otherwise conventional system. Each is described by the unit it treats as primitive, because that choice is what separates it from the paradigms covered above.
 
 Logic Programming
 : Declarative style where a program is a set of facts and rules, and running it asks the engine to search for a proof of a goal instead of prescribing the steps (Prolog, Datalog, answer-set solvers)
@@ -209,9 +126,3 @@ Component-Based Software Engineering
 
 Modular Programming
 : Splitting a program into separately compiled units with explicit exported and imported names — the discipline Procedural programming grew out of, and the one that today's packages and namespaces still implement (Modula-2, ML functors, JPMS, ES imports)
-
-Three names once in this list are left out on purpose, because they are not paradigms:
-
-- **SQL** is a language; it appears above as an example of [Declarative Programming](#declarative-programming).
-- **Domain-Driven Design** is a modeling and design approach, not a view of what computation is; its tactical patterns belong with [Design Patterns](05-design-patterns.md).
-- **"Mathematical model"** names no paradigm at all; the idea behind it, computation as the evaluation of pure functions, is [Functional Programming](#functional-programming).

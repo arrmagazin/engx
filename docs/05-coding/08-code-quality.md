@@ -39,7 +39,7 @@ Standards are agreed guidelines for style, practice, and method. Agreed up front
 They improve clarity, readability, consistency, and maintainability, and hold complexity down. The broader industry and regulatory layer above a team's own rules is covered in [Software Engineering Standards](../00-software-engineering/02-standards.md).
 
 - **Style** — visual layout: indentation, whitespace, capitalization, naming style, comments
-- **Design** — structure: use of language constructs (exception handling, `goto`/`break`), logical structure (method size, parameter count, naming), and the [design principles](04-design-principles.md) the team follows, such as SOLID and KISS
+- **Design** — structure: use of language constructs (exception handling, `goto`/`break`), logical structure (method size, parameter count, naming), and the [design principles](05-design-principles.md) the team follows, such as SOLID and KISS
 - **Conventions** — project-specific rules that extend or override the above: implementation guidance, feature rules, naming patterns, and explicit do-nots
 
 ### Automated Code Analysis
@@ -52,7 +52,7 @@ Static analysis has limits:
 
 - It has no business context.
 - It cannot confirm that code meets a specific requirement.
-- It cannot catch architecture or design problems that depend on developer intent — which is what review and the [Code Smells](06-code-smells.md) catalog are for.
+- It cannot catch architecture or design problems that depend on developer intent — which is what review and the [Code Smells](07-code-smells.md) catalog are for.
 
 ## Metrics
 

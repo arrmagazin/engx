@@ -152,4 +152,4 @@ DRY and SSOT are not the same rule:
 
 *Guidance*: prefer *generating* the copies over *synchronizing* them — the derivation itself is what makes the source authoritative. Where derivation is impossible, make the duplication loud: a test that fails when the two disagree is a weaker but honest substitute.
 
-*See also*: [Metaprogramming](03-metaprogramming.md#metaprogramming) — schema-driven code generation is the usual mechanism for enforcing SSOT across languages and services.
+*See also*: [Metaprogramming](04-metaprogramming.md#metaprogramming) — schema-driven code generation is the usual mechanism for enforcing SSOT across languages and services.

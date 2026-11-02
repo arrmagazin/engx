@@ -138,4 +138,4 @@ Glitch-Freedom
 | **Costs** | Steep learning curve, hard debugging (stack traces lost in the graph), memory/space leaks from retained histories |
 | **Applicability** | UI state, animation, telemetry, event processing, robotics, and simulation |
 
-*See also*: [Functional Programming](01-programming-paradigms.md#functional-programming) for the concepts used here, such as HOF · [Metaprogramming and AOP](03-metaprogramming.md)
+*See also*: [Functional Programming](02-functional-programming.md) for the concepts used here, such as HOF · [Metaprogramming and AOP](04-metaprogramming.md)

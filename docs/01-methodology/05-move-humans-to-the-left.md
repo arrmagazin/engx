@@ -194,6 +194,6 @@ The workable position: treat model output as human-authored code that a machine 
 
 *See also*:
 
-- [Single Source of Truth](../05-coding/04-design-principles.md#single-source-of-truth-ssot) — the design principle this rests on
-- [Metaprogramming](../05-coding/03-metaprogramming.md#metaprogramming) — the generation mechanisms
+- [Single Source of Truth](../05-coding/05-design-principles.md#single-source-of-truth-ssot) — the design principle this rests on
+- [Metaprogramming](../05-coding/04-metaprogramming.md#metaprogramming) — the generation mechanisms
 - [Automated Testing](../04-development-process/06-automated-testing.md#where-tests-run) — the classic shift left this extends

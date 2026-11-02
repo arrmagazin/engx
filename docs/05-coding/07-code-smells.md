@@ -34,9 +34,9 @@ Duplicated Code
 Shotgun Surgery
 : One conceptual change that forces many small edits spread across many classes
 
-Duplicated Code is the observable form of a broken [Single Source of Truth](04-design-principles.md#single-source-of-truth-ssot); the principle names the rule, this catalog names the symptom.
+Duplicated Code is the observable form of a broken [Single Source of Truth](05-design-principles.md#single-source-of-truth-ssot); the principle names the rule, this catalog names the symptom.
 
-Refused Bequest is not the same as a subclass that overrides a method and breaks the contract of its base class; that is a violation of the Liskov Substitution Principle, covered in [Design Principles](04-design-principles.md).
+Refused Bequest is not the same as a subclass that overrides a method and breaks the contract of its base class; that is a violation of the Liskov Substitution Principle, covered in [Design Principles](05-design-principles.md).
 
 ### Method-Level Smells
 
@@ -100,4 +100,4 @@ Spaghetti Code
 Excessive Return of Data
 : A method that hands back more data than any caller uses
 
-Cyclomatic complexity is a metric rather than a smell; see [Code Quality](07-code-quality.md) for it and the other measures that make these problems visible.
+Cyclomatic complexity is a metric rather than a smell; see [Code Quality](08-code-quality.md) for it and the other measures that make these problems visible.

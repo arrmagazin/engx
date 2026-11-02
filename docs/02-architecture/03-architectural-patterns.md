@@ -5,7 +5,7 @@ description: Compares layered, MVC, and hexagonal structure inside a unit with m
 tags: [architecture, patterns, mvc, hexagonal, microservices, mach, event-driven]
 ---
 
-An **architectural pattern** is a reusable solution shape for a whole system or a whole deployable unit. It sits at the pattern level of the [architectural levels](index.md#architectural-levels): below the principle that justifies it, above the idiom that expresses it in one language. It is a [design pattern](../05-coding/05-design-patterns.md) scaled up — the unit of reuse is a component boundary, not a class.
+An **architectural pattern** is a reusable solution shape for a whole system or a whole deployable unit. It sits at the pattern level of the [architectural levels](index.md#architectural-levels): below the principle that justifies it, above the idiom that expresses it in one language. It is a [design pattern](../05-coding/06-design-patterns.md) scaled up — the unit of reuse is a component boundary, not a class.
 
 The patterns here answer three different questions, and confusing them is the usual mistake.
 
@@ -99,7 +99,7 @@ flowchart LR
   SP --> STR[Payment adapter]
 ```
 
-The whole pattern rests on one rule: every arrow points inward, so the core names the interfaces and the adapters implement them. That makes it checkable, exactly as the [logical view](02-architectural-views.md#logical-view) demands: an import of a web framework, an ORM, or an SDK inside the core package is a violation a dependency linter can fail the build on. It is the [Dependency Inversion Principle](../05-coding/04-design-principles.md#solid-principles-of-object-oriented-design) applied at the component boundary instead of between classes.
+The whole pattern rests on one rule: every arrow points inward, so the core names the interfaces and the adapters implement them. That makes it checkable, exactly as the [logical view](02-architectural-views.md#logical-view) demands: an import of a web framework, an ORM, or an SDK inside the core package is a violation a dependency linter can fail the build on. It is the [Dependency Inversion Principle](../05-coding/05-design-principles.md#solid-principles-of-object-oriented-design) applied at the component boundary instead of between classes.
 
 Onion architecture and Clean Architecture state the same dependency rule with different vocabulary and more prescribed layers. The part they agree on — dependencies point toward the domain — is the part that matters.
 

@@ -124,4 +124,4 @@ Introduction
 
 The trade-off is the one [Metaprogramming](#metaprogramming) always carries: an Aspect applies with no mark at the call site, so the code that is read is no longer the code that runs. Reserve AOP for concerns that are truly uniform across many units, and keep Pointcuts narrow enough that a reader can predict where they fire.
 
-*See also*: [Programming Paradigms](01-programming-paradigms.md) · [Reactive Programming and FRP](02-reactive-programming.md)
+*See also*: [Programming Paradigms](01-programming-paradigms.md) · [Reactive Programming and FRP](03-reactive-programming.md)
