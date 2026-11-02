@@ -5,7 +5,9 @@ description: Compares layered, MVC, and hexagonal structure inside a unit with m
 tags: [architecture, patterns, mvc, hexagonal, microservices, mach, event-driven]
 ---
 
-An **architectural pattern** is a reusable solution shape for a whole system or a whole deployable unit. It sits at the pattern level of the [architectural levels](index.md#architectural-levels): below the principle that justifies it, above the idiom that expresses it in one language. It is a [design pattern](../05-coding/06-design-patterns.md) scaled up — the unit of reuse is a component boundary, not a class.
+An **architectural pattern** is a reusable solution shape for a whole system or a whole deployable unit.
+
+It sits at the pattern level of the [architectural levels](index.md#architectural-levels): below the principle that justifies it, above the idiom that expresses it in one language. It is a [design pattern](../05-coding/06-design-patterns.md) scaled up — the unit of reuse is a component boundary, not a class.
 
 The patterns here answer three different questions, and confusing them is the usual mistake.
 
@@ -46,6 +48,69 @@ Two decisions make a layered design meaningful. Leave either implicit and the re
 The failure mode is the sinkhole, from Mark Richards' description: a request passes through every layer untouched, and each layer only forwards it. The check is concrete: if adding one field means editing an equivalent type in four layers and no layer transforms it, those layers are ceremony, not structure.
 
 Layers are not tiers. A layer is a logical grouping in the [logical view](02-architectural-views.md#logical-view); a tier is a physical placement in the [deployment view](02-architectural-views.md#deployment-view). A four-layer application running as one process on one host is normal; calling it three-tier because it has a database confuses the two.
+
+## Domain-driven design
+
+**Domain-Driven Design (DDD)** is the approach set out in Eric Evans' 2003 book *Domain-Driven Design: Tackling Complexity in the Heart of Software*. The **domain** is the subject area the software serves, such as insurance, shipping, or payments. DDD builds the software around a model of that domain, written in the words of the people who know it best: the **domain experts**.
+
+DDD is a way of making design decisions, not a code structure of its own. Layered, MVC, and hexagonal architecture say how to arrange a unit's code. DDD says what the domain part of that code should express, and where one model stops and the next one starts. Its ideas fall into two groups, and the strategic group comes first because it decides the boundaries the tactical group works inside.
+
+**Strategic design** divides a large domain into parts that can each have a clear model.
+
+| Concept | What it is | Example |
+| ------- | ---------- | ------- |
+| **Ubiquitous language** | One vocabulary, shared by developers and domain experts and used in conversation, documents, and code | Underwriters say "renew a policy", so the code says `policy.renew()` |
+| **[Bounded context](../03-system-design/01-common-concepts.md#service-decomposition)** | The scope within which one model and its language hold | "Customer" is a lead with a sales stage in Sales, and an account with a balance in Billing |
+| **Context map** | A record of how bounded contexts relate and which team depends on which | Billing depends on events published by Sales |
+| **Anti-corruption layer** | Translation code at a context's edge that keeps another context's model out | Billing turns a Sales lead into its own account type |
+| **Subdomain** | A part of the business, classed by its value as core, supporting, or generic | Core: pricing, built by the strongest team. Supporting: internal reporting, kept simple. Generic: email delivery, bought |
+
+```mermaid
+flowchart LR
+  subgraph SalesContext [Sales context]
+    SC["Customer: a lead with a sales stage"]
+  end
+  subgraph BillingContext [Billing context]
+    ACL[Anti-corruption layer] --> BC["Customer: an account with a balance"]
+  end
+  SC -->|DealWon event| ACL
+```
+
+**Tactical design** gives the building blocks for the model inside one bounded context.
+
+| Building block | What it is | Example |
+| -------------- | ---------- | ------- |
+| **Entity** | An object with an identity that lasts while its data changes | Order 42, whatever its status |
+| **Value object** | An immutable object defined only by its values, so two with equal values are interchangeable | `Money(10, "EUR")` |
+| **Aggregate** | A group of objects that changes as one unit through a single root object, which protects the rules that must always hold | `Order` owns its `OrderLine`s, and callers change lines only through `Order` |
+| **Repository** | The interface that loads and saves whole aggregates, shaped like a collection | `orders.byId(42)` |
+| **Factory** | The code that creates a complex aggregate in a valid state | `Order.fromCart(cart)` |
+| **Domain service** | A business operation that does not belong to any one object | Transferring money between two accounts |
+| **Policy** | A business rule or choice held in its own object, so it can be replaced without changing the objects that use it; Evans treats it as another name for the Strategy pattern | `ShippingPolicy` sets the delivery cost, with one version for each country |
+| **Constraint** | A rule that limits valid state, given a name in its own method or object so it is not buried in other logic; Evans describes this as making an implicit concept explicit | `CreditLimit` rejects an order above the customer's limit |
+| **Domain event** | A record of a business fact that has already happened | `OrderPlaced` |
+
+The rules live on the model. `order.ship()` refuses an unpaid order, so the rule has one home; if any caller can set `order.status` directly, every caller must remember the rule.
+
+DDD fits with the other patterns on this page:
+
+- **Layered:** the model lives in the domain layer, and the application layer only orchestrates it.
+- **Hexagonal:** the model lives in the application core, and a repository is a driven port. The two are often used together, because the core then stays free of database code.
+- **Microservices:** a bounded context is the usual guide for a service boundary, but one context may hold several services, or none yet: a context can start as a module of a modular monolith.
+- **Event-driven:** a domain event is a natural message between contexts, and the anti-corruption layer translates it on arrival.
+
+The cost is time: experts must be available, and the language and the model must be revised as understanding improves.
+
+- **It pays** when the business rules are complex and keep changing, domain experts can work with the team, and the system will live for years.
+- **It does not pay** for simple create, read, update, and delete applications, or for technical problems with little business logic, where the extra types only rename the database tables.
+
+There are three usual failures:
+
+- **Tactical only.** A team adopts aggregates and repositories but skips the language and the boundaries, so it pays for the extra code without gaining the main benefit.
+- **Anemic model.** Classes carry DDD names but hold only data, and the rules sit in services that edit their fields. This is the same failure described under MVC.
+- **One model for everything.** A single `Customer` type serves every department and ends up fitting none of them, usually with a growing list of optional fields.
+
+The check is concrete: read the names of your classes and methods to a domain expert. If the expert cannot follow them, or if one word means two things inside one context, the model or its boundary is wrong.
 
 ## MVC
 
