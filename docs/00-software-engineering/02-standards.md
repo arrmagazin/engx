@@ -5,6 +5,13 @@ description: Explains what software engineering standards are, the areas they co
 tags: [standards, engineering, code-quality, best-practices]
 ---
 
+Standards
+: Documented *norms*, agreed by consensus and approved by a recognized body,
+  that set rules, guidelines, or characteristics for
+  how software is developed, reviewed, deployed, and maintained
+
+  > They exist so that a system's safety, reliability, security, maintainability, and interoperability *do not depend* on which `Team` happened to build it.
+
 ## Categories of Standards
 
 | Category | Governs | Examples |

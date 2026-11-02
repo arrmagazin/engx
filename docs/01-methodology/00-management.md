@@ -5,7 +5,6 @@ description: Frames engineering management as turning goals into delivered outco
 tags: [management, leadership, process]
 ---
 
-
 This guide covers the loops that connect strategy to feedback, and the metrics that show whether those loops work. Its planning vocabulary — `Scope`, `Capacity`, `Priority`, `Commitment`, `Risk`, `Dependency`, and `Constraint` — is defined once in [Planning Concepts](00-management.md#planning-concepts), and `Goal` in [Core concepts](../00-software-engineering/01-core_concepts.md).
 
 ## Core Concepts
@@ -19,13 +18,41 @@ Strategy
 : context-free generalized approach for reaching a `Goals` — set of values/principles to make reasonable `Decisions` ("why")
 
 Method
-: An organized set of predefined constraints/rules and decisions, that control "howto" run a process in a given context
+: An organized set of predefined rules, that control "howto" run a process in a given context
 
 Best Practice
-: A Method accepted as superior amongst others because it reliably produces better outcomes there
+: A `Method` accepted as superior amongst others because it reliably produces better outcomes there
 
 Framework
-: A Method offered a predefined options a user chooses from, so the results become predictable
+: A `Method` offered a predefined options a user chooses from, so the results become predictable
+
+Team
+: A small *group* of people with complementary skills, committed to shared `Goals` and mutually accountable for reaching them
+
+Project
+: A *temporary endeavor* in which a `Team` creates a unique `Solution` and pursues `Success`
+
+    Project is going by choosing and applying `Paradigms`, `Methodologies`, `Technologies`, and `Platforms`.
+
+Platform
+: A *foundation* of facilities on which software is built and run
+
+  > Such facilities are languages, runtimes, operating systems, cloud services, tools, ecosystems.
+
+Paradigm
+: A shared, opinionated *model* of thinking — concepts, assumptions, and preferred methods — that frames how a problem is seen and how knowledge is applied to solve it
+
+  > Paradigm is rooted in science, math, and domain expertise: e.g. object-oriented, functional, event-driven.
+
+Methodology
+: A coherent *system* of practices (roles, rituals, artifacts, workflows) a `Team` adopts to organize its work toward `Success`
+
+    > such as Scrum, Kanban, Waterfall
+
+Technology
+: The practical application of knowledge as reusable *means* —
+  methods, techniques, and tools —
+  that make a process controllable and its results *reproducible* and *verifiable*
 
 Management
 : The *process* of making `Decisions`, leading `Teams`, and allocating `Resources` to reach `Goals`
@@ -128,30 +155,32 @@ Complete it before implementation starts. Work that begins without it produces d
 The variables a `Plan` is negotiated with, and the conditions that constrain it.
 
 Scope
-: Set of work items accepted as in-bounds for an objective\
+: Set of work items accepted as in-bounds for an objective
   *The cheapest planning variable to change; time and quality are not*
 
 Capacity
-: Effort realistically available in a period, once meetings, support, and leave are taken out\
+: Effort realistically available in a period, once meetings, support, and leave are taken out
   *Always below headcount multiplied by working hours*
 
 Priority
-: Total ordering of work items by value against cost and risk\
+: Total ordering of work items by value against cost and risk
   *If everything is priority one, nothing is*
 
 Commitment
-: Promise made with known `Scope`, known `Capacity`, and accepted `Risk`\
+: Promise made with known `Scope`, known `Capacity`, and accepted `Risk`
   *Without capacity data it is a wish*
 
-Risk
-: Uncertain event that would affect an objective, sized as probability multiplied by impact
-
 Dependency
-: Work whose completion is required by other work, inside or outside the team\
+: Work whose completion is required by other work, inside or outside the team
   *Cross-team ones sit outside the team's control, so track them explicitly*
 
 Constraint
-: Fixed boundary — budget, deadline, compliance, headcount — that planning must respect rather than optimize away
+: Fixed boundary — budget, deadline, compliance, headcount — that planning must respect
+
+Efficiency
+: The *ratio* of `Value` delivered to `Resources` spent — doing things right;
+
+  > not to be confused with *effectiveness*, doing the right things
 
 ### Prioritization
 
@@ -168,6 +197,9 @@ Pick one framework and apply it consistently; mixing frameworks produces argumen
 **Reserve capacity explicitly.** Give each kind of work a named share of the cycle: planned features, tech debt and maintenance, and interrupt-driven support. Set the shares from the team's own measured unplanned-work share, and revise them when that measurement moves. Without an explicit reserve, unplanned work silently consumes the commitment and every sprint "fails".
 
 ### Estimation
+
+Estimation
+: A quantitative *forecast* of the `Resources` needed, made under stated assumptions about scope, complexity, risks, and contingency; a probable range, not a commitment
 
 - Estimate **relatively** (points, sizes) rather than in hours; relative sizing stays stable when the person doing the work changes.
 - Estimate as a **range**, not a point value, and carry the range through to the plan instead of collapsing it early.
@@ -216,7 +248,7 @@ Measurable
 : Quantifiable, so progress can be tracked by `Monitoring`
 
 Achievable
-: Realistic given the resources and conditions in play
+: Realistic given the Resources and conditions in play
 
 Relevant
 : Aligned with the higher-level aims it serves, so local wins do not cost more elsewhere
@@ -285,6 +317,9 @@ Divide and Conquer
 : Breaking a `Problem` into sub-problems until each is trivial, then composing the results; a tactic rather than a stance, so it combines with any of the four
 
 ### Risk Management
+
+Risk
+: Uncertain event that would affect an objective, sized as probability multiplied by impact
 
 ```mermaid
 graph LR
