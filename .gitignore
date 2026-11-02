@@ -7,4 +7,5 @@ firebase-debug*.log
 www/dist/
 node_modules/
 www/index.json
+www/glossary.json
 www/docs

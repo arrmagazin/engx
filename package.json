@@ -31,7 +31,7 @@
   },
   "hotPort": 8192,
   "scripts": {
-    "start": "export PORT=${PORT:-8092} && npm run stop && npx --yes npm-run-all --parallel start:*",
+    "start": "export PORT=${PORT:-8092} && npm run stop && npm run glossary && npx --yes npm-run-all --parallel start:*",
     "start:serve": "bun ../arrmatura-books/scripts/serve.ts",
     "start:css": "npm run build:css -- --watch",
     "start:index": "npm run build:index -- --watch",
@@ -42,6 +42,8 @@
     "check:frontmatter": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/check-okf-frontmatter.ts",
     "check:glossary": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/check-glossary.ts",
     "check:links": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/check-links.ts",
+    "glossary": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/build-glossary.ts",
+    "prebuild": "npm run glossary",
     "build": "npx --yes npm-run-all --parallel build:*",
     "build:ts": "bun ../arrmatura-books/scripts/build.ts",
     "build:index": "bun ../proton/ops/index-docs.ts docs",

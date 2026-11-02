@@ -9,4 +9,25 @@
       </a>
     </Bar>
   </Component>
+
+  <Component id="MDCodespan">
+    <Fragment If="glossaryDefinition(R.glossary, text)">
+      <Popover>
+        <Text text="{text}"
+          class="inline-block border mx-1 px-1 rounded text-xs font-mono font-semibold" />
+        <div Slot="popover">
+          <MarkdownView
+            class="p-2"
+            text="{glossaryDefinition(R.glossary, text)}" />
+        </div>
+      </Popover>
+      <Else>
+        <span class="inline-block border mx-1 px-1 rounded text-xs font-mono"
+        >
+          {text}
+        </span>
+      </Else>
+    </Fragment>
+  </Component>
+
 </Components>
