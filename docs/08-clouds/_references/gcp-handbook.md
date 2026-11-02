@@ -78,7 +78,7 @@ flowchart TD
 | --- | --- |
 | **Organization** | the root node of the tree, tied to one verified domain name, that every Folder and Project hangs beneath |
 | **Folder** | a grouping node in the tree that policy attaches to once and everything under it inherits |
-| **Project** | the container every Resource belongs to, and the boundary for billing, quotas and which APIs are switched on |
+| **Project** | the container every Resource belongs to, and the boundary for billing, quotas and which `APIs` are switched on |
 | **Billing Account** | the payment instrument a Project is linked to, held outside the tree so that finance and engineering can be different people |
 | **Organization Policy** | a constraint set on a node of the tree that restricts how anything beneath it may be configured; it never grants |
 | **Region** | a named geographic area holding three or more Zones, and the scope most Services are quota'd and priced in |
@@ -86,7 +86,7 @@ flowchart TD
 | **Multi-Region** | a set of Regions a Service replicates across by itself, bought for durability and reach rather than assembled by you |
 | **Point of Presence** | an edge site outside any Region where Google's private network takes over from the public internet |
 | **Cloud Identity** | the directory of human accounts and groups an Organization authenticates against, free of charge at its base tier |
-| **Resource Manager** | the Service that holds the tree itself, and the one API that creates, moves and lists its nodes |
+| **Resource Manager** | the Service that holds the tree itself, and the one `API` that creates, moves and lists its nodes |
 
 ### Concepts — Services and Resources
 
@@ -108,16 +108,16 @@ flowchart LR
 | --- | --- |
 | **Service** | a named Google Cloud product with its own endpoint, pricing and limits, switched on inside a Project before anything can call it |
 | **API** | the REST and gRPC surface a Service accepts calls on; the console, the `gcloud` CLI, the client libraries and Terraform all reduce to the same calls |
-| **Resource** | a thing an API creates and keeps — a virtual machine, a bucket, a key ring — and the unit that is named, permissioned and billed |
+| **Resource** | a thing an `API` creates and keeps — a virtual machine, a bucket, a key ring — and the unit that is named, permissioned and billed |
 | **Resource Name** | the full path of a Resource, `projects/p/zones/us-central1-a/instances/web-1`, which encodes the tree it hangs in |
 | **Project ID** | the globally unique, permanent string that names a Project everywhere, distinct from both its display name and its generated number |
 | **Label** | a key/value pair on a Resource, and the mechanism cost attribution and per-team reporting are built on |
 | **Quota** | the per-Project, per-Region ceiling on something countable; most are raisable on request, a few are hard limits |
-| **Service Agent** | a Google-managed identity a Service uses to act on your Resources, created the first time you switch that Service on |
+| **Service Agent** | a Google-managed identity a Service uses to act on your `Resources`, created the first time you switch that Service on |
 
 ### Organizations, Projects, Regions and Zones — Where Everything Lives
 
-A **project** is the container you create things in. It is the boundary for billing (each project is linked to a billing account), for quotas (limits are counted per project), for API enablement (a service does not exist in a project until someone turns it on), and for the default blast radius (deleting a project deletes everything in it). Projects sit inside **folders**, folders sit inside one **organization**, and that whole tree is what Google Cloud calls the **resource hierarchy**.
+A **project** is the container you create things in. It is the boundary for billing (each project is linked to a billing account), for quotas (limits are counted per project), for `API` enablement (a service does not exist in a project until someone turns it on), and for the default blast radius (deleting a project deletes everything in it). Projects sit inside **folders**, folders sit inside one **organization**, and that whole tree is what Google Cloud calls the **resource hierarchy**.
 
 - **The tree is the governance model.** An IAM grant or an organization policy set on a folder applies to every project beneath it, without being copied. This is the biggest structural difference from AWS, where each account is its own island and inheritance has to be built with Organizations and SCPs. It is also the biggest hazard: a broad role granted at the organization node reaches everything, forever, and nothing below it can take that away.
 - **Regions** are separate geographic areas, each holding three or more zones. Most resources are regional or zonal, and they stay where you put them. Choose the region closest to your users, or the one your data-residency rules require.
@@ -144,18 +144,18 @@ flowchart LR
   API -. every admin call recorded by .-> Audit[Cloud Audit Logs]
 ```
 
-- The **console** (the website) is the same API behind buttons. It is the right place to learn and to look, and the wrong place to build production, because what you click is not recorded anywhere you can repeat. Its one genuinely useful production feature is the **Equivalent command line** link on most creation forms, which prints the `gcloud` call it is about to make.
+- The **console** (the website) is the same `API` behind buttons. It is the right place to learn and to look, and the wrong place to build production, because what you click is not recorded anywhere you can repeat. Its one genuinely useful production feature is the **Equivalent command line** link on most creation forms, which prints the `gcloud` call it is about to make.
 - The **`gcloud` CLI** is uniform in a way that pays off: almost every command reads `gcloud <service> <resource-type> <verb>`, so `gcloud compute instances list` and `gcloud pubsub topics list` are the same sentence. `bq` and `gcloud storage` are the specialised tools for BigQuery and Cloud Storage.
 - **Client libraries** for Python, Go, Java, Node and others make the same calls from code, and pick up credentials through **Application Default Credentials** — the standard search order described under [Service Accounts](#service-accounts--the-compute-to-google-cloud-bridge).
-- **Infrastructure as code** — Terraform above all, on this cloud — describes the resources you want in a file, and the tool makes the API calls. [Infrastructure as Code and Delivery](#infrastructure-as-code-and-delivery) compares the tools.
-- **Trap, and the one that costs every newcomer an hour:** a service's API must be **enabled in the project** before any call to it works, including calls Terraform makes. The error is `SERVICE_NAME has not been used in project N before or it is disabled`, and it appears at apply time rather than at plan time. Enable the APIs a project needs as part of the project's own Terraform, before anything that depends on them.
+- **Infrastructure as code** — Terraform above all, on this cloud — describes the resources you want in a file, and the tool makes the `API` calls. [Infrastructure as Code and Delivery](#infrastructure-as-code-and-delivery) compares the tools.
+- **Trap, and the one that costs every newcomer an hour:** a service's `API` must be **enabled in the project** before any call to it works, including calls Terraform makes. The error is `SERVICE_NAME has not been used in project N before or it is disabled`, and it appears at apply time rather than at plan time. Enable the `APIs` a project needs as part of the project's own Terraform, before anything that depends on them.
 
 ### Resource Hierarchy — The Landing Zone
 
 A **landing zone** is the hierarchy, guardrails and shared networking a company sets up once, before any workload arrives. On Google Cloud, the project-per-environment split is the idiomatic answer to isolation, for the same reason the account-per-environment split is on AWS: the project is the boundary a mistake genuinely cannot cross.
 
 - **The shape.** Organization → folders for `common`, `production`, `non-production` and `development` → one project per workload per environment, plus separate projects for networking, logging and security. Google publishes this as the **Cloud Foundation Fabric** and **enterprise foundation** Terraform blueprints, which are worth reading whether or not you adopt them, because they encode the layout most large estates converge on anyway.
-- **Project vending:** new projects come from a Terraform module or **Project Factory**, never from the console, so that the billing link, the enabled APIs, the shared VPC attachment, the log sink and the baseline IAM arrive together.
+- **Project vending:** new projects come from a Terraform module or **Project Factory**, never from the console, so that the billing link, the enabled `APIs`, the shared VPC attachment, the log sink and the baseline IAM arrive together.
 - **Organization policies** attach at the organization or a folder and are inherited. The high-value constraints are `compute.vmExternalIpAccess` (no public IPs on virtual machines), `iam.disableServiceAccountKeyCreation` (the single most effective security control on this cloud), `gcp.resourceLocations` (data residency), and `sql.restrictPublicIp`. They restrict configuration, which is a different mechanism from IAM: an organization policy can forbid a resource from existing in a shape, where IAM only decides who may ask.
 - **IAM inheritance is the trade.** Grants flow down and are additive, so the discipline is to grant at the lowest node that works — usually the project — and to keep organization-level grants to a small, reviewed list. **Deny policies** exist for the cases where inheritance has to be interrupted, and they are evaluated before allow policies.
 - **Labels** carry cost attribution; the billing export to BigQuery is where per-team reporting actually happens, because the console's cost views cannot answer specific questions.
@@ -272,7 +272,7 @@ flowchart LR
 | **Cold Start** | the extra latency of starting and initializing a new instance before it can serve its first request |
 | **Minimum Instances** | instances kept warm and billed while idle, bought specifically to remove Cold Start |
 | **Maximum Instances** | the ceiling on how far a service scales out, which is what protects the database behind it from a traffic spike |
-| **API Gateway** | a managed HTTP front end doing authentication, API keys and rate limits before anything of yours runs |
+| **API Gateway** | a managed HTTP front end doing authentication, `API` keys and rate limits before anything of yours runs |
 | **App Engine** | the original platform as a service: deploy source rather than an image, with versions and traffic splitting built in |
 
 ### Compute Engine — Rented Virtual Machines
@@ -288,7 +288,7 @@ Compute Engine rents you virtual machines — **instances** — running Linux or
 
 ### GKE — Managed Kubernetes
 
-**Kubernetes** is the open-source container orchestrator most of the industry has standardised on, and Google originated it. It has two halves: the **control plane** (the API server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). GKE runs the control plane for you. The [containers guide](../../03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
+**Kubernetes** is the open-source container orchestrator most of the industry has standardised on, and Google originated it. It has two halves: the **control plane** (the `API` server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). GKE runs the control plane for you. The [containers guide](../../03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
 
 - **Entry point:** the **cluster**, and then the choice that shapes everything else — **Autopilot** or **Standard** mode. Standard gives you **node pools** you size, upgrade and autoscale; Autopilot gives you none of that and is covered in the next section. A second decision, harder to change, is **regional or zonal**: a regional cluster replicates the control plane across three zones and spreads nodes across them, a zonal cluster does not. Production clusters are regional.
 - **Use it when:** you need the Kubernetes ecosystem — Helm charts, operators, custom resources, GitOps tooling, a platform team that already knows it — or portability across clouds. If none of that applies, [Cloud Run](#cloud-run--containers-without-a-cluster) is far less work.
@@ -311,7 +311,7 @@ Autopilot is not a separate service. It is a **mode** of a GKE cluster in which 
 Cloud Run takes a container image that listens on a port and gives back an autoscaling HTTPS endpoint. There is no cluster, no load balancer to design and no machine to patch. It scales to zero when nothing is calling it, and it is the service that most defines Google Cloud's compute story: the serverless tier accepts an **ordinary container**, so nothing about the application has to be written for it.
 
 - **Entry point:** a **service** built from a container image, which creates a **revision** — an immutable snapshot of the image plus its configuration. Deploys create new revisions, and a **traffic split** across revisions is how canary and blue/green releases work, expressed as percentages rather than as infrastructure. **Jobs** are the second form, for work that runs to completion rather than serving requests.
-- **Use it when:** the workload is a web service, an API, an event handler or a batch job in a container, and it does not need the Kubernetes ecosystem. On this cloud that covers most services most teams write.
+- **Use it when:** the workload is a web service, an `API`, an event handler or a batch job in a container, and it does not need the Kubernetes ecosystem. On this cloud that covers most services most teams write.
 - **Concurrency is the difference from Lambda.** One Cloud Run instance handles **many requests at once** — the default is up to 80, and the ceiling is higher — where a Lambda execution environment handles exactly one. That single fact changes the cost model (an instance serving 80 concurrent requests is billed once, not eighty times), the code (your handler must be safe under concurrent execution in one process), and the connection story (an instance holds one connection pool, so the database connection storm that plagues Lambda mostly does not happen here).
 - **The dials:** **minimum instances** to remove cold starts at a cost, **maximum instances** to protect whatever the service calls, **CPU allocation** (billed only during requests, or always on when a background task must keep running), and **direct VPC egress** or a **Serverless VPC Access connector** when the service must reach private addresses.
 - **Trap:** deploying with `--allow-unauthenticated` because it is what the tutorial does. That makes the service public, and public Cloud Run services are found quickly. The alternative is IAM invoker permission plus an internal ingress setting, with a load balancer and [Cloud Armor](#cloud-cdn-cloud-armor-and-media-cdn--the-global-edge) in front of anything genuinely public.
@@ -338,7 +338,7 @@ Three services you should recognise without reaching for them first.
 | Option | You manage · Google manages | Fits when |
 | --- | --- | --- |
 | **Compute Engine** | The operating system, patching, scaling rules, everything installed · The hardware and the hypervisor | You need a full machine, or are moving an existing server |
-| **Cloud Run** | The container image, concurrency and the scaling bounds · Everything underneath | A service, API or job in a container with no cluster-level needs |
+| **Cloud Run** | The container image, concurrency and the scaling bounds · Everything underneath | A service, `API` or job in a container with no cluster-level needs |
 | **Cloud Run functions** | The handler and its trigger · Everything else, including the build | The unit of work is one function and you want source-to-URL |
 | **GKE Autopilot** | Kubernetes objects and accurate resource requests · The control plane and every node | You need Kubernetes but not node-level control |
 | **GKE Standard** | Kubernetes objects, add-ons and the node pools · The control plane | You need DaemonSets, GPUs, custom kernels or tight bin-packing |
@@ -418,7 +418,7 @@ flowchart LR
 | --- | --- |
 | **Forwarding Rule** | the front door of a load balancer — an address, a protocol and a port — pointing at the proxy behind it |
 | **URL Map** | the layer-7 routing table that matches an incoming host and path to one Backend Service |
-| **Backend Service** | the set of backends traffic is spread over, together with the Health Check, the balancing mode and the timeout applied to them |
+| **Backend Service** | the set of backends traffic is spread over, together with the `Health Check`, the balancing mode and the timeout applied to them |
 | **Health Check** | the probe that decides whether a backend may receive traffic, sent from documented Google address ranges rather than from your network |
 | **Network Endpoint Group** | backends addressed directly — pod addresses, serverless services, or endpoints outside Google Cloud — rather than whole machines |
 | **Anycast IP** | one address announced from every Point of Presence at once, so that a user enters Google's network close to them |
@@ -475,7 +475,7 @@ Google Cloud has one firewall model rather than AWS's two. **Firewall rules** ar
 | **Selector** | A network tag, or the instance's service account | A security group referencing another security group |
 
 - **Entry point:** the choice of **selector**. A **network tag** is a plain string and anyone who can edit an instance can add one, so a rule targeting `tag:prod-db-client` is only as strong as who may set tags. Targeting a **service account** instead ties the rule to an identity that IAM already controls, and is the stronger pattern for anything that matters.
-- **Hierarchical firewall policies** are set on the organization or a folder and evaluated **before** any rule a project can write. This is where "no RDP from the internet, anywhere, ever" belongs — a project owner cannot override it. There is no AWS equivalent; the closest thing is an SCP denying the API call, which is a different mechanism.
+- **Hierarchical firewall policies** are set on the organization or a folder and evaluated **before** any rule a project can write. This is where "no RDP from the internet, anywhere, ever" belongs — a project owner cannot override it. There is no AWS equivalent; the closest thing is an SCP denying the `API` call, which is a different mechanism.
 - **Use deny rules sparingly and with reserved priorities.** Because both allow and deny live in one ordered list, a low-priority deny written by someone debugging can silently take precedence over a carefully designed allow. Agree a priority band convention (hierarchy rules at the top, platform rules in the middle, application rules at the bottom) before the second team arrives.
 - **Trap:** load balancer **health checks** come from Google's own ranges — `35.191.0.0/16` and `130.211.0.0/22` for the global and proxy-based balancers, and the proxy-only subnet's range for the regional Envoy-based ones — not from your subnet. A backend service whose instances are healthy but which the balancer reports as unhealthy is, almost every time, a missing ingress rule for those ranges.
 
@@ -488,7 +488,7 @@ Google's load balancers are not one resource but a **chain of resources**, and k
 
 | Balancer | What it is | Use it for |
 | --- | --- | --- |
-| **Global external Application LB** | Layer 7, one **anycast address** announced worldwide, terminating at the nearest edge | Public web and API traffic, with Cloud CDN and Cloud Armor attached |
+| **Global external Application LB** | Layer 7, one **anycast address** announced worldwide, terminating at the nearest edge | Public web and `API` traffic, with Cloud CDN and Cloud Armor attached |
 | **Regional external Application LB** | Layer 7 in one region, Envoy-based, needing a proxy-only subnet | Regional residency requirements, or when global is more than you need |
 | **Internal Application LB** | Layer 7 on internal addresses, regional or cross-region | Service-to-service traffic inside the VPC |
 | **External passthrough Network LB** | Layer 4, forwards packets without terminating the connection | Non-HTTP protocols, and keeping the client source address visible |
@@ -582,7 +582,7 @@ flowchart LR
 | Concept | Definition |
 | --- | --- |
 | **Cloud Storage** | object storage addressed by name, with no filesystem underneath and durability quoted in eleven nines |
-| **Bucket** | the globally unique namespace an Object lives in, and the level location, Storage Class and access control are set at |
+| **Bucket** | the globally unique namespace an `Object` lives in, and the level location, Storage Class and access control are set at |
 | **Object** | an immutable blob and its metadata, replaced rather than edited in place, addressed by a name that only looks like a path |
 | **Storage Class** | the price and access tier applied to data, from immediate retrieval down to archive, each with a minimum billed duration |
 | **Autoclass** | a per-Bucket setting that moves data between Storage Classes by how it is actually read, with no retrieval charge to plan for |
@@ -777,7 +777,7 @@ Pub/Sub is a **global** messaging service: publishers send messages to a **topic
 Eventarc delivers events to a target when they match a **trigger**: an event from a Google service, an entry in Cloud Audit Logs, or a message on a topic. It is how "when an object lands in this bucket, run this Cloud Run service" is expressed without writing glue.
 
 - **Entry point:** a **trigger** — an event type, optional filters on the event's attributes, and a target (a Cloud Run service, a Cloud Run function, a Workflow, or a GKE service). Events are delivered in the **CloudEvents** format, which is a specification rather than a Google shape, so handlers stay portable.
-- **The Audit Log source is the powerful one:** because almost every administrative API call is written to Cloud Audit Logs, a trigger on `methodName` can react to *any* change in the estate — a firewall rule edited, a service account key created, a database instance deleted. That is the equivalent of an EventBridge rule on the default bus, and it is the standard way to build automatic guardrails.
+- **The Audit Log source is the powerful one:** because almost every administrative `API` call is written to Cloud Audit Logs, a trigger on `methodName` can react to *any* change in the estate — a firewall rule edited, a service account key created, a database instance deleted. That is the equivalent of an EventBridge rule on the default bus, and it is the standard way to build automatic guardrails.
 - **Use it when:** the routing decision depends on what happened rather than on which topic something was published to, or when the producer is Google rather than your own code.
 - **Against Pub/Sub directly:** Eventarc is a layer over Pub/Sub, not a replacement. Publish to a topic yourself when your own code is the producer; use a trigger when Google's services are.
 
@@ -791,7 +791,7 @@ Two services that look like Pub/Sub from a distance and are not.
 
 ### Workflows — The State Machine
 
-Workflows executes a sequence of steps described in YAML: call this API, branch on the answer, retry with backoff, wait, call the next. The state lives in the service rather than in a process you keep alive, so a workflow can wait hours between steps without anything running.
+Workflows executes a sequence of steps described in YAML: call this `API`, branch on the answer, retry with backoff, wait, call the next. The state lives in the service rather than in a process you keep alive, so a workflow can wait hours between steps without anything running.
 
 - **Entry point:** a **workflow definition** and an **execution**. Steps make authenticated calls to Google APIs and to your own services, with connectors that hide the polling for long-running operations.
 - **Use it when:** several services must be coordinated with retries and branching, and the coordination logic deserves to be visible rather than buried in a handler — a provisioning sequence, an ETL chain, a human-approval flow.
@@ -892,7 +892,7 @@ flowchart LR
 
 ### IAM — The Policy Engine Underneath Everything
 
-IAM decides, for every API call, whether it is allowed. The model has three parts and is simpler than AWS's: a **principal** (who), a **role** (a bundle of permissions), and a **resource** (the node the binding is set on). An **allow policy** on a node binds principals to roles, and it applies to that node and everything beneath it.
+IAM decides, for every `API` call, whether it is allowed. The model has three parts and is simpler than AWS's: a **principal** (who), a **role** (a bundle of permissions), and a **resource** (the node the binding is set on). An **allow policy** on a node binds principals to roles, and it applies to that node and everything beneath it.
 
 - **Entry point:** the **role**, and the discipline is entirely in which one you pick. **Basic roles** — Owner, Editor, Viewer — predate the rest of the model and are far too broad; Editor alone can modify almost everything in a project. **Predefined roles** are per-service and per-job (`roles/storage.objectViewer`, `roles/pubsub.publisher`) and are what production uses. **Custom roles** exist for the gaps, and carry a maintenance cost, because Google adds permissions to services and your custom role does not move.
 - **Evaluation:** **deny policies** are checked first and win outright. Otherwise the union of every allow policy from the organization down to the resource is computed, and the call proceeds if any of them grants the permission. There is no "explicit deny in an ordinary policy" as there is on AWS — which removes a whole class of confusing evaluation, and removes the escape hatch with it.
@@ -946,7 +946,7 @@ Everything on Google Cloud is encrypted at rest by default, with keys Google man
 
 ### Secret Manager and Certificate Manager
 
-- **Secret Manager:** secrets stored as immutable **versions**, with per-secret IAM and a **replication policy** chosen at creation — automatic (Google picks regions) or user-managed (you name them, for residency). Applications read a version at startup, or mount it: Cloud Run and GKE can expose a secret as an environment variable or a file without your code calling the API. Rotation here means a **notification** on a schedule plus your own rotation function; it is not automatic the way Secrets Manager's built-in rotations are on AWS.
+- **Secret Manager:** secrets stored as immutable **versions**, with per-secret IAM and a **replication policy** chosen at creation — automatic (Google picks regions) or user-managed (you name them, for residency). Applications read a version at startup, or mount it: Cloud Run and GKE can expose a secret as an environment variable or a file without your code calling the `API`. Rotation here means a **notification** on a schedule plus your own rotation function; it is not automatic the way Secrets Manager's built-in rotations are on AWS.
 - **Certificate Manager:** provisions and renews TLS certificates for load balancers, including Google-managed certificates validated by DNS, wildcard certificates and certificate maps for many domains on one balancer. The private key never leaves Google.
 - **Never** bake a secret into an image, leave one in an environment variable committed to Git, or pass one as a build argument that lands in an image layer. The one rule with no exceptions in this document.
 
@@ -993,14 +993,14 @@ flowchart LR
 | --- | --- |
 | **Metric** | a named series of numbers over time with labels, produced either by Google for a Resource or written by your own code |
 | **Cloud Monitoring** | the Service that collects those series from Google, from agents and from applications, and hosts the dashboards, alerts and SLOs built on them |
-| **Alerting Policy** | a condition over a Metric together with the channels notified while it holds, and the place where paging noise is tuned |
-| **Uptime Check** | a probe run from Google's locations against an endpoint, giving the outside view that no internal Metric can |
+| **Alerting Policy** | a condition over a `Metric` together with the channels notified while it holds, and the place where paging noise is tuned |
+| **Uptime Check** | a probe run from Google's locations against an endpoint, giving the outside view that no internal `Metric` can |
 | **SLO** | a target for one indicator of service quality over a window — the number deciding whether users are being served well enough |
 | **Error Budget** | the amount of failure an SLO still permits in its window; when it is spent, the work changes from features to reliability |
 | **Cloud Logging** | the single pipeline every log entry is written to, routed before it is stored and queried in one place afterwards |
 | **Log Sink** | a filter plus a destination, deciding which entries are kept, where they are sent, and which are dropped before anyone pays to store them |
 | **Log-Based Metric** | a counter or distribution derived from matching log entries, turning something written as text into something you can alert on |
-| **Cloud Audit Logs** | the record of who called which API, against what, and when, written by Google rather than by your code |
+| **Cloud Audit Logs** | the record of who called which `API`, against what, and when, written by Google rather than by your code |
 | **Cloud Trace** | timing for one request as it crosses services, showing where the latency actually was rather than where it was assumed to be |
 | **Cloud Asset Inventory** | a searchable, time-travelling index of every Resource and policy in the Organization, and the answer to "what do we actually have?" |
 
@@ -1010,7 +1010,7 @@ Cloud Monitoring collects metrics with no setup for Google's own services, and w
 
 - **Entry point:** the **metric explorer** and the query language behind it (**PromQL** or **MQL**), then dashboards and **alerting policies**. An alerting policy is a condition, a duration, and one or more **notification channels**; the duration is what separates a page from a spike.
 - **Managed Service for Prometheus** is the piece worth knowing about. It ingests Prometheus metrics at scale, stores them for two years, and is queried with PromQL — so a team already running Prometheus and Grafana keeps its dashboards and its alert rules and stops running the storage. On GKE it can be enabled per cluster and collects from standard `PodMonitoring` resources.
-- **SLOs are first-class here.** Define a service, define an SLI from a metric or from request counts, set a target and a window, and Monitoring computes the **error budget** and its burn rate for you. Alert on **burn rate**, not on raw error rate: a fast-burn condition pages when the month's budget would be gone in hours, and a slow-burn condition opens a ticket. That single change removes most alert fatigue, because it ties paging to user harm rather than to a threshold someone guessed.
+- **SLOs are first-class here.** Define a service, define an SLI from a metric or from request counts, set a target and a window, and `Monitoring` computes the **error budget** and its burn rate for you. Alert on **burn rate**, not on raw error rate: a fast-burn condition pages when the month's budget would be gone in hours, and a slow-burn condition opens a ticket. That single change removes most alert fatigue, because it ties paging to user harm rather than to a threshold someone guessed.
 - **Trap:** alerting on a symptom nobody feels. High CPU on a node that is serving fine is not an incident. Page on the SLO burn rate and on saturation that predicts imminent failure; leave everything else as a dashboard.
 
 ### Cloud Logging — The Log Router
@@ -1101,10 +1101,10 @@ flowchart LR
 | Concept | Definition |
 | --- | --- |
 | **Terraform** | the tool most Google Cloud infrastructure is declared in, applying the difference between what is declared and what is recorded as existing |
-| **Provider** | the plugin translating declarations into one platform's API calls, pinned to a version so that upgrading is a deliberate act |
+| **Provider** | the plugin translating declarations into one platform's `API` calls, pinned to a version so that upgrading is a deliberate act |
 | **State** | the file recording which real Resource each declared one corresponds to, and the thing that must be shared and locked before two people run a plan |
-| **Module** | a reusable group of Resources with inputs and outputs, so that a pattern is written once, versioned, and reused across Projects |
-| **Infrastructure Manager** | Google's hosted runner for Terraform, holding State and applying under a Service Account rather than on somebody's laptop |
+| **Module** | a reusable group of `Resources` with inputs and outputs, so that a pattern is written once, versioned, and reused across Projects |
+| **Infrastructure Manager** | Google's hosted runner for Terraform, holding `State` and applying under a Service Account rather than on somebody's laptop |
 | **Config Connector** | a GKE add-on that represents Google Cloud Resources as Kubernetes objects, so a controller reconciles them continuously instead of on demand |
 | **Blueprint** | a packaged, opinionated set of Modules for a whole landing zone, published by Google as a starting point rather than as a product |
 | **Drift** | the gap that opens when something is changed outside the declarations, and the reason console edits are banned in production |
@@ -1244,7 +1244,7 @@ The mechanics for each on this cloud:
 Three things decide whether any of it works.
 
 - **The database is the hard part.** Compute is easy to run in two regions; consistent data is not. Whether Spanner's cost is justified is almost always the same question as whether your RPO is really "near zero".
-- **The dependencies must exist there too.** Container images in a multi-region Artifact Registry, secrets replicated, KMS keys available in that region — a key ring is regional, and a workload cannot decrypt with a key from a region that is down.
+- **The dependencies must exist there too.** `Container` images in a multi-region Artifact Registry, secrets replicated, KMS keys available in that region — a key ring is regional, and a workload cannot decrypt with a key from a region that is down.
 - **Untested means broken.** Run a game day: fail over on purpose, in production, on a scheduled afternoon, and time it. The gap between the documented RTO and the measured one is the finding.
 
 Related: [Reliability and Recovery](../../03-system-design/01-common-concepts.md).
@@ -1449,7 +1449,7 @@ Useful for orientation, and dangerous if taken literally. The third column is th
 | --- | --- | --- |
 | Account | **Project** | Projects are cheap and expected to be numerous, and they nest under folders in one organization. There is no separate "organization account" to bootstrap. |
 | Organizations OU | **Folder** | Much the same, but IAM inheritance is the whole model here rather than one control among several. |
-| Service Control Policy | **Organization Policy** | Constrains configuration, not API calls by principal. There is no ordinary explicit deny in IAM, so guardrails live here instead. |
+| Service Control Policy | **Organization Policy** | Constrains configuration, not `API` calls by principal. There is no ordinary explicit deny in IAM, so guardrails live here instead. |
 | Region and Availability Zone | **Region** and **Zone** | Very close. The difference is above them: the VPC is global, so a network is not per-region. |
 | VPC | **VPC network** | Global, not regional. Subnets are regional, and you can add a region without a new network or any peering. |
 | Security group + NACL | **Firewall rules** (and policies) | One stateful mechanism with priorities, applied by network tag or service account rather than by attachment. No separate stateless layer. |
@@ -1459,7 +1459,7 @@ Useful for orientation, and dangerous if taken literally. The third column is th
 | Route 53 | **Cloud DNS** | Comparable. Google's routing policies are fewer; the private zone model is similar. |
 | Transit Gateway | **Network Connectivity Center** | Arrived later and is less central, because a global VPC removes many of the cases a transit gateway exists to solve. |
 | Direct Connect | **Cloud Interconnect** | Similar, with Partner Interconnect for smaller capacities. |
-| PrivateLink | **Private Service Connect** | Also covers reaching Google's own APIs by a private address, which is a case PrivateLink handles differently. |
+| PrivateLink | **Private Service Connect** | Also covers reaching Google's own `APIs` by a private address, which is a case PrivateLink handles differently. |
 | EC2 | **Compute Engine** | Custom machine types, automatic sustained use discounts, and live migration through host maintenance instead of a forced stop. |
 | Auto Scaling group | **Managed instance group** | Regional MIGs spread across zones by default, and autohealing is a health check on the group. |
 | Spot Instances | **Spot VMs** | Simpler: no bidding and no capacity pools to reason about, a 30-second notice by default (120 seconds if set at creation), and a variable price Google may change up to once a day (as of 2026). |

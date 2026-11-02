@@ -15,7 +15,7 @@ Backend engineering is the server side of a system: the process that takes a req
 | Doc | What it covers |
 | --- | --- |
 | **[Java and Spring Boot](01-java-spring.md)** | Modern Java 25 and Spring Boot 4: beans, configuration, Spring MVC, HTTP clients, JPA, security, resilience, and testing |
-| **[Node.js](02-node.md)** | Node.js 26: the event loop, modules, concurrency, core APIs, HTTP frameworks, errors, configuration, testing, and security |
+| **[Node.js](02-node.md)** | Node.js 26: the event loop, modules, concurrency, core `APIs`, HTTP frameworks, errors, configuration, testing, and security |
 | **[.NET and ASP.NET Core](03-dot-net.md)** | C# 14 and ASP.NET Core 10: Minimal APIs, DI, configuration, middleware, EF Core, security, caching, and testing |
 
 ## Core Documentation

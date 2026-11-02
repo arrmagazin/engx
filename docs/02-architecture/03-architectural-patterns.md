@@ -14,7 +14,7 @@ The patterns here answer three different questions, and confusing them is the us
 | Axis | Question | Patterns, and the view they show in |
 | ---- | -------- | ----------------------------------- |
 | **Internal structure** | How is one deployable unit divided, and which way do its dependencies point? | Layered, MVC, Hexagonal — [Logical view](02-architectural-views.md#logical-view) |
-| **Deployment shape** | How many units ship, and can each ship alone? | Monolith, Microservices and MACH — [Deployment view](02-architectural-views.md#deployment-view) |
+| **Deployment shape** | How many units ship, and can each ship alone? | Monolith, `Microservices` and MACH — [Deployment view](02-architectural-views.md#deployment-view) |
 | **Interaction style** | Once there is more than one unit, how does one reach another — by asking, or by announcing? | Request-driven, Event-driven — [Process view](02-architectural-views.md#process-view) |
 
 "MVC or microservices" is therefore not a choice: a microservice organized internally as MVC and fed by events is ordinary.
@@ -86,7 +86,7 @@ flowchart LR
 | **Repository** | The interface that loads and saves whole aggregates, shaped like a collection | `orders.byId(42)` |
 | **Factory** | The code that creates a complex aggregate in a valid state | `Order.fromCart(cart)` |
 | **Domain service** | A business operation that does not belong to any one object | Transferring money between two accounts |
-| **Policy** | A business rule or choice held in its own object, so it can be replaced without changing the objects that use it; Evans treats it as another name for the Strategy pattern | `ShippingPolicy` sets the delivery cost, with one version for each country |
+| **Policy** | A business rule or choice held in its own object, so it can be replaced without changing the objects that use it; Evans treats it as another name for the `Strategy` pattern | `ShippingPolicy` sets the delivery cost, with one version for each country |
 | **Constraint** | A rule that limits valid state, given a name in its own method or object so it is not buried in other logic; Evans describes this as making an implicit concept explicit | `CreditLimit` rejects an order above the customer's limit |
 | **Domain event** | A record of a business fact that has already happened | `OrderPlaced` |
 
@@ -195,9 +195,9 @@ Monolith describes deployment, not quality. It is the correct starting shape for
 | Letter | Property | What it requires | The check |
 | ------ | -------- | ---------------- | --------- |
 | **M** | Microservices | Each capability is a unit that deploys on its own and owns its data | A unit ships without coordinating with another |
-| **A** | API-first | Every capability is reachable through a published API, designed before the implementation; the UI is one client among many | No function is reachable only through a UI or a shared database |
+| **A** | API-first | Every capability is reachable through a published `API`, designed before the implementation; the UI is one client among many | No function is reachable only through a UI or a shared database |
 | **C** | Cloud-native SaaS | Units run on managed infrastructure that scales on demand, or are bought as SaaS that the vendor upgrades | No team patches or upgrades a component it did not write |
-| **H** | Headless | The front end is separate from the back end and reaches it only through the APIs | A new channel — mobile app, kiosk, voice — is added without changing a back-end unit |
+| **H** | Headless | The front end is separate from the back end and reaches it only through the `APIs` | A new channel — mobile app, kiosk, voice — is added without changing a back-end unit |
 
 ```mermaid
 flowchart LR
@@ -210,7 +210,7 @@ flowchart LR
   GW --> PAY[Payment SaaS]
 ```
 
-Headless plus API-first is the hexagonal idea at system scale: every front end is a driving adapter, and the APIs are the driving ports.
+Headless plus API-first is the hexagonal idea at system scale: every front end is a driving adapter, and the `APIs` are the driving ports.
 
 ### Microservices
 
@@ -246,9 +246,9 @@ The other three letters add their own costs on top of the microservices ones.
 
 | You get | You pay |
 | ------- | ------- |
-| Any channel can use any capability, so a new front end needs no back-end change | Someone must own the glue — gateway, API versions, rate limits, and the backend-for-frontend layers |
+| Any channel can use any capability, so a new front end needs no back-end change | Someone must own the glue — gateway, `API` versions, rate limits, and the backend-for-frontend layers |
 | A bought capability (search, payments, content) arrives built, hosted, and upgraded | Each vendor is a separate contract, bill, data model, and outage; your data lives in their systems |
-| Upgrades arrive without a migration project | Upgrades arrive on the vendor's schedule, including breaking API changes |
+| Upgrades arrive without a migration project | Upgrades arrive on the vendor's schedule, including breaking `API` changes |
 | Front-end teams release without the back end | The team now builds what a suite used to give for free: preview, routing, rendering for search engines |
 
 MACH fits when several channels share one back end, or when a vendor does a capability better than the team could. With one channel and one team, it returns as little as a microservice split does. The claim to check is the one in its name: a capability can be replaced — built or bought — without changing the front ends or the other units.
@@ -315,7 +315,7 @@ The internal patterns are independent of the deployment shape, and choosing them
 | **Monolith + MVC** | The classic web framework layout: routes to controllers, controllers to models, templates as views |
 | **Monolith + Hexagonal** | Modules with domain cores and their own adapters; the framework is an adapter, not the structure |
 | **Microservice + Hexagonal** | Each unit an application core with HTTP and message-consumer adapters driving it, and repository and client adapters driven by it |
-| **Microservice + MVC** | Common where a unit is a thin API over storage, and honest about holding little domain logic |
+| **Microservice + MVC** | Common where a unit is a thin `API` over storage, and honest about holding little domain logic |
 | **Microservices + events** | Units request each other only where an answer is needed now, and announce everything else |
 
 A hexagonal core makes extracting a service later cheap: the driving port is already the service interface, and the driven adapters already isolate the storage. Extracting from a fat-controller monolith means finding the rules first — the expensive part of every migration that stalls.

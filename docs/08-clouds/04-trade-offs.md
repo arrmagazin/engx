@@ -52,9 +52,9 @@ All three clouds have a hierarchy, and all three inherit permissions downward. T
 
 | | AWS · Azure · Google Cloud |
 | --- | --- |
-| Grants inherit downward | through Organizations · through Management Groups and Scopes · through the resource tree |
+| Grants inherit downward | through Organizations · through Management Groups and `Scopes` · through the resource tree |
 | User-authored deny inside the permission system | yes, explicit `Deny` wins · no · no, except a separate Deny Policy mechanism |
-| Where guardrails live instead | Service Control Policies, which filter API calls by principal · Azure Policy with a `Deny` effect, which constrains configuration · Organization Policy, which constrains configuration |
+| Where guardrails live instead | Service Control Policies, which filter `API` calls by principal · Azure Policy with a `Deny` effect, which constrains configuration · Organization Policy, which constrains configuration |
 
 The bottom row is a real distinction, not a detail:
 

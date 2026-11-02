@@ -6,16 +6,17 @@ tags: [management, leadership, process]
 ---
 
 
-This guide covers the loops that connect strategy to feedback, and the metrics that show whether those loops work. Its planning vocabulary — Scope, Capacity, Priority, Commitment, Risk, Dependency, and Constraint — is defined once in [Planning Concepts](00-management.md#planning-concepts), and Goal in [Core concepts](../00-software-engineering/01-core_concepts.md).
+This guide covers the loops that connect strategy to feedback, and the metrics that show whether those loops work. Its planning vocabulary — `Scope`, `Capacity`, `Priority`, `Commitment`, `Risk`, `Dependency`, and `Constraint` — is defined once in [Planning Concepts](00-management.md#planning-concepts), and `Goal` in [Core concepts](../00-software-engineering/01-core_concepts.md).
 
 ## Core Concepts
 
 Decision
-: An accountable *choice* of one option among weighed alternatives in given context,\
-  > with its tradeoffs agreed and its risks and costs accepted up front
+: An accountable *choice* of one option among weighed alternatives in given context,
+
+    > with its tradeoffs agreed and its risks and costs accepted up front
 
 Strategy
-: context-free generalized approach for reaching a Goals — set of values/principles to make reasonable Decisions ("why")
+: context-free generalized approach for reaching a `Goals` — set of values/principles to make reasonable `Decisions` ("why")
 
 Method
 : An organized set of predefined constraints/rules and decisions, that control "howto" run a process in a given context
@@ -27,17 +28,17 @@ Framework
 : A Method offered a predefined options a user chooses from, so the results become predictable
 
 Management
-: The *process* of making Decisions, leading Teams, and allocating Resources to reach Goals
+: The *process* of making `Decisions`, leading `Teams`, and allocating `Resources` to reach `Goals`
 
     - through people, process, and priorities
     - within limits of time, budget, capacity, and quality
     - Concerned with planning, organizing, governance, control, optimizing, securing, tracking, and growth
-    - that turns Goals into predictably delivered outcomes
+    - that turns `Goals` into predictably delivered outcomes
 
 Management bodies
 : personal involved into management process
 
-    - Leadership sets direction and motivates - Strategy;
+    - Leadership sets direction and motivates - `Strategy`;
     - operations management allocates, sequences, and controls.
     - A working engineering manager does both.
 
@@ -66,10 +67,10 @@ Plan
 : Ordered sequence of work with the resources, roles, and schedule that realize an objective
 
 Task
-: Atomic unit of a Plan, carrying a purpose, a definition of done, required resources, an owner, a timeline, dependencies, and a status
+: Atomic unit of a `Plan`, carrying a purpose, a definition of done, required resources, an owner, a timeline, dependencies, and a status
 
 Monitoring
-: Continuous evaluation of progress against the Plan and adaptation when conditions shift; failure to monitor is failure to act
+: Continuous evaluation of progress against the `Plan` and adaptation when conditions shift; failure to monitor is failure to act
 
 ### The loop
 
@@ -124,7 +125,7 @@ Complete it before implementation starts. Work that begins without it produces d
 
 ### Planning Concepts
 
-The variables a Plan is negotiated with, and the conditions that constrain it.
+The variables a `Plan` is negotiated with, and the conditions that constrain it.
 
 Scope
 : Set of work items accepted as in-bounds for an objective\
@@ -139,7 +140,7 @@ Priority
   *If everything is priority one, nothing is*
 
 Commitment
-: Promise made with known Scope, known Capacity, and accepted Risk\
+: Promise made with known `Scope`, known `Capacity`, and accepted `Risk`\
   *Without capacity data it is a wish*
 
 Risk
@@ -190,7 +191,7 @@ Use a single accountable decider per decision (`DACI`: Driver, Approver, Contrib
 
 ### SWOT Analysis
 
-**SWOT**: Four-cell partition of a situation into Strengths, Weaknesses, Opportunities, and Threats.
+**SWOT**: Four-cell partition of a situation into `Strengths`, `Weaknesses`, `Opportunities`, and `Threats`.
 
 Strengths
 : Internal factors that give an advantage — resources, expertise, processes, relationships
@@ -206,13 +207,13 @@ Threats
 
 ### SMART Goals
 
-**SMART**: Five criteria that make a goal *actionable*: Specific, Measurable, Achievable, Relevant, and Time-bound.
+**SMART**: Five criteria that make a goal *actionable*: Specific, `Measurable`, `Achievable`, `Relevant`, and `Time-bound`.
 
 Specific
 : Clear and well-defined enough to answer who, what, when, where, and why
 
 Measurable
-: Quantifiable, so progress can be tracked by Monitoring
+: Quantifiable, so progress can be tracked by `Monitoring`
 
 Achievable
 : Realistic given the resources and conditions in play
@@ -262,26 +263,26 @@ Trade-off
 : A choice in which one need is met at a measurable cost to another; unavoidable whenever resources are bounded and needs are multiple
 
 Contingency
-: Buffer reserved for Problems that cannot be anticipated, as distinct from the risks that can be
+: Buffer reserved for `Problems` that cannot be anticipated, as distinct from the risks that can be
 
 ### Solving Approaches
 
-The four stances a team can take toward a Problem, as set out by Russell Ackoff, plus one decomposition tactic.
+The four stances a team can take toward a `Problem`, as set out by Russell Ackoff, plus one decomposition tactic.
 
 Absolving
-: Ignoring a Problem in the hope that it resolves itself; valid when acting costs more than the Problem does
+: Ignoring a `Problem` in the hope that it resolves itself; valid when acting costs more than the `Problem` does
 
 Resolving
 : Settling for a good-enough answer drawn from past experience, trial and error, or common sense; fast, not optimal
 
 Solving
-: Studying the Problem deeply enough to build a predictable model and choose the best available answer
+: Studying the `Problem` deeply enough to build a predictable model and choose the best available answer
 
 Dissolving
-: Redesigning the surrounding system so the conditions that produced the Problem no longer exist
+: Redesigning the surrounding system so the conditions that produced the `Problem` no longer exist
 
 Divide and Conquer
-: Breaking a Problem into sub-problems until each is trivial, then composing the results; a tactic rather than a stance, so it combines with any of the four
+: Breaking a `Problem` into sub-problems until each is trivial, then composing the results; a tactic rather than a stance, so it combines with any of the four
 
 ### Risk Management
 
@@ -310,7 +311,7 @@ Keep the risk list short and current. Each entry holds a description, probabilit
 - **Make work visible.** One board, one source of truth. Untracked work cannot be managed.
 - **Small batches.** Smaller changes ship faster, break less, and are easier to review.
 - **Protect the reserve.** Defend capacity for tech debt and interrupts; do not let it be borrowed against.
-- **Write things down.** Decisions, plans, and status in durable text — not in meetings or chat threads.
+- **Write things down.** `Decisions`, plans, and status in durable text — not in meetings or chat threads.
 - **Escalate early.** A risk raised three weeks out is a decision; the same risk raised on the deadline is a failure.
 - **Separate the estimate from the commitment.** An estimate is data; a commitment is a choice made with that data.
 - **Give feedback continuously.** Nothing in a performance review should be a surprise.
@@ -335,20 +336,20 @@ Keep the risk list short and current. Each entry holds a description, probabilit
 **Before committing to a plan:**
 
 - [ ] Objective stated as an outcome, with a success metric
-- [ ] Scope is ordered, not just listed
-- [ ] Capacity computed from actual availability, not from headcount
-- [ ] Dependencies identified with named owners and dates
+- [ ] `Scope` is ordered, not just listed
+- [ ] `Capacity` computed from actual availability, not from headcount
+- [ ] `Dependencies` identified with named owners and dates
 - [ ] Top risks listed with responses
 - [ ] Reserve for interrupts and tech debt is intact
 - [ ] Definition of done agreed
-- [ ] Stakeholders know what is *not* in scope
+- [ ] `Stakeholders` know what is *not* in scope
 
 **Weekly:**
 
 - [ ] Board reflects reality
 - [ ] Blocked items have an owner and a next action
-- [ ] Risk list reviewed
-- [ ] Stakeholder update sent
+- [ ] `Risk` list reviewed
+- [ ] `Stakeholder` update sent
 - [ ] 1:1s held, not canceled
 
 **Per cycle:**

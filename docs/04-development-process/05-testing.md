@@ -32,7 +32,7 @@ Timely
 - Use descriptive names: `it('returns correct total when items are added')`
 - Follow Arrange → Act → Assert
 - One assertion per test where possible
-- Mock external dependencies (APIs, databases, file system)
+- Mock external dependencies (`APIs`, databases, file system)
 
 ## Test-Driven Development (TDD)
 
@@ -78,7 +78,7 @@ export const createCart = () => {
 **Practices:**
 
 - Keep cycles short — minutes, not hours; a long red phase means the step was too big
-- Let the test drive the API: if a test is awkward to write, the design is awkward to use
+- Let the test drive the `API`: if a test is awkward to write, the design is awkward to use
 - Add a failing test for every bug before fixing it, so regressions stay caught
 - Refactor only on green, and never mix a refactor with a behavior change
 - Assert on observable behavior so refactoring does not break the suite

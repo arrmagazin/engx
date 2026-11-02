@@ -5,7 +5,7 @@ description: Network and load-balancing terms, HTTP semantics, REST and GraphQL 
 tags: [frontend, http, rest, graphql, api-design]
 ---
 
-How a client and a server exchange data: the network underneath, HTTP semantics, the two dominant API styles, and the transports that keep a connection open.
+How a client and a server exchange data: the network underneath, HTTP semantics, the two dominant `API` styles, and the transports that keep a connection open.
 
 ## Network Terms
 

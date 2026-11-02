@@ -35,7 +35,7 @@ CAP Theorem
 : The result that a system split by a network partition can keep its replicas in agreement or keep answering, but not both; partition tolerance is not optional, because partitions happen anyway
 
 PACELC
-: An extension of the CAP Theorem naming the else-case: with no partition, the trade-off is latency against a stronger guarantee — the choice a healthy system makes every day
+: An extension of the `CAP Theorem` naming the else-case: with no partition, the trade-off is latency against a stronger guarantee — the choice a healthy system makes every day
 
 ## Isolation Levels
 
@@ -87,13 +87,13 @@ Shard Key
 : The field deciding which shard a record lives on; chosen to match the dominant query, so common lookups reach one shard — a long-term commitment, since changing it means moving the data
 
 Hash-Based Sharding
-: Placing records by a hash of the Shard Key — even load, at the cost of geographic and relational locality
+: Placing records by a hash of the `Shard Key` — even load, at the cost of geographic and relational locality
 
 Consistent Hashing
 : A placement scheme that relocates only a small fraction of keys when instances are added or removed, unlike `hash % N`
 
 Hot Shard
-: One shard or key taking disproportionate traffic and throttling while cluster-wide metrics look healthy; fixed by adding cardinality to the Shard Key, such as a date or a suffix
+: One shard or key taking disproportionate traffic and throttling while cluster-wide metrics look healthy; fixed by adding cardinality to the `Shard Key`, such as a date or a suffix
 
 ## Key-Value Store Design
 

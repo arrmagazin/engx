@@ -25,7 +25,7 @@ Value
 : Criterion a team judges its own behavior against, stated *without reference to any situation* and therefore never directly actionable
 
 Principle
-: Domain-specific bridging rule that turns a Value into a choice a team can make *in a concrete situation*
+: Domain-specific bridging rule that turns a `Value` into a choice a team can make *in a concrete situation*
 
 Practice
 :   Behavior a team either performs or does not, observable from outside the team and therefore *checkable*
@@ -33,7 +33,7 @@ Practice
     - **Primary Practice** — safe to adopt on its own, before any other part of the method is in place
     - **Corollary Practice** — depends on several Primary Practices already working; difficult or dangerous to adopt first
 
-A Practice in this sense is a *behavior*, not a recommendation. The evaluative sense — an approach accepted as superior for a given context — is defined as [Best Practice](00-management.md#core-concepts) in Management.
+A Practice in this sense is a *behavior*, not a recommendation. The evaluative sense — an approach accepted as superior for a given context — is defined as [Best Practice](00-management.md#core-concepts) in `Management`.
 
 ```mermaid
 flowchart LR
@@ -136,7 +136,7 @@ The four groups below follow the split Anton Zaides made after rereading the boo
 
 Two of the disputed four need precise statement, because they are the ones most often used to dismiss the whole method:
 
-- **Pair Programming.** The objection is to *all*, not to pairing. Beck himself notes that most programmers cannot pair more than five or six hours a day — already a limit on the practice. A team that pairs on unfamiliar or high-risk work, but not on routine work, keeps the Feedback and Communication values and drops the absolute.
+- **Pair Programming.** The objection is to *all*, not to pairing. Beck himself notes that most programmers cannot pair more than five or six hours a day — already a limit on the practice. A team that pairs on unfamiliar or high-risk work, but not on routine work, keeps the `Feedback` and Communication values and drops the absolute.
 - **Code and Tests.** The objection is to *only*. The practice assumes social mechanisms carry project history, which fails on long-lived systems and on teams with turnover. The [Move Humans to the Left](05-move-humans-to-the-left.md) approach keeps the intent — no hand-maintained artifact that a machine could derive — without claiming that nothing but code and tests should exist.
 
 XP's own principles are the right tool for judging a practice, including practices XP never named. Ask of any proposed way of working:

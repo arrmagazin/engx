@@ -20,7 +20,7 @@ A team lead connects company strategy to daily engineering work: they turn busin
 **In a software or hybrid team, add:**
 
 - **Architectural Alignment** — Make sure developers understand the technical direction before they write code, so the design does not accumulate [technical debt](../04-development-process/08-technical-debt.md) by accident.
-- **Asynchronous Documentation** — Require that system designs, API contracts, and decisions are written down, not only spoken.
+- **Asynchronous Documentation** — Require that system designs, `API` contracts, and decisions are written down, not only spoken.
 - **Deployment Guardrails** — Put automated [CI/CD](../04-development-process/03-ci-cd.md) pipelines in place so defects are caught before release.
 - **Hybrid Inclusion** — Structure meetings so remote and office participants get equal presence and speaking time.
 - **Burnout Monitoring** — Watch commit and pull request timing as a team-level aggregate, never per person, for signs of unhealthy hours; see [Team Health](03-growing-and-keeping-people.md#team-health) for the privacy and labor rules.
@@ -43,7 +43,7 @@ The values and behaviors a lead models for the team to copy:
 
 ## Delegation
 
-Delegate the **outcome**, not the steps. Match the level of autonomy to proven competence in that specific area. The five levels below are adapted from common delegation-level models, such as the seven levels of Delegation Poker in Jurgen Appelo's Management 3.0:
+Delegate the **outcome**, not the steps. Match the level of autonomy to proven competence in that specific area. The five levels below are adapted from common delegation-level models, such as the seven levels of Delegation Poker in Jurgen Appelo's `Management` 3.0:
 
 | Level | Instruction | Use when |
 | --- | --- | --- |

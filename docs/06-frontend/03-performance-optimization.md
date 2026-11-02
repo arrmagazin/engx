@@ -14,7 +14,7 @@ Google publishes each metric with two boundaries: "good" is at or below the firs
 | Metric | Measures | Good · Poor |
 | --- | --- | --- |
 | **LCP** (Largest Contentful Paint) | Render time of the largest element visible in the viewport | ≤ 2.5 s · > 4.0 s |
-| **INP** (Interaction to Next Paint) | Delay between an interaction and the next frame drawn | ≤ 200 ms · > 500 ms |
+| **INP** (`Interaction` to Next Paint) | Delay between an interaction and the next frame drawn | ≤ 200 ms · > 500 ms |
 | **CLS** (Cumulative Layout Shift) | Visual stability — how much content moves on its own | ≤ 0.1 · > 0.25 |
 | **FCP** (First Contentful Paint) | Time until the first text or image is painted | ≤ 1.8 s · > 3.0 s |
 | **TTFB** (Time to First Byte) | Time until the first byte of the response arrives | ≤ 800 ms · > 1.8 s |

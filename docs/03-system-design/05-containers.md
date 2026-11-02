@@ -15,7 +15,7 @@ A container is an application and its dependencies, packaged as an image and run
 - **Layer** — the filesystem diff one build instruction produces. Layers are content-addressed, cached between builds, and shared between images, so pulling a second image on the same base transfers only what differs.
 - **Tag vs. digest** — a tag (`app:1.4`) is a *mutable pointer*; a digest (`app@sha256:…`) names exact bytes. Only the digest is a version.
 - **OCI (Open Container Initiative)** — the [standard](../00-software-engineering/02-standards.md) image, runtime, and registry specifications, so an image built by one tool runs under any runtime.
-- **Ephemeral filesystem** — the container's writable layer dies with it. Anything that must survive goes to a **volume** mounted from outside or, in a distributed system, to a Database or Object Storage.
+- **Ephemeral filesystem** — the container's writable layer dies with it. Anything that must survive goes to a **volume** mounted from outside or, in a distributed system, to a `Database` or `Object Storage`.
 - **Container vs. VM** — a VM boots its own kernel: a stronger isolation boundary, paid for with a guest OS that must boot and stay resident. A container is a process on the shared kernel — nothing to boot — but a kernel exploit escapes it.
 
 ## Build and Ship Workflow
@@ -25,7 +25,7 @@ A container is an application and its dependencies, packaged as an image and run
 3. **Push to a registry, pull on the host** — only missing layers travel, so a fresh host pulls everything.
 4. **Run** — the runtime stacks the layers, creates the namespaces and cgroups, and starts the entrypoint as process 1.
 
-The same image runs in every environment; only the Configuration injected at run time differs.
+The same image runs in every environment; only the `Configuration` injected at run time differs.
 
 ## What an Orchestrator Does
 
@@ -47,7 +47,7 @@ The managed versions across the three clouds are in [Compute — Containers](../
 
 ## Design Implications
 
-- **Stateless by default.** Instances disappear without warning, so sessions go to a Cache, records to a Database, uploads to Object Storage.
+- **Stateless by default.** Instances disappear without warning, so sessions go to a `Cache`, records to a `Database`, uploads to `Object Storage`.
 - **Shutdown is a contract.** The orchestrator sends SIGTERM, waits a grace period, then SIGKILL; in that window the application finishes in-flight work. Process 1 gets no default signal handlers, so an application that does not handle SIGTERM — or a shell-form `CMD npm start`, whose shell never forwards it — makes every deploy fail whoever was mid-request. Use exec form and handle the signal.
 - **Image size is scale-out latency.** A fresh host pulls the whole image before the container starts, exactly when the capacity is needed.
 - **Sidecars** — a second container in the same unit (a log shipper, proxy, or metrics agent) that adds a concern without touching the application, but shares its resources and can delay startup and shutdown.

@@ -82,7 +82,7 @@ flowchart LR
 
 | Concept | Definition |
 | --- | --- |
-| **ARM** | Azure Resource Manager, the one API behind every Azure tool; the portal, the command line and every deployment language are clients of it, so no Resource reaches Azure any other way |
+| **ARM** | Azure Resource Manager, the one `API` behind every Azure tool; the portal, the command line and every deployment language are clients of it, so no Resource reaches Azure any other way |
 | **Resource** | a thing Azure creates and keeps for you, and the unit that is named, permissioned and billed |
 | **Resource ID** | the unique path naming a Resource, and what every permission and script is written against; moving a Resource changes it and breaks anything holding the old one |
 | **Tag** | a key/value label on a Resource, and the mechanism cost attribution and policy targeting both rely on |
@@ -103,17 +103,17 @@ A Scope decides three things at once: who can touch the resource, which rules ap
 
 ### ARM — The One Control Plane
 
-Every tool you can use to create Azure resources ends up calling the same API.
+Every tool you can use to create Azure resources ends up calling the same `API`.
 
-- **Entry point:** the `az` command line, PowerShell, Bicep, Terraform and Pulumi are all clients of the same API. None can do anything the others cannot.
-- **Why it is worth knowing:** it collapses a whole category of confusion. When someone says "it worked in the portal but failed in Terraform", the cause is almost never the tool. It is either a permissions difference (the portal ran as you, the pipeline ran as a service identity with fewer rights) or an API version difference (the tool is pinned to an older version of the resource type). Knowing there is one control plane tells you which two things to check.
+- **Entry point:** the `az` command line, PowerShell, Bicep, Terraform and Pulumi are all clients of the same `API`. None can do anything the others cannot.
+- **Why it is worth knowing:** it collapses a whole category of confusion. When someone says "it worked in the portal but failed in Terraform", the cause is almost never the tool. It is either a permissions difference (the portal ran as you, the pipeline ran as a service identity with fewer rights) or an `API` version difference (the tool is pinned to an older version of the resource type). Knowing there is one control plane tells you which two things to check.
 - **Region Pairs are geographic:** the partner Region sits in the same geography — West Europe with North Europe, for example — which is what keeps a replicated copy inside the same data-residency rules.
 
 ## Compute
 
 Compute is where your code runs. Azure gives you several ways to run it, and the difference between them is how much of the machine you see and manage.
 
-At one end, a **Virtual Machine** gives you a whole virtual server that you install software on and keep patched. At the other, **Azure Functions** runs one piece of your code when something calls it, and you never see a machine at all. **AKS** and **Container Apps** sit in between: you package your code as a Container, built with a tool such as Docker, and the service decides which machines run it.
+At one end, a **Virtual Machine** gives you a whole virtual server that you install software on and keep patched. At the other, **Azure Functions** runs one piece of your code when something calls it, and you never see a machine at all. **AKS** and **Container Apps** sit in between: you package your code as a `Container`, built with a tool such as Docker, and the service decides which machines run it.
 
 The general pattern: the less you manage, the less you can customise, and the more you pay per unit of work at steady high load — but the less you pay when the load is low or uneven, and you spend far less operator time. Most teams end up with a mix.
 
@@ -168,13 +168,13 @@ flowchart LR
 | Concept | Definition |
 | --- | --- |
 | **Container** | an application packaged with everything it needs to run, so that it behaves the same on any machine |
-| **Kubernetes** | the open-source system that places a Container on a machine, restarts it when it dies, and replaces it during a deploy |
+| **Kubernetes** | the open-source system that places a `Container` on a machine, restarts it when it dies, and replaces it during a deploy |
 | **Node Pool** | a group of identical machines inside an AKS cluster; a `System` pool runs Kubernetes' own services and a `User` pool runs yours |
 | **Azure CNI Overlay** | the AKS network plugin to choose for new clusters: pod addresses come from a private range that never consumes VNet address space |
 | **Entra Workload ID** | the federation that lets a Kubernetes service account exchange its token for an Azure one, so a pod stores no secret anywhere |
 | **KEDA** | scaling the number of pods from an external signal such as queue depth rather than from CPU |
 | **Revision** | an immutable snapshot of a Container Apps app at one configuration; several can serve traffic at weighted percentages |
-| **Cold Start** | the delay a request pays when it arrives at a service that had scaled to zero and must start a Container first |
+| **Cold Start** | the delay a request pays when it arrives at a service that had scaled to zero and must start a `Container` first |
 
 ### Concepts — Compute Functions
 
@@ -222,10 +222,10 @@ Running Kubernetes yourself means operating its **control plane** — the set of
 Container Apps is Kubernetes, KEDA, Dapr and the Envoy proxy assembled for you and then hidden. You get containers, versions and scaling rules. You never see a node, and there is no `kubectl`.
 
 - **Entry point:** a **Container Apps environment** — the boundary that holds the shared network integration, the logging workspace, and the internal networking between your apps. Apps in the same environment can reach each other by name; apps in different environments cannot.
-- **Use it when:** you have a container and you want it running with as little operational surface as possible — which covers most web services, APIs and background workers. It is the right default, and moving to AKS later is a real but bounded piece of work.
+- **Use it when:** you have a container and you want it running with as little operational surface as possible — which covers most web services, `APIs` and background workers. It is the right default, and moving to AKS later is a real but bounded piece of work.
 - **Revisions give you safe deploys for free:** a **revision** is an immutable snapshot of your app at one configuration. You can run several revisions at once and split traffic between them by percentage, which means blue/green and canary deployments with no load balancer to configure and nothing extra to buy.
 - **Scale rules and scale to zero:** scaling is driven by KEDA **scalers** — HTTP concurrency, queue length, a cron schedule, or a custom signal. Setting the minimum replica count to `0` means the app genuinely stops costing anything when idle. **Workload profiles** let one environment mix Consumption capacity (per-second billing, scales to zero) with Dedicated capacity (reserved machines, GPUs, larger sizes).
-- **Also included:** **jobs** for run-to-completion tasks, triggered manually, on a schedule, or by an event; and **Dapr**, an optional sidecar that provides publish/subscribe messaging, state storage and service-to-service calls behind a uniform API.
+- **Also included:** **jobs** for run-to-completion tasks, triggered manually, on a schedule, or by an event; and **Dapr**, an optional sidecar that provides publish/subscribe messaging, state storage and service-to-service calls behind a uniform `API`.
 - **Trap:** scale-to-zero and HTTP traffic interact badly for latency-sensitive apps — the first request after an idle period pays a **cold start** while a container is created. And the moment you need DaemonSets, custom resource definitions, admission controllers, or a service mesh of your choosing, you have outgrown Container Apps and are describing AKS.
 
 ### Azure Functions — Functions, No Servers
@@ -233,7 +233,7 @@ Container Apps is Kubernetes, KEDA, Dapr and the Envoy proxy assembled for you a
 You write a single function; the runtime invokes it when something happens. No machine, no container, no scaling configuration.
 
 - **Entry point:** a **trigger** plus **bindings**. The trigger is the event that runs your function — an HTTP request, a queue message, a timer. **Bindings** are the genuinely distinctive part: a function can declare "triggered by a Service Bus queue, with an output binding to Cosmos DB" and then read and write both without writing a single line of client library code. One trigger per function; input and output bindings are declared, not coded.
-- **Use it when:** the work is short, event-driven and bursty — reacting to a file upload, processing a queue, running a scheduled job, or serving a lightweight API.
+- **Use it when:** the work is short, event-driven and bursty — reacting to a file upload, processing a queue, running a scheduled job, or serving a lightweight `API`.
 - **Hosting plans, in the order they get chosen wrongly:** **Consumption** scales to zero but has no virtual network access on the classic plan and a **5-minute default timeout with a 10-minute hard ceiling**. **Flex Consumption** is the modern default — it scales to zero *and* supports network integration, lets you control per-instance concurrency, and lifts the 10-minute ceiling. **Premium** keeps instances warm so there is no cold start, and has no runtime limit. **Dedicated** runs your functions on an existing App Service Plan you already pay for.
 - **Durable Functions** adds workflows: an *orchestrator* function coordinates *activity* functions to do fan-out/fan-in, wait for a human approval, or run a long multi-step process. The critical constraint is that **the orchestrator replays its own history from an event log to recover state, so its code must be deterministic** — no reading the current time, no generating random values, no direct input/output. Every run must take the same path given the same history.
 - **Trap:** connections. Hundreds of concurrent function instances each opening a database connection or an outbound socket will exhaust both the database's connection limit and the platform's own pool of outbound ports. The fix is to create clients once and reuse them across invocations, rather than per call.
@@ -325,7 +325,7 @@ flowchart LR
 - **Entry point:** the Address Space, written in CIDR notation such as `10.0.0.0/16`, then the Subnets that divide it, then User-Defined Routes if you need to override where traffic goes.
 - **Use it when:** always, for anything that runs on a machine. Virtual machines, AKS nodes and VNet-integrated services all live in a subnet.
 - **Two differences from AWS worth saying out loud.** First, **a subnet is regional, not zonal** — it spans every Availability Zone in the Region, and the individual *resource* chooses which zone it sits in. Second, **every subnet in a VNet can already reach every other one**, because Azure creates system routes from the start. There is no internet gateway to attach and no route table to write before things work.
-- **Outbound internet must now be arranged deliberately.** It used to happen by default. **Since 31 March 2026, new virtual networks get private subnets by default** (with API versions released after that date; existing networks are unchanged), so a new subnet needs an explicit method. The right answer is a **NAT Gateway**: a managed component that gives everything in the subnet a stable outbound address and does not run out of ports under load. The alternatives are a load balancer outbound rule, or giving the machine its own public IP.
+- **Outbound internet must now be arranged deliberately.** It used to happen by default. **Since 31 March 2026, new virtual networks get private subnets by default** (with `API` versions released after that date; existing networks are unchanged), so a new subnet needs an explicit method. The right answer is a **NAT Gateway**: a managed component that gives everything in the subnet a stable outbound address and does not run out of ports under load. The alternatives are a load balancer outbound rule, or giving the machine its own public IP.
 - **Forcing traffic through inspection:** a user-defined route that sends `0.0.0.0/0` (meaning "everything") to a `VirtualAppliance` next hop is how you push traffic through [Azure Firewall](#nsgs-asgs-and-azure-firewall--the-filtering-layers) or a third-party appliance instead of straight out to the internet. This is the mechanism behind hub-and-spoke designs.
 - **Trap — address planning bites twice.** Azure reserves **five** addresses in every subnet for its own use, so a `/29` gives you three usable addresses, not eight. And several services demand their own **dedicated, empty, exactly-named** subnet: `AzureFirewallSubnet`, `GatewaySubnet`, `AzureBastionSubnet`, and a subnet of its own for Application Gateway. Discovering the naming requirement after the address plan is agreed means rebuilding the network.
 
@@ -482,11 +482,11 @@ Network-attached virtual disks that behave like disks physically inside the mach
 
 Single-digit millisecond reads at any size, provided you model the data correctly. If you model it incorrectly, no amount of money fixes it.
 
-- **Entry point:** an **account** — and **the API is fixed when you create it** and cannot be changed (NoSQL, MongoDB, Cassandra, Gremlin or Table; NoSQL is the first-class one). Then a database, then a **container** with its **partition key**, the field Cosmos uses to decide which physical machine holds each item.
+- **Entry point:** an **account** — and **the `API` is fixed when you create it** and cannot be changed (NoSQL, MongoDB, Cassandra, Gremlin or Table; NoSQL is the first-class one). Then a database, then a **container** with its **partition key**, the field Cosmos uses to decide which physical machine holds each item.
 - **The partition key is immutable**, which inverts the usual order of work: you list the queries the application will make *first*, and only then choose a key that serves them. Coming from relational databases, this is the hardest habit to change.
 - **Capacity is measured in Request Units (RU/s).** Every read, write and query costs a number of RUs. You either provision throughput (optionally with autoscale between 10% and a ceiling) or run **serverless**, paying per request with a lower ceiling — good for development and small spiky workloads.
 - **Five consistency levels**, from Strong through Bounded Staleness, **Session**, Consistent Prefix, to Eventual. Session is the default and the right answer for most applications: each client reliably reads its own writes. Each weaker level costs fewer RUs and tolerates more failure.
-- **Useful extras:** the **change feed**, a stream of every change that Functions can subscribe to; automatic expiry with TTL; **multi-region writes** with a conflict resolution policy; and an integrated cache for repeated reads.
+- **Useful extras:** the **change feed**, a stream of every change that `Functions` can subscribe to; automatic expiry with TTL; **multi-region writes** with a conflict resolution policy; and an integrated cache for repeated reads.
 - **Trap — the hot partition.** Choosing a low-cardinality field such as `status` as the partition key concentrates all traffic onto one physical partition, which throttles and returns `429` errors while the rest of the container sits idle. Worse, **a single logical partition also has a hard size cap** (currently documented at 20 GB), so a bad key is not a slowdown you can grow out of — it is a wall.
 
 ### Azure Cache for Redis and AI Search — The Supporting Stores
@@ -593,7 +593,7 @@ flowchart TD
 | **Service Principal** | the local instance of an App Registration inside one Tenant, and where consent and role assignments actually attach |
 | **Entra Role** | a role governing the directory itself, such as Global Administrator; it grants nothing over resources |
 | **Azure RBAC Role** | a role governing resources, such as Owner, Contributor or Reader; it grants nothing over the directory |
-| **Role Assignment** | one principal, one Azure RBAC Role and one Scope taken together; assignments are additive, inherited downward, and cannot express a deny |
+| **Role Assignment** | one principal, one Azure RBAC Role and one `Scope` taken together; assignments are additive, inherited downward, and cannot express a deny |
 | **Conditional Access** | where multi-factor authentication, device compliance and location rules are actually enforced at sign-in |
 | **PIM** | Privileged Identity Management: time-limited, approval-gated activation of a privileged role rather than a standing one |
 | **System-Assigned Identity** | an identity created and deleted with one resource, and usable by nothing else |
@@ -640,7 +640,7 @@ Entra ID (formerly Azure Active Directory) holds your users, groups and applicat
 The Azure answer to "there should be no credential stored anywhere, ever".
 
 - **Entry point:** turning on identity for the resource. **System-assigned** identities are created with the resource and deleted with it: one identity, one resource, nothing to manage. **User-assigned** identities are standalone resources you create first and attach to many things — and crucially, you can grant them roles **before** the workload exists, which removes the deployment race where an application starts before its permissions have finished propagating.
-- **How it actually works:** the Azure SDK's `DefaultAzureCredential` requests a token from a local endpoint that only code on that machine can reach — the instance metadata service at `169.254.169.254` on virtual machines, or an injected environment variable on App Service, Functions and Container Apps. No secret is ever stored, and the token expires quickly.
+- **How it actually works:** the Azure SDK's `DefaultAzureCredential` requests a token from a local endpoint that only code on that machine can reach — the instance metadata service at `169.254.169.254` on virtual machines, or an injected environment variable on App Service, `Functions` and Container Apps. No secret is ever stored, and the token expires quickly.
 - **Where it plugs in:** Key Vault, Storage, container registries, Azure SQL, Service Bus and Cosmos DB all accept it. If a design still has a connection string sitting in application settings, replacing it with a managed identity is the single most useful improvement to propose.
 
 ### Workload Identity Federation — Keyless Pipelines
@@ -654,7 +654,7 @@ The same idea, extended to systems running outside Azure.
 
 - **Entry point:** a **vault**, and immediately its **permission model**. The legacy option is **access policies**: per-vault, coarse, with no inheritance. The recommended option is **Azure RBAC**, which gives real roles, inheritance from management groups, and PIM eligibility. Migrating an existing vault from access policies to RBAC is a common real-world task.
 - **The behaviour that breaks pipelines:** **soft delete is mandatory and cannot be switched off**. A deleted vault or secret lingers for a retention period, and re-creating one with the same name fails until you explicitly purge it. **Purge protection** goes further and blocks purging altogether, which some services require before they will use the vault. This is the cause of the classic "my Terraform destroy-and-apply loop stopped working" story.
-- **Also worth knowing:** **certificates** can auto-renew through integrated certificate authorities; **Key Vault references** written as `@Microsoft.KeyVault(...)` let App Service, Functions and Container Apps resolve a secret at runtime using their managed identity, so the secret never enters configuration at all; **Managed HSM** provides single-tenant, FIPS 140-validated hardware for keys; and each vault has its own request rate limits, which is why you cache secrets in memory rather than fetching one per request.
+- **Also worth knowing:** **certificates** can auto-renew through integrated certificate authorities; **Key Vault references** written as `@Microsoft.KeyVault(...)` let App Service, `Functions` and Container Apps resolve a secret at runtime using their managed identity, so the secret never enters configuration at all; **Managed HSM** provides single-tenant, FIPS 140-validated hardware for keys; and each vault has its own request rate limits, which is why you cache secrets in memory rather than fetching one per request.
 - **Trap:** the vault firewall. Enabling network restrictions without first adding your private endpoint, the trusted-Microsoft-services exception, or the build agent's address, locks out the very pipeline that manages the vault.
 - **App Configuration** is the non-secret sibling: centralised application settings, feature flags and dynamic refresh, with secrets referenced from Key Vault rather than duplicated into it.
 
@@ -811,7 +811,7 @@ The Bicep-versus-Terraform decision comes up in almost every conversation and ha
 - **State.** Terraform records what it created in a **state file**, which is how it knows the difference between "create this" and "update that". On Azure that file lives in a storage account, with **blob lease locking** so two pipelines cannot write it simultaneously. Bicep has no state file at all, because ARM already knows what exists. State is Terraform's greatest strength and its main operational liability: it needs storage, locking, backup and an access model of its own.
 - **Idempotency.** Declarative tools describe the desired end state rather than the steps to get there, so running the same file twice converges on the same result instead of creating things twice. This is what makes it safe to re-run a pipeline after a failure.
 - **Modules.** Both Bicep and Terraform support reusable, versioned modules published to a private registry. This is how one team's networking pattern becomes every team's networking pattern without copy-paste.
-- **Drift detection.** Drift is the gap between what the code says and what actually exists, created by someone changing something in the portal. `terraform plan`, Bicep's `what-if`, and Azure Policy compliance scans all surface it. A nightly plan that alerts when the diff is non-empty is what proves the code is genuinely the source of truth, and it is the piece most teams skip.
+- **Drift detection.** `Drift` is the gap between what the code says and what actually exists, created by someone changing something in the portal. `terraform plan`, Bicep's `what-if`, and Azure Policy compliance scans all surface it. A nightly plan that alerts when the diff is non-empty is what proves the code is genuinely the source of truth, and it is the piece most teams skip.
 - **Multiple environments.** One set of modules, different parameter files per environment (`*.tfvars` or `.bicepparam`), and a naming convention applied consistently. Copying the whole codebase per environment is the anti-pattern; the environments drift apart within a quarter.
 
 ### CI/CD for Infrastructure
@@ -843,13 +843,13 @@ Once a machine exists, something has to put software and settings on it — unle
 
 ### Cloud-Native Practices on Azure
 
-- **Containers.** Multi-stage builds to keep images small, and image scanning with Trivy or Defender for Containers in the pipeline. The underlying concepts are in [Containers](../../03-system-design/05-containers.md).
+- **Containers.** Multi-stage builds to keep images small, and image scanning with Trivy or Defender for `Containers` in the pipeline. The underlying concepts are in [Containers](../../03-system-design/05-containers.md).
 - **Kubernetes objects worth knowing by name:** Deployments (stateless replicas), StatefulSets (replicas with stable identity and storage), DaemonSets (one copy per node, for agents), Services (a stable address in front of pods), and Ingress (HTTP routing into the cluster, via the Application Gateway Ingress Controller on Azure).
 - **Helm** packages a set of Kubernetes objects as one versioned, parameterised unit.
 - **Scaling** comes in three forms: the Horizontal Pod Autoscaler (more pods), the Vertical Pod Autoscaler (bigger pods), and the cluster autoscaler or Node Auto Provisioning (more nodes). [KEDA](#aks--managed-kubernetes) adds event-driven scaling from queue depth.
 - **Network policies** restrict which pods may talk to which, implemented by Azure Network Policy Manager, Calico or Cilium. This is one of the capabilities that genuinely requires AKS rather than Container Apps.
 - **Service mesh** adds traffic management and mutual TLS between services. On AKS the supported route is the Istio-based add-on; the older Open Service Mesh add-on loses AKS support on 30 September 2027, and the CNCF has retired the upstream project.
-- **Dapr** provides publish/subscribe, state management and service invocation behind a uniform API, and is built into [Container Apps](#container-apps--serverless-containers).
+- **Dapr** provides publish/subscribe, state management and service invocation behind a uniform `API`, and is built into [Container Apps](#container-apps--serverless-containers).
 - **The twelve-factor app** principles — configuration from the environment, stateless processes, logs as streams — are the philosophy all of the above assumes.
 
 ### The Delivery Pipeline End to End

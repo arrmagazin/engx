@@ -43,7 +43,7 @@ Five areas span both dimensions of [code quality](../05-coding/08-code-quality.m
 | --- | --- |
 | **Functional Correctness** | The change implements every requested behavior and does not break existing business logic |
 | **Design** | Edge cases are handled, patterns suit the problem, redundancy and unnecessary dependencies are gone, and no shorter or safer equivalent exists |
-| **Readability** | Naming and control flow are logical and consistent, the change can be followed across files and functions, project and API conventions are respected, and no leftover TODO comments remain |
+| **Readability** | Naming and control flow are logical and consistent, the change can be followed across files and functions, project and `API` conventions are respected, and no leftover TODO comments remain |
 | **Tests** | Tests exist, are readable, cover the edge cases and the business use cases, and match the project's test style |
 | **Non-Functional Implications** | Authorization and authentication are correct, configuration and untrusted input are handled safely, behavior holds no surprises, and no library arrives with an unsuitable license |
 

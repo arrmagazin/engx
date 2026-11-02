@@ -119,7 +119,7 @@ An **account** is the container you sign up for. It is the boundary for billing 
 
 ### The Console, the CLI and the API — How You Talk to AWS
 
-Every AWS service is a set of **APIs**: signed HTTPS calls such as `s3:PutObject` or `ec2:RunInstances`. Everything else is a way of making those calls. There is no single "resource manager" layer above them the way Azure has one — each service has its own API, its own error shapes and its own eventual-consistency behaviour.
+Every AWS service is a set of **APIs**: signed HTTPS calls such as `s3:PutObject` or `ec2:RunInstances`. Everything else is a way of making those calls. There is no single "resource manager" layer above them the way Azure has one — each service has its own `API`, its own error shapes and its own eventual-consistency behaviour.
 
 ```mermaid
 flowchart LR
@@ -133,10 +133,10 @@ flowchart LR
   API -. every call recorded by .-> CloudTrail
 ```
 
-- The **console** (the website) is the same API behind buttons. It is the right place to learn and to look, and the wrong place to build production, because what you click is not recorded anywhere you can repeat.
+- The **console** (the website) is the same `API` behind buttons. It is the right place to learn and to look, and the wrong place to build production, because what you click is not recorded anywhere you can repeat.
 - The **CLI** (`aws s3 ls`) and the **SDKs** (libraries for Python, TypeScript, Java and other languages) make the same calls from a terminal or from code.
-- **Infrastructure as code** — CloudFormation, the CDK, Terraform — describes the resources you want in a file, and the tool makes the API calls to create or change them. This is how production infrastructure is built, because the file can be reviewed, versioned and applied again. [Infrastructure as Code and Delivery](#infrastructure-as-code-and-delivery) compares the tools.
-- **Why this matters:** because everything is an API call, every call can be permitted or denied by IAM, and every call is recorded by CloudTrail. Both are covered below, and both work the same way no matter which tool made the call.
+- **Infrastructure as code** — CloudFormation, the CDK, Terraform — describes the resources you want in a file, and the tool makes the `API` calls to create or change them. This is how production infrastructure is built, because the file can be reviewed, versioned and applied again. [Infrastructure as Code and Delivery](#infrastructure-as-code-and-delivery) compares the tools.
+- **Why this matters:** because everything is an `API` call, every call can be permitted or denied by IAM, and every call is recorded by CloudTrail. Both are covered below, and both work the same way no matter which tool made the call.
 
 ### Multi-Account Structure — The Landing Zone
 
@@ -293,11 +293,11 @@ Fargate is not a service you set up on its own. It is a **capacity type** for EC
 
 ### EKS — Managed Kubernetes
 
-**Kubernetes** is the open-source container orchestrator most of the industry has standardised on. It has two halves: the **control plane** (the API server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). EKS (Elastic Kubernetes Service) runs the control plane for you, spread across AZs and kept up to date. Everything else is standard upstream Kubernetes, so tools and knowledge transfer from anywhere else Kubernetes runs. The [containers guide](../../03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
+**Kubernetes** is the open-source container orchestrator most of the industry has standardised on. It has two halves: the **control plane** (the `API` server that receives your instructions and the `etcd` database that stores the desired state) and the **data plane** (the worker machines, called **nodes**, that run your containers, grouped into **pods**). EKS (Elastic Kubernetes Service) runs the control plane for you, spread across AZs and kept up to date. Everything else is standard upstream Kubernetes, so tools and knowledge transfer from anywhere else Kubernetes runs. The [containers guide](../../03-system-design/05-containers.md) explains the Kubernetes concepts themselves.
 
 - **Entry point:** the **cluster** (the control plane, billed hourly) plus a decision about the data plane: **managed node groups** (Auto Scaling Groups that AWS keeps in step with the cluster version), **Karpenter** (a provisioner that watches for pods with nowhere to run and launches right-sized nodes for them directly — AWS-originated, now a CNCF project, and the modern default over the older Cluster Autoscaler), or **Fargate profiles** (one micro-VM per pod, no nodes).
 - **Use it when:** you need the Kubernetes ecosystem — Helm charts, operators, GitOps tooling, a platform team that already knows it — or portability across clouds. If none of that applies, ECS is less work.
-- **Two permission systems meet here:** IAM decides who may call the EKS API from outside; Kubernetes **RBAC** (role-based access control) decides what they may do inside the cluster. The mapping between them is now the **access entries** API, which replaced the error-prone practice of editing the `aws-auth` ConfigMap by hand.
+- **Two permission systems meet here:** IAM decides who may call the EKS API from outside; Kubernetes **RBAC** (role-based access control) decides what they may do inside the cluster. The mapping between them is now the **access entries** `API`, which replaced the error-prone practice of editing the `aws-auth` ConfigMap by hand.
 - **Pods calling AWS APIs:** a pod that needs to read S3 should not borrow the node's permissions, because then every pod on that node has them. **IRSA** (IAM Roles for Service Accounts) fixes this: the cluster publishes an OIDC identity provider, and an IAM role trusts one specific Kubernetes service account through it. The newer **EKS Pod Identity** does the same job with an agent on the node, no per-cluster OIDC setup, and simpler trust policies.
 - **Trap:** the **VPC CNI** (the network plugin) gives every pod a routable VPC IP address, so a busy cluster runs out of subnet addresses. Fixes: **prefix delegation** (hand each node a block of addresses rather than one at a time), secondary CIDR ranges on the VPC, or larger instances with more ENI slots. Plan the address space *before* the cluster exists; changing it later is a migration.
 
@@ -414,7 +414,7 @@ flowchart LR
 | **Hosted Zone** | the container for one domain's records, either public or private to a named set of VPCs |
 | **CloudFront** | the CDN that terminates TLS at Edge Locations and caches or accelerates the path back to an origin |
 | **Origin Access Control** | the signature that lets only CloudFront read an otherwise private bucket |
-| **WAF** | rule-based request filtering in front of an edge distribution, load balancer or API |
+| **WAF** | rule-based request filtering in front of an edge distribution, load balancer or `API` |
 | **Transit Gateway** | a regional hub routing between many VPCs and on-premises links, replacing a mesh of point-to-point links |
 | **VPC Peering** | a one-to-one, non-transitive route between two VPCs: cheapest, and does not scale past a handful |
 | **Direct Connect** | a dedicated private circuit into AWS, bought for consistent latency rather than for privacy |
@@ -426,7 +426,7 @@ A **VPC** (Virtual Private Cloud) is a private network you own inside one Region
 
 - **Entry point:** the **CIDR block**, then **subnets** (smaller ranges cut out of it, each pinned to one Availability Zone), then **route tables** (the rules that say where traffic leaving a subnet goes). There is no "public subnet" checkbox. A subnet is public *because* its route table sends `0.0.0.0/0` — meaning "everything not matched by a more specific rule" — to an **Internet Gateway**, the VPC's door to the internet. A subnet whose route table has no such rule is private.
 - **Use it when:** always — nearly every service in the Compute and Storage sections sits inside a VPC. The design question is not whether to have one but how to divide it. The usual pattern is a public subnet per AZ for load balancers, and a private subnet per AZ for everything else.
-- **Private egress:** servers in a private subnet often still need to reach *out* to the internet — to download packages, or to call a third-party API. A **NAT Gateway** (network address translation) sits in a public subnet and forwards their outbound traffic while blocking anything inbound. Put one in each AZ, so that losing one AZ does not cut off the others. For IPv6 the equivalent is the **egress-only Internet Gateway**.
+- **Private egress:** servers in a private subnet often still need to reach *out* to the internet — to download packages, or to call a third-party `API`. A **NAT Gateway** (network address translation) sits in a public subnet and forwards their outbound traffic while blocking anything inbound. Put one in each AZ, so that losing one AZ does not cut off the others. For IPv6 the equivalent is the **egress-only Internet Gateway**.
 - **Trap:** NAT Gateway is billed per hour *and* per gigabyte processed, and it is a common source of unexpected cost — often because traffic to AWS's own services is going through it. Traffic to S3, ECR and DynamoDB should go through [VPC endpoints](#privatelink-and-vpc-endpoints--reaching-aws-services-privately) instead.
 
 ### Security Groups vs. Network ACLs — The Two Firewalls
@@ -453,8 +453,8 @@ A **load balancer** is the single address that clients connect to. It spreads th
 
 | Load balancer | Layer | Use it for |
 | --- | --- | --- |
-| **ALB** (Application) | 7 (HTTP) — it reads each request | Routing by path or hostname, splitting traffic by weight between target groups for canary releases, authenticating users at the edge with OIDC, and WebSockets |
-| **NLB** (Network) | 4 (TCP/UDP) — it forwards connections without reading them | Very high throughput, a fixed IP address per AZ, protocols other than HTTP, and keeping the client's source IP visible to the application |
+| **ALB** (`Application`) | 7 (HTTP) — it reads each request | Routing by path or hostname, splitting traffic by weight between target groups for canary releases, authenticating users at the edge with OIDC, and WebSockets |
+| **NLB** (`Network`) | 4 (TCP/UDP) — it forwards connections without reading them | Very high throughput, a fixed IP address per AZ, protocols other than HTTP, and keeping the client's source IP visible to the application |
 | **GWLB** (Gateway) | 3 (IP, over the GENEVE tunnelling protocol) | Inserting third-party firewall or inspection appliances transparently into the traffic path |
 
 - **Trap:** health checks that are too strict or too slow. A health check path that requires the database to be up marks every instance unhealthy during a short database outage and takes the whole service down; a long interval delays removing a broken instance. Check something cheap that proves the process is serving, and tune the interval and thresholds.
@@ -818,7 +818,7 @@ flowchart LR
 
 ### IAM — The Policy Engine Underneath Everything
 
-IAM (Identity and Access Management) is the rules engine that decides, for every single API call, whether it is allowed. Rules are written as **policies**: JSON documents listing an *effect* (Allow or Deny), the *actions* (`s3:GetObject`), the *resources* (which bucket, by ARN) and optional *conditions* (only from this IP range, only with MFA). Policies attach to identities and to resources, and IAM evaluates all of them together.
+IAM (Identity and Access Management) is the rules engine that decides, for every single `API` call, whether it is allowed. Rules are written as **policies**: JSON documents listing an *effect* (Allow or Deny), the *actions* (`s3:GetObject`), the *resources* (which bucket, by ARN) and optional *conditions* (only from this IP range, only with MFA). Policies attach to identities and to resources, and IAM evaluates all of them together.
 
 - **Entry point:** the **policy evaluation logic**, which is the one thing to memorise: by default everything is denied; an **explicit `Allow`** in some applicable policy permits the call; an **explicit `Deny`** anywhere overrides every Allow. For a call across accounts, *both* the caller's identity policy and the target's resource policy must allow it.
 - **Use it when:** always — there is no way around IAM. The skill is writing policies that grant exactly what a program needs (**least privilege**) rather than `*` on everything because it was quicker. **IAM Access Analyzer** finds unused permissions and resources reachable from outside the account, which is where a least-privilege clean-up starts.
@@ -879,7 +879,7 @@ Both stores are defined in the table above. What decides between them: rotation 
 
 ## Observability and Governance
 
-Once a system is running you need to answer three questions about it: *is it healthy right now* (metrics, logs and traces), *who changed what* (an audit log of API calls), and *what did a resource look like on a given day* (a history of configuration). A fourth group of services manages the servers themselves and tells you where money is being wasted.
+Once a system is running you need to answer three questions about it: *is it healthy right now* (metrics, logs and traces), *who changed what* (an audit log of `API` calls), and *what did a resource look like on a given day* (a history of configuration). A fourth group of services manages the servers themselves and tells you where money is being wasted.
 
 ```mermaid
 flowchart LR
@@ -917,9 +917,9 @@ flowchart LR
 | --- | --- |
 | **CloudWatch** | the metrics, logs and alarms Service that every AWS Service reports into without being asked |
 | **Metric** | a named time series of measurements, with dimensions that make it selectable |
-| **Alarm** | a rule over a Metric that changes state and acts when a threshold holds for a number of periods |
+| **Alarm** | a rule over a `Metric` that changes state and acts when a threshold holds for a number of periods |
 | **Log Group** | the retention and access boundary around one stream of log events; retention is forever until you set it |
-| **CloudTrail** | the audit record of every API call — who made it, from where, and whether it was allowed |
+| **CloudTrail** | the audit record of every `API` call — who made it, from where, and whether it was allowed |
 | **AWS Config** | the configuration history of each Resource, plus rules that judge compliance across time |
 | **X-Ray** | request tracing that stitches one call's path across services into a single timeline |
 | **Systems Manager** | agent-based fleet operations: patching, inventory, remote commands and shell access without SSH |
@@ -950,12 +950,12 @@ When one request passes through a load balancer, two services, a queue and a dat
 
 ### CloudTrail — The Audit Log
 
-CloudTrail records every API call made in the account — who made it, from which IP address, when, with which parameters, and what the answer was. Because everything in AWS is an API call, this is the complete answer to "who did this?"
+CloudTrail records every `API` call made in the account — who made it, from which IP address, when, with which parameters, and what the answer was. Because everything in AWS is an `API` call, this is the complete answer to "who did this?"
 
-- **Entry point:** **management events** — control-plane API calls such as creating an instance, changing a security group or assuming a role. They are recorded by default and viewable free in the console for 90 days. **Data events** — the high-volume calls inside a service, such as every S3 object read or every Lambda invocation — are **off by default** and billed by volume, so turning them on for specific buckets or functions is a real cost decision.
+- **Entry point:** **management events** — control-plane `API` calls such as creating an instance, changing a security group or assuming a role. They are recorded by default and viewable free in the console for 90 days. **Data events** — the high-volume calls inside a service, such as every S3 object read or every Lambda invocation — are **off by default** and billed by volume, so turning them on for specific buckets or functions is a real cost decision.
 - **Use it when:** always, and for longer than 90 days: create a **trail** that writes events to an S3 bucket, so that they are kept as long as you need and can be searched with Athena.
 - **The organization pattern:** an **organization trail** that covers every account and writes to a locked-down **log archive account**, with S3 Object Lock on the bucket, so that nobody — including an administrator of the account where something happened — can erase the record of what they did.
-- **Boundary with Config:** CloudTrail records *API calls* — the actions. For "what did this security group look like last Tuesday" — the state — the answer is AWS Config, next.
+- **Boundary with Config:** CloudTrail records *`API` calls* — the actions. For "what did this security group look like last Tuesday" — the state — the answer is AWS Config, next.
 
 ### AWS Config — Configuration History and Compliance
 
@@ -1009,7 +1009,7 @@ flowchart LR
 | **CloudFormation** | declarative Stacks that AWS creates, updates and rolls back as a single unit |
 | **Stack** | the deployed instance of a template, and the boundary a rollback applies to |
 | **Change Set** | the preview of what an update would add, modify or replace, produced before anything is executed |
-| **Drift** | the divergence between a Stack and the real Resources after someone edited them by hand |
+| **Drift** | the divergence between a Stack and the real `Resources` after someone edited them by hand |
 | **CDK** | infrastructure written in a general-purpose language and synthesized into CloudFormation |
 | **CodeBuild** | managed build containers defined by a buildspec, with no build server to keep alive |
 | **CodeDeploy** | the component that shifts traffic onto a new version of an EC2 fleet, ECS service or Lambda alias |

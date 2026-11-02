@@ -135,7 +135,7 @@ DRY and SSOT are not the same rule:
 
 | Smell | Why It Hurts |
 | ------- | -------------- |
-| **Hand-maintained mirror** | A hand-written client for a documented API; both are edited, neither is authoritative |
+| **Hand-maintained mirror** | A hand-written client for a documented `API`; both are edited, neither is authoritative |
 | **Copy-pasted constant** | The same magic value in code, config, and a migration — updated in two of three |
 | **Editable generated file** | Generated output committed and then patched by hand; the next regeneration silently reverts the fix |
 | **Bidirectional sync** | Two systems each able to write the same field; conflict resolution becomes an unbounded problem |

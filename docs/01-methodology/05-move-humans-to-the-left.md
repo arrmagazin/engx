@@ -85,25 +85,25 @@ Source Artifact
 : The machine-readable file people author and review; the one representation the pipeline treats as authoritative
 
 Generator
-: The deterministic, repeatable transformation that turns a Source Artifact into what a machine actually runs
+: The deterministic, repeatable transformation that turns a `Source Artifact` into what a machine actually runs
 
 Derived Artifact
-: Anything a Generator produces — code, configuration, runtime metadata, schemas, documentation
+: Anything a `Generator` produces — code, configuration, runtime metadata, schemas, documentation
 
 Collaboration Surface
 : A Source Artifact written so every role with a stake in the decision can read and change it, not only engineers
 
 Authoring-time Validation
-: Schema, lint, and policy checks applied to a Source Artifact as it is written; the leftmost point at which a defect can be caught
+: Schema, lint, and policy checks applied to a `Source Artifact` as it is written; the leftmost point at which a defect can be caught
 
 Manual Gap
 : A step that exists only because nobody automated it — the thing this approach looks for
 
 Drift
-: Divergence between a Source Artifact and what is actually running; it appears wherever a Derived Artifact can be edited independently
+: Divergence between a `Source Artifact` and what is actually running; it appears wherever a `Derived Artifact` can be edited independently
 
 Regeneration
-: Re-running every Generator from unchanged sources; an empty diff is the evidence that there is no Drift
+: Re-running every `Generator` from unchanged sources; an empty diff is the evidence that there is no `Drift`
 
 ## Benefits and Trade-offs
 
@@ -156,13 +156,13 @@ Regeneration
 | **Analytics** | An event taxonomy with typed properties → tracking SDK types, warehouse tables, dashboard queries | A spreadsheet of event names that stops matching what is emitted |
 | **Design system** | Design tokens → CSS custom properties, native theme files, editor variables | Hex codes retyped per platform and re-diverged at the next redesign |
 | **Authorization** | Policy as code → enforcement at the gateway, inside services, and in CI checks | Permission rules restated per service, each version slightly different |
-| **Architecture docs** | A model written in a diagram DSL → rendered diagrams embedded wherever they are needed | Diagrams exported as images, last accurate two releases ago |
+| **Architecture docs** | A model written in a diagram `DSL` → rendered diagrams embedded wherever they are needed | Diagrams exported as images, last accurate two releases ago |
 
 ### A Worked Example
 
 A team adds one field to an order record.
 
-- **Without a source artifact**, the field has to appear in a migration, an entity class, a DTO, a serializer, an API document, two client SDKs, a test fixture, and a dashboard query. That is nine edits, spread across four people, taking as long as the slowest handoff between them. Any one can be missed, and a missed one becomes a defect found in production rather than in review.
+- **Without a source artifact**, the field has to appear in a migration, an entity class, a DTO, a serializer, an `API` document, two client SDKs, a test fixture, and a dashboard query. That is nine edits, spread across four people, taking as long as the slowest handoff between them. Any one can be missed, and a missed one becomes a defect found in production rather than in review.
 - **With the record declared once**, the same change is a single edit to the schema plus a regeneration. The nine artifacts still exist; nobody writes them.
 
 What remains for a person is whether the field belongs at all — the only part that ever needed judgement.
@@ -186,11 +186,11 @@ What remains for a person is whether the field belongs at all — the only part 
 
 ### Where Generation Is Not Deterministic
 
-A language model can turn a specification into code no template could produce, which widens what is worth expressing as a Source Artifact. It also breaks the property the rest of this page rests on: the same input no longer yields the same output, so the result cannot be treated as a cache that Regeneration will restore.
+A language model can turn a specification into code no template could produce, which widens what is worth expressing as a `Source Artifact`. It also breaks the property the rest of this page rests on: the same input no longer yields the same output, so the result cannot be treated as a cache that `Regeneration` will restore.
 
 The workable position: treat model output as human-authored code that a machine drafted — commit it, review it, test it — and keep the specification as the artifact people actually argue over. What moves left is the writing. What stays is the judgement.
 
-*Guidance*: look for the Manual Gaps first, not for something to generate. The gap is the evidence that a decision is being applied by hand; the notation and the generator are only how it gets closed.
+*Guidance*: look for the `Manual Gaps` first, not for something to generate. The gap is the evidence that a decision is being applied by hand; the notation and the generator are only how it gets closed.
 
 *See also*:
 

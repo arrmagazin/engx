@@ -19,7 +19,7 @@ These hold across every attack class in this guide and in [Web Security Defenses
 | **Secure by default** | The safe path needs no extra code and the unsafe one is explicit: React escapes output unless `dangerouslySetInnerHTML` is used, and a CSP starts from `default-src 'self'` |
 | **Fail securely** | An error denies the request and reveals nothing internal, such as a stack trace or query text (A10 below) |
 | **Minimize attack surface** | Features, endpoints, and dependencies that are not used are removed, not just left unlinked (A02 and A03 below, [Dependency Security](08-web-security-defenses.md#dependency-security)) |
-| **Keep secrets out of the client** | Nothing in the bundle, the HTML, or [browser storage](08-web-security-defenses.md#storage) is secret: server API keys and signing secrets stay on the server, and session tokens live in `HttpOnly` cookies ([Token-Based Authentication](07-security-web.md#token-based-authentication)) |
+| **Keep secrets out of the client** | Nothing in the bundle, the HTML, or [browser storage](08-web-security-defenses.md#storage) is secret: server `API` keys and signing secrets stay on the server, and session tokens live in `HttpOnly` cookies ([Token-Based Authentication](07-security-web.md#token-based-authentication)) |
 | **Encrypt everything in transit** | Every response is served over HTTPS, with [HSTS](08-web-security-defenses.md#security-headers) so the browser refuses a downgrade |
 
 ## OWASP Top 10 (2025)

@@ -27,21 +27,21 @@ The development process is the lifecycle that turns a stakeholder need into an o
 | Phase | Definition |
 | --- | --- |
 | **Discovery** | Establishing the problem, stakeholders, constraints, and expected value before committing resources |
-| **Analysis** | Turning intent into Requirements — defined boundaries on Metrics that make success verifiable |
+| **Analysis** | Turning intent into `Requirements` — defined boundaries on `Metrics` that make success verifiable |
 | **[Design](../00-software-engineering/01-core_concepts.md)** | Deciding WHAT the solution should be and WHY, judged against usability from the end-user perspective |
 | **Implementation** | Producing executable code, configuration, and metadata that realizes the design |
 | **Verification** | Confirming the built solution satisfies its functional and [non-functional requirements](../02-architecture/01-quality-attributes.md) |
 | **Release** | Delivering a versioned, reproducible artifact into a target environment |
-| **Operation** | Running, observing, and supporting the Solution against its Metrics in production |
+| **Operation** | Running, observing, and supporting the `Solution` against its `Metrics` in production |
 | **Maintenance** | Correcting defects, absorbing change, and repaying [technical debt](08-technical-debt.md) over the solution's life |
 
-Phases are *interdependent*, not merely sequential: verification is designed during Analysis, operability is decided during Design, and observations from Operation re-enter Discovery.
+Phases are *interdependent*, not merely sequential: verification is designed during `Analysis`, operability is decided during `Design`, and observations from Operation re-enter Discovery.
 
 ## Cycle Shapes
 
 | Cycle Shape | Definition |
 | --- | --- |
-| **One-pass (Waterfall)** | Each phase completes and is signed off before the next begins; low feedback, viable only when Requirements are stable and known upfront |
+| **One-pass (Waterfall)** | Each phase completes and is signed off before the next begins; low feedback, viable only when `Requirements` are stable and known upfront |
 | **Iterative** | The full cycle repeats over a growing scope, each pass refining the same solution |
 | **Incremental** | Each pass delivers an additional slice of functional scope that is independently valuable |
 | **Continuous** | Phases overlap permanently and are automated into a [CI/CD pipeline](03-ci-cd.md), reducing the cycle to a change-sized unit |

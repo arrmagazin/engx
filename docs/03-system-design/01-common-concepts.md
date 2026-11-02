@@ -84,7 +84,7 @@ Idempotency
 Idempotency Key
 : A client-generated unique value per operation, letting the server recognize a retry instead of repeating the side effect
 
-Why almost every queue makes Idempotency mandatory is in [Delivery Semantics](04-messaging.md#delivery-semantics).
+Why almost every queue makes `Idempotency` mandatory is in [Delivery Semantics](04-messaging.md#delivery-semantics).
 
 ## Concurrency Control
 
@@ -126,7 +126,7 @@ Distributed Transaction
 : A single logical operation spanning services that share no database and therefore no commit
 
 Saga Pattern
-: Running a Distributed Transaction as an ordered series of local transactions, each with an undo step for when a later one fails
+: Running a `Distributed Transaction` as an ordered series of local transactions, each with an undo step for when a later one fails
 
 Compensating Action
 : The undo step in a saga — a refund, a released hold, a canceled reservation
@@ -151,7 +151,7 @@ Hybrid Fan-Out
 ## Rate Limiting
 
 Rate Limiting
-: Capping a caller's requests per period, counted per user, IP, or API key — one global limit lets a heavy caller starve everyone
+: Capping a caller's requests per period, counted per user, IP, or `API` key — one global limit lets a heavy caller starve everyone
 
 Fixed Window Counter
 : Counting requests per calendar window; simple, but permits a double-rate burst across a window boundary
@@ -160,7 +160,7 @@ Sliding Window Log
 : Storing each request's timestamp and counting those inside the trailing window; exact, but memory-heavy
 
 Sliding Window Counter
-: Approximating the Sliding Window Log by weighting the current and previous fixed windows, at constant memory
+: Approximating the `Sliding Window Log` by weighting the current and previous fixed windows, at constant memory
 
 Token Bucket
 : Tokens added at a fixed rate and one spent per request, allowing bursts up to the bucket size

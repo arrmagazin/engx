@@ -16,7 +16,7 @@ Parameter
 : Reference to an elementary piece of the input data structure, by name or index
 
 Argument
-: Input data value applied to the corresponding Parameter when an Operation is performed
+: Input data value applied to the corresponding `Parameter` when an Operation is performed
 
 Function
 : Operation mapping elements of a domain to elements of a codomain
@@ -63,7 +63,7 @@ Partial Application
 : Creating a new function by pre-filling some arguments of the original
 
 Currying
-: Transformation of an n-ary function into a chain of unary functions, each taking one Argument
+: Transformation of an n-ary function into a chain of unary functions, each taking one `Argument`
 
 Auto Currying
 : Transforming a multi-argument function so that, given fewer arguments, it returns a function taking the rest

@@ -109,7 +109,7 @@ Growth is assigned, not granted. A person grows by doing work slightly above the
 | **Teaching** | Have them explain, document, or onboard someone — it forces mastery |
 | **External input** | Conferences, courses, open source — the weakest lever, so do not rely on it alone |
 
-Handing over an area raises someone's Autonomy Level, so set the level deliberately, not by mood. The five levels, each with its instruction, are in [Delegation](01-team-lead.md#delegation).
+Handing over an area raises someone's `Autonomy Level`, so set the level deliberately, not by mood. The five levels, each with its instruction, are in [Delegation](01-team-lead.md#delegation).
 
 Write down the target level's expectations and the evidence gathered so far. A promotion case put together in the week it is needed fails.
 
@@ -137,7 +137,7 @@ Read these as properties of the system, not as scores for the people in it. [Met
 
 - **Hold the 1:1.** A canceled 1:1 says the person is lower priority than whatever replaced it.
 - **State expectations in writing.** Level, scope, and what "good" looks like — before the work, not during the review.
-- **Give feedback within days.** Feedback delayed to the review cycle is a complaint, not feedback.
+- **Give feedback within days.** `Feedback` delayed to the review cycle is a complaint, not feedback.
 - **Let people fail safely.** Reversible mistakes are the cheapest training available.
 - **Rotate the unglamorous work.** On-call, support, and release duty go to everyone, including the seniors.
 - **Fix the system before blaming the person.** When the same failure keeps repeating, look for the process that allows it before deciding the person is the problem.
@@ -166,13 +166,13 @@ Two failure modes that look like people problems — hero culture, and managing 
 **Weekly:**
 
 - [ ] Every 1:1 held, not canceled
-- [ ] Feedback given on at least one specific thing observed this week
+- [ ] `Feedback` given on at least one specific thing observed this week
 - [ ] Blocked people have an owner and a next action
 - [ ] New joiners checked in on separately
 
 **Per cycle:**
 
-- [ ] Growth plans reviewed against evidence collected
+- [ ] `Growth` plans reviewed against evidence collected
 - [ ] Health signals reviewed — on-call, unplanned work, hours pattern as a team aggregate
 - [ ] Bus factor checked for systems that changed hands
 - [ ] Retro actions about people and process actually done

@@ -17,7 +17,7 @@ This guide is for engineers building on an LLM API. The papers and guides behind
 
 ## Core Mechanics
 
-These mechanics bound everything later in this guide. The model has no unit of work smaller than a token, can attend to nothing beyond the context window, and draws every output from a distribution. That is why cost, truncation and non-determinism are properties of the architecture, not quirks of a particular API.
+These mechanics bound everything later in this guide. The model has no unit of work smaller than a token, can attend to nothing beyond the context window, and draws every output from a distribution. That is why cost, truncation and non-determinism are properties of the architecture, not quirks of a particular `API`.
 
 Token
 : The atomic unit of text (sub-word fragment) the model reads and emits
@@ -44,7 +44,7 @@ Logits / Sampling
 
 These stages are how a particular model acquires its behavior. Each stage after pre-training narrows a general next-token predictor into one that follows instructions and answers as its owners intended.
 
-For an engineer, the lifecycle matters mostly as a boundary: whatever these stages put into the weights is fixed by the time you hold an API key. Everything still adjustable happens at inference.
+For an engineer, the lifecycle matters mostly as a boundary: whatever these stages put into the weights is fixed by the time you hold an `API` key. Everything still adjustable happens at inference.
 
 | Stage | Purpose |
 | --- | --- |

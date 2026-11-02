@@ -14,7 +14,7 @@ Eleven system design problems, each filed under the bottleneck it tests rather t
 | **Short-Video Platform** | TikTok | Ranking/retrieval at scale, storage + CDN cost |
 | **Messaging Platform** | Telegram | Connection state, delivery guarantees, ordering |
 | **Ride-Hailing / Nearby Search** | Uber | Geospatial indexing, high-churn writes |
-| **Distributed Rate Limiter** | (generic API infra) | Concurrency correctness, tight scope |
+| **Distributed Rate Limiter** | (generic `API` infra) | Concurrency correctness, tight scope |
 | **Web Crawler / Search Engine** | Google | Parallel crawling, inverted index, freshness |
 | **Payment / Booking System** | Ticketmaster / Stripe-like | Strong consistency, idempotency, sagas |
 | **Notification System** | (generic, multi-channel) | Multi-channel fan-out, dedup, retries |
@@ -92,7 +92,7 @@ Eleven system design problems, each filed under the bottleneck it tests rather t
 
 ## 6. Distributed Rate Limiter
 
-**Requirements** — limit each API key to N requests per window, correctly across many stateless servers. Concurrency correctness, not volume, sets the design.
+**Requirements** — limit each `API` key to N requests per window, correctly across many stateless servers. Concurrency correctness, not volume, sets the design.
 
 - **Algorithm** — a sliding window counter is the usual default (constant memory, close enough); a token bucket where controlled bursts are wanted. The algorithms are compared in [Rate Limiting](01-common-concepts.md#rate-limiting).
 - **Shared state** — counters in a central Redis. "Read, check, increment" lets two requests on different servers both pass; use one atomic round trip — `INCR` returning the new value, or a Lua script.

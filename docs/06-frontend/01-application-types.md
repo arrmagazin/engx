@@ -101,5 +101,5 @@ A PWA is a capability layer, not a rendering model: any type above can add insta
 ## Related Guides
 
 - [Client-Server Communication](../03-system-design/06-client-server.md) — the HTTP, REST, and GraphQL calls every type above uses to fetch data
-- [Browser Technologies](02-browser-technologies.md) — service workers, browser storage, and the other APIs a PWA builds on
+- [Browser Technologies](02-browser-technologies.md) — service workers, browser storage, and the other `APIs` a PWA builds on
 - [Performance Optimization](03-performance-optimization.md) — bundle splitting, caching, and the metrics that separate these types in practice

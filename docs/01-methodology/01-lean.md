@@ -25,7 +25,7 @@ flowchart LR
 | **Amplify Learning** | Treat development as a learning process: short cycles, frequent feedback, and experiments in place of arguments about what will work |
 | **Decide as Late as Possible** | Keep irreversible decisions open until the last responsible moment, when the most is known. This works only if the design stays modular enough to absorb the decision when it comes |
 | **Deliver as Fast as Possible** | Shorten the path from request to working software, so feedback arrives while it can still change the outcome |
-| **Empower the Team** | Give the people doing the work the authority to decide how it is done, the context to decide well, and direct communication with everyone the decision touches |
+| **Empower the `Team`** | Give the people doing the work the authority to decide how it is done, the context to decide well, and direct communication with everyone the decision touches |
 | **Build Integrity In** | Keep the system coherent as it grows. *Perceived integrity*: it does what the customer actually needs. *Conceptual integrity*: its parts read as one design, not several. Both come from integrating, testing, and refactoring continuously, not from repairing the result at the end |
 | **See the Whole** | Think in systems: parts optimized each on their own do not add up to a good whole. Measure and contract for the end-to-end result; a local optimum in one team or stage usually costs more somewhere downstream |
 
@@ -33,6 +33,6 @@ flowchart LR
 
 | Idea | What it means |
 | ---- | ------------- |
-| **Focus on Value** | Value is defined by the customer, not by the people building — Lean Thinking's starting point |
+| **Focus on `Value`** | Value is defined by the customer, not by the people building — Lean Thinking's starting point |
 | **Respect for People** | One of the Toyota Way's two pillars: the people closest to the work understand it best, so decisions belong near them |
 | **Continuous Improvement** | The other pillar, *kaizen* — many small improvements made constantly, rather than occasional large ones |

@@ -96,4 +96,4 @@ At the offboard stage, an unexamined [Bus Factor](03-growing-and-keeping-people.
 - [ ] Ownership of systems and rituals reassigned by name
 - [ ] Access revoked on the last day
 - [ ] Honest exit conversation held and the cause recorded per local privacy rules, kept only as long as the retention policy allows
-- [ ] Team told directly, in words agreed with the leaver, before the rumor
+- [ ] `Team` told directly, in words agreed with the leaver, before the rumor

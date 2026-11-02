@@ -7,7 +7,7 @@ tags: [methodology, process, terminology]
 
 This chapter covers how engineering work is organized: the vocabulary for turning a goal into executed work, and the named approaches built on it.
 
-The vocabulary is in [Management](00-management.md); each approach has its own guide. Terms the whole book shares — Solution, Goal, Success — are defined once in the [Core concepts](../00-software-engineering/01-core_concepts.md) and used here without redefinition.
+The vocabulary is in [Management](00-management.md); each approach has its own guide. Terms the whole book shares — `Solution`, `Goal`, `Success` — are defined once in the [Core concepts](../00-software-engineering/01-core_concepts.md) and used here without redefinition.
 
 ---
 

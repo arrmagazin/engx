@@ -5,7 +5,7 @@ description: The Next.js 16 App Router distilled — routing files, Server Compo
 tags: [frontend, nextjs, react, ssr, caching]
 ---
 
-Next.js is a React framework that decides, per component, where HTML is produced: at build time, from a cache, or per request. This guide distills the official documentation as of **Next.js 16.4** (October 2026, React 19.3) and covers the App Router only. The rendering models it combines — SSR, static generation, ISR, hydration, streaming — are defined in [Application Types](01-application-types.md#server-side-rendering-ssr); this guide shows how Next.js names and controls them.
+Next.js is a React framework that decides, per component, where HTML is produced: at build time, from a cache, or per request. This guide distills the official documentation as of **Next.js 16.4** (October 2026, React 19.3) and covers the App Router only. The rendering models it combines — SSR, static generation, `ISR`, hydration, streaming — are defined in [Application Types](01-application-types.md#server-side-rendering-ssr); this guide shows how Next.js names and controls them.
 
 | Fact | Value |
 | --- | --- |
@@ -145,8 +145,8 @@ Layouts and pages are Server Components. They render to the RSC payload — the 
 
 | Use a Server Component to | Use a Client Component (`'use client'`) for |
 | --- | --- |
-| Read a database or API near its source | State and event handlers: `useState`, `onClick` |
-| Use secrets and API keys | Effects and custom hooks |
+| Read a database or `API` near its source | State and event handlers: `useState`, `onClick` |
+| Use secrets and `API` keys | Effects and custom hooks |
 | Keep large dependencies out of the bundle | Browser APIs: `window`, `localStorage` |
 
 ```mermaid
@@ -215,7 +215,7 @@ async function Theme() {
 }
 ```
 
-- **Cache key.** Arguments and captured variables are part of the key. Read `cookies()` outside the cached function and pass the value in, so the result is cached per value.
+- **Cache key.** `Arguments` and captured variables are part of the key. Read `cookies()` outside the cached function and pass the value in, so the result is cached per value.
 - **Variants.** `'use cache'` is in memory per instance, which does not survive between serverless requests. `'use cache: remote'` uses a shared cache handler. `'use cache: private'` may read cookies and headers directly and is cached only in the browser.
 - **Placement.** Put the directive at the top of a function, component or file. Await runtime data as deep in the tree as possible: a layout that awaits `params` cannot be prerendered, while one that passes the Promise down can.
 - **Random values and time.** `Math.random()`, `Date.now()` and `crypto.randomUUID()` must follow `await connection()` inside `<Suspense>` (one value per request) or sit inside `'use cache'` (one shared value).
@@ -360,6 +360,6 @@ export const config = {
 
 ## Related Guides
 
-- [Application Types](01-application-types.md) — SSR, SSG, ISR and hydration, the models Next.js combines per component
+- [Application Types](01-application-types.md) — SSR, SSG, `ISR` and hydration, the models Next.js combines per component
 - [JavaScript and Bundle Performance](05-javascript-bundle-performance.md) — code splitting and bundle size, which the server/client split controls
 - [Web Application Security](07-security-web.md) — authentication and CSRF, which every Server Function must handle

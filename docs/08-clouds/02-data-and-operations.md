@@ -35,7 +35,7 @@ The second half of the concept map, after [Concepts Across the Clouds](01-concep
 - **DynamoDB maps to two Google Cloud services, not one** — Firestore for documents and queries, Bigtable for wide-column at very large scale. Neither is a drop-in for DynamoDB's model. Cosmos DB is the nearest single service, with five consistency levels and RU/s in place of separate read and write capacity.
 - **Spanner has no counterpart.** It is horizontally scalable relational with external consistency. The closest AWS answer is Aurora plus sharding, which is a different thing.
 - **BigQuery is not a bigger Redshift.** It is serverless with no cluster to size, billed by bytes scanned or reserved slots — a different mental model, and the first place a cost surprise appears.
-- **Cloud Storage keeps one API across classes**, so changing class does not change how an object is read. Dual-region and multi-region buckets are native, not replication you configure.
+- **Cloud Storage keeps one `API` across classes**, so changing class does not change how an object is read. Dual-region and multi-region buckets are native, not replication you configure.
 - **Regional Persistent Disk replicates synchronously across two zones.** EBS does not do this, so a Google Cloud single-instance design can survive a zone loss in a way its AWS translation cannot.
 
 **In depth.** AWS [Concepts — Data Stores](_references/aws-handbook.md#concepts--data-stores) · Azure [Concepts — Data Stores](_references/azure-handbook.md#concepts--data-stores) · Google Cloud [Concepts — Data Stores](_references/gcp-handbook.md#concepts--data-stores)
@@ -125,7 +125,7 @@ The second half of the concept map, after [Concepts Across the Clouds](01-concep
 | **Imperative code that emits it** | CDK · Bicep modules · Config Connector |
 | **Hosted way to run Terraform** | *(Service Catalog)* · *(none)* · Infrastructure Manager |
 | **Preview before applying** | Change Set · What-If · `terraform plan` |
-| **Configuration drift** | Drift detection · Drift · state-versus-real diff |
+| **Configuration drift** | Drift detection · `Drift` · state-versus-real diff |
 | **Build service** | CodeBuild · Azure Pipelines, GitHub Actions · Cloud Build |
 | **Deployment promotion service** | CodePipeline, CodeDeploy · Azure Pipelines environments · Cloud Deploy |
 | **Traffic-shifting deployment** | CodeDeploy canary, blue/green · Deployment Slot swap · Revision traffic split |

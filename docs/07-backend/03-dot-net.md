@@ -116,7 +116,7 @@ todos.MapPost("/", async (NewTodo body, AppDb db) =>
 public record NewTodo([Required, MaxLength(200)] string Title);
 ```
 
-- **Binding.** Parameters come from the route, query, headers, body (JSON), or the DI container, inferred by type and name.
+- **Binding.** `Parameters` come from the route, query, headers, body (JSON), or the DI container, inferred by type and name.
 - **Results.** `TypedResults` with a `Results<…>` union return type documents every response in OpenAPI and is easy to assert in unit tests.
 - **OpenAPI.** `AddOpenApi()` and `MapOpenApi()` generate an OpenAPI 3.1 document at build or run time; .NET 11 moves the default to 3.2.
 - **Errors.** `AddProblemDetails()` with `UseExceptionHandler()` returns RFC 9457 problem bodies instead of stack traces.

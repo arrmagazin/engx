@@ -12,7 +12,7 @@ Data formats trade readability, size, and type fidelity against each other. This
 | **JSON** | API payloads ([Client-Server Communication](../03-system-design/06-client-server.md)) | No comments, no trailing commas, no date type — dates travel as ISO 8601 strings |
 | **YAML** | Configuration (CI, Kubernetes, OpenAPI) | Implicit typing; tabs are invalid indentation |
 | **Markdown** | Documents rendered to HTML | Raw HTML passes through, so sanitize user-supplied Markdown after rendering |
-| **XML** | Existing ecosystems: SOAP, RSS/Atom, SVG, Office files | Verbosity; rarely chosen for a new API |
+| **XML** | Existing ecosystems: SOAP, RSS/Atom, SVG, Office files | Verbosity; rarely chosen for a new `API` |
 | **CSV** | Flat tabular exchange | No types, no standard encoding |
 | **Parquet** | Large analytical datasets (Spark, Pandas, DuckDB) | Not human-readable |
 

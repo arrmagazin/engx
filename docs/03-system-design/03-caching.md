@@ -13,7 +13,7 @@ Caching
 : Keeping a copy of a result closer to its consumer than the system that produced it
 
 Cache-Aside Pattern
-: The application reading the cache first and, on a miss, loading from the database and filling the cache itself; simple, but exposed to Cache Stampede and to a concurrent write leaving a stale entry
+: The application reading the cache first and, on a miss, loading from the database and filling the cache itself; simple, but exposed to `Cache Stampede` and to a concurrent write leaving a stale entry
 
 Write-Through
 : Writing to the cache and the database in the same operation, so reads after a write find a fresh entry, at the cost of slower writes

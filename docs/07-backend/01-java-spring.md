@@ -185,11 +185,11 @@ interface CustomerRepository extends JpaRepository<Customer, Long> {
 - **Transactions.** Put `@Transactional` on service methods, not on controllers. Only unchecked exceptions roll back by default; `@Transactional(readOnly = true)` suits queries.
 - **Open session in view.** `spring.jpa.open-in-view` is on by default and logs a warning: it keeps a connection open for the whole request and hides lazy-loading N+1 queries. Turn it off in services.
 - **Schema.** Let Flyway or Liquibase own the schema; keep `spring.jpa.hibernate.ddl-auto` at `validate` or `none` outside tests.
-- **Entities stay inside.** Return records from controllers, not entities, so the API does not change with the table.
+- **Entities stay inside.** Return records from controllers, not entities, so the `API` does not change with the table.
 
 ## Security
 
-Adding the starter secures every endpoint and logs a generated password. Replace that with a `SecurityFilterChain` bean. Since Security 7, only the lambda DSL exists — `and()` is gone.
+Adding the starter secures every endpoint and logs a generated password. Replace that with a `SecurityFilterChain` bean. Since Security 7, only the lambda `DSL` exists — `and()` is gone.
 
 ```java
 @Bean

@@ -21,7 +21,7 @@ A lookup table: useful for orientation, dangerous if taken literally.
 | Account · Subscription · Project | All three are the billing, quota and isolation boundary. Projects are cheap and expected to be numerous; accounts and subscriptions are not |
 | Organizations OU · Management Group · Folder | Inheritance is one control among several on AWS, and the whole model on Google Cloud |
 | *(none)* · Resource Group · *(none)* | A mandatory lifecycle folder with no counterpart; deleting it deletes its contents |
-| Service Control Policy · Azure Policy with `Deny` · Organization Policy | SCPs filter API calls by principal; the other two constrain how a resource may be configured |
+| Service Control Policy · Azure Policy with `Deny` · Organization Policy | SCPs filter `API` calls by principal; the other two constrain how a resource may be configured |
 | Control Tower · landing-zone blueprints · Cloud Foundation Fabric | All three encode the layout large estates converge on anyway |
 | Cost Explorer · Microsoft Cost Management · billing export to BigQuery | Only Google Cloud expects you to leave the console for a specific cost question |
 | Trusted Advisor, Compute Optimizer · Azure Advisor · Recommender, Security Command Center | Recommender's IAM suggestions from observed usage have no AWS equivalent |
@@ -59,7 +59,7 @@ A lookup table: useful for orientation, dangerous if taken literally.
 | Route 53 · Azure DNS, Private DNS Zones · Cloud DNS | Private DNS is the first suspect when an Azure private endpoint misbehaves |
 | Route 53 routing policies · Traffic Manager · *(anycast removes the need)* | DNS-level global routing is not a thing you assemble on Google Cloud |
 | WAF · WAF on Front Door or App Gateway · Cloud Armor | Comparable; the attachment point differs |
-| PrivateLink · Private Link, Private Endpoint · Private Service Connect | Azure service endpoints are a coarser free middle option with no AWS equivalent. Private Service Connect also reaches Google's own APIs privately |
+| PrivateLink · Private Link, Private Endpoint · Private Service Connect | Azure service endpoints are a coarser free middle option with no AWS equivalent. Private Service Connect also reaches Google's own `APIs` privately |
 | Transit Gateway · Virtual WAN · Network Connectivity Center | Hand-built hub-and-spoke is still common on Azure. A global VPC removes many cases the other two exist to solve |
 | Direct Connect · ExpressRoute · Cloud Interconnect | Azure private peering reaches VNets, Microsoft peering reaches public endpoints |
 | Site-to-Site VPN · VPN Gateway · Cloud VPN | Deploy Azure gateways active-active across zones; the SKU sets the ceiling |
@@ -71,7 +71,7 @@ A lookup table: useful for orientation, dangerous if taken literally.
 
 | AWS · Azure · Google Cloud | The difference that matters |
 | --- | --- |
-| S3 · Blob Storage · Cloud Storage | The Azure *storage account*, not the container, is the limits and firewall boundary. Cloud Storage keeps one API across all classes |
+| S3 · Blob Storage · Cloud Storage | The Azure *storage account*, not the container, is the limits and firewall boundary. Cloud Storage keeps one `API` across all classes |
 | EBS · Managed Disks · Persistent Disk, Hyperdisk | Premium SSD v2 is the gp3 equivalent. Regional Persistent Disk replicates synchronously across two zones, which EBS does not do |
 | EFS, FSx · Azure Files, NetApp Files · Filestore, NetApp Volumes | Azure Files speaks SMB natively and integrates with Active Directory |
 | RDS · Azure SQL Database, Flexible Server · Cloud SQL | On Azure the service tier *is* the availability model |

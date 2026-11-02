@@ -33,7 +33,7 @@ How to read a section:
 
 - **Resource groups have no counterpart.** Azure puts a mandatory lifecycle folder between the subscription and the resource; deleting it deletes its contents. AWS and Google Cloud have nothing at that level, so patterns that rely on "delete the resource group" must be rebuilt as tagging or as a separate project.
 - **Inheritance is the whole model on Google Cloud.** A grant on a folder reaches every project beneath it without being copied. On AWS each account is an island; inheritance must be assembled from Organizations plus SCPs.
-- **Only AWS has a guardrail inside the permission system.** SCPs filter API calls by principal. Azure RBAC has no user-authored deny, and Google Cloud IAM has no ordinary explicit deny, so both push guardrails into a policy service that constrains configuration instead.
+- **Only AWS has a guardrail inside the permission system.** SCPs filter `API` calls by principal. Azure RBAC has no user-authored deny, and Google Cloud IAM has no ordinary explicit deny, so both push guardrails into a policy service that constrains configuration instead.
 - **Projects are meant to be numerous.** Google Cloud expects many cheap projects, so project-per-workload is routine there. An AWS account is heavier to create, so account-per-environment is a considered decision.
 
 **In depth.** AWS [Concepts — Accounts and Regions](_references/aws-handbook.md#concepts--accounts-and-regions) · Azure [Concepts — Tenants and Subscriptions](_references/azure-handbook.md#concepts--tenants-and-subscriptions) · Google Cloud [Concepts — Projects and Regions](_references/gcp-handbook.md#concepts--projects-and-regions)
@@ -65,7 +65,7 @@ How to read a section:
 
 | Concept | AWS · Azure · Google Cloud |
 | --- | --- |
-| **What every tool ends up calling** | the service's own API · ARM · the service's own API |
+| **What every tool ends up calling** | the service's own `API` · ARM · the service's own `API` |
 | **Unique identifier of a resource** | ARN · Resource ID · Resource Name |
 | **Cost-attribution label** | Tag · Tag · Label |
 | **Service must be enabled first** | no · no · yes, per project |
@@ -74,8 +74,8 @@ How to read a section:
 
 **Where the analogy breaks.**
 
-- **Azure has one control plane; the other two do not.** Every Azure tool is a client of ARM, which removes a category of confusion: "it worked in the portal but failed in Terraform" is a permissions or API-version difference, never a tool difference. On AWS each service has its own API, error shapes and consistency behaviour.
-- **Enabling the API is a real step on Google Cloud.** Calls fail with `SERVICE_NAME has not been used in project N before or it is disabled`, at apply time rather than plan time. Enable a project's APIs in the project's own Terraform, ahead of anything that depends on them.
+- **Azure has one control plane; the other two do not.** Every Azure tool is a client of ARM, which removes a category of confusion: "it worked in the portal but failed in Terraform" is a permissions or API-version difference, never a tool difference. On AWS each service has its own `API`, error shapes and consistency behaviour.
+- **Enabling the `API` is a real step on Google Cloud.** Calls fail with `SERVICE_NAME has not been used in project N before or it is disabled`, at apply time rather than plan time. Enable a project's `APIs` in the project's own Terraform, ahead of anything that depends on them.
 - **Moving a resource changes its identifier on Azure.** Anything written against the old Resource ID breaks. ARNs and Resource Names also encode their container, so the same caution applies wherever a move is possible at all.
 - **Audit coverage is not equivalent.** Azure's Activity Log is control plane only; data-plane auditing is enabled per service. Google Cloud has four audit streams, with data-access logs off by default for cost.
 
@@ -163,7 +163,7 @@ How to read a section:
 | **Inherited filter from above** | *(none)* · Azure Firewall in the hub · Hierarchical Firewall Policy |
 | **Outbound access without a public IP** | NAT Gateway · NAT Gateway · Cloud NAT |
 | **Route control** | Route Table · User-Defined Route · Route, on Cloud Router |
-| **Private path to the cloud's own APIs** | VPC Endpoint · Service Endpoint or Private Endpoint · Private Google Access |
+| **Private path to the cloud's own `APIs`** | VPC Endpoint · Service Endpoint or Private Endpoint · Private Google Access |
 | **Private path to someone else's service** | PrivateLink · Private Link · Private Service Connect |
 
 **Where the analogy breaks.**
@@ -188,7 +188,7 @@ How to read a section:
 | **Managed DNS** | Route 53 · Azure DNS plus Private DNS Zones · Cloud DNS |
 | **DNS-level global routing** | Route 53 routing policies · Traffic Manager · *(the anycast IP removes the need)* |
 | **Web application firewall** | WAF · WAF on Application Gateway or Front Door · Cloud Armor |
-| **Liveness test** | target group health check · Health Probe · Health Check |
+| **Liveness test** | target group health check · Health Probe · `Health Check` |
 
 **Where the analogy breaks.**
 
@@ -205,7 +205,7 @@ How to read a section:
 | Concept | AWS · Azure · Google Cloud |
 | --- | --- |
 | **Permission system** | IAM · Azure RBAC · IAM |
-| **What a permission attaches to** | identity or resource · Scope in the hierarchy · node in the hierarchy |
+| **What a permission attaches to** | identity or resource · `Scope` in the hierarchy · node in the hierarchy |
 | **Grant** | IAM Policy · Role Assignment · Allow Policy |
 | **User-authored deny** | explicit `Deny` in a policy · *(none)* · Deny Policy, evaluated first |
 | **Guardrail above the grant** | Service Control Policy · Azure Policy `Deny` · Organization Policy |

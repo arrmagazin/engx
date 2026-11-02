@@ -20,11 +20,11 @@ See [Running Tests in CI](05-testing.md#running-tests-in-ci) for how this plays 
 
 ## Where Tests Run
 
-Verification runs at every stage of the [CI/CD environment pipeline](03-ci-cd.md) — Local → Development → Staging → Production:
+Verification runs at every stage of the [CI/CD environment pipeline](03-ci-cd.md) — Local → Development → `Staging` → Production:
 
 - unit tests before the commit
 - automated integration and regression suites in Development
-- manual exploratory testing and user acceptance testing (UAT) in Staging
+- manual exploratory testing and user acceptance testing (UAT) in `Staging`
 
 This is shifting left in practice, and the arithmetic is simple: the cost of a missed defect and the cost of verifying it both rise the later it is caught, while the number of defects remaining should fall. So catching a defect earlier is cheaper twice over.
 

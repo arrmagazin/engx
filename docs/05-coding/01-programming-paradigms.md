@@ -54,10 +54,10 @@ For language-agnostic design heuristics such as SOLID, GRASP, and DRY, see [Desi
 ### OOP Concepts
 
 Object
-: A single instance in program code with its own State and Behavior
+: A single instance in program code with its own `State` and `Behavior`
 
 Class
-: Specification of State and Behavior used to create new Objects
+: Specification of `State` and `Behavior` used to create new `Objects`
 
 Model
 : Bundle of interdependent Classes that a system consists of
@@ -66,19 +66,19 @@ State
 : Internal data structure private to one instance
 
 Behavior
-: Set of Methods implementing logic over the State they share
+: Set of Methods implementing logic over the `State` they share
 
 Method
 : Named way of handling one specific input message
 
 Implementation
-: Code defining how an input message is actually handled; reads input and State, and may update State, produce results, or send further messages
+: Code defining how an input message is actually handled; reads input and `State`, and may update `State`, produce results, or send further messages
 
 Invocation
 : Act of performing the instructions of a Method with given arguments, scope, and context
 
 Interaction
-: Process of sending messages between Objects, each answered by Invocation of the matching Method
+: Process of sending messages between `Objects`, each answered by `Invocation` of the matching Method
 
 Event-Driven Flow
 : Indirect Interaction in which uniform events travel through a centralized dispatcher (bus)
@@ -113,7 +113,7 @@ Logic Programming
 : Declarative style where a program is a set of facts and rules, and running it asks the engine to search for a proof of a goal instead of prescribing the steps (Prolog, Datalog, answer-set solvers)
 
 Constraint Programming
-: Close relative of Logic Programming: the program states relations a solution must satisfy and a solver explores the feasible space, so the search strategy belongs to the engine, not the author (MiniZinc, Choco, OR-Tools)
+: Close relative of `Logic Programming`: the program states relations a solution must satisfy and a solver explores the feasible space, so the search strategy belongs to the engine, not the author (MiniZinc, Choco, OR-Tools)
 
 Flow-Based Programming (FBP)
 : Assembly of black-box processes that exchange fixed-format packets over bounded, named connections owned by the network rather than by any process, which makes the topology data instead of code (NoFlo, Node-RED, LabVIEW)
@@ -122,7 +122,7 @@ Agent-Oriented Programming
 : Autonomous entities holding their own beliefs, goals, and plans as first-class program elements and coordinating through messages instead of direct invocation, so control is truly decentralized (JADE, Jason/AgentSpeak)
 
 Component-Based Software Engineering
-: Building systems from independently deployable units that expose only contractual interfaces, which moves substitution and reuse from the Class boundary out to the packaging boundary (OSGi, COM, .NET assemblies)
+: Building systems from independently deployable units that expose only contractual interfaces, which moves substitution and reuse from the `Class` boundary out to the packaging boundary (OSGi, COM, .NET assemblies)
 
 Modular Programming
 : Splitting a program into separately compiled units with explicit exported and imported names — the discipline Procedural programming grew out of, and the one that today's packages and namespaces still implement (Modula-2, ML functors, JPMS, ES imports)

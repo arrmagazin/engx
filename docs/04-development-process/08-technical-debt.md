@@ -88,7 +88,7 @@ Control comes from three habits: let less debt in, keep what is there in plain v
 - Catch inconsistencies early in [code review](02-code-review.md).
 - Spread knowledge, so no part of the codebase depends on a few people.
 - Let static analysis do the checks people would otherwise do by hand.
-- Rely on [automated tests](06-automated-testing.md) at unit, API and end-to-end level for fast, safe feedback.
+- Rely on [automated tests](06-automated-testing.md) at unit, `API` and end-to-end level for fast, safe feedback.
 
 **Keep debt in plain view:**
 

@@ -12,8 +12,8 @@ An **Agent** is an [LLM](03-llm.md) inside a loop where it can **reason**, **act
 | Component | Role |
 | --- | --- |
 | **Model (reasoner)** | The LLM that decides what to do next |
-| **Goal / Task** | The objective the agent pursues |
-| **Tools** | External capabilities (search, code execution, APIs, databases) the agent can invoke |
+| **Goal / `Task`** | The objective the agent pursues |
+| **Tools** | External capabilities (search, code execution, `APIs`, databases) the agent can invoke |
 | **Memory** | Short-term (context) and long-term (vector store / files) state across steps |
 | **Planning** | Decomposing goals into ordered subtasks |
 | **Loop / Controller** | The perceive → decide → act → observe cycle, with a stopping condition |
@@ -48,7 +48,7 @@ Prompt Chaining, Routing and the guidance below follow Anthropic's [Building Eff
 These rules apply once an agent can act on the world without a human approving each step.
 
 1. **The stopping condition belongs outside the loop.** A controller whose job is to remove blockers treats any constraint it is asked to evaluate as one more blocker to route around. Fix the conditions under which the agent must stop before the loop runs, and enforce them in code the loop does not control.
-2. **The constraint set is not self-modifiable.** Plans, tools, memory, and the agent's own structure can all change from inside the loop. What the agent is not allowed to do cannot — otherwise the boundary is only decoration.
+2. **The constraint set is not self-modifiable.** `Plans`, tools, memory, and the agent's own structure can all change from inside the loop. What the agent is not allowed to do cannot — otherwise the boundary is only decoration.
 3. **A sandbox needs a restoring boundary.** An agent may run with relaxed constraints in an isolated environment for training or evaluation. The mechanism that reimposes the constraints at the sandbox-to-production edge sits outside that environment, so a relaxation granted for training cannot travel with the agent into production.
 
 ## Multi-Agent Systems (MAS)

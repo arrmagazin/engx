@@ -21,7 +21,7 @@ The four views here map onto that tradition, with technology in place of the dev
 | **Logical View** | What are the parts, and how do they relate? *(developers, architects)* | Component and layer diagrams, module maps, domain models |
 | **Process View** | What happens at runtime, and in what order? *(developers, integrators)* | Sequence and activity diagrams, data flow, integration contracts |
 | **Deployment View** | Where does it run, and on what? *(operations, SRE, security)* | Topology diagrams, environment maps, network and trust boundaries |
-| **Technology View** | What is it built from, and how exactly? *(implementers, reviewers)* | Specifications, ADRs, prototypes, API and schema definitions |
+| **Technology View** | What is it built from, and how exactly? *(implementers, reviewers)* | Specifications, ADRs, prototypes, `API` and schema definitions |
 
 ```mermaid
 mindmap
@@ -84,7 +84,7 @@ A deployment view that shows only production hides the most common class of inci
 
 ## Technology View
 
-The technology view is the detail the other three deliberately omit: the chosen frameworks and services, the API and schema definitions, the prototypes that settled an open question, and the records of why each choice was made. It is closest to [System Design](../03-system-design/index.md). The boundary between them is ownership, not subject: architecture records the decision and its cost; system design works out the specification that follows from it.
+The technology view is the detail the other three deliberately omit: the chosen frameworks and services, the `API` and schema definitions, the prototypes that settled an open question, and the records of why each choice was made. It is closest to [System Design](../03-system-design/index.md). The boundary between them is ownership, not subject: architecture records the decision and its cost; system design works out the specification that follows from it.
 
 | Records | Detail |
 | ------- | ------ |

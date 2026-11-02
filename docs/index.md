@@ -44,7 +44,7 @@ Three rules shape the content:
 
 - **Personal work.** The views here are the author's own, not those of any employer, client, or standards body, and nothing in the book is issued on anyone else's behalf. A few terms are deliberately defined differently from common usage. I give the sense I actually work with, so that the definitions agree with one another and the book reads as one whole rather than a set of borrowed fragments.
 - **No warranty.** The material is offered as is, without warranty of any kind. To the extent the law allows, the author accepts no liability for any loss arising from its use.
-- **Verify before you ship.** Configuration, security and cloud examples explain an idea; they are not for pasting into production. Check them first against current vendor documentation and your own threat model.
+- **Verify before you ship.** `Configuration`, security and cloud examples explain an idea; they are not for pasting into production. Check them first against current vendor documentation and your own threat model.
 - **A snapshot, not a feed.** Service names, quotas, limits and prices change without notice, and the cloud chapters age fastest. Where a number matters, the provider's documentation is authoritative.
 - **Standards are summarized, not reproduced.** References to IEEE 12207, IEEE 29119, IEEE 29148, IEEE 42010, IEEE 830 and ISO/IEC 25010 describe what those documents cover. Where the exact wording matters, read the published standard.
 - **Trademarks.** Product and company names belong to their owners and are used for identification only. Their use implies no affiliation with, or endorsement by, the owners.

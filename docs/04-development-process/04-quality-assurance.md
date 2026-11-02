@@ -94,7 +94,7 @@ QA fails quietly when it is treated as a final phase rather than as work planned
 - **Keep one documented test process** — when each tester follows a private version, results cannot be compared across people or releases, and a new joiner inherits an oral tradition instead of a process.
 - **Take part in planning, refinement, stand-up, and retrospective** — a tester in refinement can flag an untestable requirement while it is still cheap to reword; that is the earliest and cheapest defect any team catches.
 - **Put test estimates into iteration planning** — unestimated work is not scheduled, and unscheduled testing is what gets squeezed when the iteration runs late.
-- **Keep the Test Plan and Test Strategy current** — a plan not updated since project initiation stops being a reference and becomes something people work around.
+- **Keep the `Test Plan` and `Test Strategy` current** — a plan not updated since project initiation stops being a reference and becomes something people work around.
 - **Publish a test report every release** — the go/no-go decision needs evidence, and the report is the only record of what was and was not covered.
 - **Verify non-functional requirements too** — they are the easiest to assume are someone else's job, and the most expensive to fix after release.
 
@@ -120,7 +120,7 @@ Test Case
 : A single verification: one set of preconditions and inputs, and the one result they should produce
 
 Test Suite
-: A named group of cases run together for one purpose, such as a sanity, smoke, regression, UI, performance, or API run
+: A named group of cases run together for one purpose, such as a sanity, smoke, regression, UI, performance, or `API` run
 
 Cases group into suites, and the [Test Plan](#test-plan-and-test-strategy) schedules the suites. A case is well formed when someone who did not write it can run it and reach the same verdict, and when it traces back to the requirement that justifies it. The fields serve that: ID, priority, title, description, steps, prerequisites, test data, expected result, requirement ID, environment, comments, defect ID, and automation status.
 
@@ -246,7 +246,7 @@ Predictive Metrics
 
 Counts describe the release that just happened; ratios let a team act before the next one goes the same way. A rising reopen ratio says fixes are not verified properly — while there is still time to change how they are verified.
 
-Metrics work as a cycle: pick metrics that answer a question someone actually has, agree with the team which data to capture, automate the collection, and report against the agreed targets, dropping targets that no longer change a decision. The improvement loop around it is PDCA (Plan, Do, Check, Act), which turns a number that moved into a change in how the team works.
+Metrics work as a cycle: pick metrics that answer a question someone actually has, agree with the team which data to capture, automate the collection, and report against the agreed targets, dropping targets that no longer change a decision. The improvement loop around it is PDCA (`Plan`, Do, Check, Act), which turns a number that moved into a change in how the team works.
 
 **Practices:**
 
