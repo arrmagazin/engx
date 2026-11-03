@@ -10,17 +10,47 @@ These are the core concepts the rest of the book builds on, explores in depth, a
 ## Abstract terms
 
 System
-: A set of interacting *parts* inside a boundary that separates it from its environment — the whole shows behavior none of its parts has alone
+: A set of interacting *parts* inside a boundary that separates it from its *environment* — the whole shows behavior none of its parts has alone
 
     > such as software, a machine, a team, an organization
 
+Environment (Context)
+: Everything outside a `System`'s boundary that affects it or is affected by it
+
+    > such as users, other systems, hardware, networks, markets, laws, time, place, weather
+
+Ingress
+: Everything that *enters* a `System` from its `Environment` across the boundary
+
+    > such as data, requests, energy, materials, money, people's effort
+
+Outcome
+: The *effect* a `System` leaves on its `Environment` — the change there, not just what the `System` puts out
+
+    > such as a problem solved, a user served, money earned, waste produced
+
 State
-: The *condition* of a `System` at a point in time, given by the measured values of its attributes/capabilities
+: The *condition* of a `System` at a point in time, given by the *measured* values of its attributes/capabilities
 
 Metric
-: A defined *method* of evaluation and unit of measure, for the degree to which a `System` has a given attribute/capability
+: A defined *method* of evaluation and *unit of measure*, for the degree to which a `System` has a given attribute/capability
 
-    > value can be numeric, enumeration, or a pass/fail
+    > units can be numeric, enumeration, or boolean
+
+Process
+: A sequence of *steps* that changes a `System`'s `State`, taking in `Ingress` and producing an `Outcome`
+
+Progress
+: A *change* of a `System`'s `State` toward a target over time, shown by a `Metric`
+
+Improvement
+: `Progress` made by small, *gradual* changes to how a `System`'s `Processes` already work
+
+Breakthrough
+: `Progress` made by a large, *sudden* change in how a `System` is built or works — reaching a level no `Improvement` of the old way could reach
+
+Sustainability
+: The ability of a `System` to keep its `State` within acceptable limits *over time*, without using up what it depends on in itself or its `Environment`
 
 ## What a solution is for
 
@@ -32,7 +62,7 @@ Solution
 Stakeholder
 : Any individual, group, or organization
 
-    - that affects, or is affected by, a `Solution`'s outcome
+    - that affects, or is affected by, a `Solution`'s `Outcome`
     - and therefore holds *expectations* about what it should deliver
 
     > such as `Customer`, `End-User`, operator, regulator, sponsor
@@ -67,7 +97,7 @@ Requirement
     > it gives "enough" a *falsifiable* test, which stands in for opinion but does not replace it
 
 Success
-: The *outcome* in which the verified `State` meets every `Requirement` and key `Stakeholders` confirm their `Satisfaction` —
+: The `Outcome` in which the verified `State` meets every `Requirement` and key `Stakeholders` confirm their `Satisfaction` —
 
     > Value received, not scope delivered
 
