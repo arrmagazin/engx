@@ -33,7 +33,7 @@ The site and the book both read `docs/` from the working tree: the site fetches 
 | `npm run book` | `build/engx.epub` and `.pdf` from `docs/`; `-- --markdown` checks structure only |
 | `npm start` / `npm run stop` | Serves `www/` on :8092, rebuilds the UI on change, opens the browser / frees :8092 |
 | `npm run build` | `www/dist/` (gitignored): the UI bundle from `index.ts`, which calls `launchBook`, and its CSS; also `www/index.json` (gitignored), the docs tree |
-| `npm run glossary` | `www/glossary.json` (gitignored): every definition-list term in `docs/`, one key each, which `index.ts` bundles; `MDCodespan` also finds a term by its singular. `build` and `start` run it first; the first file in reading order wins a repeated term |
+| `npm run glossary` | `www/glossary.json` (gitignored): every definition-list term in `docs/`, one key each, holding its definition and `labels` (its singular or plural, and each name of an `A (B)` or `A/B` term), which `index.ts` bundles; `MDCodespan` finds a term by its key or a label. `build` and `start` run it first; the first file in reading order wins a repeated term |
 | `npm run deploy` | `www/` to Firebase Hosting, site `software-engineering`; runs `build` first |
 
 How the tooling works: `../arrmatura-books/README.md` and `../arrmatura-books/book/README.md`.
