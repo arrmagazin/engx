@@ -19,13 +19,13 @@ Environment (Context)
 
     > such as users, other systems, hardware, networks, markets, laws, time, place, weather
 
-Ingress
-: Everything that *enters* a `System` from its `Environment` across the boundary
+Ingress/Outgress
+: Everything that *enters/leaves* a `System` from/to its `Environment` across the boundary
 
     > such as data, requests, energy, materials, money, people's effort
 
-Outcome
-: The *effect* a `System` leaves on its `Environment` — the change there, not just what the `System` puts out
+Income/Outcome
+: The *effect* a `System` leaves/gains on/from its `Environment` — the change in structure/capacity, not just `Ingress/Outgress`
 
     > such as a problem solved, a user served, money earned, waste produced
 
