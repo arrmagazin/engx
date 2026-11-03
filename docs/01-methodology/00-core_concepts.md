@@ -7,12 +7,27 @@ tags: [introduction, engineering]
 
 These are the core concepts the rest of the book builds on, explores in depth, and uses without redefining.
 
+## Abstract terms
+
+System
+: A set of interacting *parts* inside a boundary that separates it from its environment — the whole shows behavior none of its parts has alone
+
+    > such as software, a machine, a team, an organization
+
+State
+: The *condition* of a `System` at a point in time, given by the measured values of its attributes/capabilities
+
+Metric
+: A defined *method* of evaluation and unit of measure, for the degree to which a `System` has a given attribute/capability
+
+    > value can be numeric, enumeration, or a pass/fail
+
 ## What a solution is for
 
 Solution
 : A specific *way* of bringing `Value` to `Stakeholders`:
 
-    > intentionally designed, made, proven and delivered by a `Team`; its `State` is observable and measurable
+    > intentionally designed, made, proven and delivered by a `Team`; its results are observable and measurable
 
 Stakeholder
 : Any individual, group, or organization
@@ -38,23 +53,18 @@ Goal
 
     > it is *directional*, *predictive*, and too coarse to *verify* on its own
 
+Objective
+: A *measurable* reflection of a `Goal` — a target value of a `Metric`, to reach by a set time
+
 Satisfaction
 : A `Stakeholder`'s *judgement* of whether the delivered `Solution` meets their `Goals` "enough"
 
     > it is *opinionated*, *subjective* and *perceptive*, therefore elicited, not read from the `State`
 
 Requirement
-: A boundary on a `Solution`'s `State`, broken down from a `Goal`, that must hold to achieve it:
+: A boundary on a `System`'s `State`, broken down from an `Objective`, that must hold to achieve it:
 
     > it gives "enough" a *falsifiable* test, which stands in for opinion but does not replace it
-
-State
-: The *condition* of a `Solution` at a point in time, given by the measured values of its attributes/capabilities
-
-Metric
-: A defined *method* of evaluation and unit of measure, for the degree to which a `Solution` has a given attribute/capability
-
-    > value can be numeric, enumeration, or a pass/fail
 
 Success
 : The *outcome* in which the verified `State` meets every `Requirement` and key `Stakeholders` confirm their `Satisfaction` —
