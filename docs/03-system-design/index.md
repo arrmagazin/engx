@@ -56,7 +56,7 @@ API
 Configuration
 : Data that *parameterizes* `Software` without changing it — what varies per environment, tenant, or deployment; versioned like code, but applied without rebuilding
 
-This chapter says **Software Framework**, never plain *`Framework`*: [Management](../01-methodology/00-management.md#core-concepts) defines a `Framework` as a Method made executable. One is a piece of code; the other is a way of running a process.
+This chapter says **Software Framework**, never plain *`Framework`*: [Core concepts](../01-methodology/00-core_concepts.md#how-work-is-run) defines a `Framework` as a Method that offers predefined options to choose from. One is a piece of code; the other is a way of running a process.
 
 ## Hardware
 
@@ -110,3 +110,5 @@ Message Broker
 
 Identity Provider (IdP)
 : Service that authenticates *principals* and issues verifiable *claims* about them, so other `Components` authorize instead of authenticate
+
+A `Service` here is a deployed component. [Core concepts](../01-methodology/00-core_concepts.md#how-a-solution-is-made) defines a `Service` as a way of delivering outcomes through ongoing interaction. One runs on a network; the other is how a `Solution` reaches its users.

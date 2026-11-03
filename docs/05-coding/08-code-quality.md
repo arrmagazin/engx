@@ -36,7 +36,7 @@ That cost rises the later the defect is found: cheapest while requirements are s
 
 Standards are agreed guidelines for style, practice, and method. Agreed up front, they set one expectation for everyone instead of one per developer. Abelson and Sussman state the goal in *Structure and Interpretation of Computer Programs*: "Programs must be written for people to read, and only incidentally for machines to execute."
 
-They improve clarity, readability, consistency, and maintainability, and hold complexity down. The broader industry and regulatory layer above a team's own rules is covered in [Software Engineering Standards](../00-software-engineering/02-standards.md).
+They improve clarity, readability, consistency, and maintainability, and hold complexity down. The broader industry and regulatory layer above a team's own rules is covered in [Software Engineering Standards](../99-appendices/02-standards.md).
 
 - **Style** — visual layout: indentation, whitespace, capitalization, naming style, comments
 - **Design** — structure: use of language constructs (exception handling, `goto`/`break`), logical structure (method size, parameter count, naming), and the [design principles](05-design-principles.md) the team follows, such as SOLID and KISS

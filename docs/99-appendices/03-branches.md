@@ -53,7 +53,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 
 ## Engineering Practice
 
-- Software and Systems Engineering — [Core concepts](01-core_concepts.md)
+- Software and Systems Engineering — [Core concepts](../01-methodology/00-core_concepts.md)
 - Software Architecture — [System Architecture](../02-architecture/index.md)
 - Requirements and Product Design
 - Quality Assurance and `Testing` — [Quality Assurance](../04-development-process/04-quality-assurance.md) and [Testing](../04-development-process/05-testing.md)

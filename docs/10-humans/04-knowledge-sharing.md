@@ -44,7 +44,7 @@ One shared space, such as a wiki, that every member can open and helps maintain.
 - the project's goal and description
 - team members and their roles
 - links to project resources and environments
-- the standards and conventions for each role ([Coding Standards](../00-software-engineering/02-standards.md))
+- the standards and conventions for each role ([Coding Standards](../99-appendices/02-standards.md))
 - branching, releases and the task life cycle ([Version Control](../04-development-process/01-version-control.md), [CI/CD](../04-development-process/03-ci-cd.md))
 
 ### Onboarding Procedures

@@ -7,7 +7,7 @@ A personal engineering knowledge base written as markdown, organized as a number
 - `docs/` — the book: eleven numbered folders plus one root entry point, `docs/index.md`. `docs/08-clouds/_references/` holds the three single-cloud handbooks the Clouds chapter was distilled from; the chapter index links them, so they follow the same conventions and checkers as every other doc.
 - `README.md` — the repository's front page, written for a human, not an agent.
 
-**The numbering rule.** Folder prefixes are unique and encode reading order: `00-software-engineering`, `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-backend`, `08-clouds`, `09-ai`, `10-humans`. `11` is unused — a gap left by an earlier reorganization, not a placeholder. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
+**The numbering rule.** Folder prefixes are unique and encode reading order: `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-backend`, `08-clouds`, `09-ai`, `10-humans`. `11` is unused — a gap left by an earlier reorganization, not a placeholder. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
 
 ## Checkers
 
@@ -21,23 +21,22 @@ Those scripts pipe `git ls-files 'docs/*.md'` through `xargs`; keep it that way.
 
 ## Site and book
 
-- `www/` — the Firebase public root. `index.html`, `service-worker.js` and `onload.js` are written by `npm run gen`; never edit them by hand. `favicon.svg`, `site.webmanifest` and `robots.txt` (AI crawlers disallowed) are this site's own. `firebase.json` adds the `tdm-reservation: 1` header to every response.
+- `www/` — the Firebase public root. `index.html` (the shell and its meta tags), `service-worker.js`, `favicon.svg`, `site.webmanifest` and `robots.txt` (AI crawlers disallowed) are this site's own, edited by hand. `www/docs` is a symlink to `../docs`. `firebase.json` adds the `tdm-reservation: 1` header to every response.
 - `index.ts` — the UI entry: calls `launchBook` from `../arrmatura-books`. Built into `www/dist/` (gitignored) by `npm run build`, which `deploy` runs first.
 - `book/` — `cover.png`, the book's cover photograph. Not served. The book's metadata is `package.json` `book`.
-- `package.json` is the site's config: `displayName`, `description`, `author`, `keywords`, `copyright` and `store` reach the page through `gen`.
+- `package.json` is the site's config: `displayName`, `description`, `author`, `keywords`, `copyright`, `storeUrl` and `repository.url` reach the page through `index.ts`.
 
-The site reads the docs from jsDelivr at the **tag** of `package.json` `version`, not from the working tree. The book builds from the working tree.
+The site and the book both read `docs/` from the working tree: the site fetches `/docs/*` through the `www/docs` symlink, and nothing reads the `version` tag. So `npm run deploy` publishes the docs as they are on disk, uncommitted edits included.
 
 | Command | What it does |
 | --- | --- |
-| `npm run release` | Publishes doc changes: bump, `gen`, commit, push, tag, deploy. Needs a clean `main` |
 | `npm run book` | `build/engx.epub` and `.pdf` from `docs/`; `-- --markdown` checks structure only |
 | `npm start` / `npm run stop` | Serves `www/` on :8092, rebuilds the UI on change, opens the browser / frees :8092 |
-| `npm run build` | `www/dist/` (gitignored): the UI bundle from `index.ts`, which calls `launchBook`, and its CSS |
+| `npm run build` | `www/dist/` (gitignored): the UI bundle from `index.ts`, which calls `launchBook`, and its CSS; also `www/index.json` (gitignored), the docs tree |
 | `npm run glossary` | `www/glossary.json` (gitignored): every definition-list term in `docs/`, one key each, which `index.ts` bundles; `MDCodespan` also finds a term by its singular. `build` and `start` run it first; the first file in reading order wins a repeated term |
-| `npm run deploy` | `deploy` runs `build` first |
+| `npm run deploy` | `www/` to Firebase Hosting, site `software-engineering`; runs `build` first |
 
-How the tooling works: `../arrmatura-books/site/README.md` and `../arrmatura-books/book/README.md`.
+How the tooling works: `../arrmatura-books/README.md` and `../arrmatura-books/book/README.md`.
 
 ## Images and links
 
@@ -72,7 +71,7 @@ tags: [lowercase, kebab-or-single-word, tags]
 
 ## Glossary conventions
 
-These apply to any file that defines terms in a **definition list** — the [extended markdown syntax](https://www.markdownguide.org/extended-syntax/#definition-lists) — such as `docs/00-software-engineering/01-core_concepts.md`. They were two-column tables until 2026-09-12; a definition is now free to hold a list or a second paragraph, and a long one wraps to the full measure instead of a narrow column.
+These apply to any file that defines terms in a **definition list** — the [extended markdown syntax](https://www.markdownguide.org/extended-syntax/#definition-lists) — such as `docs/01-methodology/00-core_concepts.md`. They were two-column tables until 2026-09-12; a definition is now free to hold a list or a second paragraph, and a long one wraps to the full measure instead of a narrow column.
 
 `check-glossary.ts` checks the mechanical rules below: entries a renderer would silently fold together, duplicate terms, self-restating definitions, trailing periods, and pairs of terms that define each other. Definition lists are used in this book for exactly one thing, so every one of them is in scope and no header row marks them; comparisons, ladders and nav tables stay tables and are not read. Indirect loops and oversized lists print as notes without failing. Cross-reference casing, grounding, and whether a term earns its row need judgement and are not checked.
 

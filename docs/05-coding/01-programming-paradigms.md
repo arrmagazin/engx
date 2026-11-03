@@ -83,6 +83,8 @@ Interaction
 Event-Driven Flow
 : Indirect Interaction in which uniform events travel through a centralized dispatcher (bus)
 
+A `State` and a `Method` here belong to one object. [Core concepts](../01-methodology/00-core_concepts.md) defines a `State` as the condition of a whole `Solution`, and a `Method` as a set of rules for running a process. In this section, the object sense applies.
+
 ```mermaid
 sequenceDiagram
     participant Sender as Object A

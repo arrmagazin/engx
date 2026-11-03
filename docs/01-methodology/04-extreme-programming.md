@@ -33,7 +33,9 @@ Practice
     - **Primary Practice** — safe to adopt on its own, before any other part of the method is in place
     - **Corollary Practice** — depends on several Primary Practices already working; difficult or dangerous to adopt first
 
-A Practice in this sense is a *behavior*, not a recommendation. The evaluative sense — an approach accepted as superior for a given context — is defined as [Best Practice](00-management.md#core-concepts) in `Management`.
+A Practice in this sense is a *behavior*, not a recommendation. The evaluative sense — an approach accepted as superior for a given context — is defined as [Best Practice](00-core_concepts.md#how-work-is-run) in `Core concepts`.
+
+A Value in this sense is a *criterion* for behavior. The economic sense — the worth a `Stakeholder` gains — is defined as [Value](00-core_concepts.md#what-a-solution-is-for) in `Core concepts`.
 
 ```mermaid
 flowchart LR

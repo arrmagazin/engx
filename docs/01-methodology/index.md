@@ -7,7 +7,7 @@ tags: [methodology, process, terminology]
 
 This chapter covers how engineering work is organized: the vocabulary for turning a goal into executed work, and the named approaches built on it.
 
-The vocabulary is in [Management](00-management.md); each approach has its own guide. Terms the whole book shares — `Solution`, `Goal`, `Success` — are defined once in the [Core concepts](../00-software-engineering/01-core_concepts.md) and used here without redefinition.
+The vocabulary is in [Management](00-management.md); each approach has its own guide. Terms the whole book shares — `Solution`, `Goal`, `Success` — are defined once in the [Core concepts](00-core_concepts.md) and used here without redefinition.
 
 ---
 
@@ -15,6 +15,7 @@ The vocabulary is in [Management](00-management.md); each approach has its own g
 
 | Doc | What it covers |
 | --- | --- |
+| **[Core concepts](00-core_concepts.md)** | The foundational terms — solution, stakeholder, value, requirements, state — that the rest of the book uses without redefining |
 | **[Management](00-management.md)** | Planning, prioritization, estimation, risk, delegation, and the metrics that show whether the loops are closing |
 | **[Lean Software Development](01-lean.md)** | Seven principles for maximizing customer value and removing waste, adapted from Lean manufacturing |
 | **[Agile](02-agile.md)** | The values and twelve principles of the Agile Manifesto |

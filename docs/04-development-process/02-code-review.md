@@ -14,7 +14,7 @@ Code review is the practice of having teammates read new code before it merges. 
 | **Defects** | An outside reader catches logic, algorithm, and architecture errors before the change merges | Errors reach production and make the product less correct |
 | **Maintainability** | Code stays readable because it is written to be read by someone else first | Code becomes harder to follow and harder to change, so every later edit costs more |
 | **Knowledge Sharing** | Domain knowledge, business logic, and refactoring techniques spread across the team | Developers duplicate work instead of reusing solutions, and miss business functionality that already exists |
-| **Consistent Standards** | The team converges on one agreed [style guide](../00-software-engineering/02-standards.md), so any developer can pick up any file | Technical approaches diverge and have to be reconciled later, at cost and sometimes with friction between authors |
+| **Consistent Standards** | The team converges on one agreed [style guide](../99-appendices/02-standards.md), so any developer can pick up any file | Technical approaches diverge and have to be reconciled later, at cost and sometimes with friction between authors |
 | **Security and Compliance** | Missing authorization checks, weak configuration, and dependencies with unsuitable licenses or known vulnerabilities are caught before release | Vulnerabilities reach end users, exposing customer data and the company's reputation |
 
 ## Review Types

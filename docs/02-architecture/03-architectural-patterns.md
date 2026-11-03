@@ -86,7 +86,7 @@ flowchart LR
 | **Repository** | The interface that loads and saves whole aggregates, shaped like a collection | `orders.byId(42)` |
 | **Factory** | The code that creates a complex aggregate in a valid state | `Order.fromCart(cart)` |
 | **Domain service** | A business operation that does not belong to any one object | Transferring money between two accounts |
-| **Policy** | A business rule or choice held in its own object, so it can be replaced without changing the objects that use it; Evans treats it as another name for the `Strategy` pattern | `ShippingPolicy` sets the delivery cost, with one version for each country |
+| **Policy** | A business rule or choice held in its own object, so it can be replaced without changing the objects that use it; Evans treats it as another name for the *Strategy* pattern | `ShippingPolicy` sets the delivery cost, with one version for each country |
 | **Constraint** | A rule that limits valid state, given a name in its own method or object so it is not buried in other logic; Evans describes this as making an implicit concept explicit | `CreditLimit` rejects an order above the customer's limit |
 | **Domain event** | A record of a business fact that has already happened | `OrderPlaced` |
 

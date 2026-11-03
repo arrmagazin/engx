@@ -21,7 +21,7 @@ Technical debt is the extra rework a team takes on when it ships a quick solutio
 | **Design trade-offs** | Intentional | The team knowingly accepts low cohesion or tight coupling to keep momentum, treating the shortcut as temporary |
 | **Business pressure** | Intentional | Demand for frequent releases or last-minute changes forces faster but rougher delivery |
 | **Gaps in expertise** | Unintentional | Insufficient experience on the team leads to accidental design flaws |
-| **Weak internal process** | Unintentional | Poor collaboration, knowledge gaps, or unclear [standards](../00-software-engineering/02-standards.md) create flaws that harden into debt |
+| **Weak internal process** | Unintentional | Poor collaboration, knowledge gaps, or unclear [standards](../99-appendices/02-standards.md) create flaws that harden into debt |
 
 Intentional debt pays off in two situations:
 

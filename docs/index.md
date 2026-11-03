@@ -25,8 +25,7 @@ Three rules shape the content:
 
 | Chapter | What it covers |
 | --- | --- |
-| **[Software Engineering](00-software-engineering/index.md)** | The shared vocabulary, the published standards, and the map of engineering disciplines |
-| **[Methodology](01-methodology/index.md)** | How work is organized — lean, agile, scrum, extreme programming, moving quality earlier, and engineering management |
+| **[Methodology](01-methodology/index.md)** | The shared vocabulary of the book, and how work is organized — lean, agile, scrum, extreme programming, moving quality earlier, and engineering management |
 | **[System Architecture](02-architecture/index.md)** | Architecture as a discipline, the views it is described through, and the quality attributes it is judged against |
 | **[System Design](03-system-design/index.md)** | Databases, caching, messaging, containers, client-server communication, data formats, and worked designs of canonical systems |
 | **[Development Process](04-development-process/index.md)** | Version control, code review, CI/CD, quality assurance, testing, debugging, and technical debt |
@@ -51,6 +50,12 @@ Three rules shape the content:
 - **Licence.** Share and adapt the book for non-commercial use, with credit, under the same terms — [CC BY-NC-SA 4.0](https://github.com/arrmagazin/engx/blob/main/LICENSE.md).
 
 ---
+
+## What Makes It Engineering
+
+Programming produces a program that works. Engineering produces a system that keeps working — under change, under load, and in the hands of people who did not write it. The difference is scope, not skill: an engineering decision answers to constraints the code cannot express, and to whoever inherits it.
+
+The rest of the book follows from that. Each practice, process, or measurement exists because software outlives the situation it was written for.
 
 ## Acknowledgements
 

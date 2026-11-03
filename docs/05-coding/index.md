@@ -36,4 +36,4 @@ Four of these docs describe overlapping ground. Each term has one home; everywhe
 
 Code is also judged outside the editor: against the standard it is written to, in the review that applies that standard, and in the record of what was knowingly left below that standard.
 
-Outside this folder: [Software Engineering Standards](../00-software-engineering/02-standards.md) · [Code Review](../04-development-process/02-code-review.md) · [Technical Debt](../04-development-process/08-technical-debt.md)
+Outside this folder: [Software Engineering Standards](../99-appendices/02-standards.md) · [Code Review](../04-development-process/02-code-review.md) · [Technical Debt](../04-development-process/08-technical-debt.md)

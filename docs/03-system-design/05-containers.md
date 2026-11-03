@@ -14,7 +14,7 @@ A container is an application and its dependencies, packaged as an image and run
 - **Image** — a read-only filesystem plus metadata (entrypoint, environment, user). A container is one running instance of it.
 - **Layer** — the filesystem diff one build instruction produces. Layers are content-addressed, cached between builds, and shared between images, so pulling a second image on the same base transfers only what differs.
 - **Tag vs. digest** — a tag (`app:1.4`) is a *mutable pointer*; a digest (`app@sha256:…`) names exact bytes. Only the digest is a version.
-- **OCI (Open Container Initiative)** — the [standard](../00-software-engineering/02-standards.md) image, runtime, and registry specifications, so an image built by one tool runs under any runtime.
+- **OCI (Open Container Initiative)** — the [standard](../99-appendices/02-standards.md) image, runtime, and registry specifications, so an image built by one tool runs under any runtime.
 - **Ephemeral filesystem** — the container's writable layer dies with it. Anything that must survive goes to a **volume** mounted from outside or, in a distributed system, to a `Database` or `Object Storage`.
 - **Container vs. VM** — a VM boots its own kernel: a stronger isolation boundary, paid for with a guest OS that must boot and stay resident. A container is a process on the shared kernel — nothing to boot — but a kernel exploit escapes it.
 

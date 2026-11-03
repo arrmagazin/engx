@@ -1283,7 +1283,7 @@ Everything above is what the services are. This section is what to do with them 
 - **Encrypt with intent.** Everything is encrypted at rest already; use CMEK where you need the ability to revoke, audit or destroy, and Cloud HSM or Cloud EKM where a rule requires it. Enforce TLS in transit and turn on the internal encryption options where a service offers them.
 - **Keep the audit trail somewhere the audited cannot reach.** An aggregated sink at the organization node into a separate project with a short access list, retention set to the compliance period, and alerts on the events that matter: key creation, role grants at high nodes, firewall changes, policy denials.
 - **Shift security into the pipeline.** Artifact Registry vulnerability scanning, Binary Authorization to refuse unsigned images, policy checks on the Terraform plan, and secrets from Secret Manager rather than from the environment.
-- **Then check yourself continuously.** Security Command Center for misconfiguration and threat findings, Policy Analyzer for "who can actually reach this", and an owner for each finding class. Also see [Security](../../00-software-engineering/index.md) for the principles these implement.
+- **Then check yourself continuously.** Security Command Center for misconfiguration and threat findings, Policy Analyzer for "who can actually reach this", and an owner for each finding class. Also see [Security](../../99-appendices/02-standards.md#3-security--compliance) for the principles these implement.
 
 ## Diagrams to Draw
 

@@ -5,69 +5,7 @@ description: Frames engineering management as turning goals into delivered outco
 tags: [management, leadership, process]
 ---
 
-This guide covers the loops that connect strategy to feedback, and the metrics that show whether those loops work. Its planning vocabulary — `Scope`, `Capacity`, `Priority`, `Commitment`, `Risk`, `Dependency`, and `Constraint` — is defined once in [Planning Concepts](00-management.md#planning-concepts), and `Goal` in [Core concepts](../00-software-engineering/01-core_concepts.md).
-
-## Core Concepts
-
-Decision
-: An accountable *choice* of one option among weighed alternatives in given context,
-
-    > with its tradeoffs agreed and its risks and costs accepted up front
-
-Strategy
-: context-free generalized approach for reaching a `Goals` — set of values/principles to make reasonable `Decisions` ("why")
-
-Method
-: An organized set of predefined rules, that control "howto" run a process in a given context
-
-Best Practice
-: A `Method` accepted as superior amongst others because it reliably produces better outcomes there
-
-Framework
-: A `Method` offered a predefined options a user chooses from, so the results become predictable
-
-Team
-: A small *group* of people with complementary skills, committed to shared `Goals` and mutually accountable for reaching them
-
-Project
-: A *temporary endeavor* in which a `Team` creates a unique `Solution` and pursues `Success`
-
-    Project is going by choosing and applying `Paradigms`, `Methodologies`, `Technologies`, and `Platforms`.
-
-Platform
-: A *foundation* of facilities on which software is built and run
-
-  > Such facilities are languages, runtimes, operating systems, cloud services, tools, ecosystems.
-
-Paradigm
-: A shared, opinionated *model* of thinking — concepts, assumptions, and preferred methods — that frames how a problem is seen and how knowledge is applied to solve it
-
-  > Paradigm is rooted in science, math, and domain expertise: e.g. object-oriented, functional, event-driven.
-
-Methodology
-: A coherent *system* of practices (roles, rituals, artifacts, workflows) a `Team` adopts to organize its work toward `Success`
-
-    > such as Scrum, Kanban, Waterfall
-
-Technology
-: The practical application of knowledge as reusable *means* —
-  methods, techniques, and tools —
-  that make a process controllable and its results *reproducible* and *verifiable*
-
-Management
-: The *process* of making `Decisions`, leading `Teams`, and allocating `Resources` to reach `Goals`
-
-    - through people, process, and priorities
-    - within limits of time, budget, capacity, and quality
-    - Concerned with planning, organizing, governance, control, optimizing, securing, tracking, and growth
-    - that turns `Goals` into predictably delivered outcomes
-
-Management bodies
-: personal involved into management process
-
-    - Leadership sets direction and motivates - `Strategy`;
-    - operations management allocates, sequences, and controls.
-    - A working engineering manager does both.
+This guide covers the loops that connect strategy to feedback, and the metrics that show whether those loops work.
 
 ## Flow
 
@@ -156,23 +94,28 @@ The variables a `Plan` is negotiated with, and the conditions that constrain it.
 
 Scope
 : Set of work items accepted as in-bounds for an objective
-  *The cheapest planning variable to change; time and quality are not*
+
+    *The cheapest planning variable to change; time and quality are not*
 
 Capacity
 : Effort realistically available in a period, once meetings, support, and leave are taken out
-  *Always below headcount multiplied by working hours*
+
+    *Always below headcount multiplied by working hours*
 
 Priority
 : Total ordering of work items by value against cost and risk
-  *If everything is priority one, nothing is*
+
+    *If everything is priority one, nothing is*
 
 Commitment
 : Promise made with known `Scope`, known `Capacity`, and accepted `Risk`
-  *Without capacity data it is a wish*
+
+    *Without capacity data it is a wish*
 
 Dependency
 : Work whose completion is required by other work, inside or outside the team
-  *Cross-team ones sit outside the team's control, so track them explicitly*
+
+    *Cross-team ones sit outside the team's control, so track them explicitly*
 
 Constraint
 : Fixed boundary — budget, deadline, compliance, headcount — that planning must respect
