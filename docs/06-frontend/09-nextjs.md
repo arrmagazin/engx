@@ -211,6 +211,28 @@ With Cache Components, **nothing is cached unless marked**, and every route stil
 
 This mix in one response is **Partial Prerendering**: the shell can be served from a CDN, and the dynamic holes stream in after it. An uncached read outside `<Suspense>` is reported as an error in development, the **blocking-route** insight, so a route cannot quietly become fully dynamic.
 
+```svg
+<Panel caption="Partial Prerendering: one response, two times">
+  <Group col="0" row="0" colspan="2" rowspan="2" label="Build time" />
+  <Group col="2" row="0" colspan="3" rowspan="3" label="Request time" tone="primary" />
+  <Node key="static" col="0" row="0" label="Static" note="pure computation" />
+  <Node key="cached" col="0" row="1" label="Cached" note="'use cache'" />
+  <Node key="revalidate" col="0" row="2" label="Revalidate" note="cacheLife or a tag" shape="round" tone="warning" />
+  <Node key="shell" col="1" row="0" rowspan="2" label="Static shell" tone="secondary" />
+  <Node key="cdn" col="2" row="0" rowspan="2" label="CDN" shape="hex" />
+  <Node key="dynamic" col="2" row="2" label="Dynamic" note="cookies(), headers()" />
+  <Node key="hole" col="3" row="2" label="Suspense hole" note="fallback first" />
+  <Node key="browser" col="4" row="0" rowspan="3" label="Browser" shape="round" tone="primary" />
+  <Edge from="static" to="shell" label="build" />
+  <Edge from="cached" to="shell" label="build" />
+  <Edge from="revalidate" to="cached" label="refresh" fromSide="top" toSide="bottom" dashed="true" tone="warning" />
+  <Edge from="shell" to="cdn" />
+  <Edge from="cdn" to="browser" label="shell first" />
+  <Edge from="dynamic" to="hole" label="streams" />
+  <Edge from="hole" to="browser" label="streamed" dashed="true" />
+</Panel>
+```
+
 ```tsx
 import { Suspense } from 'react'
 import { cookies } from 'next/headers'

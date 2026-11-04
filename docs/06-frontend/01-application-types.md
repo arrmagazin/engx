@@ -33,6 +33,25 @@ SPAs update the current page without full reloads, which gives app-like navigati
 
 The server renders the requested route to HTML on each request. The browser then loads the JavaScript that attaches behavior to that markup — the step called hydration. The first view arrives as complete as an MPA's, and later navigation can stay client-side.
 
+```svg
+<Panel caption="SSR: the HTML arrives before it works">
+  <Node key="request" col="0" row="0" label="Request" shape="pill" />
+  <Node key="render" col="1" row="0" label="Server render" />
+  <Node key="html" col="2" row="0" label="HTML arrives" note="visible, inert" tone="secondary" />
+  <Node key="bundle" col="3" row="0" label="Bundle download" />
+  <Node key="hydrate" col="3" row="1" label="Hydrate" tone="primary" />
+  <Node key="discard" col="3" row="2" label="Discard and re-render" tone="error" />
+  <Node key="interactive" col="4" row="1" label="Interactive" shape="round" tone="success" />
+  <Edge from="request" to="render" />
+  <Edge from="render" to="html" />
+  <Edge from="html" to="bundle" />
+  <Edge from="bundle" to="hydrate" />
+  <Edge from="hydrate" to="interactive" label="matches" />
+  <Edge from="hydrate" to="discard" label="mismatch" dashed="true" tone="error" />
+  <Edge from="discard" to="interactive" toSide="bottom" dashed="true" />
+</Panel>
+```
+
 Hydration
 :   Attaching client-side React to server-rendered HTML so it becomes interactive
 

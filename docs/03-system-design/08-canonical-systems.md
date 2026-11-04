@@ -118,6 +118,29 @@ Eleven system design problems, each filed under the bottleneck it tests rather t
 
 **Core constraint** — every system above could accept eventual consistency, caching, and approximate counts. **This one cannot**: correctness outranks latency and throughput.
 
+```svg
+<Panel caption="Booking saga with compensating actions">
+  <Node key="processor" col="1" row="0" label="Payment processor" shape="hex" />
+  <Node key="webhook" col="2" row="0" label="Webhook handler" note="dedup by event ID" />
+  <Node key="reserve" col="0" row="1" label="Reserve" note="hold with TTL" tone="primary" />
+  <Node key="charge" col="1" row="1" label="Charge" note="idempotency key" tone="primary" />
+  <Node key="confirm" col="2" row="1" label="Confirm" tone="primary" />
+  <Node key="ticket" col="3" row="1" label="Issue ticket" shape="round" tone="success" />
+  <Node key="release" col="1" row="2" label="Release hold" tone="error" />
+  <Node key="refund" col="2" row="2" label="Refund" tone="error" />
+  <Edge from="reserve" to="charge" />
+  <Edge from="charge" to="confirm" />
+  <Edge from="confirm" to="ticket" />
+  <Edge from="charge" to="processor" label="pay" fromSide="top" toSide="bottom" />
+  <Edge from="processor" to="webhook" label="callback" dashed="true" />
+  <Edge from="webhook" to="confirm" label="once" />
+  <Edge from="charge" to="release" label="fails" dashed="true" tone="error" />
+  <Edge from="confirm" to="refund" label="fails" dashed="true" tone="error" />
+  <Edge from="refund" to="release" label="then" dashed="true" tone="error" />
+  <Edge from="reserve" to="release" label="expired" fromSide="bottom" toSide="left" dashed="true" tone="error" />
+</Panel>
+```
+
 - **Overselling** — [locking or optimistic concurrency](02-databases.md#transactions-and-locking) on the seat row; optimistic slows when everyone wants the front row. A **reservation with TTL** separates a 10-minute hold from a sale, and a background job releases expired holds.
 - **Double charges** — an idempotency key per checkout attempt, so a retry after a timeout does not charge again.
 - **Multi-step flow** — reserve → charge → confirm → issue ticket runs as a saga with compensating actions (a refund), because no ACID transaction spans a processor you do not control.

@@ -291,6 +291,30 @@ The other two axes decide what the units are; this one decides how they reach ea
 
 With events, the publisher stops depending on the list of consumers, and adding a consumer means deploying that consumer alone.
 
+```svg
+<Panel caption="Choreography and Orchestration">
+  <Group col="0" row="0" colspan="3" rowspan="3" label="Choreography" />
+  <Group col="3" row="0" colspan="2" rowspan="3" label="Orchestration" tone="primary" />
+  <Node key="order" col="0" row="1" label="Order service" shape="round" />
+  <Node key="broker" col="1" row="1" label="Broker" note="no coordinator" shape="hex" />
+  <Node key="c-inventory" col="2" row="0" label="Inventory" />
+  <Node key="c-notify" col="2" row="1" label="Notify" />
+  <Node key="c-payment" col="2" row="2" label="Payment" />
+  <Node key="coordinator" col="3" row="1" label="Coordinator" note="issues the steps" tone="primary" />
+  <Node key="o-inventory" col="4" row="0" label="Inventory" />
+  <Node key="o-notify" col="4" row="1" label="Notify" />
+  <Node key="o-payment" col="4" row="2" label="Payment" />
+  <Edge from="order" to="broker" label="order&#10;placed" />
+  <Edge from="broker" to="c-inventory" />
+  <Edge from="broker" to="c-notify" />
+  <Edge from="broker" to="c-payment" />
+  <Edge from="coordinator" to="o-inventory" />
+  <Edge from="coordinator" to="o-notify" />
+  <Edge from="coordinator" to="o-payment" />
+  <Edge from="coordinator" to="o-payment" label="compensate" fromSide="bottom" toSide="bottom" dashed="true" tone="warning" />
+</Panel>
+```
+
 The decision underneath the pattern is what the event carries. The three usual answers have very different costs. The taxonomy is Martin Fowler's ([What do you mean by "Event-Driven"?](https://martinfowler.com/articles/201701-event-driven.html), 2017).
 
 | Flavor | The event carries → the consumer | Cost |
@@ -352,6 +376,19 @@ A hexagonal core makes extracting a service later cheap: the driving port is alr
 ## Moving Between Shapes
 
 Every pattern above describes a destination; most real work is a journey between two of them. The **strangler fig** is the pattern for that journey. [Martin Fowler](https://martinfowler.com/bliki/StranglerFigApplication.html) named it after the fig that grows around a host tree until it stands on its own and the host is gone. It replaces a system one capability at a time, with a working release at every point in between.
+
+```svg
+<Panel caption="The Strangler Fig">
+  <Node key="clients" col="0" row="0" label="Clients" shape="round" />
+  <Node key="seam" col="1" row="0" label="Seam" note="gateway or proxy" shape="hex" tone="primary" />
+  <Node key="legacy" col="2" row="0" label="Legacy" note="everything else" />
+  <Node key="new" col="2" row="1" label="New" note="capability X" tone="success" />
+  <Edge from="clients" to="seam" />
+  <Edge from="seam" to="legacy" />
+  <Edge from="seam" to="new" />
+  <Edge from="legacy" to="new" label="compare" arrow="both" dashed="true" />
+</Panel>
+```
 
 | Step | What it means |
 | ---- | ------------- |

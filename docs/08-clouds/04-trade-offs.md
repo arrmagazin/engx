@@ -15,6 +15,34 @@ The last section is the other half of the same skill: decisions that are identic
 
 Every cloud has one container that is a real wall: billing and quotas are counted there, and nothing inside it reaches anything outside it without an explicit grant. It is the AWS **account**, the Azure **subscription**, the Google Cloud **project**.
 
+```svg
+<Panel flow="TD" caption="Where Each Cloud Puts the Wall">
+  <Node key="aws-org" col="0" row="0" label="AWS Organization" />
+  <Node key="aws-ou" col="0" row="1" label="OU" note="organizational unit" />
+  <Node key="aws-account" col="0" row="2" label="Account" note="the wall" tone="primary" />
+  <Node key="aws-resource" col="0" row="4" label="Resource" shape="round" />
+  <Node key="az-tenant" col="1" row="0" label="Azure Tenant" />
+  <Node key="az-mg" col="1" row="1" label="Management Group" />
+  <Node key="az-sub" col="1" row="2" label="Subscription" note="the wall" tone="primary" />
+  <Node key="az-rg" col="1" row="3" label="Resource Group" note="shared lifecycle" tone="secondary" />
+  <Node key="az-resource" col="1" row="4" label="Resource" shape="round" />
+  <Node key="gcp-org" col="2" row="0" label="Google Cloud Organization" />
+  <Node key="gcp-folder" col="2" row="1" label="Folder" />
+  <Node key="gcp-project" col="2" row="2" label="Project" note="the wall" tone="primary" />
+  <Node key="gcp-resource" col="2" row="4" label="Resource" shape="round" />
+  <Edge from="aws-org" to="aws-ou" />
+  <Edge from="aws-ou" to="aws-account" />
+  <Edge from="aws-account" to="aws-resource" />
+  <Edge from="az-tenant" to="az-mg" />
+  <Edge from="az-mg" to="az-sub" />
+  <Edge from="az-sub" to="az-rg" />
+  <Edge from="az-rg" to="az-resource" />
+  <Edge from="gcp-org" to="gcp-folder" />
+  <Edge from="gcp-folder" to="gcp-project" />
+  <Edge from="gcp-project" to="gcp-resource" />
+</Panel>
+```
+
 What differs is how expensive that wall is to build, and so how freely a design uses it.
 
 - A project is cheap and expected to be numerous. Project-per-workload-per-environment is routine, and the landing-zone blueprints assume it.

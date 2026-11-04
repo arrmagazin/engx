@@ -47,6 +47,18 @@ Bulkhead
 Circuit Breaker
 : A wrapper that stops calling a dependency after a failure threshold, fails fast for a cooling-off period, then lets one trial request through — freeing the caller and giving the dependency room to recover
 
+```svg
+<Panel caption="Circuit Breaker States">
+  <Node key="closed" col="0" row="1" label="Closed" note="calls pass" shape="round" tone="success" />
+  <Node key="open" col="2" row="0" label="Open" note="fails fast" shape="round" tone="error" />
+  <Node key="half" col="3" row="1" label="Half-open" note="one trial request" shape="round" tone="warning" />
+  <Edge from="closed" to="open" label="failure threshold" fromSide="top" toSide="left" />
+  <Edge from="open" to="half" label="cooling-off&#10;elapsed" fromSide="right" toSide="top" />
+  <Edge from="half" to="open" label="trial fails" fromSide="left" toSide="bottom" tone="error" />
+  <Edge from="half" to="closed" label="trial succeeds" tone="success" />
+</Panel>
+```
+
 Graceful Degradation
 : Serving a reduced response when part of it cannot be produced, instead of failing the whole request; the optional parts are chosen in advance
 

@@ -46,6 +46,47 @@ These stages are how a particular model acquires its behavior. Each stage after 
 
 For an engineer, the lifecycle matters mostly as a boundary: whatever these stages put into the weights is fixed by the time you hold an `API` key. Everything still adjustable happens at inference.
 
+```svg
+<Panel caption="Training: each stage narrows the model">
+  <Group col="0" row="0" colspan="5" rowspan="2" label="Training" />
+  <Node key="pre" col="0" row="0" label="Pre-training" note="general competence" />
+  <Node key="fine" col="1" row="0" label="Fine-tuning" note="domain or task" />
+  <Node key="instruct" col="2" row="0" label="Instruction Tuning" note="follow instructions" />
+  <Node key="rlhf" col="3" row="0" label="RLHF / RLAIF" note="align preferences" />
+  <Node key="weights" col="4" row="0" label="Weights" note="frozen" shape="db" tone="primary" />
+  <Node key="distill" col="3" row="1" label="Distillation" note="compress behavior" />
+  <Node key="small" col="4" row="1" label="Smaller model" note="cheaper" shape="db" />
+  <Edge from="pre" to="fine" />
+  <Edge from="fine" to="instruct" />
+  <Edge from="instruct" to="rlhf" />
+  <Edge from="rlhf" to="weights" />
+  <Edge from="weights" to="distill" fromSide="bottom" toSide="top" dashed="true" />
+  <Edge from="distill" to="small" />
+</Panel>
+```
+
+```svg
+<Panel caption="Inference: the context window is the only way in">
+  <Group col="0" row="0" colspan="4" rowspan="3" label="Inference" tone="primary" />
+  <Group col="1" row="3" colspan="3" label="Fixed by training" />
+  <Node key="system" col="0" row="0" label="System prompt" />
+  <Node key="prompt" col="0" row="1" label="Prompt" note="zero- or few-shot" />
+  <Node key="rag" col="0" row="2" label="RAG, tool results" />
+  <Node key="context" col="1" row="0" rowspan="3" label="Context window" tone="primary" />
+  <Node key="controls" col="2" row="0" label="Controls" note="temperature, top-p" />
+  <Node key="model" col="2" row="1" label="Model" shape="round" />
+  <Node key="output" col="3" row="1" label="Output" shape="round" tone="success" />
+  <Node key="weights" col="2" row="3" label="Weights" note="frozen" shape="db" />
+  <Edge from="system" to="context" />
+  <Edge from="prompt" to="context" />
+  <Edge from="rag" to="context" />
+  <Edge from="context" to="model" />
+  <Edge from="controls" to="model" label="sampling" />
+  <Edge from="weights" to="model" fromSide="top" toSide="bottom" />
+  <Edge from="model" to="output" label="tokens" />
+</Panel>
+```
+
 | Stage | Purpose |
 | --- | --- |
 | **Pre-training** | Self-supervised next-token prediction on broad corpora — builds general competence |

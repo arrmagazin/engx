@@ -88,8 +88,21 @@ The team keeps all work in one tracker, such as Jira. A task that is not in the 
 
 **Board columns:**
 
-```text
-Backlog ➔ Selected for Development ➔ In Progress ➔ Code Review (PR) ➔ QA/Testing ➔ Done
+```svg
+<Panel caption="Board columns">
+  <Node key="backlog" col="0" row="0" label="Backlog" />
+  <Node key="selected" col="1" row="0" label="Selected for Development" />
+  <Node key="progress" col="2" row="0" label="In Progress" note="WIP 1 per dev" tone="primary" />
+  <Node key="review" col="2" row="1" label="Code Review (PR)" />
+  <Node key="qa" col="3" row="1" label="QA/Testing" />
+  <Node key="done" col="4" row="1" label="Done" shape="round" tone="success" />
+  <Node col="0" row="1" colspan="2" label="dashed = automatic" note="set by the code host" shape="text" />
+  <Edge from="backlog" to="selected" />
+  <Edge from="selected" to="progress" />
+  <Edge from="progress" to="review" label="PR opened" dashed="true" tone="info" />
+  <Edge from="review" to="qa" label="merged" dashed="true" tone="info" />
+  <Edge from="qa" to="done" />
+</Panel>
 ```
 
 **WIP limits** — *In Progress* is capped at one task per developer, so an engineer closes the active ticket before starting another.

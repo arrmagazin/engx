@@ -24,6 +24,29 @@ The development process is the lifecycle that turns a stakeholder need into an o
 
 **SDLC (Software Development Lifecycle)**: One-pass or iterative cycle of interdependent phases and processes that turns a stakeholder need into an operated [Solution](../01-methodology/00-core_concepts.md). Each phase consumes the verified output of the previous one and produces artifacts that make the next one verifiable — the lifecycle is what connects [Requirements](../01-methodology/00-core_concepts.md) to [Metrics](../01-methodology/00-core_concepts.md) in practice.
 
+```svg
+<Panel caption="The SDLC Phases">
+  <Node key="discovery" col="0" row="0" label="Discovery" shape="round" tone="primary" />
+  <Node key="analysis" col="1" row="0" label="Analysis" />
+  <Node key="design" col="2" row="0" label="Design" />
+  <Node key="implementation" col="3" row="0" label="Implementation" />
+  <Node key="verification" col="4" row="0" label="Verification" />
+  <Node key="release" col="4" row="1" label="Release" />
+  <Node key="operation" col="3" row="1" label="Operation" />
+  <Node key="maintenance" col="3" row="2" label="Maintenance" />
+  <Edge from="discovery" to="analysis" />
+  <Edge from="analysis" to="design" />
+  <Edge from="design" to="implementation" />
+  <Edge from="implementation" to="verification" />
+  <Edge from="verification" to="release" />
+  <Edge from="release" to="operation" />
+  <Edge from="operation" to="maintenance" />
+  <Edge from="operation" to="discovery" label="observations" toSide="bottom" />
+  <Edge from="analysis" to="verification" label="designed" fromSide="top" toSide="top" dashed="true" />
+  <Edge from="design" to="operation" label="operability" fromSide="bottom" toSide="top" dashed="true" />
+</Panel>
+```
+
 | Phase | Definition |
 | --- | --- |
 | **Discovery** | Establishing the problem, stakeholders, constraints, and expected value before committing resources |

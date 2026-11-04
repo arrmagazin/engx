@@ -18,6 +18,29 @@ Kafka is a durable, partitioned log. Producers append to it and consumers read f
 
 ## Workflow, End to End
 
+```svg
+<Panel caption="A record's way through Kafka">
+  <Group col="2" row="0" rowspan="2" label="Group A" />
+  <Group col="2" row="2" label="Group B" />
+  <Node key="producer" col="0" row="1" label="Producer" shape="round" />
+  <Node key="leader" col="1" row="1" label="Partition leader" note="appends the record" tone="primary" />
+  <Node key="followers" col="1" row="2" label="Follower replicas" shape="db" />
+  <Node key="a1" col="2" row="0" label="Consumer A1" note="other partitions" />
+  <Node key="a2" col="2" row="1" label="Consumer A2" />
+  <Node key="b1" col="2" row="2" label="Consumer B1" />
+  <Node key="coordinator" col="3" row="0" rowspan="2" label="Group coordinator" note="rebalances groups" tone="secondary" />
+  <Node key="offsets" col="3" row="2" label="Offset store" shape="db" />
+  <Edge from="producer" to="leader" label="hash(key)" />
+  <Edge from="leader" to="followers" label="replicate" />
+  <Edge from="leader" to="producer" label="acks" fromSide="top" toSide="top" dashed="true" />
+  <Edge from="coordinator" to="a1" label="assign" />
+  <Edge from="coordinator" to="a2" />
+  <Edge from="leader" to="a2" label="read" />
+  <Edge from="leader" to="b1" label="read" />
+  <Edge from="b1" to="offsets" label="commit&#10;offset" />
+</Panel>
+```
+
 1. The producer hashes the record's key to pick a partition, so one key always keeps its order.
 2. The leader appends the record and replicates it; it acknowledges once the configured durability (`acks=0/1/all`) is met.
 3. The group coordinator assigns partitions to consumers, rebalancing as they join or leave.

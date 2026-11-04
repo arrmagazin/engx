@@ -102,6 +102,16 @@ QA fails quietly when it is treated as a final phase rather than as work planned
 
 Layers, bottom to top: Unit → Integration → UI/E2E tests. Width is the number of tests; height is scope, complexity, and instability. The pyramid prescribes a shape, not a ratio: many fast unit tests, fewer integration tests, and a thin layer of end-to-end tests. The right proportion for a given system is a team decision, not a constant.
 
+```svg
+<Panel flow="TD" caption="Testing Pyramid">
+  <Node key="e2e" col="2" row="0" label="E2E Tests" note="Minutes · none" tone="warning" />
+  <Node key="integration" col="1" row="1" colspan="3" label="Integration Tests" note="Seconds · partial" tone="info" />
+  <Node key="unit" col="0" row="2" colspan="5" label="Unit Tests" note="Milliseconds · full" tone="success" />
+  <Edge from="e2e" to="integration" label="push down" dashed="true" />
+  <Edge from="integration" to="unit" label="push down" dashed="true" />
+</Panel>
+```
+
 | Level | Speed · isolation | Purpose |
 | --- | --- | --- |
 | **Unit Tests** | Milliseconds · full | Component/function logic |

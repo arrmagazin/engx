@@ -11,6 +11,30 @@ Debugging is a search for the one place where what a program does stops matching
 
 The steps below are ordered because each one makes the next cheaper. Skipping ahead to a fix is what turns a twenty-minute bug into an afternoon.
 
+```svg
+<Panel caption="A Systematic Method">
+  <Node key="bug" col="0" row="0" label="Bug" shape="pill" tone="error" />
+  <Node key="reproduce" col="0" row="1" label="Reproduce" note="on demand" tone="primary" />
+  <Node key="reduce" col="1" row="1" label="Reduce" note="smallest case" />
+  <Node key="hypothesis" col="2" row="1" label="Hypothesis" note="one, falsifiable" />
+  <Node key="experiment" col="3" row="1" label="Experiment" note="change one thing" />
+  <Node key="bisect" col="3" row="2" label="Bisect" note="halve the space" />
+  <Node key="fix" col="2" row="2" label="Fix" />
+  <Node key="verify" col="1" row="2" label="Verify" note="passes, then revert" />
+  <Node key="done" col="0" row="2" label="Fixed" shape="round" tone="success" />
+  <Edge from="bug" to="reproduce" />
+  <Edge from="reproduce" to="reduce" label="failing&#10;test" />
+  <Edge from="reduce" to="hypothesis" />
+  <Edge from="hypothesis" to="experiment" />
+  <Edge from="experiment" to="hypothesis" label="falsified" fromSide="top" toSide="top" tone="warning" />
+  <Edge from="experiment" to="bisect" label="confirmed" />
+  <Edge from="bisect" to="fix" fromSide="left" toSide="right" />
+  <Edge from="fix" to="verify" fromSide="left" toSide="right" />
+  <Edge from="verify" to="done" label="yes" fromSide="left" toSide="right" tone="success" />
+  <Edge from="verify" to="reproduce" label="no" fromSide="top" toSide="bottom" tone="error" />
+</Panel>
+```
+
 ### Reproduce Before You Change Anything
 
 A failure you cannot trigger on demand can only be guessed at, not fixed, because nothing distinguishes a real fix from a coincidence. Pin down the exact input, environment, and sequence of steps that produce it, then run them twice to confirm they produce it both times. Intermittent failures still count: if it fails one run in twenty, that is the reproduction, and a fix must survive far more than twenty runs before you believe it.

@@ -9,6 +9,25 @@ The vocabulary of caching, the edge that serves cached content (CDNs), and the s
 
 ## Core Concepts
 
+```svg
+<Panel caption="Cache-aside read path, with request coalescing">
+  <Node key="app" col="0" row="0" label="App" shape="round" />
+  <Node key="cache" col="1" row="0" label="Cache" tone="primary" />
+  <Node key="hit" col="2" row="0" label="Hit?" shape="diamond" />
+  <Node key="value" col="4" row="0" label="Return value" shape="round" tone="success" />
+  <Node key="coalesce" col="2" row="1" label="Coalesce" note="one load per key" tone="warning" />
+  <Node key="db" col="3" row="1" label="Database" shape="db" />
+  <Node key="fill" col="4" row="1" label="Fill cache" note="by the app" />
+  <Edge from="app" to="cache" label="get" />
+  <Edge from="cache" to="hit" />
+  <Edge from="hit" to="value" label="hit" />
+  <Edge from="hit" to="coalesce" label="miss" />
+  <Edge from="coalesce" to="db" label="load" />
+  <Edge from="db" to="fill" />
+  <Edge from="fill" to="value" fromSide="top" toSide="bottom" />
+</Panel>
+```
+
 Caching
 : Keeping a copy of a result closer to its consumer than the system that produced it
 

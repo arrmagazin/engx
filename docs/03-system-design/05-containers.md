@@ -31,6 +31,22 @@ The same image runs in every environment; only the `Configuration` injected at r
 
 A real system runs tens to thousands of containers across a fleet. The orchestrator products differ; the jobs do not.
 
+```svg
+<Panel caption="Desired-State Reconciliation">
+  <Node key="desired" col="0" row="0" label="Desired state" note="ten replicas" />
+  <Node key="controller" col="1" row="1" label="Controller" shape="round" tone="primary" />
+  <Node key="replicas" col="2" row="1" label="Replicas" />
+  <Node key="observed" col="3" row="1" label="Observed state" note="liveness · readiness" />
+  <Node key="lb" col="0" row="2" label="Load balancer" shape="pill" />
+  <Edge from="desired" to="controller" />
+  <Edge from="controller" to="replicas" label="schedule" />
+  <Edge from="replicas" to="observed" label="probes" />
+  <Edge from="observed" to="controller" label="compare" fromSide="top" toSide="top" />
+  <Edge from="controller" to="replicas" label="not live:&#10;restart" fromSide="bottom" toSide="bottom" tone="error" />
+  <Edge from="controller" to="lb" label="not ready:&#10;remove" tone="warning" />
+</Panel>
+```
+
 - **Desired-state reconciliation** — you declare "ten replicas of this image"; a controller keeps reality matching it. A deploy points it at a new versioned template; rollback points it back.
 - **Scheduling** — placing each container on a host with enough free CPU and memory, spread across failure zones. Declared resource requests are the input: wrong numbers waste the fleet or overload it.
 - **Health checks** — two different questions:
