@@ -9,6 +9,26 @@ These are the core concepts the rest of the book builds on, explores in depth, a
 
 ## Abstract terms
 
+```svg
+<Panel caption="A System in its Environment">
+  <Group col="0" row="0" colspan="5" rowspan="3" label="Environment" />
+  <Group col="1" row="1" colspan="3" rowspan="2" label="System" tone="primary" />
+  <Node key="constraint" col="2" row="0" label="Constraint" shape="hex" tone="warning" />
+  <Node key="ingress" col="0" row="1" label="Ingress" shape="pill" />
+  <Node key="process" col="2" row="1" label="Process" tone="primary" />
+  <Node key="egress" col="4" row="1" label="Egress" shape="pill" />
+  <Node key="state" col="1" row="2" label="State" shape="round" />
+  <Node key="next" col="3" row="2" label="New State" shape="round" />
+  <Node key="outcome" col="4" row="2" label="Gain/Outcome" note="a change, not a flow" />
+  <Edge from="constraint" to="process" label="limits" dashed="true" tone="warning" />
+  <Edge from="ingress" to="process" label="enters" />
+  <Edge from="process" to="egress" label="leaves" />
+  <Edge from="state" to="process" />
+  <Edge from="process" to="next" label="changes" />
+  <Edge from="egress" to="outcome" label="effect" />
+</Panel>
+```
+
 System
 : A set of interacting *parts* inside a boundary that separates it from its `Environment` — the whole shows behavior none of its parts has alone
 
@@ -140,6 +160,29 @@ Success
 
 ## How a solution is made
 
+```svg
+<Panel caption="How a Team makes a Solution">
+  <Group col="0" row="0" colspan="5" label="Engineering" tone="primary" />
+  <Node key="team" col="0" row="1" label="Team" shape="round" />
+  <Node key="resources" col="1" row="1" label="Resources" shape="db" />
+  <Node key="design" col="0" row="0" label="Design" note="WHAT and WHY" />
+  <Node key="build" col="1" row="0" label="Build" />
+  <Node key="validate" col="2" row="0" label="Validate" />
+  <Node key="delivery" col="3" row="0" label="Delivery" />
+  <Node key="operation" col="4" row="0" label="Operation" />
+  <Node key="solution" col="2" row="1" label="Solution" note="Product or Service" tone="primary" />
+  <Node key="value" col="4" row="1" label="Value" note="Stakeholders receive" shape="round" tone="success" />
+  <Edge from="team" to="resources" label="consumes" />
+  <Edge from="team" to="design" label="runs" fromSide="top" toSide="bottom" />
+  <Edge from="design" to="build" />
+  <Edge from="build" to="validate" />
+  <Edge from="validate" to="delivery" />
+  <Edge from="delivery" to="operation" />
+  <Edge from="validate" to="solution" label="proven" />
+  <Edge from="solution" to="value" label="brings" />
+</Panel>
+```
+
 Product
 : `Solution` as a tangible or digital *artifact* made to be owned or used by others: software, device, facility, guidance
 
@@ -182,6 +225,27 @@ Methodology
 
 ## How work is run
 
+```svg
+<Panel caption="From why to how">
+  <Node key="strategy" col="0" row="0" label="Strategy" note="why" shape="round" />
+  <Node key="decision" col="1" row="0" label="Decision" shape="diamond" />
+  <Node key="method" col="2" row="0" label="Method" note="rules" />
+  <Node key="technology" col="3" row="0" label="Technology" note="means" />
+  <Node key="process" col="4" row="0" label="Process" shape="round" tone="primary" />
+  <Node key="management" col="0" row="1" label="Management" note="leads and allocates" tone="secondary" />
+  <Node key="practice" col="2" row="1" label="Best Practice" />
+  <Node key="framework" col="3" row="1" label="Framework" />
+  <Edge from="strategy" to="decision" label="guides" />
+  <Edge from="decision" to="method" label="picks" />
+  <Edge from="method" to="technology" label="tooled" />
+  <Edge from="technology" to="process" label="controls" />
+  <Edge from="management" to="strategy" label="sets" fromSide="top" toSide="bottom" />
+  <Edge from="management" to="decision" label="makes" />
+  <Edge from="method" to="practice" label="proven" />
+  <Edge from="method" to="framework" label="options" />
+</Panel>
+```
+
 Decision
 : An accountable *choice* of one option among weighed alternatives in a given `Environment`
 
@@ -219,3 +283,25 @@ Management bodies
 
 Project
 : A *temporary endeavor* in which a `Team` creates a unique `Solution` and pursues `Success`; it proceeds by choosing and applying `Paradigms`, `Methodologies`, `Technologies` and `Platforms`
+
+```svg
+<Panel caption="A Project ties it all together">
+  <Node key="paradigm" col="0" row="0" label="Paradigm" />
+  <Node key="methodology" col="0" row="1" label="Methodology" />
+  <Node key="technology" col="0" row="2" label="Technology" />
+  <Node key="platform" col="0" row="3" label="Platform" />
+  <Node key="team" col="1" row="0" label="Team" shape="round" />
+  <Node key="project" col="1" row="1" rowspan="2" label="Project" note="temporary endeavor" tone="primary" />
+  <Node key="resources" col="1" row="3" label="Resources" shape="db" />
+  <Node key="solution" col="2" row="1" rowspan="2" label="Solution" note="Product or Service" />
+  <Node key="success" col="3" row="1" rowspan="2" label="Success" note="Value received" shape="round" tone="success" />
+  <Edge from="paradigm" to="project" />
+  <Edge from="methodology" to="project" />
+  <Edge from="technology" to="project" />
+  <Edge from="platform" to="project" />
+  <Edge from="team" to="project" label="runs" />
+  <Edge from="resources" to="project" label="consumed" fromSide="top" toSide="bottom" />
+  <Edge from="project" to="solution" label="creates" />
+  <Edge from="solution" to="success" label="pursues" />
+</Panel>
+```
