@@ -42,6 +42,7 @@
     "check:frontmatter": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/check-okf-frontmatter.ts",
     "check:glossary": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/check-glossary.ts",
     "check:links": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/check-links.ts",
+    "check:diagrams": "git ls-files -z 'docs/*.md' | xargs -0 bun ../arrmatura-markdown/scripts/check-diagrams.ts",
     "glossary": "git ls-files 'docs/*.md' | xargs bun ../arrmatura-books/scripts/build-glossary.ts",
     "prebuild": "npm run glossary",
     "build": "npx --yes npm-run-all --parallel build:*",
