@@ -19,15 +19,24 @@ The material is grouped the way a system is built:
 
 After those come the cross-cutting concerns that only appear once a system is real: **infrastructure as code and delivery**, **resilience**, and the performance, cost and security practices that keep it running.
 
-```mermaid
-flowchart LR
-  Users --> Networking --> Compute
-  Compute --> Storage[Storage and Data]
-  Compute -->|send and receive| Messaging[Messaging and Events]
-  Identity -. permits or denies every call .-> Compute
-  Identity -. permits or denies every call .-> Storage
-  Observability -. records what happens .-> Compute
-  Observability -. records what happens .-> Storage
+```svg
+<Panel>
+  <Node key="identity" col="2" row="0" label="Identity" />
+  <Node key="users" col="0" row="1" label="Users" />
+  <Node key="networking" col="1" row="1" label="Networking" />
+  <Node key="compute" col="2" row="1" label="Compute" />
+  <Node key="storage" col="4" row="1" label="Storage and Data" />
+  <Node key="messaging" col="3" row="2" label="Messaging and Events" />
+  <Node key="observability" col="2" row="3" label="Observability" />
+  <Edge from="users" to="networking" />
+  <Edge from="networking" to="compute" />
+  <Edge from="compute" to="storage" />
+  <Edge from="compute" to="messaging" label="send and receive" />
+  <Edge from="identity" to="compute" label="permits or denies every call" dashed="true" />
+  <Edge from="identity" to="storage" label="permits or denies every call" dashed="true" fromSide="right" toSide="top" />
+  <Edge from="observability" to="compute" label="records what happens" dashed="true" />
+  <Edge from="observability" to="storage" label="records what happens" dashed="true" fromSide="right" toSide="bottom" />
+</Panel>
 ```
 
 ## How to Read This Document
@@ -53,21 +62,30 @@ Everything in AWS rests on three ideas that are explained once here and assumed 
 
 ### Concepts — Accounts and Regions
 
-```mermaid
-flowchart TD
-  subgraph Governance
-    Org[Organization] --> OU[Organizational Unit]
-    OU --> Acct[Account]
-    SCP[Service Control Policy] -. filters .-> Acct
-    CT[Control Tower] -. sets up .-> Org
-  end
-  subgraph Geography
-    Region --> AZ[Availability Zone]
-    AZ --> AZID[AZ ID]
-    Region -. served from .-> Edge[Edge Location]
-  end
-  Acct --> Resource
-  Region --> Resource
+```svg
+<Panel flow="TD">
+  <Group col="0" row="0" colspan="2" rowspan="4" label="Governance" />
+  <Group col="2" row="0" colspan="2" rowspan="3" label="Geography" />
+  <Node key="ct" col="1" row="0" label="Control Tower" />
+  <Node key="org" col="1" row="1" label="Organization" />
+  <Node key="scp" col="0" row="3" label="Service Control Policy" />
+  <Node key="ou" col="1" row="2" label="Organizational Unit" />
+  <Node key="acct" col="1" row="3" label="Account" />
+  <Node key="region" col="2" row="0" label="Region" />
+  <Node key="edge" col="3" row="0" label="Edge Location" />
+  <Node key="az" col="3" row="1" label="Availability Zone" />
+  <Node key="azid" col="3" row="2" label="AZ ID" />
+  <Node key="resource" col="1" row="4" label="Resource" />
+  <Edge from="org" to="ou" />
+  <Edge from="ou" to="acct" />
+  <Edge from="scp" to="acct" label="filters" dashed="true" />
+  <Edge from="ct" to="org" label="sets up" dashed="true" />
+  <Edge from="region" to="az" />
+  <Edge from="az" to="azid" />
+  <Edge from="region" to="edge" label="served from" dashed="true" />
+  <Edge from="acct" to="resource" />
+  <Edge from="region" to="resource" toSide="right" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -84,18 +102,27 @@ flowchart TD
 
 ### Concepts — Services and Resources
 
-```mermaid
-flowchart LR
-  Service --> API
-  API -->|creates| Resource
-  Acct[Account] --> Resource
-  Region --> Resource
-  Resource --> ARN
-  Resource --> Tag
-  Service --> Quota[Service Quota]
-  Acct --> Quota
-  Region --> Quota
-  Quota -. caps .-> Resource
+```svg
+<Panel>
+  <Node key="service" col="0" row="0" label="Service" />
+  <Node key="api" col="1" row="0" label="API" />
+  <Node key="acct" col="1" row="1" label="Account" />
+  <Node key="quota" col="1" row="2" label="Service Quota" />
+  <Node key="region" col="1" row="3" label="Region" />
+  <Node key="resource" col="2" row="1" label="Resource" />
+  <Node key="arn" col="3" row="0" label="ARN" />
+  <Node key="tag" col="3" row="2" label="Tag" />
+  <Edge from="service" to="api" />
+  <Edge from="api" to="resource" label="creates" />
+  <Edge from="acct" to="resource" />
+  <Edge from="region" to="resource" toSide="bottom" />
+  <Edge from="resource" to="arn" />
+  <Edge from="resource" to="tag" />
+  <Edge from="service" to="quota" />
+  <Edge from="acct" to="quota" />
+  <Edge from="region" to="quota" />
+  <Edge from="quota" to="resource" label="caps" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -121,16 +148,26 @@ An **account** is the container you sign up for. It is the boundary for billing 
 
 Every AWS service is a set of **APIs**: signed HTTPS calls such as `s3:PutObject` or `ec2:RunInstances`. Everything else is a way of making those calls. There is no single "resource manager" layer above them the way Azure has one — each service has its own `API`, its own error shapes and its own eventual-consistency behaviour.
 
-```mermaid
-flowchart LR
-  Console --> API
-  CLI --> API
-  SDK --> API
-  IaC[CloudFormation or CDK or Terraform] --> API
-  API --> IAM{IAM allows?}
-  IAM -->|yes| Resource[Resource in one Account and Region]
-  IAM -->|no| Denied
-  API -. every call recorded by .-> CloudTrail
+```svg
+<Panel>
+  <Node key="console" col="0" row="0" label="Console" />
+  <Node key="cli" col="0" row="1" label="CLI" />
+  <Node key="sdk" col="0" row="2" label="SDK" />
+  <Node key="iac" col="0" row="3" label="CloudFormation or CDK or Terraform" />
+  <Node key="api" col="1" row="1" rowspan="2" label="API" />
+  <Node key="iam" col="2" row="1" rowspan="2" label="IAM allows?" shape="diamond" />
+  <Node key="resource" col="3" row="1" label="Resource in one Account and Region" />
+  <Node key="denied" col="3" row="2" label="Denied" />
+  <Node key="cloudtrail" col="1" row="4" label="CloudTrail" />
+  <Edge from="console" to="api" />
+  <Edge from="cli" to="api" />
+  <Edge from="sdk" to="api" />
+  <Edge from="iac" to="api" />
+  <Edge from="api" to="iam" />
+  <Edge from="iam" to="resource" label="yes" />
+  <Edge from="iam" to="denied" label="no" />
+  <Edge from="api" to="cloudtrail" label="every call recorded by" dashed="true" />
+</Panel>
 ```
 
 - The **console** (the website) is the same `API` behind buttons. It is the right place to learn and to look, and the wrong place to build production, because what you click is not recorded anywhere you can repeat.
@@ -156,34 +193,57 @@ Compute is where your code runs. AWS gives you four ways to run it, and the diff
 
 The general pattern: the less you manage, the less you can customise, and the more you pay per unit of work at steady high load — but the less you pay when the load is low or uneven, and the less operator time you spend. Most teams end up with a mix.
 
-```mermaid
-flowchart LR
-  Code[Your code] --> Choice{How is it packaged?}
-  Choice -->|installed on a server| EC2[EC2 instances in an Auto Scaling Group]
-  Choice -->|container image| ECS[ECS service]
-  Choice -->|container image with Kubernetes tooling| EKS[EKS pods]
-  Choice -->|a single function| Lambda
-  ECS --> Cap{Who owns the machines?}
-  EKS --> Cap
-  Cap -->|you| Nodes[EC2 nodes]
-  Cap -->|AWS| Fargate
+```svg
+<Panel>
+  <Node key="code" col="0" row="0" label="Your code" />
+  <Node key="choice" col="0" row="1" rowspan="2" label="How is it packaged?" shape="diamond" />
+  <Node key="ec2" col="2" row="0" label="EC2 instances in an Auto Scaling Group" />
+  <Node key="ecs" col="2" row="1" label="ECS service" />
+  <Node key="eks" col="2" row="2" label="EKS pods" />
+  <Node key="lambda" col="2" row="3" label="Lambda" />
+  <Node key="cap" col="3" row="1" rowspan="2" label="Who owns the machines?" shape="diamond" />
+  <Node key="nodes" col="4" row="1" label="EC2 nodes" />
+  <Node key="fargate" col="4" row="2" label="Fargate" />
+  <Edge from="code" to="choice" />
+  <Edge from="choice" to="ec2" label="installed on a server" />
+  <Edge from="choice" to="ecs" label="container image" />
+  <Edge from="choice" to="eks" label="container image with Kubernetes tooling" />
+  <Edge from="choice" to="lambda" label="a single function" />
+  <Edge from="ecs" to="cap" />
+  <Edge from="eks" to="cap" />
+  <Edge from="cap" to="nodes" label="you" />
+  <Edge from="cap" to="fargate" label="AWS" />
+</Panel>
 ```
 
 ### Concepts — Compute Instances
 
-```mermaid
-flowchart LR
-  AMI --> LT[Launch Template]
-  IT[Instance Type] --> LT
-  UD[User Data] --> LT
-  Graviton -. silicon behind .-> IT
-  LT --> ASG[Auto Scaling Group]
-  ASG -->|creates and replaces| EC2
-  Nitro -. platform under .-> EC2
-  EC2 --> IS[Instance Store]
-  EC2 --> PG[Placement Group]
-  Spot[Spot Instance] -. price of .-> EC2
-  SP[Savings Plan] -. price of .-> EC2
+```svg
+<Panel>
+  <Node key="ami" col="0" row="0" label="AMI" />
+  <Node key="ud" col="0" row="1" label="User Data" />
+  <Node key="it" col="0" row="2" label="Instance Type" />
+  <Node key="graviton" col="0" row="3" label="Graviton" />
+  <Node key="lt" col="1" row="1" label="Launch Template" />
+  <Node key="nitro" col="2" row="4" label="Nitro" />
+  <Node key="asg" col="2" row="1" label="Auto Scaling Group" />
+  <Node key="spot" col="1" row="2" label="Spot Instance" />
+  <Node key="sp" col="1" row="3" label="Savings Plan" />
+  <Node key="ec2" col="2" row="2" rowspan="2" label="EC2" />
+  <Node key="is" col="3" row="2" label="Instance Store" />
+  <Node key="pg" col="3" row="3" label="Placement Group" />
+  <Edge from="ami" to="lt" />
+  <Edge from="it" to="lt" />
+  <Edge from="ud" to="lt" />
+  <Edge from="graviton" to="it" label="silicon behind" dashed="true" />
+  <Edge from="lt" to="asg" />
+  <Edge from="asg" to="ec2" label="creates and replaces" />
+  <Edge from="nitro" to="ec2" label="platform under" dashed="true" />
+  <Edge from="ec2" to="is" />
+  <Edge from="ec2" to="pg" />
+  <Edge from="spot" to="ec2" label="price of" dashed="true" />
+  <Edge from="sp" to="ec2" label="price of" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -203,19 +263,32 @@ flowchart LR
 
 ### Concepts — Compute Containers
 
-```mermaid
-flowchart LR
-  ECR -->|image| TD[Task Definition]
-  TD --> TR[Task Role]
-  TD --> TER[Task Execution Role]
-  TD --> ECS
-  ECS -->|capacity| Fargate
-  ECS -->|capacity| Nodes[EC2 nodes]
-  EKS -->|capacity| Fargate
-  EKS -->|capacity| Karpenter
-  Karpenter --> Nodes
-  Pod --> IRSA
-  IRSA --> Role[IAM Role]
+```svg
+<Panel>
+  <Node key="ecr" col="0" row="1" label="ECR" />
+  <Node key="td" col="1" row="1" label="Task Definition" />
+  <Node key="tr" col="2" row="0" label="Task Role" />
+  <Node key="ter" col="2" row="1" label="Task Execution Role" />
+  <Node key="ecs" col="2" row="2" label="ECS" />
+  <Node key="eks" col="2" row="4" label="EKS" />
+  <Node key="fargate" col="3" row="3" label="Fargate" />
+  <Node key="karpenter" col="3" row="4" label="Karpenter" />
+  <Node key="nodes" col="4" row="2" label="EC2 nodes" />
+  <Node key="pod" col="0" row="5" label="Pod" />
+  <Node key="irsa" col="1" row="5" label="IRSA" />
+  <Node key="role" col="2" row="5" label="IAM Role" />
+  <Edge from="ecr" to="td" label="image" />
+  <Edge from="td" to="tr" />
+  <Edge from="td" to="ter" />
+  <Edge from="td" to="ecs" />
+  <Edge from="ecs" to="fargate" label="capacity" />
+  <Edge from="ecs" to="nodes" label="capacity" />
+  <Edge from="eks" to="fargate" label="capacity" />
+  <Edge from="eks" to="karpenter" label="capacity" />
+  <Edge from="karpenter" to="nodes" />
+  <Edge from="pod" to="irsa" />
+  <Edge from="irsa" to="role" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -232,18 +305,31 @@ flowchart LR
 
 ### Concepts — Compute Functions
 
-```mermaid
-flowchart LR
-  Gateway[API Gateway] --> Lambda
-  Stream[Queue or stream] --> ESM[Event Source Mapping]
-  ESM --> Lambda
-  SF[Step Functions] --> Lambda
-  AR[App Runner] -. no function at all .-> Container
-  Lambda --> Env[Execution Environment]
-  Layer -. mounted into .-> Env
-  Env -->|first use| Cold[Cold Start]
-  PC[Provisioned Concurrency] -. removes .-> Cold
-  RC[Reserved Concurrency] -. caps .-> Env
+```svg
+<Panel>
+  <Node key="gateway" col="1" row="0" label="API Gateway" />
+  <Node key="stream" col="0" row="1" label="Queue or stream" />
+  <Node key="esm" col="1" row="1" label="Event Source Mapping" />
+  <Node key="sf" col="1" row="2" label="Step Functions" />
+  <Node key="lambda" col="2" row="1" label="Lambda" />
+  <Node key="layer" col="3" row="0" label="Layer" />
+  <Node key="env" col="3" row="1" label="Execution Environment" />
+  <Node key="rc" col="3" row="2" label="Reserved Concurrency" />
+  <Node key="pc" col="4" row="0" label="Provisioned Concurrency" />
+  <Node key="cold" col="4" row="1" label="Cold Start" />
+  <Node key="ar" col="0" row="3" label="App Runner" />
+  <Node key="container" col="2" row="3" label="Container" />
+  <Edge from="gateway" to="lambda" />
+  <Edge from="stream" to="esm" />
+  <Edge from="esm" to="lambda" />
+  <Edge from="sf" to="lambda" />
+  <Edge from="ar" to="container" label="no function at all" dashed="true" />
+  <Edge from="lambda" to="env" />
+  <Edge from="layer" to="env" label="mounted into" dashed="true" />
+  <Edge from="env" to="cold" label="first use" />
+  <Edge from="pc" to="cold" label="removes" dashed="true" />
+  <Edge from="rc" to="env" label="caps" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -338,34 +424,62 @@ The longer form of the ECS-versus-EKS decision, with the organizational question
 
 A network in AWS is something you build, not something you get. Before an instance or container can receive traffic, someone has decided which private network it sits in, which part of that network, whether that part can be reached from the internet, which firewall rules apply, how requests are spread across copies of the application, and how a domain name finds it. This section follows that path from the outside in.
 
-```mermaid
-flowchart LR
-  User --> R53[Route 53 DNS]
-  R53 --> CF[CloudFront edge]
-  CF --> ALB[Load balancer in a public subnet]
-  ALB --> App[Application in a private subnet]
-  App --> DB[Database in a private subnet]
-  App --> NAT[NAT Gateway] --> Internet
-  App --> VPCE[VPC Endpoint] --> S3
-  OnPrem[Your data centre] -->|Direct Connect or VPN| TGW[Transit Gateway]
-  TGW --> App
+```svg
+<Panel>
+  <Node key="user" col="0" row="0" label="User" />
+  <Node key="r53" col="1" row="0" label="Route 53 DNS" />
+  <Node key="cf" col="2" row="0" label="CloudFront edge" />
+  <Node key="alb" col="2" row="1" label="Load balancer in a public subnet" />
+  <Node key="tgw" col="1" row="2" label="Transit Gateway" />
+  <Node key="app" col="2" row="2" label="Application in a private subnet" />
+  <Node key="db" col="3" row="2" label="Database in a private subnet" />
+  <Node key="onprem" col="0" row="3" label="Your data centre" />
+  <Node key="nat" col="3" row="3" label="NAT Gateway" />
+  <Node key="internet" col="4" row="3" label="Internet" />
+  <Node key="vpce" col="3" row="4" label="VPC Endpoint" />
+  <Node key="s3" col="4" row="4" label="S3" />
+  <Edge from="user" to="r53" />
+  <Edge from="r53" to="cf" />
+  <Edge from="cf" to="alb" />
+  <Edge from="alb" to="app" />
+  <Edge from="app" to="db" />
+  <Edge from="app" to="nat" />
+  <Edge from="nat" to="internet" />
+  <Edge from="app" to="vpce" />
+  <Edge from="vpce" to="s3" />
+  <Edge from="onprem" to="tgw" label="Direct Connect or VPN" />
+  <Edge from="tgw" to="app" />
+</Panel>
 ```
 
 ### Concepts — Inside the VPC
 
-```mermaid
-flowchart TD
-  CIDR[CIDR Block] --> VPC
-  VPC --> Subnet
-  Subnet --> RT[Route Table]
-  Subnet --> NACL[Network ACL]
-  Subnet --> ENI[Elastic Network Interface]
-  ENI --> SG[Security Group]
-  ENI --> EIP[Elastic IP]
-  RT -->|public path| IGW[Internet Gateway]
-  RT -->|private egress| NAT[NAT Gateway]
-  RT -->|AWS service| VPCE[VPC Endpoint]
-  VPCE --> PL[PrivateLink]
+```svg
+<Panel flow="TD">
+  <Node key="cidr" col="2" row="0" label="CIDR Block" />
+  <Node key="vpc" col="2" row="1" label="VPC" />
+  <Node key="subnet" col="2" row="2" label="Subnet" />
+  <Node key="nacl" col="3" row="2" label="Network ACL" />
+  <Node key="rt" col="1" row="3" label="Route Table" />
+  <Node key="eni" col="3" row="3" colspan="2" label="Elastic Network Interface" />
+  <Node key="igw" col="0" row="4" label="Internet Gateway" />
+  <Node key="nat" col="1" row="4" label="NAT Gateway" />
+  <Node key="vpce" col="2" row="4" label="VPC Endpoint" />
+  <Node key="sg" col="3" row="4" label="Security Group" />
+  <Node key="eip" col="4" row="4" label="Elastic IP" />
+  <Node key="pl" col="2" row="5" label="PrivateLink" />
+  <Edge from="cidr" to="vpc" />
+  <Edge from="vpc" to="subnet" />
+  <Edge from="subnet" to="rt" />
+  <Edge from="subnet" to="nacl" />
+  <Edge from="subnet" to="eni" />
+  <Edge from="eni" to="sg" />
+  <Edge from="eni" to="eip" />
+  <Edge from="rt" to="igw" label="public path" />
+  <Edge from="rt" to="nat" label="private egress" />
+  <Edge from="rt" to="vpce" label="AWS service" />
+  <Edge from="vpce" to="pl" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -385,24 +499,42 @@ flowchart TD
 
 ### Concepts — Edge and Connections
 
-```mermaid
-flowchart LR
-  User --> R53[Route 53]
-  R53 --> HZ[Hosted Zone]
-  R53 --> CF[CloudFront]
-  CF --> OAC[Origin Access Control]
-  CF --> WAF
-  WAF --> ALB[Application Load Balancer]
-  User --> NLB[Network Load Balancer]
-  ALB --> TG[Target Group]
-  NLB --> TG
-  NLB --> PL[PrivateLink]
-  OnPrem[On-premises] --> DX[Direct Connect]
-  OnPrem --> VPN[Site-to-Site VPN]
-  DX --> TGW[Transit Gateway]
-  VPN --> TGW
-  TGW --> Many[Many VPCs]
-  Peering[VPC Peering] --> Two[Exactly two VPCs]
+```svg
+<Panel>
+  <Node key="r53" col="1" row="0" label="Route 53" />
+  <Node key="hz" col="2" row="0" label="Hosted Zone" />
+  <Node key="oac" col="3" row="0" label="Origin Access Control" />
+  <Node key="user" col="0" row="1" label="User" />
+  <Node key="cf" col="2" row="1" label="CloudFront" />
+  <Node key="waf" col="3" row="1" label="WAF" />
+  <Node key="alb" col="4" row="1" label="Application Load Balancer" />
+  <Node key="nlb" col="1" row="2" label="Network Load Balancer" />
+  <Node key="tg" col="4" row="2" label="Target Group" />
+  <Node key="pl" col="1" row="3" label="PrivateLink" />
+  <Node key="onprem" col="0" row="4" rowspan="2" label="On-premises" />
+  <Node key="dx" col="1" row="4" label="Direct Connect" />
+  <Node key="vpn" col="1" row="5" label="Site-to-Site VPN" />
+  <Node key="tgw" col="2" row="4" rowspan="2" label="Transit Gateway" />
+  <Node key="many" col="3" row="4" rowspan="2" label="Many VPCs" />
+  <Node key="peering" col="4" row="4" label="VPC Peering" />
+  <Node key="two" col="4" row="5" label="Exactly two VPCs" />
+  <Edge from="user" to="r53" />
+  <Edge from="r53" to="hz" />
+  <Edge from="r53" to="cf" />
+  <Edge from="cf" to="oac" />
+  <Edge from="cf" to="waf" />
+  <Edge from="waf" to="alb" />
+  <Edge from="user" to="nlb" />
+  <Edge from="alb" to="tg" />
+  <Edge from="nlb" to="tg" />
+  <Edge from="nlb" to="pl" />
+  <Edge from="onprem" to="dx" />
+  <Edge from="onprem" to="vpn" />
+  <Edge from="dx" to="tgw" />
+  <Edge from="vpn" to="tgw" />
+  <Edge from="tgw" to="many" />
+  <Edge from="peering" to="two" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -509,33 +641,56 @@ S3, DynamoDB, ECR and the other AWS services have public internet endpoints. By 
 
 There is no single "storage" in AWS. Each service is built for one shape of data and one way of reading it, and the price and behaviour differ by orders of magnitude. So the first question is always *what does the data look like, and how will it be read?* — not *which service is best?*
 
-```mermaid
-flowchart LR
-  Q{What shape is the data?}
-  Q -->|files and objects read whole| S3
-  Q -->|a disk for one server| EBS
-  Q -->|a folder shared by many servers| EFS[EFS or FSx]
-  Q -->|tables with joins and transactions| RDS[RDS or Aurora]
-  Q -->|key lookups at any scale| DDB[DynamoDB]
-  Q -->|hot values read in microseconds| ElastiCache
-  Q -->|full-text search over logs or documents| OpenSearch
+```svg
+<Panel>
+  <Node key="q" col="0" row="3" label="What shape is the data?" shape="diamond" />
+  <Node key="s3" col="2" row="0" label="S3" />
+  <Node key="ebs" col="2" row="1" label="EBS" />
+  <Node key="efs" col="2" row="2" label="EFS or FSx" />
+  <Node key="rds" col="2" row="3" label="RDS or Aurora" />
+  <Node key="ddb" col="2" row="4" label="DynamoDB" />
+  <Node key="elasticache" col="2" row="5" label="ElastiCache" />
+  <Node key="opensearch" col="2" row="6" label="OpenSearch" />
+  <Edge from="q" to="s3" label="files and objects read whole" />
+  <Edge from="q" to="ebs" label="a disk for one server" />
+  <Edge from="q" to="efs" label="a folder shared by many servers" />
+  <Edge from="q" to="rds" label="tables with joins and transactions" />
+  <Edge from="q" to="ddb" label="key lookups at any scale" />
+  <Edge from="q" to="elasticache" label="hot values read in microseconds" />
+  <Edge from="q" to="opensearch" label="full-text search over logs or documents" />
+</Panel>
 ```
 
 ### Concepts — Storage
 
-```mermaid
-flowchart LR
-  S3 --> Bucket
-  Bucket --> Object
-  Object --> SC[Storage Class]
-  SC --> LCR[Lifecycle Rule]
-  Object --> Ver[Versioning]
-  Object --> PU[Presigned URL]
-  EBS -->|one instance| Volume
-  Volume --> Snapshot
-  Snapshot --> S3
-  EFS -->|many instances| NFS[Shared mount]
-  FSx --> Protocols[Windows, Lustre, NetApp, OpenZFS]
+```svg
+<Panel>
+  <Node key="ebs" col="0" row="0" label="EBS" />
+  <Node key="volume" col="1" row="0" label="Volume" />
+  <Node key="snapshot" col="2" row="0" label="Snapshot" />
+  <Node key="s3" col="3" row="0" label="S3" />
+  <Node key="bucket" col="3" row="1" label="Bucket" />
+  <Node key="efs" col="0" row="2" label="EFS" />
+  <Node key="fsx" col="1" row="2" label="FSx" />
+  <Node key="object" col="3" row="2" label="Object" />
+  <Node key="pu" col="4" row="2" label="Presigned URL" />
+  <Node key="nfs" col="0" row="3" label="Shared mount" />
+  <Node key="protocols" col="1" row="3" label="Windows, Lustre, NetApp, OpenZFS" />
+  <Node key="ver" col="3" row="3" label="Versioning" />
+  <Node key="sc" col="4" row="3" label="Storage Class" />
+  <Node key="lcr" col="4" row="4" label="Lifecycle Rule" />
+  <Edge from="s3" to="bucket" />
+  <Edge from="bucket" to="object" />
+  <Edge from="object" to="sc" />
+  <Edge from="sc" to="lcr" />
+  <Edge from="object" to="ver" />
+  <Edge from="object" to="pu" />
+  <Edge from="ebs" to="volume" label="one&#10;instance" />
+  <Edge from="volume" to="snapshot" />
+  <Edge from="snapshot" to="s3" />
+  <Edge from="efs" to="nfs" label="many instances" />
+  <Edge from="fsx" to="protocols" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -553,25 +708,44 @@ flowchart LR
 
 ### Concepts — Data Stores
 
-```mermaid
-flowchart TD
-  Shape{What shape is the data} --> Rel[Relational]
-  Shape --> KV[Key-value]
-  Shape --> Hot[Repeated reads]
-  Shape --> Text[Text and logs]
-  Shape --> Scan[Scan-heavy analytics]
-  Rel --> RDS
-  RDS --> Aurora
-  RDS --> MAZ[Multi-AZ]
-  RDS --> RR[Read Replica]
-  KV --> DDB[DynamoDB]
-  DDB --> PK[Partition Key]
-  DDB --> GSI[Global Secondary Index]
-  DDB --> CM[Capacity Mode]
-  Hot --> EC[ElastiCache]
-  Text --> OS[OpenSearch]
-  Scan --> Redshift
-  Scan --> Athena
+```svg
+<Panel>
+  <Node key="shape" col="0" row="4" rowspan="2" label="What shape is the data" shape="diamond" />
+  <Node key="rel" col="1" row="1" label="Relational" />
+  <Node key="kv" col="1" row="4" label="Key-value" />
+  <Node key="hot" col="1" row="6" label="Repeated reads" />
+  <Node key="text" col="1" row="7" label="Text and logs" />
+  <Node key="scan" col="1" row="8" rowspan="2" label="Scan-heavy analytics" />
+  <Node key="rds" col="2" row="1" label="RDS" />
+  <Node key="aurora" col="3" row="0" label="Aurora" />
+  <Node key="maz" col="3" row="1" label="Multi-AZ" />
+  <Node key="rr" col="3" row="2" label="Read Replica" />
+  <Node key="ddb" col="2" row="4" label="DynamoDB" />
+  <Node key="pk" col="3" row="3" label="Partition Key" />
+  <Node key="gsi" col="3" row="4" label="Global Secondary Index" />
+  <Node key="cm" col="3" row="5" label="Capacity Mode" />
+  <Node key="ec" col="2" row="6" label="ElastiCache" />
+  <Node key="os" col="2" row="7" label="OpenSearch" />
+  <Node key="redshift" col="2" row="8" label="Redshift" />
+  <Node key="athena" col="2" row="9" label="Athena" />
+  <Edge from="shape" to="rel" />
+  <Edge from="shape" to="kv" />
+  <Edge from="shape" to="hot" />
+  <Edge from="shape" to="text" />
+  <Edge from="shape" to="scan" />
+  <Edge from="rel" to="rds" />
+  <Edge from="rds" to="aurora" />
+  <Edge from="rds" to="maz" />
+  <Edge from="rds" to="rr" />
+  <Edge from="kv" to="ddb" />
+  <Edge from="ddb" to="pk" />
+  <Edge from="ddb" to="gsi" />
+  <Edge from="ddb" to="cm" />
+  <Edge from="hot" to="ec" />
+  <Edge from="text" to="os" />
+  <Edge from="scan" to="redshift" />
+  <Edge from="scan" to="athena" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -655,37 +829,62 @@ When one part of a system calls another directly, the two are tied together: if 
 
 AWS has four messaging services because there are four different patterns: SQS **buffers** work in a queue for one consumer, SNS **fans out** one message to many subscribers, EventBridge **routes** events by looking at their content, and Kinesis and MSK keep a **replayable log** that many consumers read at their own pace.
 
-```mermaid
-flowchart LR
-  P[Producer] -->|one message, one consumer| SQS
-  SQS --> Worker
-  P -->|one message, many subscribers| SNS
-  SNS --> QA[Queue A]
-  SNS --> QB[Queue B]
-  P -->|deliver by content| EB[EventBridge]
-  EB -->|rule matches| Target
-  P -->|append to a log| Log[Kinesis or MSK]
-  Log -->|reads from its own position| C1[Consumer 1]
-  Log -->|reads from its own position| C2[Consumer 2]
+```svg
+<Panel>
+  <Node key="p" col="0" row="2" rowspan="2" label="Producer" />
+  <Node key="sqs" col="2" row="0" label="SQS" />
+  <Node key="worker" col="3" row="0" label="Worker" />
+  <Node key="sns" col="2" row="1" rowspan="2" label="SNS" />
+  <Node key="qa" col="3" row="1" label="Queue A" />
+  <Node key="qb" col="3" row="2" label="Queue B" />
+  <Node key="eb" col="2" row="3" label="EventBridge" />
+  <Node key="target" col="4" row="3" label="Target" />
+  <Node key="log" col="2" row="4" rowspan="2" label="Kinesis or MSK" />
+  <Node key="c1" col="4" row="4" label="Consumer 1" />
+  <Node key="c2" col="4" row="5" label="Consumer 2" />
+  <Edge from="p" to="sqs" label="one message, one consumer" />
+  <Edge from="sqs" to="worker" />
+  <Edge from="p" to="sns" label="one message, many subscribers" />
+  <Edge from="sns" to="qa" />
+  <Edge from="sns" to="qb" />
+  <Edge from="p" to="eb" label="deliver by content" />
+  <Edge from="eb" to="target" label="rule matches" />
+  <Edge from="p" to="log" label="append to a log" />
+  <Edge from="log" to="c1" label="reads from its own position" />
+  <Edge from="log" to="c2" label="reads from its own position" />
+</Panel>
 ```
 
 ### Concepts — Messaging and Events
 
-```mermaid
-flowchart LR
-  Producer --> SQS
-  Producer --> SNS
-  Producer --> EB[EventBridge]
-  Producer --> KDS[Kinesis Data Streams]
-  Producer --> MSK
-  SNS -->|fan-out| SQS
-  EB -->|rule match| Target
-  SQS --> VT[Visibility Timeout]
-  VT -->|expires| Redelivery
-  Redelivery -->|after N tries| DLQ[Dead-Letter Queue]
-  SQS -. ordered variant .-> FIFO[FIFO Queue]
-  KDS -->|read by position| Consumer
-  MSK -->|read by position| Consumer
+```svg
+<Panel>
+  <Node key="producer" col="0" row="1" label="Producer" />
+  <Node key="sns" col="1" row="0" label="SNS" />
+  <Node key="eb" col="1" row="2" label="EventBridge" />
+  <Node key="kds" col="1" row="3" label="Kinesis Data Streams" />
+  <Node key="msk" col="1" row="4" label="MSK" />
+  <Node key="sqs" col="2" row="1" label="SQS" />
+  <Node key="target" col="2" row="2" label="Target" />
+  <Node key="consumer" col="3" row="3" rowspan="2" label="Consumer" />
+  <Node key="fifo" col="3" row="0" label="FIFO Queue" />
+  <Node key="vt" col="3" row="1" label="Visibility Timeout" />
+  <Node key="redelivery" col="4" row="1" label="Redelivery" />
+  <Node key="dlq" col="4" row="2" label="Dead-Letter Queue" />
+  <Edge from="producer" to="sqs" />
+  <Edge from="producer" to="sns" />
+  <Edge from="producer" to="eb" />
+  <Edge from="producer" to="kds" />
+  <Edge from="producer" to="msk" />
+  <Edge from="sns" to="sqs" label="fan-out" />
+  <Edge from="eb" to="target" label="rule match" />
+  <Edge from="sqs" to="vt" />
+  <Edge from="vt" to="redelivery" label="expires" />
+  <Edge from="redelivery" to="dlq" label="after N tries" />
+  <Edge from="sqs" to="fifo" label="ordered variant" dashed="true" />
+  <Edge from="kds" to="consumer" label="read by position" />
+  <Edge from="msk" to="consumer" label="read by position" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -738,40 +937,69 @@ A **log** in this sense is an ordered, append-only record of events that is kept
 
 Every call to AWS — from a person, a pipeline or a running program — is checked by IAM before it does anything. The questions are always the same: *who is asking*, *what are they allowed to do*, and *how did they prove who they are* without a password stored somewhere it can be stolen. The services in this section answer those three questions for people, for CI/CD pipelines and for code running on AWS, and end with the key and secret services that decide who may decrypt what.
 
-```mermaid
-flowchart LR
-  Human[Person] -->|logs in| IdC[IAM Identity Center]
-  Pipeline[CI/CD pipeline] -->|OIDC token| Role[IAM Role]
-  Code[EC2 or ECS task or Lambda] -->|attached role| Role
-  IdC -->|permission set| Role
-  Role --> STS
-  STS -->|short-lived credentials| Call[API call]
-  Call --> Eval{IAM evaluation}
-  Eval -->|an explicit deny| Denied
-  Eval -->|an allow and no deny| Allowed
-  Eval -->|neither| Denied
-  Allowed -. if the data is encrypted .-> KMS
+```svg
+<Panel flow="TD">
+  <Node key="human" col="0" row="0" label="Person" />
+  <Node key="pipeline" col="1" row="0" label="CI/CD pipeline" />
+  <Node key="code" col="2" row="0" label="EC2 or ECS task or Lambda" />
+  <Node key="idc" col="0" row="1" label="IAM Identity Center" />
+  <Node key="role" col="1" row="2" label="IAM Role" />
+  <Node key="sts" col="1" row="3" label="STS" />
+  <Node key="call" col="1" row="4" label="API call" />
+  <Node key="eval" col="1" row="5" label="IAM evaluation" shape="diamond" />
+  <Node key="denied" col="0" row="6" label="Denied" />
+  <Node key="allowed" col="2" row="6" label="Allowed" />
+  <Node key="kms" col="2" row="7" label="KMS" />
+  <Edge from="human" to="idc" label="logs in" />
+  <Edge from="pipeline" to="role" label="OIDC token" />
+  <Edge from="code" to="role" label="attached role" toSide="right" />
+  <Edge from="idc" to="role" label="permission set" toSide="left" />
+  <Edge from="role" to="sts" />
+  <Edge from="sts" to="call" label="short-lived credentials" />
+  <Edge from="call" to="eval" />
+  <Edge from="eval" to="denied" label="an explicit deny" fromSide="left" toSide="top" />
+  <Edge from="eval" to="allowed" label="an allow and no deny" />
+  <Edge from="eval" to="denied" label="neither" />
+  <Edge from="allowed" to="kms" label="if the data is encrypted" dashed="true" />
+</Panel>
 ```
 
 ### Concepts — Identity and Access
 
-```mermaid
-flowchart LR
-  Human[IAM Identity Center] --> Role[IAM Role]
-  Pipeline[OIDC Federation] --> Role
-  Instance[Instance Profile] --> Role
-  Trust[Trust Policy] -. gates .-> Role
-  Role --> STS
-  STS --> Creds[Temporary credentials]
-  Creds --> Principal
-  Principal --> Request[API call]
-  Request --> Eval{IAM evaluation}
-  Identity[Identity Policy] --> Eval
-  ResourceP[Resource Policy] --> Eval
-  Boundary[Permissions Boundary] --> Eval
-  SCP[Service Control Policy] --> Eval
-  Eval -->|any explicit deny| Denied
-  Eval -->|an allow and no deny| Allowed
+```svg
+<Panel flow="TD">
+  <Node key="human" col="0" row="0" label="IAM Identity Center" />
+  <Node key="pipeline" col="1" row="0" label="OIDC Federation" />
+  <Node key="instance" col="2" row="0" label="Instance Profile" />
+  <Node key="trust" col="0" row="1" label="Trust Policy" />
+  <Node key="role" col="1" row="1" label="IAM Role" />
+  <Node key="sts" col="2" row="1" label="STS" />
+  <Node key="creds" col="3" row="1" label="Temporary credentials" />
+  <Node key="principal" col="4" row="1" label="Principal" />
+  <Node key="identity" col="0" row="3" label="Identity Policy" />
+  <Node key="resourcep" col="1" row="2" label="Resource Policy" />
+  <Node key="boundary" col="2" row="2" label="Permissions Boundary" />
+  <Node key="scp" col="3" row="2" label="Service Control Policy" />
+  <Node key="request" col="4" row="2" label="API call" />
+  <Node key="eval" col="2" row="3" label="IAM evaluation" shape="diamond" />
+  <Node key="denied" col="1" row="4" label="Denied" />
+  <Node key="allowed" col="3" row="4" label="Allowed" />
+  <Edge from="human" to="role" />
+  <Edge from="pipeline" to="role" />
+  <Edge from="instance" to="role" />
+  <Edge from="trust" to="role" label="gates" dashed="true" />
+  <Edge from="role" to="sts" />
+  <Edge from="sts" to="creds" />
+  <Edge from="creds" to="principal" />
+  <Edge from="principal" to="request" />
+  <Edge from="request" to="eval" toSide="right" />
+  <Edge from="identity" to="eval" />
+  <Edge from="resourcep" to="eval" />
+  <Edge from="boundary" to="eval" />
+  <Edge from="scp" to="eval" />
+  <Edge from="eval" to="denied" label="any explicit deny" />
+  <Edge from="eval" to="allowed" label="an allow and no deny" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -791,19 +1019,32 @@ flowchart LR
 
 ### Concepts — Encryption and Secrets
 
-```mermaid
-flowchart LR
-  Policy[Key Policy] -. authorizes .-> CMK[Customer Managed Key]
-  CMK -->|lives in| KMS
-  Plaintext --> Cipher[Encrypted data]
-  DataKey[Single-use data key] --> Cipher
-  DataKey --> Wrapped[Wrapped data key]
-  CMK --> Wrapped
-  Cipher --> Envelope[Envelope Encryption]
-  Wrapped --> Envelope
-  KMS --> SM[Secrets Manager]
-  KMS --> PS[Parameter Store]
-  ACM --> Endpoint[TLS endpoint]
+```svg
+<Panel>
+  <Node key="plaintext" col="0" row="0" label="Plaintext" />
+  <Node key="cipher" col="1" row="0" label="Encrypted data" />
+  <Node key="envelope" col="3" row="0" label="Envelope Encryption" />
+  <Node key="datakey" col="0" row="1" label="Single-use data key" />
+  <Node key="wrapped" col="2" row="1" label="Wrapped data key" />
+  <Node key="policy" col="0" row="2" label="Key Policy" />
+  <Node key="cmk" col="1" row="2" label="Customer Managed Key" />
+  <Node key="kms" col="2" row="2" label="KMS" />
+  <Node key="sm" col="3" row="2" label="Secrets Manager" />
+  <Node key="acm" col="0" row="3" label="ACM" />
+  <Node key="endpoint" col="1" row="3" label="TLS endpoint" />
+  <Node key="ps" col="3" row="3" label="Parameter Store" />
+  <Edge from="policy" to="cmk" label="authorizes" dashed="true" />
+  <Edge from="cmk" to="kms" label="lives in" />
+  <Edge from="plaintext" to="cipher" />
+  <Edge from="datakey" to="cipher" />
+  <Edge from="datakey" to="wrapped" />
+  <Edge from="cmk" to="wrapped" />
+  <Edge from="cipher" to="envelope" />
+  <Edge from="wrapped" to="envelope" />
+  <Edge from="kms" to="sm" />
+  <Edge from="kms" to="ps" />
+  <Edge from="acm" to="endpoint" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -881,36 +1122,71 @@ Both stores are defined in the table above. What decides between them: rotation 
 
 Once a system is running you need to answer three questions about it: *is it healthy right now* (metrics, logs and traces), *who changed what* (an audit log of `API` calls), and *what did a resource look like on a given day* (a history of configuration). A fourth group of services manages the servers themselves and tells you where money is being wasted.
 
-```mermaid
-flowchart LR
-  App[Application] -->|metrics and logs| CW[CloudWatch]
-  CW -->|threshold crossed| Alarm --> Notify[SNS or EventBridge]
-  App -->|trace segments| XRay[X-Ray]
-  Calls[Every API call] --> CT[CloudTrail]
-  State[Every resource change] --> Cfg[AWS Config]
-  Cfg -->|rule fails| Remediate[SSM Automation]
-  Fleet[EC2 fleet] --> SSM[Systems Manager]
-  Advice[Trusted Advisor and Compute Optimizer] -. recommendations .-> Fleet
+```svg
+<Panel>
+  <Node key="app" col="0" row="0" label="Application" />
+  <Node key="cw" col="2" row="0" label="CloudWatch" />
+  <Node key="alarm" col="2" row="1" label="Alarm" />
+  <Node key="notify" col="3" row="1" label="SNS or EventBridge" />
+  <Node key="xray" col="0" row="1" label="X-Ray" />
+  <Node key="calls" col="0" row="2" label="Every API call" />
+  <Node key="ct" col="1" row="2" label="CloudTrail" />
+  <Node key="state" col="0" row="3" label="Every resource change" />
+  <Node key="cfg" col="1" row="3" label="AWS Config" />
+  <Node key="remediate" col="2" row="3" label="SSM Automation" />
+  <Node key="advice" col="0" row="4" label="Trusted Advisor and Compute Optimizer" />
+  <Node key="fleet" col="2" row="4" label="EC2 fleet" />
+  <Node key="ssm" col="3" row="4" label="Systems Manager" />
+  <Edge from="app" to="cw" label="metrics and logs" />
+  <Edge from="cw" to="alarm" label="threshold crossed" />
+  <Edge from="alarm" to="notify" />
+  <Edge from="app" to="xray" label="trace segments" />
+  <Edge from="calls" to="ct" />
+  <Edge from="state" to="cfg" />
+  <Edge from="cfg" to="remediate" label="rule fails" />
+  <Edge from="fleet" to="ssm" />
+  <Edge from="advice" to="fleet" label="recommendations" dashed="true" />
+</Panel>
 ```
 
 ### Concepts — Observability and Governance
 
-```mermaid
-flowchart LR
-  App --> Metric
-  App --> LG[Log Group]
-  App --> XRay[X-Ray]
-  Metric --> CW[CloudWatch]
-  LG --> CW
-  CW --> Alarm
-  Alarm --> Act[Notify, scale or roll back]
-  Calls[Every API call] --> CT[CloudTrail]
-  State[Resource configuration] --> Cfg[AWS Config]
-  Cfg --> Compliance
-  Fleet[Instance fleet] --> SSM[Systems Manager]
-  SSM --> SessM[Session Manager]
-  Account --> TA[Trusted Advisor]
-  Design --> WA[Well-Architected Framework]
+```svg
+<Panel>
+  <Node key="metric" col="1" row="0" label="Metric" />
+  <Node key="cw" col="2" row="0" label="CloudWatch" />
+  <Node key="alarm" col="3" row="0" label="Alarm" />
+  <Node key="act" col="4" row="0" label="Notify, scale or roll back" />
+  <Node key="app" col="0" row="1" label="App" />
+  <Node key="lg" col="1" row="1" label="Log Group" />
+  <Node key="xray" col="1" row="2" label="X-Ray" />
+  <Node key="design" col="3" row="2" label="Design" />
+  <Node key="wa" col="4" row="2" label="Well-Architected Framework" />
+  <Node key="calls" col="0" row="3" label="Every API call" />
+  <Node key="ct" col="1" row="3" label="CloudTrail" />
+  <Node key="account" col="3" row="3" label="Account" />
+  <Node key="ta" col="4" row="3" label="Trusted Advisor" />
+  <Node key="state" col="0" row="4" label="Resource configuration" />
+  <Node key="cfg" col="1" row="4" label="AWS Config" />
+  <Node key="compliance" col="2" row="4" label="Compliance" />
+  <Node key="fleet" col="0" row="5" label="Instance fleet" />
+  <Node key="ssm" col="1" row="5" label="Systems Manager" />
+  <Node key="sessm" col="2" row="5" label="Session Manager" />
+  <Edge from="app" to="metric" />
+  <Edge from="app" to="lg" />
+  <Edge from="app" to="xray" />
+  <Edge from="metric" to="cw" />
+  <Edge from="lg" to="cw" />
+  <Edge from="cw" to="alarm" />
+  <Edge from="alarm" to="act" />
+  <Edge from="calls" to="ct" />
+  <Edge from="state" to="cfg" />
+  <Edge from="cfg" to="compliance" />
+  <Edge from="fleet" to="ssm" />
+  <Edge from="ssm" to="sessm" />
+  <Edge from="account" to="ta" />
+  <Edge from="design" to="wa" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -990,18 +1266,31 @@ Production infrastructure is described in files, reviewed like application code,
 
 ### Concepts — Infrastructure as Code and Delivery
 
-```mermaid
-flowchart LR
-  CDK -->|synth| CFN[CloudFormation]
-  CFN --> CS[Change Set]
-  CS -->|execute| Stack
-  Stack -. edited by hand .-> Drift
-  Source --> CP[CodePipeline]
-  CP --> CB[CodeBuild]
-  CB --> CD[CodeDeploy]
-  CD --> BG[Blue/Green Deployment]
-  CD --> Can[Canary Deployment]
-  Can -. watches .-> Alarms
+```svg
+<Panel>
+  <Node key="cdk" col="0" row="0" label="CDK" />
+  <Node key="cfn" col="1" row="0" label="CloudFormation" />
+  <Node key="cs" col="2" row="0" label="Change Set" />
+  <Node key="stack" col="3" row="0" label="Stack" />
+  <Node key="drift" col="4" row="1" label="Drift" />
+  <Node key="source" col="0" row="2" label="Source" />
+  <Node key="cp" col="1" row="2" label="CodePipeline" />
+  <Node key="cb" col="2" row="2" label="CodeBuild" />
+  <Node key="cd" col="3" row="2" label="CodeDeploy" />
+  <Node key="bg" col="4" row="2" label="Blue/Green Deployment" />
+  <Node key="canary" col="3" row="3" label="Canary Deployment" />
+  <Node key="alarms" col="4" row="3" label="Alarms" />
+  <Edge from="cdk" to="cfn" label="synth" />
+  <Edge from="cfn" to="cs" />
+  <Edge from="cs" to="stack" label="execute" />
+  <Edge from="stack" to="drift" label="edited by hand" dashed="true" />
+  <Edge from="source" to="cp" />
+  <Edge from="cp" to="cb" />
+  <Edge from="cb" to="cd" />
+  <Edge from="cd" to="bg" />
+  <Edge from="cd" to="canary" />
+  <Edge from="canary" to="alarms" label="watches" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -1077,19 +1366,35 @@ Availability is bought, not assumed. What you buy is decided by two numbers and 
 
 ### Concepts — Resilience and Responsibility
 
-```mermaid
-flowchart LR
-  SRM[Shared Responsibility Model] -->|AWS secures| Cloud[The cloud itself]
-  SRM -->|you secure| Yours[What you put in it]
-  Blast[Blast Radius] -. bounded by .-> Bounds[Account, Region, Availability Zone]
-  RTO --> Pick{Recovery strategy}
-  RPO --> Pick
-  Pick --> BR[Backup and Restore]
-  BR -->|faster, dearer| PL[Pilot Light]
-  PL -->|faster, dearer| WS[Warm Standby]
-  WS -->|faster, dearer| AA[Active-Active]
-  Retry[Exponential Backoff with Jitter] --> Idem[Idempotency]
-  Idem --> Once[At-least-once delivery made safe]
+```svg
+<Panel>
+  <Node key="srm" col="0" row="0" rowspan="2" label="Shared Responsibility Model" />
+  <Node key="cloud" col="1" row="0" label="The cloud itself" />
+  <Node key="yours" col="1" row="1" label="What you put in it" />
+  <Node key="blast" col="3" row="0" label="Blast Radius" />
+  <Node key="bounds" col="4" row="0" label="Account, Region, Availability Zone" />
+  <Node key="rto" col="0" row="2" label="RTO" />
+  <Node key="rpo" col="0" row="3" label="RPO" />
+  <Node key="pick" col="1" row="2" label="Recovery strategy" shape="diamond" />
+  <Node key="br" col="2" row="2" label="Backup and Restore" />
+  <Node key="pl" col="3" row="2" label="Pilot Light" />
+  <Node key="ws" col="4" row="2" label="Warm Standby" />
+  <Node key="aa" col="4" row="3" label="Active-Active" />
+  <Node key="retry" col="0" row="4" label="Exponential Backoff with Jitter" />
+  <Node key="idem" col="1" row="4" label="Idempotency" />
+  <Node key="once" col="2" row="4" label="At-least-once delivery made safe" />
+  <Edge from="srm" to="cloud" label="AWS secures" />
+  <Edge from="srm" to="yours" label="you secure" />
+  <Edge from="blast" to="bounds" label="bounded by" dashed="true" />
+  <Edge from="rto" to="pick" />
+  <Edge from="rpo" to="pick" />
+  <Edge from="pick" to="br" />
+  <Edge from="br" to="pl" label="faster,&#10;dearer" />
+  <Edge from="pl" to="ws" label="faster,&#10;dearer" />
+  <Edge from="ws" to="aa" label="faster,&#10;dearer" />
+  <Edge from="retry" to="idem" />
+  <Edge from="idem" to="once" />
+</Panel>
 ```
 
 | Concept | Definition |

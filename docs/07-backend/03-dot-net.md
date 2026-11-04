@@ -15,10 +15,20 @@ ASP.NET Core is the web framework of .NET: one hosting model, one dependency inj
 | **API style** | Minimal APIs for new projects; controllers when their extra features are needed |
 | **Server** | Kestrel, cross-platform, in-process |
 
-```mermaid
-flowchart LR
-    C[Client] --> K[Kestrel] --> M[Middleware pipeline] --> E[Endpoint]
-    E --> S[Scoped services] --> DB[(DbContext → database)]
+```svg
+<Panel flow="LR">
+  <Node key="client" col="0" row="0" label="Client" />
+  <Node key="kestrel" col="1" row="0" label="Kestrel" />
+  <Node key="pipeline" col="2" row="0" label="Middleware pipeline" />
+  <Node key="endpoint" col="3" row="0" label="Endpoint" />
+  <Node key="scoped" col="0" row="1" label="Scoped services" />
+  <Node key="db" col="1" row="1" colspan="2" label="DbContext → database" shape="db" />
+  <Edge from="client" to="kestrel" />
+  <Edge from="kestrel" to="pipeline" />
+  <Edge from="pipeline" to="endpoint" />
+  <Edge from="endpoint" to="scoped" fromSide="bottom" toSide="top" />
+  <Edge from="scoped" to="db" />
+</Panel>
 ```
 
 ## C# Essentials
@@ -90,9 +100,18 @@ app.Run();
 
 Configuration sources stack, and later ones win. In environment variables, `__` stands for `:`, so `Billing__BaseUrl` sets `Billing:BaseUrl`.
 
-```mermaid
-flowchart LR
-    A[appsettings.json] --> B["appsettings.{Environment}.json"] --> U[User secrets, Development only] --> E[Environment variables] --> CL[Command line]
+```svg
+<Panel flow="LR">
+  <Node key="base" col="0" row="0" label="appsettings.json" />
+  <Node key="env-file" col="1" row="0" label="appsettings.&#10;{Environment}.json" />
+  <Node key="secrets" col="2" row="0" label="User secrets, Development only" />
+  <Node key="env" col="3" row="0" label="Environment variables" />
+  <Node key="cli" col="4" row="0" label="Command line" />
+  <Edge from="base" to="env-file" />
+  <Edge from="env-file" to="secrets" />
+  <Edge from="secrets" to="env" />
+  <Edge from="env" to="cli" />
+</Panel>
 ```
 
 Read settings through the options pattern, not raw `IConfiguration`: `IOptions<T>` is read once, `IOptionsSnapshot<T>` once per request (Scoped), and `IOptionsMonitor<T>` reloads live and notifies on change.
@@ -124,9 +143,26 @@ public record NewTodo([Required, MaxLength(200)] string Title);
 
 The middleware pipeline runs in registration order on the way in and in reverse on the way out. The official order:
 
-```mermaid
-flowchart LR
-    X[ExceptionHandler, HSTS] --> H[HttpsRedirection] --> SF[StaticFiles] --> R[Routing] --> RL[RateLimiter, CORS] --> AN[Authentication] --> AZ[Authorization] --> OC[OutputCache] --> EP[Endpoints]
+```svg
+<Panel flow="LR">
+  <Node key="errors" col="0" row="0" label="ExceptionHandler, HSTS" />
+  <Node key="https" col="1" row="0" label="HttpsRedirection" />
+  <Node key="static" col="2" row="0" label="StaticFiles" />
+  <Node key="routing" col="3" row="0" label="Routing" />
+  <Node key="limits" col="4" row="0" label="RateLimiter, CORS" />
+  <Node key="authn" col="0" row="1" label="Authentication" />
+  <Node key="authz" col="1" row="1" label="Authorization" />
+  <Node key="cache" col="2" row="1" label="OutputCache" />
+  <Node key="endpoints" col="3" row="1" label="Endpoints" />
+  <Edge from="errors" to="https" />
+  <Edge from="https" to="static" />
+  <Edge from="static" to="routing" />
+  <Edge from="routing" to="limits" />
+  <Edge from="limits" to="authn" fromSide="bottom" toSide="top" />
+  <Edge from="authn" to="authz" />
+  <Edge from="authz" to="cache" />
+  <Edge from="cache" to="endpoints" />
+</Panel>
 ```
 
 ## Data: EF Core

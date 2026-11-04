@@ -15,10 +15,24 @@ Spring Boot builds production Java services from conventions: it wires the beans
 | **JSON** | Jackson 3, in the `tools.jackson` package |
 | **Null safety** | JSpecify annotations across the Spring APIs |
 
-```mermaid
-flowchart LR
-    C[Client] --> T[Tomcat thread] --> F[Security filter chain] --> D[DispatcherServlet]
-    D --> RC["@RestController"] --> S["@Service"] --> R[Repository] --> DB[(Database)]
+```svg
+<Panel flow="LR">
+  <Node key="client" col="0" row="0" label="Client" />
+  <Node key="tomcat" col="1" row="0" label="Tomcat thread" />
+  <Node key="filters" col="2" row="0" label="Security filter chain" />
+  <Node key="dispatcher" col="3" row="0" label="DispatcherServlet" />
+  <Node key="controller" col="0" row="1" label="@RestController" />
+  <Node key="service" col="1" row="1" label="@Service" />
+  <Node key="repo" col="2" row="1" label="Repository" />
+  <Node key="db" col="3" row="1" label="Database" shape="db" />
+  <Edge from="client" to="tomcat" />
+  <Edge from="tomcat" to="filters" />
+  <Edge from="filters" to="dispatcher" />
+  <Edge from="dispatcher" to="controller" fromSide="bottom" toSide="top" />
+  <Edge from="controller" to="service" />
+  <Edge from="service" to="repo" />
+  <Edge from="repo" to="db" />
+</Panel>
 ```
 
 ## Java Essentials
@@ -94,25 +108,42 @@ class OrderService {
 - **Scope.** Beans are singletons by default, shared across threads. Keep them stateless.
 - **Proxies.** `@Transactional`, `@Cacheable`, `@Async` and `@Retryable` work through a proxy around the bean, so they apply only to calls that come *through* the proxy — see [Aspect-Oriented Programming](../05-coding/04-metaprogramming.md#aspect-oriented-programming-aop).
 
-```mermaid
-sequenceDiagram
-    participant C as Caller
-    participant P as Proxy
-    participant B as OrderService
-    C->>P: place(order)
-    P->>P: begin transaction
-    P->>B: place(order)
-    B->>B: this.audit() — no proxy, so no transaction of its own
-    P->>P: commit, or roll back on RuntimeException
+```svg
+<Panel flow="TD">
+  <Node key="c" col="0" row="0" label="Caller" />
+  <Node key="p" col="1" row="0" label="Proxy" />
+  <Node key="b" col="2" row="0" colspan="2" label="OrderService" />
+  <Node key="c1" col="0" row="1" shape="point" />
+  <Node key="p1" col="1" row="1" shape="point" />
+  <Node key="p2" col="1" row="2" shape="point" />
+  <Node key="b2" col="2" row="2" colspan="2" shape="point" />
+  <Node key="b3" col="2" row="3" colspan="2" shape="point" />
+  <Node key="p3" col="1" row="3" shape="point" />
+  <Node key="p4" col="1" row="4" shape="point" />
+  <Edge from="c1" to="p1" label="place(order)" />
+  <Edge from="p1" to="p2" label="begin transaction" />
+  <Edge from="p2" to="b2" label="place(order)" />
+  <Edge from="b2" to="b3" label="this.audit() — no proxy, so no transaction of its own" />
+  <Edge from="p3" to="p4" label="commit, or roll back on RuntimeException" />
+</Panel>
 ```
 
 ## Configuration
 
 `application.yml` (or `.properties`) holds defaults; `application-{profile}.yml` overrides them when the profile is active (`spring.profiles.active=prod`). Later sources win:
 
-```mermaid
-flowchart LR
-    A[application.yml] --> B["application-prod.yml"] --> E[OS environment variables] --> J[Java system properties] --> CL[Command-line arguments]
+```svg
+<Panel flow="LR">
+  <Node key="app" col="0" row="0" label="application.yml" />
+  <Node key="prod" col="1" row="0" label="application-&#10;prod.yml" />
+  <Node key="env" col="2" row="0" label="OS environment variables" />
+  <Node key="sys" col="3" row="0" label="Java system properties" />
+  <Node key="cli" col="4" row="0" label="Command-line arguments" />
+  <Edge from="app" to="prod" />
+  <Edge from="prod" to="env" />
+  <Edge from="env" to="sys" />
+  <Edge from="sys" to="cli" />
+</Panel>
 ```
 
 Relaxed binding maps `SERVER_PORT` to `server.port`, so containers configure Boot through the environment alone. Bind a group of settings to a typed, validated record rather than scattering `@Value`:

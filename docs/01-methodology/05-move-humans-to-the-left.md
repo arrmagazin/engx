@@ -23,18 +23,23 @@ The approach moves the *humans themselves* to the left, then removes them from t
 
 This lowers the number of places a defect can be *introduced*: every manual step right of the source is a chance to mistype, forget an environment, or apply a change nobody reviewed.
 
-```mermaid
-flowchart LR
-    subgraph L["Left — humans decide"]
-        Intent["Intent<br/>what should be true"] --> Source["Source artifact<br/>machine-readable, SSOT"]
-    end
-    Source --> Check["Validation<br/>schema · policy · review"]
-    subgraph R["Right — machines apply"]
-        Check --> Gen["Generation"]
-        Gen --> Derived["Code · configuration<br/>runtime metadata · docs"]
-        Derived --> Run["Running system"]
-    end
-    Run -.what was learned.-> Intent
+```svg
+<Panel flow="LR">
+  <Group col="0" row="0" colspan="2" label="Left — humans decide" />
+  <Group col="2" row="0" colspan="3" rowspan="2" label="Right — machines apply" />
+  <Node key="intent" col="0" row="0" label="Intent" note="what should be true" />
+  <Node key="source" col="1" row="0" label="Source artifact" note="machine-readable, SSOT" />
+  <Node key="check" col="2" row="0" label="Validation" note="schema · policy · review" />
+  <Node key="gen" col="3" row="0" label="Generation" />
+  <Node key="derived" col="3" row="1" colspan="2" label="Code · configuration" note="runtime metadata · docs" />
+  <Node key="run" col="2" row="1" label="Running system" />
+  <Edge from="intent" to="source" />
+  <Edge from="source" to="check" />
+  <Edge from="check" to="gen" />
+  <Edge from="gen" to="derived" fromSide="bottom" toSide="top" />
+  <Edge from="derived" to="run" />
+  <Edge from="run" to="intent" label="what was learned" dashed="true" fromSide="left" toSide="bottom" />
+</Panel>
 ```
 
 In [Lean](01-lean.md) terms this is:

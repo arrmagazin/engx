@@ -13,13 +13,20 @@ Programming as defining reactions to data streams: sequences of incoming events 
 
 Control is inverted. Instead of the consumer asking for the next value (pull), the producer pushes values to whoever declared interest, and change propagates automatically through the dependency graph.
 
-```mermaid
-flowchart LR
-    P[Producer] -->|push| S1[Stream]
-    S1 -->|map| S2["Stream'"]
-    S2 -->|filter| S3["Stream''"]
-    S3 --> O1[Observer A]
-    S3 --> O2[Observer B]
+```svg
+<Panel>
+  <Node key="producer" col="0" row="0" label="Producer" />
+  <Node key="s1" col="1" row="0" label="Stream" />
+  <Node key="s2" col="2" row="0" label="Stream'" />
+  <Node key="s3" col="3" row="0" label="Stream''" />
+  <Node key="o1" col="4" row="0" label="Observer A" />
+  <Node key="o2" col="4" row="1" label="Observer B" />
+  <Edge from="producer" to="s1" label="push" />
+  <Edge from="s1" to="s2" label="map" />
+  <Edge from="s2" to="s3" label="filter" />
+  <Edge from="s3" to="o1" />
+  <Edge from="s3" to="o2" />
+</Panel>
 ```
 
 ### Stream Concepts

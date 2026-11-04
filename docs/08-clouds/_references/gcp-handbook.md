@@ -19,15 +19,24 @@ The material is grouped the way a system is built.
 
 After those come the cross-cutting concerns that only appear once a system is real: **infrastructure as code and delivery**, **resilience**, and the performance, cost and security practices that keep it running.
 
-```mermaid
-flowchart LR
-  Users --> Networking --> Compute
-  Compute --> Storage[Storage and Data]
-  Compute -->|send and receive| Messaging[Messaging and Events]
-  Identity -. permits or denies every call .-> Compute
-  Identity -. permits or denies every call .-> Storage
-  Observability -. records what happens .-> Compute
-  Observability -. records what happens .-> Storage
+```svg
+<Panel>
+  <Node key="users" col="0" row="1" label="Users" />
+  <Node key="networking" col="1" row="1" label="Networking" />
+  <Node key="compute" col="2" row="1" label="Compute" />
+  <Node key="messaging" col="2" row="0" label="Messaging and Events" />
+  <Node key="storage" col="2" row="3" label="Storage and Data" />
+  <Node key="identity" col="1" row="2" label="Identity" />
+  <Node key="observability" col="3" row="2" label="Observability" />
+  <Edge from="users" to="networking" />
+  <Edge from="networking" to="compute" />
+  <Edge from="compute" to="storage" />
+  <Edge from="compute" to="messaging" label="send and receive" />
+  <Edge from="identity" to="compute" label="permits or denies every call" dashed="true" />
+  <Edge from="identity" to="storage" label="permits or denies every call" dashed="true" />
+  <Edge from="observability" to="compute" label="records what happens" dashed="true" />
+  <Edge from="observability" to="storage" label="records what happens" dashed="true" />
+</Panel>
 ```
 
 ## How to Read This Document
@@ -55,23 +64,34 @@ Everything in Google Cloud rests on three ideas that are explained once here and
 
 ### Concepts — Projects and Regions
 
-```mermaid
-flowchart TD
-  subgraph Hierarchy
-    Org[Organization] --> Folder
-    Folder --> Project
-    OrgPolicy[Organization Policy] -. constrains .-> Folder
-    Billing[Billing Account] -. pays for .-> Project
-    RM[Resource Manager] -. owns the tree .-> Org
-    CI[Cloud Identity] -. authenticates into .-> Org
-  end
-  subgraph Geography
-    Region --> Zone
-    MR[Multi-Region] --> Region
-    Region -. served from .-> PoP[Point of Presence]
-  end
-  Project --> Res[Resource]
-  Zone --> Res
+```svg
+<Panel flow="TD">
+  <Group col="0" row="0" colspan="3" rowspan="4" label="Hierarchy" />
+  <Group col="3" row="1" colspan="2" rowspan="3" label="Geography" />
+  <Node key="rm" col="0" row="0" label="Resource Manager" />
+  <Node key="ci" col="2" row="0" label="Cloud Identity" />
+  <Node key="org" col="1" row="1" label="Organization" />
+  <Node key="org-policy" col="0" row="1" label="Organization Policy" />
+  <Node key="folder" col="1" row="2" label="Folder" />
+  <Node key="billing" col="2" row="2" label="Billing Account" />
+  <Node key="project" col="1" row="3" label="Project" />
+  <Node key="mr" col="3" row="1" label="Multi-Region" />
+  <Node key="region" col="3" row="2" label="Region" />
+  <Node key="pop" col="4" row="3" label="Point of Presence" />
+  <Node key="zone" col="3" row="3" label="Zone" />
+  <Node key="res" col="2" row="4" label="Resource" />
+  <Edge from="org" to="folder" />
+  <Edge from="folder" to="project" />
+  <Edge from="org-policy" to="folder" label="constrains" dashed="true" />
+  <Edge from="billing" to="project" label="pays for" dashed="true" />
+  <Edge from="rm" to="org" label="owns the tree" dashed="true" />
+  <Edge from="ci" to="org" label="authenticates into" dashed="true" />
+  <Edge from="region" to="zone" />
+  <Edge from="mr" to="region" />
+  <Edge from="region" to="pop" label="served from" dashed="true" />
+  <Edge from="project" to="res" />
+  <Edge from="zone" to="res" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -90,18 +110,28 @@ flowchart TD
 
 ### Concepts — Services and Resources
 
-```mermaid
-flowchart LR
-  Service -->|enabled per Project| API
-  API -->|creates| Resource
-  Project --> Resource
-  Resource --> RN[Resource Name]
-  Resource --> Label
-  Service --> SA[Service Agent]
-  Service --> Quota
-  Project --> Quota
-  Project --> PID[Project ID]
-  Quota -. caps .-> Resource
+```svg
+<Panel>
+  <Node key="service" col="0" row="1" label="Service" />
+  <Node key="sa" col="0" row="2" label="Service Agent" />
+  <Node key="api" col="1" row="0" label="API" />
+  <Node key="quota" col="1" row="1" label="Quota" />
+  <Node key="project" col="1" row="2" label="Project" />
+  <Node key="resource" col="2" row="1" label="Resource" />
+  <Node key="pid" col="2" row="2" label="Project ID" />
+  <Node key="rn" col="3" row="1" label="Resource Name" />
+  <Node key="label" col="3" row="2" label="Label" />
+  <Edge from="service" to="api" label="enabled per Project" />
+  <Edge from="api" to="resource" label="creates" />
+  <Edge from="project" to="resource" />
+  <Edge from="resource" to="rn" />
+  <Edge from="resource" to="label" />
+  <Edge from="service" to="sa" />
+  <Edge from="service" to="quota" />
+  <Edge from="project" to="quota" />
+  <Edge from="project" to="pid" />
+  <Edge from="quota" to="resource" label="caps" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -130,18 +160,30 @@ A **project** is the container you create things in. It is the boundary for bill
 
 Every Google Cloud service is a set of **APIs**, and they are unusually uniform: most follow the same resource-oriented design, return the same error shapes, and represent long-running work as an **operation** object you poll. There is one hierarchy underneath all of them, so a single call can list resources across projects — something that takes a fan-out across accounts on AWS.
 
-```mermaid
-flowchart LR
-  Console --> API
-  CLI[gcloud and gsutil and bq] --> API
-  Lib[Client libraries] --> API
-  IaC[Terraform or Config Connector] --> API
-  API --> Enabled{Service enabled?}
-  Enabled -->|no| NotEnabled[Error: API not enabled]
-  Enabled -->|yes| IAM{IAM allows?}
-  IAM -->|yes| Resource[Resource in one Project]
-  IAM -->|no| Denied
-  API -. every admin call recorded by .-> Audit[Cloud Audit Logs]
+```svg
+<Panel>
+  <Node key="console" col="0" row="0" label="Console" />
+  <Node key="cli" col="0" row="1" label="gcloud and gsutil and bq" />
+  <Node key="lib" col="0" row="2" label="Client libraries" />
+  <Node key="iac" col="0" row="3" label="Terraform or Config Connector" />
+  <Node key="api" col="1" row="1" rowspan="2" label="API" />
+  <Node key="audit" col="1" row="3" label="Cloud Audit Logs" />
+  <Node key="enabled" col="2" row="1" rowspan="2" label="Service enabled?" shape="diamond" />
+  <Node key="not-enabled" col="3" row="1" label="Error: API not enabled" />
+  <Node key="iam" col="3" row="2" label="IAM allows?" shape="diamond" />
+  <Node key="resource" col="4" row="2" label="Resource in one Project" />
+  <Node key="denied" col="4" row="3" label="Denied" />
+  <Edge from="console" to="api" />
+  <Edge from="cli" to="api" />
+  <Edge from="lib" to="api" />
+  <Edge from="iac" to="api" />
+  <Edge from="api" to="enabled" />
+  <Edge from="enabled" to="not-enabled" label="no" />
+  <Edge from="enabled" to="iam" label="yes" />
+  <Edge from="iam" to="resource" label="yes" />
+  <Edge from="iam" to="denied" label="no" />
+  <Edge from="api" to="audit" label="every admin call recorded by" dashed="true" />
+</Panel>
 ```
 
 - The **console** (the website) is the same `API` behind buttons. It is the right place to learn and to look, and the wrong place to build production, because what you click is not recorded anywhere you can repeat. Its one genuinely useful production feature is the **Equivalent command line** link on most creation forms, which prints the `gcloud` call it is about to make.
@@ -169,34 +211,57 @@ Compute is where your code runs. Google Cloud gives you four ways to run it, and
 
 The general pattern: the less you manage, the less you can customise, and the more you pay per unit of work at steady high load — but the less you pay when the load is low or uneven, and the less operator time you spend. Most teams end up with a mix. Google Cloud's particular bias is that its serverless tier accepts an **ordinary container image**, so moving between Cloud Run and Kubernetes is a deployment change rather than a rewrite.
 
-```mermaid
-flowchart LR
-  Code[Your code] --> Choice{How is it packaged?}
-  Choice -->|installed on a server| GCE[Compute Engine in a Managed Instance Group]
-  Choice -->|container image, no cluster| CR[Cloud Run]
-  Choice -->|container image with Kubernetes tooling| GKE
-  Choice -->|a single function| CRF[Cloud Run Functions]
-  GKE --> Mode{Who owns the nodes?}
-  Mode -->|you| Std[Standard: Node Pools]
-  Mode -->|Google| AP[Autopilot]
-  CRF -. deployed onto .-> CR
+```svg
+<Panel>
+  <Node key="code" col="0" row="1" label="Your code" />
+  <Node key="choice" col="0" row="2" rowspan="2" label="How is it packaged?" shape="diamond" />
+  <Node key="gke" col="2" row="1" label="GKE" />
+  <Node key="gce" col="2" row="2" colspan="2" label="Compute Engine in a Managed Instance Group" />
+  <Node key="cr" col="2" row="3" label="Cloud Run" />
+  <Node key="crf" col="2" row="4" label="Cloud Run Functions" />
+  <Node key="mode" col="3" row="1" label="Who owns the nodes?" shape="diamond" />
+  <Node key="std" col="4" row="0" label="Standard: Node Pools" />
+  <Node key="ap" col="4" row="2" label="Autopilot" />
+  <Edge from="code" to="choice" />
+  <Edge from="choice" to="gce" label="installed on a server" />
+  <Edge from="choice" to="cr" label="container image, no cluster" />
+  <Edge from="choice" to="gke" label="container image with Kubernetes tooling" />
+  <Edge from="choice" to="crf" label="a single function" />
+  <Edge from="gke" to="mode" />
+  <Edge from="mode" to="std" label="you" />
+  <Edge from="mode" to="ap" label="Google" />
+  <Edge from="crf" to="cr" label="deployed onto" dashed="true" />
+</Panel>
 ```
 
 ### Concepts — Compute Instances
 
-```mermaid
-flowchart LR
-  Image --> IT[Instance Template]
-  MT[Machine Type] --> IT
-  CMT[Custom Machine Type] -. a shape of .-> MT
-  IT --> MIG[Managed Instance Group]
-  MIG -->|creates and replaces| Instance
-  Instance --> LSSD[Local SSD]
-  Instance --> CVM[Confidential VM]
-  LM[Live Migration] -. moves .-> Instance
-  Spot[Spot VM] -. price of .-> Instance
-  SUD[Sustained Use Discount] -. price of .-> Instance
-  CUD[Committed Use Discount] -. price of .-> Instance
+```svg
+<Panel>
+  <Node key="cmt" col="0" row="0" label="Custom Machine Type" />
+  <Node key="mt" col="0" row="1" label="Machine Type" />
+  <Node key="image" col="0" row="2" label="Image" />
+  <Node key="it" col="1" row="1" label="Instance Template" />
+  <Node key="mig" col="2" row="1" label="Managed Instance Group" />
+  <Node key="instance" col="3" row="2" label="Instance" />
+  <Node key="lssd" col="4" row="1" label="Local SSD" />
+  <Node key="cvm" col="4" row="2" label="Confidential VM" />
+  <Node key="lm" col="2" row="2" label="Live Migration" />
+  <Node key="spot" col="2" row="3" label="Spot VM" />
+  <Node key="sud" col="3" row="3" label="Sustained Use Discount" />
+  <Node key="cud" col="4" row="3" label="Committed Use Discount" />
+  <Edge from="image" to="it" />
+  <Edge from="mt" to="it" />
+  <Edge from="cmt" to="mt" label="a shape of" dashed="true" />
+  <Edge from="it" to="mig" />
+  <Edge from="mig" to="instance" label="creates and replaces" />
+  <Edge from="instance" to="lssd" />
+  <Edge from="instance" to="cvm" />
+  <Edge from="lm" to="instance" label="moves" dashed="true" />
+  <Edge from="spot" to="instance" label="price of" dashed="true" />
+  <Edge from="sud" to="instance" label="price of" dashed="true" />
+  <Edge from="cud" to="instance" label="price of" dashed="true" fromSide="top" toSide="bottom" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -216,20 +281,33 @@ flowchart LR
 
 ### Concepts — Compute Containers
 
-```mermaid
-flowchart LR
-  AR[Artifact Registry] -->|image| GKE
-  AR -->|image| CR[Cloud Run]
-  GKE --> Mode{Mode}
-  Mode --> AP[Autopilot]
-  Mode --> NP[Node Pool]
-  NP --> Pod
-  AP --> Pod
-  Pod --> WIF[Workload Identity Federation for GKE]
-  CR --> Conc[Concurrency]
-  CB[Cloud Build] -->|pushes to| AR
-  BA[Binary Authorization] -. gates .-> Pod
-  GKEE[GKE Enterprise] -. governs many clusters .-> GKE
+```svg
+<Panel>
+  <Node key="cb" col="0" row="0" label="Cloud Build" />
+  <Node key="ar" col="0" row="1" label="Artifact Registry" />
+  <Node key="gkee" col="1" row="0" label="GKE Enterprise" />
+  <Node key="gke" col="1" row="1" label="GKE" />
+  <Node key="cr" col="1" row="2" label="Cloud Run" />
+  <Node key="mode" col="2" row="1" label="Mode" shape="diamond" />
+  <Node key="conc" col="2" row="2" label="Concurrency" />
+  <Node key="ap" col="3" row="0" label="Autopilot" />
+  <Node key="np" col="3" row="2" label="Node Pool" />
+  <Node key="ba" col="4" row="0" label="Binary Authorization" />
+  <Node key="pod" col="4" row="1" label="Pod" />
+  <Node key="wif" col="4" row="2" label="Workload Identity Federation for GKE" />
+  <Edge from="ar" to="gke" label="image" />
+  <Edge from="ar" to="cr" label="image" />
+  <Edge from="gke" to="mode" />
+  <Edge from="mode" to="ap" />
+  <Edge from="mode" to="np" />
+  <Edge from="np" to="pod" />
+  <Edge from="ap" to="pod" />
+  <Edge from="pod" to="wif" />
+  <Edge from="cr" to="conc" />
+  <Edge from="cb" to="ar" label="pushes to" />
+  <Edge from="ba" to="pod" label="gates" dashed="true" />
+  <Edge from="gkee" to="gke" label="governs many clusters" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -248,19 +326,32 @@ flowchart LR
 
 ### Concepts — Compute Functions
 
-```mermaid
-flowchart LR
-  HTTP[HTTP request] --> Trigger
-  PS[Pub/Sub message] --> Trigger
-  Bucket[Bucket event] --> Trigger
-  Trigger --> CRF[Cloud Run Functions]
-  CRF --> Rev[Revision]
-  Rev --> TS[Traffic Split]
-  Rev -->|first use| CS[Cold Start]
-  Min[Minimum Instances] -. removes .-> CS
-  Max[Maximum Instances] -. caps .-> Rev
-  AG[API Gateway] --> CRF
-  AE[App Engine] -. the same idea, older .-> Rev
+```svg
+<Panel>
+  <Node key="http" col="0" row="0" label="HTTP request" />
+  <Node key="ps" col="0" row="1" label="Pub/Sub message" />
+  <Node key="bucket" col="0" row="2" label="Bucket event" />
+  <Node key="trigger" col="1" row="1" label="Trigger" />
+  <Node key="ag" col="1" row="2" label="API Gateway" />
+  <Node key="crf" col="2" row="1" label="Cloud Run Functions" />
+  <Node key="max" col="3" row="0" label="Maximum Instances" />
+  <Node key="rev" col="3" row="1" label="Revision" />
+  <Node key="ae" col="3" row="2" label="App Engine" />
+  <Node key="ts" col="4" row="1" label="Traffic Split" />
+  <Node key="cs" col="4" row="2" label="Cold Start" />
+  <Node key="min" col="4" row="3" label="Minimum Instances" />
+  <Edge from="http" to="trigger" />
+  <Edge from="ps" to="trigger" />
+  <Edge from="bucket" to="trigger" />
+  <Edge from="trigger" to="crf" />
+  <Edge from="crf" to="rev" />
+  <Edge from="rev" to="ts" />
+  <Edge from="rev" to="cs" label="first use" />
+  <Edge from="min" to="cs" label="removes" dashed="true" />
+  <Edge from="max" to="rev" label="caps" dashed="true" />
+  <Edge from="ag" to="crf" />
+  <Edge from="ae" to="rev" label="the same idea, older" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -350,37 +441,67 @@ The longer form of the Cloud Run versus GKE decision, with the organizational qu
 
 A network on Google Cloud is something you build, not something you get — but it starts from a different shape than on AWS. **A VPC network is global.** It spans every region at once, it has no address range of its own, and the subnets carved into it are regional, each one reaching all the zones in its region. Two instances in Tokyo and Frankfurt on the same VPC talk over private addresses with no peering, no gateway and no route you wrote. Almost every difference in this section follows from that one fact.
 
-```mermaid
-flowchart LR
-  User --> DNS[Cloud DNS]
-  DNS --> AIP[Anycast IP on a global forwarding rule]
-  AIP --> Armor[Cloud Armor and Cloud CDN at the edge]
-  Armor --> BS[Backend Service]
-  BS --> App[Instances or Pods or Cloud Run, in a private subnet]
-  App --> DB[Database with an internal address]
-  App --> NAT[Cloud NAT] --> Internet
-  App --> PGA[Private Google Access] --> GAPI[Google APIs]
-  OnPrem[Your data centre] -->|Interconnect or VPN| CR[Cloud Router]
-  CR --> App
+```svg
+<Panel>
+  <Node key="user" col="0" row="0" label="User" />
+  <Node key="dns" col="1" row="0" label="Cloud DNS" />
+  <Node key="aip" col="2" row="0" label="Anycast IP" note="on a global forwarding rule" />
+  <Node key="armor" col="3" row="0" colspan="2" label="Cloud Armor and Cloud CDN at the edge" />
+  <Node key="bs" col="4" row="1" label="Backend Service" />
+  <Node key="app" col="2" row="1" colspan="2" label="Instances or Pods or Cloud Run, in a private subnet" />
+  <Node key="db" col="1" row="1" label="Database with an internal address" />
+  <Node key="nat" col="1" row="2" label="Cloud NAT" />
+  <Node key="internet" col="0" row="2" label="Internet" />
+  <Node key="pga" col="1" row="3" label="Private Google Access" />
+  <Node key="gapi" col="0" row="3" label="Google APIs" />
+  <Node key="cr" col="3" row="2" label="Cloud Router" />
+  <Node key="onprem" col="3" row="3" label="Your data centre" />
+  <Edge from="user" to="dns" />
+  <Edge from="dns" to="aip" />
+  <Edge from="aip" to="armor" />
+  <Edge from="armor" to="bs" fromSide="bottom" toSide="top" />
+  <Edge from="bs" to="app" />
+  <Edge from="app" to="db" />
+  <Edge from="app" to="nat" />
+  <Edge from="nat" to="internet" />
+  <Edge from="app" to="pga" />
+  <Edge from="pga" to="gapi" />
+  <Edge from="onprem" to="cr" label="Interconnect or VPN" />
+  <Edge from="cr" to="app" fromSide="top" toSide="bottom" />
+</Panel>
 ```
 
 ### Concepts — Inside the VPC
 
-```mermaid
-flowchart TD
-  VPC -->|per Region| Subnet
-  CIDR[CIDR Range] --> Subnet
-  Subnet --> Instance
-  Instance --> Tag[Network Tag]
-  Instance --> EIP[External IP Address]
-  FW[Firewall Rule] -. selects by .-> Tag
-  HFP[Hierarchical Firewall Policy] -. evaluated before .-> FW
-  VPC --> Route
-  Route -->|default internet path| NAT[Cloud NAT]
-  Route -->|dynamic, from BGP| Router[Cloud Router]
-  Router --> NAT
-  Subnet --> PGA[Private Google Access]
-  PGA --> GAPI[Google APIs]
+```svg
+<Panel flow="TD">
+  <Node key="cidr" col="1" row="0" label="CIDR Range" />
+  <Node key="vpc" col="2" row="0" label="VPC" />
+  <Node key="subnet" col="1" row="1" label="Subnet" />
+  <Node key="hfp" col="2" row="1" label="Hierarchical Firewall Policy" />
+  <Node key="route" col="3" row="1" label="Route" />
+  <Node key="pga" col="0" row="2" label="Private Google Access" />
+  <Node key="instance" col="1" row="2" label="Instance" />
+  <Node key="fw" col="2" row="2" label="Firewall Rule" />
+  <Node key="router" col="4" row="2" label="Cloud Router" />
+  <Node key="gapi" col="0" row="3" label="Google APIs" />
+  <Node key="eip" col="1" row="3" label="External IP Address" />
+  <Node key="tag" col="2" row="3" label="Network Tag" />
+  <Node key="nat" col="3" row="3" label="Cloud NAT" />
+  <Edge from="vpc" to="subnet" label="per Region" />
+  <Edge from="cidr" to="subnet" />
+  <Edge from="subnet" to="instance" />
+  <Edge from="instance" to="tag" fromSide="right" toSide="left" />
+  <Edge from="instance" to="eip" />
+  <Edge from="fw" to="tag" label="selects by" dashed="true" />
+  <Edge from="hfp" to="fw" label="evaluated before" dashed="true" />
+  <Edge from="vpc" to="route" />
+  <Edge from="route" to="nat" label="default internet path" />
+  <Edge from="route" to="router" label="dynamic, from BGP" />
+  <Edge from="router" to="nat" />
+  <Edge from="subnet" to="pga" />
+  <Edge from="pga" to="gapi" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -399,19 +520,32 @@ flowchart TD
 
 ### Concepts — Load Balancing and the Edge
 
-```mermaid
-flowchart LR
-  User --> AIP[Anycast IP]
-  AIP --> FR[Forwarding Rule]
-  FR --> Proxy[Target proxy]
-  Proxy --> UM[URL Map]
-  UM -->|by host and path| BS[Backend Service]
-  BS --> HC[Health Check]
-  BS --> NEG[Network Endpoint Group]
-  BS --> MIG[Managed Instance Group]
-  CDN[Cloud CDN] -. a switch on .-> BS
-  Armor[Cloud Armor] -. a policy on .-> BS
-  DNS[Cloud DNS] --> AIP
+```svg
+<Panel>
+  <Node key="user" col="0" row="0" label="User" />
+  <Node key="dns" col="0" row="1" label="Cloud DNS" />
+  <Node key="aip" col="1" row="0" label="Anycast IP" />
+  <Node key="fr" col="2" row="0" label="Forwarding Rule" />
+  <Node key="proxy" col="3" row="0" label="Target proxy" />
+  <Node key="um" col="3" row="1" label="URL Map" />
+  <Node key="bs" col="2" row="2" label="Backend Service" />
+  <Node key="hc" col="1" row="1" label="Health Check" />
+  <Node key="neg" col="1" row="2" label="Network Endpoint Group" />
+  <Node key="mig" col="1" row="3" label="Managed Instance Group" />
+  <Node key="armor" col="2" row="3" label="Cloud Armor" />
+  <Node key="cdn" col="3" row="3" label="Cloud CDN" />
+  <Edge from="user" to="aip" />
+  <Edge from="aip" to="fr" />
+  <Edge from="fr" to="proxy" />
+  <Edge from="proxy" to="um" />
+  <Edge from="um" to="bs" label="by host and path" />
+  <Edge from="bs" to="hc" />
+  <Edge from="bs" to="neg" />
+  <Edge from="bs" to="mig" />
+  <Edge from="cdn" to="bs" label="a switch on" dashed="true" />
+  <Edge from="armor" to="bs" label="a policy on" dashed="true" />
+  <Edge from="dns" to="aip" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -428,18 +562,32 @@ flowchart LR
 
 ### Concepts — Connecting Networks
 
-```mermaid
-flowchart LR
-  Host[Host Project] -->|Shared VPC| S1[Service Project A]
-  Host -->|Shared VPC| S2[Service Project B]
-  A[Network A] ---|VPC Network Peering| B[Network B]
-  NCC[Network Connectivity Center] --- Spoke1[VPC spoke]
-  NCC --- Spoke2[Hybrid spoke]
-  OnPrem[On-premises] --> IC[Cloud Interconnect]
-  OnPrem --> VPN[Cloud VPN]
-  IC --> NCC
-  VPN --> NCC
-  Consumer[Your network] -->|Private Service Connect| Producer[A Google or partner Service]
+```svg
+<Panel>
+  <Node key="host" col="0" row="0" colspan="2" label="Host Project" />
+  <Node key="s1" col="0" row="1" label="Service Project A" />
+  <Node key="s2" col="1" row="1" label="Service Project B" />
+  <Node key="a" col="2" row="0" label="Network A" />
+  <Node key="b" col="2" row="1" label="Network B" />
+  <Node key="consumer" col="3" row="0" label="Your network" />
+  <Node key="producer" col="3" row="1" label="A Google or partner Service" />
+  <Node key="onprem" col="0" row="2" rowspan="2" label="On-premises" />
+  <Node key="ic" col="1" row="2" label="Cloud Interconnect" />
+  <Node key="vpn" col="1" row="3" label="Cloud VPN" />
+  <Node key="ncc" col="2" row="2" rowspan="2" label="Network Connectivity Center" />
+  <Node key="spoke1" col="3" row="2" label="VPC spoke" />
+  <Node key="spoke2" col="3" row="3" label="Hybrid spoke" />
+  <Edge from="host" to="s1" label="Shared VPC" fromSide="bottom" toSide="top" />
+  <Edge from="host" to="s2" label="Shared VPC" fromSide="bottom" toSide="top" />
+  <Edge from="a" to="b" label="VPC Network Peering" arrow="none" />
+  <Edge from="ncc" to="spoke1" arrow="none" />
+  <Edge from="ncc" to="spoke2" arrow="none" />
+  <Edge from="onprem" to="ic" />
+  <Edge from="onprem" to="vpn" />
+  <Edge from="ic" to="ncc" />
+  <Edge from="vpn" to="ncc" />
+  <Edge from="consumer" to="producer" label="Private Service Connect" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -548,35 +696,60 @@ Cloud Storage, BigQuery, Pub/Sub and the rest are reached at public endpoints su
 
 There is no single "storage" on Google Cloud. Each service is built for one shape of data and one way of reading it, and the price and behaviour differ by orders of magnitude. So the first question is always *what does the data look like, and how will it be read?* — not *which service is best?*
 
-```mermaid
-flowchart LR
-  Q{What shape is the data?}
-  Q -->|files and objects read whole| GCS[Cloud Storage]
-  Q -->|a disk for machines| PD[Persistent Disk or Hyperdisk]
-  Q -->|a folder shared by many machines| FS[Filestore]
-  Q -->|tables with joins, one region| SQL[Cloud SQL or AlloyDB]
-  Q -->|tables with joins, global and huge| Spanner
-  Q -->|documents with live clients| Firestore
-  Q -->|enormous write and scan rates| Bigtable
-  Q -->|hot values read in microseconds| Memorystore
-  Q -->|analytics over everything| BigQuery
+```svg
+<Panel>
+  <Node key="q" col="0" row="3" rowspan="3" label="What shape is the data?" shape="diamond" />
+  <Node key="gcs" col="2" row="0" label="Cloud Storage" />
+  <Node key="pd" col="2" row="1" label="Persistent Disk or Hyperdisk" />
+  <Node key="fs" col="2" row="2" label="Filestore" />
+  <Node key="sql" col="2" row="3" label="Cloud SQL or AlloyDB" />
+  <Node key="spanner" col="2" row="4" label="Spanner" />
+  <Node key="firestore" col="2" row="5" label="Firestore" />
+  <Node key="bigtable" col="2" row="6" label="Bigtable" />
+  <Node key="memorystore" col="2" row="7" label="Memorystore" />
+  <Node key="bigquery" col="2" row="8" label="BigQuery" />
+  <Edge from="q" to="gcs" label="files and objects read whole" />
+  <Edge from="q" to="pd" label="a disk for machines" />
+  <Edge from="q" to="fs" label="a folder shared by many machines" />
+  <Edge from="q" to="sql" label="tables with joins, one region" />
+  <Edge from="q" to="spanner" label="tables with joins, global and huge" />
+  <Edge from="q" to="firestore" label="documents with live clients" />
+  <Edge from="q" to="bigtable" label="enormous write and scan rates" />
+  <Edge from="q" to="memorystore" label="hot values read in microseconds" />
+  <Edge from="q" to="bigquery" label="analytics over everything" />
+</Panel>
 ```
 
 ### Concepts — Storage
 
-```mermaid
-flowchart LR
-  GCS[Cloud Storage] --> Bucket
-  Bucket --> Object
-  Object --> SC[Storage Class]
-  SC --> AC[Autoclass]
-  Object --> OV[Object Versioning]
-  Object --> SU[Signed URL]
-  Object --> RP[Retention Policy]
-  PD[Persistent Disk] -->|attached to machines| Zone
-  PD --> Snapshot
-  HD[Hyperdisk] -. the newer generation of .-> PD
-  Filestore -->|many machines mount it| NFS[Shared mount]
+```svg
+<Panel>
+  <Node key="gcs" col="0" row="1" label="Cloud Storage" />
+  <Node key="bucket" col="1" row="1" label="Bucket" />
+  <Node key="object" col="2" row="1" label="Object" />
+  <Node key="sc" col="3" row="0" label="Storage Class" />
+  <Node key="ac" col="4" row="0" label="Autoclass" />
+  <Node key="ov" col="3" row="1" label="Object Versioning" />
+  <Node key="su" col="3" row="2" label="Signed URL" />
+  <Node key="rp" col="2" row="2" label="Retention Policy" />
+  <Node key="hd" col="0" row="3" label="Hyperdisk" />
+  <Node key="pd" col="0" row="4" label="Persistent Disk" />
+  <Node key="snapshot" col="1" row="4" label="Snapshot" />
+  <Node key="zone" col="1" row="5" label="Zone" />
+  <Node key="filestore" col="3" row="3" label="Filestore" />
+  <Node key="nfs" col="3" row="4" label="Shared mount" />
+  <Edge from="gcs" to="bucket" />
+  <Edge from="bucket" to="object" />
+  <Edge from="object" to="sc" />
+  <Edge from="sc" to="ac" />
+  <Edge from="object" to="ov" />
+  <Edge from="object" to="su" />
+  <Edge from="object" to="rp" />
+  <Edge from="pd" to="zone" label="attached to machines" />
+  <Edge from="pd" to="snapshot" />
+  <Edge from="hd" to="pd" label="the newer generation of" dashed="true" />
+  <Edge from="filestore" to="nfs" label="many machines mount it" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -596,25 +769,44 @@ flowchart LR
 
 ### Concepts — Data Stores
 
-```mermaid
-flowchart TD
-  Shape{What shape is the data} --> Rel[Relational]
-  Shape --> Doc[Documents]
-  Shape --> Wide[Wide-column]
-  Shape --> Hot[Repeated reads]
-  Shape --> Ana[Analytics]
-  Rel --> SQL[Cloud SQL]
-  SQL --> RI[Regional Instance]
-  SQL --> RR[Read Replica]
-  Rel --> AlloyDB
-  Rel --> Spanner
-  Spanner --> TT[TrueTime]
-  Doc --> Firestore
-  Wide --> Bigtable
-  Bigtable --> RK[Row Key]
-  Hot --> Memorystore
-  Ana --> BigQuery
-  BigQuery --> Slot
+```svg
+<Panel>
+  <Node key="shape" col="0" row="2" rowspan="3" label="What shape is the data" shape="diamond" />
+  <Node key="rel" col="1" row="1" label="Relational" />
+  <Node key="doc" col="1" row="3" label="Documents" />
+  <Node key="wide" col="1" row="4" label="Wide-column" />
+  <Node key="hot" col="1" row="5" label="Repeated reads" />
+  <Node key="ana" col="1" row="6" label="Analytics" />
+  <Node key="sql" col="2" row="0" label="Cloud SQL" />
+  <Node key="alloydb" col="2" row="1" label="AlloyDB" />
+  <Node key="spanner" col="2" row="2" label="Spanner" />
+  <Node key="firestore" col="2" row="3" label="Firestore" />
+  <Node key="bigtable" col="2" row="4" label="Bigtable" />
+  <Node key="memorystore" col="2" row="5" label="Memorystore" />
+  <Node key="bigquery" col="2" row="6" label="BigQuery" />
+  <Node key="ri" col="3" row="0" label="Regional Instance" />
+  <Node key="rr" col="3" row="1" label="Read Replica" />
+  <Node key="tt" col="3" row="2" label="TrueTime" />
+  <Node key="rk" col="3" row="4" label="Row Key" />
+  <Node key="slot" col="3" row="6" label="Slot" />
+  <Edge from="shape" to="rel" />
+  <Edge from="shape" to="doc" />
+  <Edge from="shape" to="wide" />
+  <Edge from="shape" to="hot" />
+  <Edge from="shape" to="ana" />
+  <Edge from="rel" to="sql" />
+  <Edge from="sql" to="ri" />
+  <Edge from="sql" to="rr" />
+  <Edge from="rel" to="alloydb" />
+  <Edge from="rel" to="spanner" />
+  <Edge from="spanner" to="tt" />
+  <Edge from="doc" to="firestore" />
+  <Edge from="wide" to="bigtable" />
+  <Edge from="bigtable" to="rk" />
+  <Edge from="hot" to="memorystore" />
+  <Edge from="ana" to="bigquery" />
+  <Edge from="bigquery" to="slot" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -719,32 +911,65 @@ When one part of a system calls another directly, the two are tied together: if 
 
 Google Cloud's answer differs from AWS's in shape. Where AWS has four services for four patterns, **Pub/Sub is one service that covers three of them**: the queue, the fan-out and the replayable log are all the same topic read through different subscriptions. Around it sit a router (Eventarc), two schedulers (Cloud Tasks and Cloud Scheduler) and an orchestrator (Workflows).
 
-```mermaid
-flowchart LR
-  P[Publisher] --> T[Topic]
-  T -->|one subscription, one worker pool| S1[Subscription A] --> W[Workers]
-  T -->|a second subscription, independently| S2[Subscription B] --> Other[Another service]
-  S1 -->|failed too many times| DLQ[Dead-Letter Topic]
-  Sources[Google service events] --> EA[Eventarc] -->|filtered| CR[Cloud Run]
-  Sched[Cloud Scheduler] -->|on a cron| WF[Workflows]
-  CT[Cloud Tasks] -->|one task, rate-limited| Endpoint[HTTP endpoint]
+```svg
+<Panel>
+  <Node key="p" col="0" row="1" label="Publisher" />
+  <Node key="t" col="1" row="1" label="Topic" />
+  <Node key="s1" col="3" row="0" label="Subscription A" />
+  <Node key="dlq" col="3" row="1" label="Dead-Letter Topic" />
+  <Node key="s2" col="3" row="2" label="Subscription B" />
+  <Node key="w" col="4" row="0" label="Workers" />
+  <Node key="other" col="4" row="2" label="Another service" />
+  <Node key="sources" col="0" row="3" label="Google service events" />
+  <Node key="ea" col="1" row="3" label="Eventarc" />
+  <Node key="cr" col="2" row="3" label="Cloud Run" />
+  <Node key="sched" col="0" row="4" label="Cloud Scheduler" />
+  <Node key="wf" col="2" row="4" label="Workflows" />
+  <Node key="ct" col="0" row="5" label="Cloud Tasks" />
+  <Node key="endpoint" col="2" row="5" label="HTTP endpoint" />
+  <Edge from="p" to="t" />
+  <Edge from="t" to="s1" label="one subscription, one worker pool" />
+  <Edge from="s1" to="w" />
+  <Edge from="t" to="s2" label="a second subscription, independently" />
+  <Edge from="s2" to="other" />
+  <Edge from="s1" to="dlq" label="failed too many times" />
+  <Edge from="sources" to="ea" />
+  <Edge from="ea" to="cr" label="filtered" />
+  <Edge from="sched" to="wf" label="on a cron" />
+  <Edge from="ct" to="endpoint" label="one task, rate-limited" />
+</Panel>
 ```
 
 ### Concepts — Messaging and Events
 
-```mermaid
-flowchart LR
-  Publisher --> Topic
-  Topic --> Sub[Subscription]
-  Topic --> Push[Push Subscription]
-  Sub --> AD[Ack Deadline]
-  AD -->|expires| Redelivery
-  Redelivery -->|after N tries| DLT[Dead-Letter Topic]
-  Topic -. ordered variant .-> OK[Ordering Key]
-  Sub --> DF[Dataflow]
-  EA[Eventarc] --> Topic
-  CS[Cloud Scheduler] --> WF[Workflows]
-  CT[Cloud Tasks] --> HTTP[HTTP endpoint]
+```svg
+<Panel>
+  <Node key="publisher" col="0" row="1" label="Publisher" />
+  <Node key="ea" col="0" row="2" label="Eventarc" />
+  <Node key="topic" col="1" row="1" label="Topic" />
+  <Node key="sub" col="2" row="0" label="Subscription" />
+  <Node key="push" col="2" row="1" label="Push Subscription" />
+  <Node key="ok" col="2" row="2" label="Ordering Key" />
+  <Node key="ad" col="3" row="0" label="Ack Deadline" />
+  <Node key="df" col="3" row="1" label="Dataflow" />
+  <Node key="redelivery" col="4" row="0" label="Redelivery" />
+  <Node key="dlt" col="4" row="1" label="Dead-Letter Topic" />
+  <Node key="cs" col="0" row="3" label="Cloud Scheduler" />
+  <Node key="wf" col="1" row="3" label="Workflows" />
+  <Node key="ct" col="2" row="3" label="Cloud Tasks" />
+  <Node key="http" col="3" row="3" label="HTTP endpoint" />
+  <Edge from="publisher" to="topic" />
+  <Edge from="topic" to="sub" />
+  <Edge from="topic" to="push" />
+  <Edge from="sub" to="ad" />
+  <Edge from="ad" to="redelivery" label="expires" />
+  <Edge from="redelivery" to="dlt" label="after N tries" />
+  <Edge from="topic" to="ok" label="ordered variant" dashed="true" />
+  <Edge from="sub" to="df" />
+  <Edge from="ea" to="topic" />
+  <Edge from="cs" to="wf" />
+  <Edge from="ct" to="http" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -807,41 +1032,70 @@ Workflows executes a sequence of steps described in YAML: call this `API`, branc
 
 Every call to Google Cloud — from a person, a pipeline or a running program — is checked before it does anything. The questions are always the same: *who is asking*, *what are they allowed to do*, and *how did they prove who they are* without a credential stored somewhere it can be stolen. Two things make the answers different from AWS: permissions **inherit down the resource hierarchy**, and grants are **additive with no user-authored deny** in the ordinary case, so the whole design discipline is about granting at the right node rather than about writing denies.
 
-```mermaid
-flowchart LR
-  Human[Person] -->|logs in| CI[Cloud Identity or an external IdP]
-  Pipeline[CI/CD pipeline] -->|OIDC token| WIF[Workload Identity Federation]
-  Code[A machine or a Pod or a Cloud Run service] -->|attached| SA[Service Account]
-  CI --> Principal
-  WIF --> SA
-  SA --> Principal
-  Principal --> Call[API call]
-  Call --> Deny{A Deny Policy matches?}
-  Deny -->|yes| Denied
-  Deny -->|no| Allow{An inherited Allow Policy grants it?}
-  Allow -->|yes| Perimeter{Inside the VPC Service Controls perimeter?}
-  Allow -->|no| Denied
-  Perimeter -->|yes| Allowed
-  Perimeter -->|no| Denied
+```svg
+<Panel>
+  <Node key="human" col="0" row="0" label="Person" />
+  <Node key="code" col="0" row="1" rowspan="2" label="A machine or a Pod or a Cloud Run service" />
+  <Node key="pipeline" col="0" row="3" label="CI/CD pipeline" />
+  <Node key="ci" col="1" row="0" label="Cloud Identity or an external IdP" />
+  <Node key="sa" col="1" row="1" label="Service Account" />
+  <Node key="wif" col="1" row="2" label="Workload Identity Federation" />
+  <Node key="principal" col="2" row="1" label="Principal" />
+  <Node key="call" col="3" row="1" label="API call" />
+  <Node key="deny" col="2" row="2" colspan="2" label="A Deny Policy matches?" shape="diamond" />
+  <Node key="allow" col="2" row="3" colspan="2" label="An inherited Allow Policy grants it?" shape="diamond" />
+  <Node key="perimeter" col="2" row="4" colspan="2" label="Inside the VPC Service Controls perimeter?" shape="diamond" />
+  <Node key="denied" col="4" row="2" rowspan="2" label="Denied" />
+  <Node key="allowed" col="4" row="4" label="Allowed" />
+  <Edge from="human" to="ci" label="logs in" />
+  <Edge from="pipeline" to="wif" label="OIDC token" />
+  <Edge from="code" to="sa" label="attached" />
+  <Edge from="ci" to="principal" />
+  <Edge from="wif" to="sa" />
+  <Edge from="sa" to="principal" />
+  <Edge from="principal" to="call" />
+  <Edge from="call" to="deny" fromSide="bottom" toSide="top" />
+  <Edge from="deny" to="denied" label="yes" />
+  <Edge from="deny" to="allow" label="no" />
+  <Edge from="allow" to="perimeter" label="yes" />
+  <Edge from="allow" to="denied" label="no" />
+  <Edge from="perimeter" to="allowed" label="yes" />
+  <Edge from="perimeter" to="denied" label="no" />
+</Panel>
 ```
 
 ### Concepts — Identity and Access
 
-```mermaid
-flowchart LR
-  Principal --> AP[Allow Policy]
-  Role --> AP
-  Cond[IAM Condition] -. narrows .-> AP
-  AP -->|set on a node| Tree[Organization, Folder or Project]
-  Tree -.->|inherited by| Below[Everything beneath]
-  DP[Deny Policy] -. evaluated first .-> IAM
-  AP --> IAM
-  SA[Service Account] --> Principal
-  Imp[Service Account Impersonation] --> SA
-  Key[Service Account Key] -. the thing to forbid .-> SA
-  WIF[Workload Identity Federation] --> SA
-  ADC[Application Default Credentials] -. finds .-> SA
-  VPCSC[VPC Service Controls] -. bounds .-> IAM
+```svg
+<Panel>
+  <Node key="imp" col="0" row="1" label="Service Account Impersonation" />
+  <Node key="wif" col="0" row="2" label="Workload Identity Federation" />
+  <Node key="key" col="1" row="0" label="Service Account Key" />
+  <Node key="sa" col="1" row="1" rowspan="2" label="Service Account" />
+  <Node key="adc" col="1" row="3" label="Application Default Credentials" />
+  <Node key="role" col="2" row="0" label="Role" />
+  <Node key="principal" col="2" row="1" rowspan="2" label="Principal" />
+  <Node key="cond" col="2" row="3" label="IAM Condition" />
+  <Node key="tree" col="3" row="0" label="Organization, Folder or Project" />
+  <Node key="ap" col="3" row="1" rowspan="2" label="Allow Policy" />
+  <Node key="vpcsc" col="3" row="3" label="VPC Service Controls" />
+  <Node key="below" col="4" row="1" label="Everything beneath" />
+  <Node key="iam" col="4" row="2" label="IAM" />
+  <Node key="dp" col="4" row="3" label="Deny Policy" />
+  <Edge from="principal" to="ap" />
+  <Edge from="role" to="ap" />
+  <Edge from="cond" to="ap" label="narrows" dashed="true" />
+  <Edge from="ap" to="tree" label="set on a node" />
+  <Edge from="tree" to="below" label="inherited by" dashed="true" />
+  <Edge from="dp" to="iam" label="evaluated first" dashed="true" />
+  <Edge from="ap" to="iam" />
+  <Edge from="sa" to="principal" />
+  <Edge from="imp" to="sa" />
+  <Edge from="key" to="sa" label="the thing to forbid" dashed="true" />
+  <Edge from="wif" to="sa" />
+  <Edge from="adc" to="sa" label="finds" dashed="true" />
+  <Edge from="vpcsc" to="iam" label="bounds" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -861,21 +1115,37 @@ flowchart LR
 
 ### Concepts — Encryption and Secrets
 
-```mermaid
-flowchart LR
-  KR[Key Ring] --> Key
-  Key -->|lives in| KMS[Cloud KMS]
-  KMS -.->|hardware-backed| HSM[Cloud HSM]
-  KMS -.->|held outside Google| EKM[Cloud EKM]
-  Key --> CMEK
-  CMEK -. encrypts .-> Data[Another Service's data]
-  Plaintext --> Cipher[Encrypted data]
-  DK[Single-use data key] --> Cipher
-  Key --> Wrapped[Wrapped data key]
-  Cipher --> EE[Envelope Encryption]
-  Wrapped --> EE
-  KMS --> SM[Secret Manager]
-  CM[Certificate Manager] --> LB[Load balancer endpoint]
+```svg
+<Panel>
+  <Node key="cm" col="0" row="0" label="Certificate Manager" />
+  <Node key="lb" col="1" row="0" label="Load balancer endpoint" />
+  <Node key="sm" col="2" row="0" label="Secret Manager" />
+  <Node key="hsm" col="3" row="0" label="Cloud HSM" />
+  <Node key="kms" col="2" row="1" label="Cloud KMS" />
+  <Node key="kr" col="0" row="2" label="Key Ring" />
+  <Node key="key" col="1" row="2" label="Key" />
+  <Node key="cmek" col="2" row="2" label="CMEK" />
+  <Node key="ekm" col="3" row="2" label="Cloud EKM" />
+  <Node key="plaintext" col="1" row="3" label="Plaintext" />
+  <Node key="wrapped" col="2" row="3" label="Wrapped data key" />
+  <Node key="data" col="3" row="3" label="Another Service's data" />
+  <Node key="dk" col="1" row="4" label="Single-use data key" />
+  <Node key="cipher" col="2" row="4" label="Encrypted data" />
+  <Node key="ee" col="3" row="4" label="Envelope Encryption" />
+  <Edge from="kr" to="key" />
+  <Edge from="key" to="kms" label="lives in" />
+  <Edge from="kms" to="hsm" label="hardware-backed" dashed="true" />
+  <Edge from="kms" to="ekm" label="held outside Google" dashed="true" />
+  <Edge from="key" to="cmek" />
+  <Edge from="cmek" to="data" label="encrypts" dashed="true" />
+  <Edge from="plaintext" to="cipher" />
+  <Edge from="dk" to="cipher" />
+  <Edge from="key" to="wrapped" />
+  <Edge from="cipher" to="ee" />
+  <Edge from="wrapped" to="ee" />
+  <Edge from="kms" to="sm" />
+  <Edge from="cm" to="lb" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -956,37 +1226,72 @@ Observability is how you find out what a running system is doing. Governance is 
 
 The important structural difference from AWS: **there is no per-service log group to create.** Everything writes to one Cloud Logging pipeline, and a **sink** decides what is stored, where, and for how long. That makes routing a design decision you make once for the whole organization rather than a setting on each service.
 
-```mermaid
-flowchart LR
-  Apps[Applications and Google services] --> Logging[Cloud Logging]
-  Apps --> Monitoring[Cloud Monitoring]
-  Apps --> Trace[Cloud Trace]
-  Logging --> Sink{Log Sink filter}
-  Sink -->|keep| Bucket[Log bucket]
-  Sink -->|analyse| BQ[BigQuery]
-  Sink -->|archive| GCS[Cloud Storage]
-  Sink -->|forward| PS[Pub/Sub to an external SIEM]
-  Logging --> LBM[Log-based metric] --> Monitoring
-  Monitoring --> Alert[Alerting policy] --> Oncall[On-call]
-  Monitoring --> SLO[SLO and error budget]
-  Audit[Cloud Audit Logs] --> Logging
-  Assets[Cloud Asset Inventory] --> SCC[Security Command Center]
+```svg
+<Panel>
+  <Node key="assets" col="0" row="0" label="Cloud Asset Inventory" />
+  <Node key="scc" col="1" row="0" label="Security Command Center" />
+  <Node key="audit" col="0" row="1" label="Cloud Audit Logs" />
+  <Node key="logging" col="1" row="1" rowspan="2" label="Cloud Logging" />
+  <Node key="sink" col="2" row="1" rowspan="2" label="Log Sink filter" shape="diamond" />
+  <Node key="bucket" col="3" row="0" label="Log bucket" />
+  <Node key="bq" col="3" row="1" label="BigQuery" />
+  <Node key="gcs" col="3" row="2" label="Cloud Storage" />
+  <Node key="ps" col="3" row="3" label="Pub/Sub to an external SIEM" />
+  <Node key="lbm" col="1" row="3" label="Log-based metric" />
+  <Node key="apps" col="0" row="4" label="Applications and Google services" />
+  <Node key="monitoring" col="1" row="4" label="Cloud Monitoring" />
+  <Node key="alert" col="2" row="4" label="Alerting policy" />
+  <Node key="oncall" col="3" row="4" label="On-call" />
+  <Node key="trace" col="1" row="5" label="Cloud Trace" />
+  <Node key="slo" col="2" row="5" label="SLO and error budget" />
+  <Edge from="apps" to="logging" />
+  <Edge from="apps" to="monitoring" />
+  <Edge from="apps" to="trace" />
+  <Edge from="logging" to="sink" />
+  <Edge from="sink" to="bucket" label="keep" />
+  <Edge from="sink" to="bq" label="analyse" />
+  <Edge from="sink" to="gcs" label="archive" />
+  <Edge from="sink" to="ps" label="forward" />
+  <Edge from="logging" to="lbm" />
+  <Edge from="lbm" to="monitoring" />
+  <Edge from="monitoring" to="alert" />
+  <Edge from="alert" to="oncall" />
+  <Edge from="monitoring" to="slo" />
+  <Edge from="audit" to="logging" />
+  <Edge from="assets" to="scc" />
+</Panel>
 ```
 
 ### Concepts — Observability and Governance
 
-```mermaid
-flowchart LR
-  Metric --> AP[Alerting Policy]
-  UC[Uptime Check] --> Metric
-  Metric --> SLO
-  SLO --> EB[Error Budget]
-  Metric --> CM[Cloud Monitoring]
-  CL[Cloud Logging] --> LS[Log Sink]
-  CL --> LBM[Log-Based Metric] --> Metric
-  CAL[Cloud Audit Logs] --> CL
-  CT[Cloud Trace] -. per request .-> Latency
-  CAI[Cloud Asset Inventory] -. inventories .-> Everything
+```svg
+<Panel>
+  <Node key="cal" col="0" row="1" label="Cloud Audit Logs" />
+  <Node key="cl" col="1" row="1" label="Cloud Logging" />
+  <Node key="lbm" col="2" row="1" label="Log-Based Metric" />
+  <Node key="ls" col="2" row="2" label="Log Sink" />
+  <Node key="uc" col="3" row="0" label="Uptime Check" />
+  <Node key="metric" col="3" row="1" label="Metric" />
+  <Node key="ap" col="4" row="0" label="Alerting Policy" />
+  <Node key="cm" col="4" row="1" label="Cloud Monitoring" />
+  <Node key="slo" col="4" row="2" label="SLO" />
+  <Node key="eb" col="4" row="3" label="Error Budget" />
+  <Node key="ct" col="0" row="3" label="Cloud Trace" />
+  <Node key="latency" col="2" row="3" label="Latency" />
+  <Node key="cai" col="0" row="4" label="Cloud Asset Inventory" />
+  <Node key="everything" col="2" row="4" label="Everything" />
+  <Edge from="metric" to="ap" />
+  <Edge from="uc" to="metric" />
+  <Edge from="metric" to="slo" />
+  <Edge from="slo" to="eb" />
+  <Edge from="metric" to="cm" />
+  <Edge from="cl" to="ls" />
+  <Edge from="cl" to="lbm" />
+  <Edge from="lbm" to="metric" />
+  <Edge from="cal" to="cl" />
+  <Edge from="ct" to="latency" label="per request" dashed="true" />
+  <Edge from="cai" to="everything" label="inventories" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -1069,33 +1374,62 @@ Infrastructure as code means the estate is described in files kept in version co
 
 Google Cloud's own history here is unusual: **Deployment Manager, its first-party tool, reached end of support on 31 March 2026**, and Google's answer is Terraform. That is not a hedge — Google publishes the provider, publishes reference architectures as Terraform modules, runs a hosted Terraform service, and generates Terraform from existing resources in the console. In this guide's view, arguing for a Google-specific declarative language on this cloud means working against the direction Google itself has chosen.
 
-```mermaid
-flowchart LR
-  Repo[Git repository] --> PR[Pull request]
-  PR --> Plan[terraform plan in CI]
-  Plan --> Review[Human review of the plan]
-  Review --> Apply[terraform apply]
-  Apply -->|impersonated, keyless| SA[Deployment service account]
-  SA --> Env[Google Cloud project]
-  Env -.->|changed by hand| Drift
-  Drift -.->|detected by a scheduled plan| Repo
-  Repo --> Build[Cloud Build] --> AR[Artifact Registry] --> CD[Cloud Deploy] --> Prod[Production]
+```svg
+<Panel>
+  <Node key="repo" col="0" row="1" label="Git repository" />
+  <Node key="build" col="1" row="0" label="Cloud Build" />
+  <Node key="ar" col="2" row="0" label="Artifact Registry" />
+  <Node key="cd" col="3" row="0" label="Cloud Deploy" />
+  <Node key="prod" col="4" row="0" label="Production" />
+  <Node key="pr" col="1" row="1" label="Pull request" />
+  <Node key="plan" col="2" row="1" label="terraform plan in CI" />
+  <Node key="review" col="3" row="1" label="Human review of the plan" />
+  <Node key="apply" col="4" row="1" label="terraform apply" />
+  <Node key="sa" col="4" row="2" label="Deployment service account" />
+  <Node key="env" col="3" row="2" label="Google Cloud project" />
+  <Node key="drift" col="1" row="2" label="Drift" />
+  <Edge from="repo" to="pr" />
+  <Edge from="pr" to="plan" />
+  <Edge from="plan" to="review" />
+  <Edge from="review" to="apply" />
+  <Edge from="apply" to="sa" label="impersonated, keyless" />
+  <Edge from="sa" to="env" />
+  <Edge from="env" to="drift" label="changed by hand" dashed="true" />
+  <Edge from="drift" to="repo" label="detected by a scheduled plan" dashed="true" toSide="bottom" />
+  <Edge from="repo" to="build" />
+  <Edge from="build" to="ar" />
+  <Edge from="ar" to="cd" />
+  <Edge from="cd" to="prod" />
+</Panel>
 ```
 
 ### Concepts — Infrastructure as Code and Delivery
 
-```mermaid
-flowchart LR
-  Terraform --> Provider
-  Terraform --> State
-  Terraform --> Module
-  Module --> Blueprint
-  Terraform --> IM[Infrastructure Manager]
-  CC[Config Connector] -. the alternative loop .-> Terraform
-  State -.->|compared against reality| Drift
-  CD[Cloud Deploy] --> DP[Delivery Pipeline]
-  DP --> PD[Progressive Delivery]
-  II[Immutable Infrastructure] --> PD
+```svg
+<Panel>
+  <Node key="cc" col="0" row="0" label="Config Connector" />
+  <Node key="terraform" col="0" row="1" rowspan="2" label="Terraform" />
+  <Node key="provider" col="1" row="0" label="Provider" />
+  <Node key="state" col="1" row="1" label="State" />
+  <Node key="module" col="1" row="2" label="Module" />
+  <Node key="im" col="1" row="3" label="Infrastructure Manager" />
+  <Node key="blueprint" col="2" row="2" label="Blueprint" />
+  <Node key="drift" col="3" row="1" label="Drift" />
+  <Node key="ii" col="2" row="3" label="Immutable Infrastructure" />
+  <Node key="cd" col="0" row="4" label="Cloud Deploy" />
+  <Node key="dp" col="1" row="4" label="Delivery Pipeline" />
+  <Node key="pd" col="2" row="4" label="Progressive Delivery" />
+  <Edge from="terraform" to="provider" />
+  <Edge from="terraform" to="state" />
+  <Edge from="terraform" to="module" />
+  <Edge from="module" to="blueprint" />
+  <Edge from="terraform" to="im" />
+  <Edge from="cc" to="terraform" label="the alternative loop" dashed="true" />
+  <Edge from="state" to="drift" label="compared against reality" dashed="true" />
+  <Edge from="cd" to="dp" />
+  <Edge from="dp" to="pd" />
+  <Edge from="ii" to="pd" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -1176,33 +1510,60 @@ Resilience is staying up through the failures you expected. Recovery is getting 
 
 Two Google-specific facts change the shape of the answer compared with other clouds. **Live migration** moves running instances off failing hardware without a reboot, so single-machine failures rarely become your problem. And the **global VPC and global load balancer** mean a multi-region front end is a routing change rather than a second network to build.
 
-```mermaid
-flowchart LR
-  Zonal[Zone fails] -->|regional MIG, regional PD, regional Cloud SQL| SurviveZ[Survived automatically]
-  Regional[Region fails] --> Q{What did you build?}
-  Q -->|Backup only| Restore[Restore into another Region: hours to days]
-  Q -->|Pilot light| Scale[Start the standby and scale: tens of minutes]
-  Q -->|Warm standby| Shift[Shift traffic: minutes]
-  Q -->|Hot, multi-region| None[No action: seconds]
-  Restore --> Cost1[Cheapest]
-  None --> Cost2[Most expensive]
+```svg
+<Panel>
+  <Node key="zonal" col="0" row="0" label="Zone fails" />
+  <Node key="survive" col="2" row="0" label="Survived automatically" />
+  <Node key="regional" col="0" row="3" rowspan="2" label="Region fails" />
+  <Node key="q" col="1" row="3" rowspan="2" label="What did you build?" shape="diamond" />
+  <Node key="cost1" col="3" row="1" colspan="2" label="Cheapest" />
+  <Node key="restore" col="3" row="2" colspan="2" label="Restore into another Region: hours to days" />
+  <Node key="scale" col="3" row="3" colspan="2" label="Start the standby and scale: tens of minutes" />
+  <Node key="shift" col="3" row="4" colspan="2" label="Shift traffic: minutes" />
+  <Node key="none" col="3" row="5" colspan="2" label="No action: seconds" />
+  <Node key="cost2" col="3" row="6" colspan="2" label="Most expensive" />
+  <Edge from="zonal" to="survive" label="regional MIG, regional PD, regional Cloud SQL" />
+  <Edge from="regional" to="q" />
+  <Edge from="q" to="restore" label="Backup only" />
+  <Edge from="q" to="scale" label="Pilot light" />
+  <Edge from="q" to="shift" label="Warm standby" />
+  <Edge from="q" to="none" label="Hot, multi-region" />
+  <Edge from="restore" to="cost1" />
+  <Edge from="none" to="cost2" />
+</Panel>
 ```
 
 ### Concepts — Resilience and Recovery
 
-```mermaid
-flowchart LR
-  RTO --> Choice[Recovery strategy]
-  RPO --> Choice
-  Choice --> PL[Pilot Light]
-  Choice --> WS[Warm Standby]
-  Choice --> HS[Hot Standby]
-  Snapshot --> Restore
-  BDR[Backup and DR Service] --> Snapshot
-  BV[Backup Vault] -. protects .-> Snapshot
-  Failover --> Failback
-  BR[Blast Radius] -. bounded by .-> Boundaries[Project and Region boundaries]
-  GD[Game Day] -. proves .-> Choice
+```svg
+<Panel>
+  <Node key="rto" col="0" row="0" label="RTO" />
+  <Node key="rpo" col="0" row="1" label="RPO" />
+  <Node key="choice" col="1" row="0" rowspan="2" label="Recovery strategy" />
+  <Node key="gd" col="1" row="2" label="Game Day" />
+  <Node key="pl" col="2" row="0" label="Pilot Light" />
+  <Node key="ws" col="2" row="1" label="Warm Standby" />
+  <Node key="hs" col="2" row="2" label="Hot Standby" />
+  <Node key="bdr" col="0" row="3" label="Backup and DR Service" />
+  <Node key="snapshot" col="1" row="3" label="Snapshot" />
+  <Node key="restore" col="2" row="3" label="Restore" />
+  <Node key="bv" col="1" row="4" label="Backup Vault" />
+  <Node key="failover" col="3" row="3" label="Failover" />
+  <Node key="failback" col="3" row="4" label="Failback" />
+  <Node key="br" col="4" row="3" label="Blast Radius" />
+  <Node key="boundaries" col="4" row="4" label="Project and Region boundaries" />
+  <Edge from="rto" to="choice" />
+  <Edge from="rpo" to="choice" />
+  <Edge from="choice" to="pl" />
+  <Edge from="choice" to="ws" />
+  <Edge from="choice" to="hs" />
+  <Edge from="snapshot" to="restore" />
+  <Edge from="bdr" to="snapshot" />
+  <Edge from="bv" to="snapshot" label="protects" dashed="true" />
+  <Edge from="failover" to="failback" />
+  <Edge from="br" to="boundaries" label="bounded by" dashed="true" />
+  <Edge from="gd" to="choice" label="proves" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |

@@ -11,14 +11,23 @@ This guide continues [Programming Paradigms](01-programming-paradigms.md) with p
 
 Writing programs that treat other programs, or themselves, as data: reading, generating, or transforming code instead of only executing it. The *metaprogram* operates on the *object program*; **when** the transformation happens fixes the boundary between them.
 
-```mermaid
-flowchart LR
-    GEN[Generator / Schema] -.->|emit source| SRC
-    SRC[Source Text] -->|parse| AST[AST]
-    AST -->|macro expansion| AST2["AST'"]
-    AST2 -->|compile| BIN[Bytecode / Binary]
-    BIN -->|load, weave| RT[Runtime Objects]
-    RT -->|reflect, proxy, patch| RT
+```svg
+<Panel>
+  <Node key="src" col="0" row="0" label="Source Text" />
+  <Node key="gen" col="0" row="1" label="Generator / Schema" />
+  <Node key="ast" col="1" row="0" label="AST" />
+  <Node key="ast2" col="1" row="1" label="AST'" />
+  <Node key="bin" col="2" row="1" label="Bytecode / Binary" />
+  <Node key="rt" col="2" row="2" label="Runtime Objects" />
+  <Node key="rt-loop" col="2" row="3" shape="point" />
+  <Edge from="gen" to="src" label="emit source" dashed="true" />
+  <Edge from="src" to="ast" label="parse" />
+  <Edge from="ast" to="ast2" label="macro expansion" />
+  <Edge from="ast2" to="bin" label="compile" />
+  <Edge from="bin" to="rt" label="load, weave" />
+  <Edge from="rt" to="rt-loop" label="reflect, proxy, patch" arrow="none" />
+  <Edge from="rt-loop" to="rt" fromSide="right" toSide="right" />
+</Panel>
 ```
 
 ### Metaprogramming Concepts

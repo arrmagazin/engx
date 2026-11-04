@@ -9,12 +9,17 @@ tags: [methodology, agile, lean]
 
 Mary and Tom Poppendieck set it out as seven principles in *Lean Software Development: An Agile Toolkit* (2003). Their sequel, *Implementing Lean Software Development: From Concept to Cash* (2006), revises the list. Names such as *Build Quality In* and *Optimize the Whole* come from that later book, not from the seven below.
 
-```mermaid
-flowchart LR
-    Value["Define value<br/>from the customer's view"] --> Waste["Remove work that<br/>does not create it"]
-    Waste --> Fast["Deliver in small,<br/>fast increments"]
-    Fast --> Learn["Learn from what<br/>reached the customer"]
-    Learn -.-> Value
+```svg
+<Panel flow="LR">
+  <Node key="value" col="0" row="0" colspan="2" label="Define value&#10;from the customer's view" />
+  <Node key="waste" col="2" row="0" colspan="2" label="Remove work that&#10;does not create it" />
+  <Node key="fast" col="2" row="1" colspan="2" label="Deliver in small,&#10;fast increments" />
+  <Node key="learn" col="0" row="1" colspan="2" label="Learn from what&#10;reached the customer" />
+  <Edge from="value" to="waste" />
+  <Edge from="waste" to="fast" />
+  <Edge from="fast" to="learn" />
+  <Edge from="learn" to="value" dashed="true" />
+</Panel>
 ```
 
 ## The Seven Principles

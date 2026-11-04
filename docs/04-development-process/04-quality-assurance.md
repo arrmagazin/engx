@@ -177,16 +177,24 @@ Triage protects the rest: a backlog that logs change requests as defects reports
 
 The tracker shows this status flow; it exists mainly to make the reopen path visible:
 
-```mermaid
-flowchart LR
-    Open[Open] --> Progress[In Progress]
-    Progress --> Blocked[Blocked]
-    Blocked --> Progress
-    Progress --> Resolved[Resolved]
-    Resolved --> Verified[Verified]
-    Verified --> Closed[Closed]
-    Resolved -->|verification fails| Reopened[Reopened]
-    Reopened --> Progress
+```svg
+<Panel>
+  <Node key="blocked" col="1" row="0" label="Blocked" />
+  <Node key="open" col="0" row="1" label="Open" />
+  <Node key="progress" col="1" row="1" label="In Progress" />
+  <Node key="resolved" col="2" row="1" label="Resolved" />
+  <Node key="verified" col="3" row="1" label="Verified" />
+  <Node key="closed" col="4" row="1" label="Closed" />
+  <Node key="reopened" col="1" row="2" label="Reopened" />
+  <Edge from="open" to="progress" />
+  <Edge from="progress" to="blocked" />
+  <Edge from="blocked" to="progress" fromSide="left" toSide="left" />
+  <Edge from="progress" to="resolved" />
+  <Edge from="resolved" to="verified" />
+  <Edge from="verified" to="closed" />
+  <Edge from="resolved" to="reopened" label="verification fails" fromSide="bottom" toSide="right" />
+  <Edge from="reopened" to="progress" />
+</Panel>
 ```
 
 ### Priority and Severity

@@ -48,15 +48,22 @@ Two rules:
 
 ## The Employee Lifecycle
 
-```mermaid
-graph LR
-    H["Hire"] --> O["Onboard"]
-    O --> C["Contribute"]
-    C --> G["Grow"]
-    G --> C
-    C --> T["Transition"]
-    T --> X["Offboard"]
-    X -.->|"alumni, referrals"| H
+```svg
+<Panel>
+  <Node key="grow" col="2" row="0" label="Grow" />
+  <Node key="hire" col="0" row="1" label="Hire" />
+  <Node key="onboard" col="1" row="1" label="Onboard" />
+  <Node key="contribute" col="2" row="1" label="Contribute" />
+  <Node key="transition" col="2" row="2" label="Transition" />
+  <Node key="offboard" col="1" row="2" label="Offboard" />
+  <Edge from="hire" to="onboard" />
+  <Edge from="onboard" to="contribute" />
+  <Edge from="contribute" to="grow" />
+  <Edge from="grow" to="contribute" fromSide="right" toSide="right" />
+  <Edge from="contribute" to="transition" />
+  <Edge from="transition" to="offboard" />
+  <Edge from="offboard" to="hire" label="alumni, referrals" dashed="true" toSide="bottom" />
+</Panel>
 ```
 
 | Stage | Manager's job | Success signal |

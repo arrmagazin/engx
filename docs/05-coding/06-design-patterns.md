@@ -13,35 +13,62 @@ A pattern is a concrete structure; the general rules a structure is judged again
 
 Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides, *Design Patterns: Elements of Reusable Object-Oriented Software* (1994), describe twenty-three patterns in three families. This section is that catalog; nothing else on this page belongs to it.
 
-```mermaid
-mindmap
-  root((Gang of Four))
-    Creational
-      Abstract Factory
-      Builder
-      Factory Method
-      Prototype
-      Singleton
-    Structural
-      Adapter
-      Bridge
-      Composite
-      Decorator
-      Facade
-      Flyweight
-      Proxy
-    Behavioral
-      Chain of Responsibility
-      Command
-      Interpreter
-      Iterator
-      Mediator
-      Memento
-      Observer
-      State
-      Strategy
-      Template Method
-      Visitor
+```svg
+<Panel>
+  <Node key="root" col="2" row="5" label="Gang of Four" shape="circle" tone="primary" />
+  <Node key="creational" col="1" row="2" label="Creational" shape="round" />
+  <Node key="abstract-factory" col="0" row="0" label="Abstract Factory" shape="pill" />
+  <Node key="builder" col="0" row="1" label="Builder" shape="pill" />
+  <Node key="factory-method" col="0" row="2" label="Factory Method" shape="pill" />
+  <Node key="prototype" col="0" row="3" label="Prototype" shape="pill" />
+  <Node key="singleton" col="0" row="4" label="Singleton" shape="pill" />
+  <Node key="structural" col="1" row="8" label="Structural" shape="round" />
+  <Node key="adapter" col="0" row="5" label="Adapter" shape="pill" />
+  <Node key="bridge" col="0" row="6" label="Bridge" shape="pill" />
+  <Node key="composite" col="0" row="7" label="Composite" shape="pill" />
+  <Node key="decorator" col="0" row="8" label="Decorator" shape="pill" />
+  <Node key="facade" col="0" row="9" label="Facade" shape="pill" />
+  <Node key="flyweight" col="0" row="10" label="Flyweight" shape="pill" />
+  <Node key="proxy" col="0" row="11" label="Proxy" shape="pill" />
+  <Node key="behavioral" col="3" row="5" label="Behavioral" shape="round" />
+  <Node key="chain-of-responsibility" col="4" row="0" label="Chain of Responsibility" shape="pill" />
+  <Node key="command" col="4" row="1" label="Command" shape="pill" />
+  <Node key="interpreter" col="4" row="2" label="Interpreter" shape="pill" />
+  <Node key="iterator" col="4" row="3" label="Iterator" shape="pill" />
+  <Node key="mediator" col="4" row="4" label="Mediator" shape="pill" />
+  <Node key="memento" col="4" row="5" label="Memento" shape="pill" />
+  <Node key="observer" col="4" row="6" label="Observer" shape="pill" />
+  <Node key="state" col="4" row="7" label="State" shape="pill" />
+  <Node key="strategy" col="4" row="8" label="Strategy" shape="pill" />
+  <Node key="template-method" col="4" row="9" label="Template Method" shape="pill" />
+  <Node key="visitor" col="4" row="10" label="Visitor" shape="pill" />
+  <Edge from="root" to="creational" arrow="none" />
+  <Edge from="root" to="structural" arrow="none" />
+  <Edge from="root" to="behavioral" arrow="none" />
+  <Edge from="creational" to="abstract-factory" arrow="none" />
+  <Edge from="creational" to="builder" arrow="none" />
+  <Edge from="creational" to="factory-method" arrow="none" />
+  <Edge from="creational" to="prototype" arrow="none" />
+  <Edge from="creational" to="singleton" arrow="none" />
+  <Edge from="structural" to="adapter" arrow="none" />
+  <Edge from="structural" to="bridge" arrow="none" />
+  <Edge from="structural" to="composite" arrow="none" />
+  <Edge from="structural" to="decorator" arrow="none" />
+  <Edge from="structural" to="facade" arrow="none" />
+  <Edge from="structural" to="flyweight" arrow="none" />
+  <Edge from="structural" to="proxy" arrow="none" />
+  <Edge from="behavioral" to="chain-of-responsibility" arrow="none" />
+  <Edge from="behavioral" to="command" arrow="none" />
+  <Edge from="behavioral" to="interpreter" arrow="none" />
+  <Edge from="behavioral" to="iterator" arrow="none" />
+  <Edge from="behavioral" to="mediator" arrow="none" />
+  <Edge from="behavioral" to="memento" arrow="none" />
+  <Edge from="behavioral" to="observer" arrow="none" />
+  <Edge from="behavioral" to="state" arrow="none" />
+  <Edge from="behavioral" to="strategy" arrow="none" />
+  <Edge from="behavioral" to="template-method" arrow="none" />
+  <Edge from="behavioral" to="visitor" arrow="none" />
+</Panel>
 ```
 
 ### Creational Patterns

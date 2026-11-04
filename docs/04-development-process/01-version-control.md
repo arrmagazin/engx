@@ -100,32 +100,38 @@ GitFlow gives each branch a fixed role. In a 2020 note added to the [original po
 | **`release/*`** | Release preparation | Until released |
 | **`hotfix/*`** | Urgent production fixes | Until merged |
 
-```mermaid
-gitGraph
-    commit id: "init"
-    branch develop
-    checkout develop
-    commit id: "dev"
-    branch feature/x
-    checkout feature/x
-    commit id: "feat"
-    checkout develop
-    merge feature/x
-    branch release/v1.0.0
-    checkout release/v1.0.0
-    commit id: "rc"
-    checkout main
-    merge release/v1.0.0 tag: "v1.0.0"
-    checkout develop
-    merge release/v1.0.0
-    checkout main
-    branch hotfix/urgent
-    checkout hotfix/urgent
-    commit id: "fix"
-    checkout main
-    merge hotfix/urgent tag: "v1.0.1"
-    checkout develop
-    merge hotfix/urgent
+```svg
+<Panel flow="TD">
+  <Node col="0" row="0" label="main" shape="text" tone="primary" />
+  <Node col="1" row="0" label="hotfix/urgent" shape="text" tone="error" />
+  <Node col="2" row="0" label="release/v1.0.0" shape="text" tone="warning" />
+  <Node col="3" row="0" label="develop" shape="text" tone="secondary" />
+  <Node col="4" row="0" label="feature/x" shape="text" tone="accent" />
+  <Node key="init" col="0" row="1" label="init" shape="circle" tone="primary" />
+  <Node key="dev" col="3" row="2" label="dev" shape="circle" tone="secondary" />
+  <Node key="feat" col="4" row="3" label="feat" shape="circle" tone="accent" />
+  <Node key="merge-feature" col="3" row="4" shape="circle" tone="secondary" />
+  <Node key="rc" col="2" row="5" label="rc" shape="circle" tone="warning" />
+  <Node key="v100" col="0" row="6" label="v1.0.0" shape="circle" tone="primary" />
+  <Node key="merge-release" col="3" row="6" shape="circle" tone="secondary" />
+  <Node key="fix" col="1" row="7" label="fix" shape="circle" tone="error" />
+  <Node key="v101" col="0" row="8" label="v1.0.1" shape="circle" tone="primary" />
+  <Node key="merge-hotfix" col="3" row="8" shape="circle" tone="secondary" />
+  <Edge from="init" to="v100" arrow="none" tone="primary" />
+  <Edge from="v100" to="v101" arrow="none" tone="primary" />
+  <Edge from="init" to="dev" arrow="none" tone="secondary" />
+  <Edge from="dev" to="merge-feature" arrow="none" tone="secondary" />
+  <Edge from="merge-feature" to="merge-release" arrow="none" tone="secondary" />
+  <Edge from="merge-release" to="merge-hotfix" arrow="none" tone="secondary" />
+  <Edge from="dev" to="feat" arrow="none" tone="accent" />
+  <Edge from="feat" to="merge-feature" arrow="none" tone="accent" />
+  <Edge from="merge-feature" to="rc" arrow="none" tone="warning" />
+  <Edge from="rc" to="v100" arrow="none" tone="warning" />
+  <Edge from="rc" to="merge-release" arrow="none" tone="warning" />
+  <Edge from="v100" to="fix" arrow="none" tone="error" />
+  <Edge from="fix" to="v101" arrow="none" tone="error" />
+  <Edge from="fix" to="merge-hotfix" arrow="none" tone="error" />
+</Panel>
 ```
 
 ```bash

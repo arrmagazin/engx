@@ -41,20 +41,32 @@ The Sprint holds the other four. Each event is a planned inspect-and-adapt point
 
 The hour limits are for a one-month Sprint. Refinement runs all the time and is not an event: the Product Owner and Developers detail, order and size Product Backlog items as upcoming work becomes clearer.
 
-```mermaid
-sequenceDiagram
-    participant PO as Product Owner
-    participant SM as Scrum Master
-    participant Dev as Developers
-    Note over PO,Dev: Backlog refinement runs continuously
-    PO->>Dev: Sprint Planning
-    loop Sprint
-        Dev->>Dev: Daily Scrum
-        SM->>Dev: Remove impediments
-    end
-    Dev->>PO: Sprint Review
-    SM->>Dev: Sprint Retrospective
-    Dev->>PO: Increment
+```svg
+<Panel flow="TD">
+  <Node key="po" col="0" row="0" label="Product Owner" />
+  <Node key="sm" col="1" row="0" label="Scrum Master" />
+  <Node key="dev" col="2" row="0" label="Developers" />
+  <Node key="note" col="0" row="1" colspan="3" label="Backlog refinement runs continuously" tone="warning" />
+  <Group col="1" row="3" colspan="2" rowspan="3" label="loop [Sprint]" />
+  <Node key="po2" col="0" row="2" shape="point" />
+  <Node key="dev2" col="2" row="2" shape="point" />
+  <Node key="dev3" col="2" row="3" shape="point" />
+  <Node key="dev4" col="2" row="4" shape="point" />
+  <Node key="sm5" col="1" row="5" shape="point" />
+  <Node key="dev5" col="2" row="5" shape="point" />
+  <Node key="dev6" col="2" row="6" shape="point" />
+  <Node key="po6" col="0" row="6" shape="point" />
+  <Node key="sm7" col="1" row="7" shape="point" />
+  <Node key="dev7" col="2" row="7" shape="point" />
+  <Node key="dev8" col="2" row="8" shape="point" />
+  <Node key="po8" col="0" row="8" shape="point" />
+  <Edge from="po2" to="dev2" label="Sprint Planning" />
+  <Edge from="dev3" to="dev4" label="Daily Scrum" fromSide="right" toSide="right" />
+  <Edge from="sm5" to="dev5" label="Remove impediments" />
+  <Edge from="dev6" to="po6" label="Sprint Review" />
+  <Edge from="sm7" to="dev7" label="Sprint Retrospective" />
+  <Edge from="dev8" to="po8" label="Increment" />
+</Panel>
 ```
 
 ## Scrum Artifacts
@@ -80,22 +92,20 @@ Common around Scrum, outside the Guide, and optional: dropping any is still Scru
 | **Sprint Burn-down Chart** | Daily plot of Sprint Backlog work left |
 | **Release Burn-down Chart** | Work left in a release, counted in Product Backlog items |
 
-```mermaid
-classDiagram
-    ProductBacklog : ordered items
-    ProductBacklog : Product Goal
-    Sprint : one month or less
-    SprintBacklog : Sprint Goal
-    SprintBacklog : selected items
-    SprintBacklog : delivery plan
-    Task : sized for daily progress
-    Spike : timeboxed investigation
-    Increment : meets Definition of Done
-    ProductBacklog "1" --> "*" Sprint : feeds
-    Sprint "1" --> "1" SprintBacklog : contains
-    SprintBacklog "1" --> "*" Task : breaks into
-    SprintBacklog "1" --> "*" Spike : may include
-    Sprint "1" --> "1" Increment : produces
+```svg
+<Panel flow="TD">
+  <Node key="product-backlog" col="1" row="0" colspan="2" label="ProductBacklog" note="ordered items, Product Goal" />
+  <Node key="sprint" col="1" row="1" colspan="2" label="Sprint" note="one month or less" />
+  <Node key="sprint-backlog" col="0" row="2" colspan="2" label="SprintBacklog" note="Sprint Goal, selected items, delivery plan" />
+  <Node key="increment" col="2" row="2" colspan="2" label="Increment" note="meets Definition of Done" />
+  <Node key="task" col="0" row="3" label="Task" note="sized for daily progress" />
+  <Node key="spike" col="1" row="3" label="Spike" note="timeboxed investigation" />
+  <Edge from="product-backlog" to="sprint" label="feeds 1:*" />
+  <Edge from="sprint" to="sprint-backlog" label="contains 1:1" />
+  <Edge from="sprint-backlog" to="task" label="breaks into 1:*" />
+  <Edge from="sprint-backlog" to="spike" label="may include 1:*" />
+  <Edge from="sprint" to="increment" label="produces 1:1" />
+</Panel>
 ```
 
 ## References

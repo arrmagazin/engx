@@ -7,25 +7,42 @@ tags: [coding, programming-paradigms]
 
 A **programming paradigm** is an opinionated view of what computation is. It dictates how data and code are organized, accessed, and changed. This guide surveys the imperative, object-oriented, and declarative families, for engineers choosing a style for a component or reading code written in an unfamiliar one. It is also the canonical home for the OOP pillars. The functional family has its own guide, [Functional Programming](02-functional-programming.md), as does the reactive family, [Reactive Programming and FRP](03-reactive-programming.md), and so do metaprogramming and AOP, in [Metaprogramming and AOP](04-metaprogramming.md).
 
-```mermaid
-mindmap
-  root((Paradigm))
-    Imperative
-      Structured
-      Procedural
-      OOP
-    Declarative
-      Functional
-      Reactive
-        FRP
-      Logic
-      SQL
-    Other
-      Metaprogramming
-      AOP
-      FBP
-      Constraint
-      Components
+```svg
+<Panel>
+  <Node key="root" col="2" row="2" rowspan="2" label="Paradigm" shape="circle" tone="primary" />
+  <Node key="imperative" col="1" row="1" label="Imperative" shape="round" />
+  <Node key="structured" col="0" row="0" label="Structured" shape="pill" />
+  <Node key="procedural" col="0" row="1" label="Procedural" shape="pill" />
+  <Node key="oop" col="0" row="2" label="OOP" shape="pill" />
+  <Node key="other" col="1" row="5" label="Other" shape="round" />
+  <Node key="meta" col="0" row="3" label="Metaprogramming" shape="pill" />
+  <Node key="aop" col="0" row="4" label="AOP" shape="pill" />
+  <Node key="fbp" col="0" row="5" label="FBP" shape="pill" />
+  <Node key="constraint" col="0" row="6" label="Constraint" shape="pill" />
+  <Node key="components" col="0" row="7" label="Components" shape="pill" />
+  <Node key="declarative" col="3" row="2" rowspan="2" label="Declarative" shape="round" />
+  <Node key="functional" col="4" row="1" label="Functional" shape="pill" />
+  <Node key="logic" col="4" row="2" label="Logic" shape="pill" />
+  <Node key="sql" col="4" row="3" label="SQL" shape="pill" />
+  <Node key="reactive" col="4" row="4" label="Reactive" shape="pill" />
+  <Node key="frp" col="4" row="5" label="FRP" shape="pill" />
+  <Edge from="root" to="imperative" arrow="none" />
+  <Edge from="root" to="declarative" arrow="none" />
+  <Edge from="root" to="other" arrow="none" />
+  <Edge from="imperative" to="structured" arrow="none" />
+  <Edge from="imperative" to="procedural" arrow="none" />
+  <Edge from="imperative" to="oop" arrow="none" />
+  <Edge from="declarative" to="functional" arrow="none" />
+  <Edge from="declarative" to="reactive" arrow="none" />
+  <Edge from="declarative" to="logic" arrow="none" />
+  <Edge from="declarative" to="sql" arrow="none" />
+  <Edge from="reactive" to="frp" arrow="none" />
+  <Edge from="other" to="meta" arrow="none" />
+  <Edge from="other" to="aop" arrow="none" />
+  <Edge from="other" to="fbp" arrow="none" />
+  <Edge from="other" to="constraint" arrow="none" />
+  <Edge from="other" to="components" arrow="none" />
+</Panel>
 ```
 
 ## Imperative Programming
@@ -85,16 +102,26 @@ Event-Driven Flow
 
 A `State` and a `Method` here belong to one object. [Core concepts](../01-methodology/00-core_concepts.md) defines a `State` as the condition of a whole `Solution`, and a `Method` as a set of rules for running a process. In this section, the object sense applies.
 
-```mermaid
-sequenceDiagram
-    participant Sender as Object A
-    participant Bus
-    participant Receiver as Object B
-    Sender->>Bus: emit Event
-    Bus->>Receiver: dispatch Event
-    Receiver->>Receiver: invoke Method
-    Receiver-->>Bus: fire Event
-    Bus-->>Sender: dispatch Event
+```svg
+<Panel>
+  <Node key="a" col="0" row="0" label="Object A" />
+  <Node key="bus" col="1" row="0" label="Bus" />
+  <Node key="b" col="2" row="0" label="Object B" />
+  <Node key="m1" col="0" row="1" shape="point" />
+  <Node key="m2" col="1" row="2" shape="point" />
+  <Node key="m3" col="2" row="3" shape="point" />
+  <Node key="m4" col="2" row="4" shape="point" />
+  <Node key="m5" col="1" row="5" shape="point" />
+  <Node key="m6" col="0" row="6" shape="point" />
+  <Edge from="a" to="m6" arrow="none" />
+  <Edge from="bus" to="m5" arrow="none" />
+  <Edge from="b" to="m4" arrow="none" />
+  <Edge from="m1" to="m2" label="emit Event" />
+  <Edge from="m2" to="m3" label="dispatch Event" />
+  <Edge from="m3" to="m4" label="invoke Method" fromSide="right" toSide="right" />
+  <Edge from="m4" to="m5" label="fire Event" dashed="true" />
+  <Edge from="m5" to="m6" label="dispatch Event" dashed="true" />
+</Panel>
 ```
 
 ## Declarative Programming

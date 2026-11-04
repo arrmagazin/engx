@@ -11,15 +11,24 @@ Nothing here assumes you have used Azure before. Every term is explained the fir
 
 The material is grouped the way a system is built. First the **foundations** every service depends on, then the six things almost every system needs — somewhere to run code (**compute**), a network to reach it (**networking**), somewhere to keep data (**storage and data**), a way for the parts to talk (**messaging and events**), a way to decide who may do what (**identity**), and a way to see what is happening (**observability**). After those come the concerns that only appear once a system is real: **infrastructure as code**, **immutable delivery**, **resilience**, and the performance, cost and security practices that keep it running. The last part is rehearsal — the diagrams worth being able to draw, the trade-offs worth having an answer ready for, and the stories worth having prepared.
 
-```mermaid
-flowchart LR
-  Users --> Networking --> Compute
-  Compute --> Storage[Storage and Data]
-  Compute -->|send and receive| Messaging[Messaging and Events]
-  Identity -. permits or denies every call .-> Compute
-  Identity -. permits or denies every call .-> Storage
-  Observability -. records what happens .-> Compute
-  Observability -. records what happens .-> Storage
+```svg
+<Panel>
+  <Node key="users" col="0" row="2" label="Users" />
+  <Node key="networking" col="1" row="2" label="Networking" />
+  <Node key="compute" col="2" row="2" label="Compute" />
+  <Node key="messaging" col="3" row="1" label="Messaging and Events" />
+  <Node key="storage" col="4" row="2" label="Storage and Data" />
+  <Node key="identity" col="3" row="0" label="Identity" />
+  <Node key="observability" col="3" row="3" label="Observability" />
+  <Edge from="users" to="networking" />
+  <Edge from="networking" to="compute" />
+  <Edge from="compute" to="storage" />
+  <Edge from="compute" to="messaging" label="send and receive" />
+  <Edge from="identity" to="compute" label="permits or denies every call" dashed="true" toSide="top" />
+  <Edge from="identity" to="storage" label="permits or denies every call" dashed="true" toSide="top" />
+  <Edge from="observability" to="compute" label="records what happens" dashed="true" toSide="bottom" />
+  <Edge from="observability" to="storage" label="records what happens" dashed="true" toSide="bottom" />
+</Panel>
 ```
 
 ## How to Read This Document
@@ -45,17 +54,26 @@ Before any service makes sense, you need to know where things live and who is al
 
 ### Concepts — Tenants and Subscriptions
 
-```mermaid
-flowchart TD
-  Tenant --> MG[Management Group]
-  MG --> MG2[Nested Management Group]
-  MG2 --> Sub[Subscription]
-  Sub --> RG[Resource Group]
-  RG --> Resource
-  Quota -. caps .-> Sub
-  Scope -. attaches at any level .-> MG
-  Scope -. attaches at any level .-> Sub
-  Scope -. attaches at any level .-> RG
+```svg
+<Panel flow="TD">
+  <Node key="tenant" col="2" row="0" label="Tenant" />
+  <Node key="mg" col="2" row="1" label="Management Group" />
+  <Node key="mg2" col="2" row="2" label="Nested Management Group" />
+  <Node key="sub" col="2" row="3" label="Subscription" />
+  <Node key="rg" col="2" row="4" label="Resource Group" />
+  <Node key="resource" col="2" row="5" label="Resource" />
+  <Node key="quota" col="3" row="3" label="Quota" />
+  <Node key="scope" col="0" row="3" label="Scope" />
+  <Edge from="tenant" to="mg" />
+  <Edge from="mg" to="mg2" />
+  <Edge from="mg2" to="sub" />
+  <Edge from="sub" to="rg" />
+  <Edge from="rg" to="resource" />
+  <Edge from="quota" to="sub" label="caps" dashed="true" />
+  <Edge from="scope" to="mg" label="attaches at any level" dashed="true" fromSide="right" toSide="left" />
+  <Edge from="scope" to="sub" label="attaches at any level" dashed="true" />
+  <Edge from="scope" to="rg" label="attaches at any level" dashed="true" fromSide="right" toSide="left" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -70,14 +88,22 @@ flowchart TD
 
 ### Concepts — Regions and Resources
 
-```mermaid
-flowchart LR
-  ARM -->|creates| Resource
-  Resource --> RID[Resource ID]
-  Resource --> Tag
-  Region --> Resource
-  Region --> AZ[Availability Zone]
-  Region --> RP[Region Pair]
+```svg
+<Panel>
+  <Node key="arm" col="0" row="0" label="ARM" />
+  <Node key="region" col="0" row="2" label="Region" />
+  <Node key="resource" col="1" row="0" rowspan="2" label="Resource" />
+  <Node key="az" col="1" row="2" label="Availability Zone" />
+  <Node key="rp" col="1" row="3" label="Region Pair" />
+  <Node key="rid" col="2" row="0" label="Resource ID" />
+  <Node key="tag" col="2" row="1" label="Tag" />
+  <Edge from="arm" to="resource" label="creates" />
+  <Edge from="resource" to="rid" />
+  <Edge from="resource" to="tag" />
+  <Edge from="region" to="resource" />
+  <Edge from="region" to="az" />
+  <Edge from="region" to="rp" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -117,28 +143,45 @@ At one end, a **Virtual Machine** gives you a whole virtual server that you inst
 
 The general pattern: the less you manage, the less you can customise, and the more you pay per unit of work at steady high load — but the less you pay when the load is low or uneven, and you spend far less operator time. Most teams end up with a mix.
 
-```mermaid
-flowchart LR
-  Code[Your code] --> Choice{How is it packaged?}
-  Choice -->|installed on a server| VM[Virtual Machine Scale Set]
-  Choice -->|container image| CA[Container Apps]
-  Choice -->|container image, Kubernetes tooling needed| AKS
-  Choice -->|a single function| Fn[Azure Functions]
-  Choice -->|a plain web app| AS[App Service]
+```svg
+<Panel>
+  <Node key="code" col="0" row="2" label="Your code" />
+  <Node key="choice" col="1" row="2" label="How is it packaged?" shape="diamond" />
+  <Node key="vm" col="3" row="0" label="Virtual Machine Scale Set" />
+  <Node key="ca" col="3" row="1" label="Container Apps" />
+  <Node key="aks" col="3" row="2" label="AKS" />
+  <Node key="fn" col="3" row="3" label="Azure Functions" />
+  <Node key="as" col="3" row="4" label="App Service" />
+  <Edge from="code" to="choice" />
+  <Edge from="choice" to="vm" label="installed on a server" />
+  <Edge from="choice" to="ca" label="container image" />
+  <Edge from="choice" to="aks" label="container image, Kubernetes tooling needed" />
+  <Edge from="choice" to="fn" label="a single function" />
+  <Edge from="choice" to="as" label="a plain web app" />
+</Panel>
 ```
 
 ### Concepts — Compute Instances
 
-```mermaid
-flowchart LR
-  Gallery[Azure Compute Gallery] --> Image
-  Image --> VM[Virtual Machine]
-  Size[VM Size] --> VM
-  VM --> VMSS
-  VMSS -. replaces rather than patches .-> VM
-  VM --> Eph[Ephemeral OS Disk]
-  Deallocate -. stops billing for .-> VM
-  ASet[Availability Set] -. pre-zone alternative to .-> VMSS
+```svg
+<Panel>
+  <Node key="gallery" col="0" row="1" label="Azure Compute Gallery" />
+  <Node key="size" col="1" row="0" label="VM Size" />
+  <Node key="image" col="1" row="1" label="Image" />
+  <Node key="deallocate" col="1" row="2" label="Deallocate" />
+  <Node key="vm" col="2" row="1" label="Virtual Machine" />
+  <Node key="eph" col="3" row="0" label="Ephemeral OS Disk" />
+  <Node key="vmss" col="3" row="2" label="VMSS" />
+  <Node key="aset" col="3" row="3" label="Availability Set" />
+  <Edge from="gallery" to="image" />
+  <Edge from="image" to="vm" />
+  <Edge from="size" to="vm" />
+  <Edge from="vm" to="vmss" toSide="top" />
+  <Edge from="vmss" to="vm" label="replaces rather than patches" dashed="true" fromSide="left" toSide="bottom" />
+  <Edge from="vm" to="eph" />
+  <Edge from="deallocate" to="vm" label="stops billing for" dashed="true" />
+  <Edge from="aset" to="vmss" label="pre-zone alternative to" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -154,15 +197,25 @@ flowchart LR
 
 ### Concepts — Compute Containers
 
-```mermaid
-flowchart LR
-  Container --> K8s[Kubernetes]
-  K8s --> NP[Node Pool]
-  K8s --> CNI[Azure CNI Overlay]
-  K8s --> WID[Entra Workload ID]
-  Container --> Rev[Revision]
-  KEDA -. scales pods for .-> K8s
-  Zero[Scale to zero] --> CS[Cold Start]
+```svg
+<Panel>
+  <Node key="keda" col="0" row="0" label="KEDA" />
+  <Node key="container" col="0" row="1" label="Container" />
+  <Node key="k8s" col="1" row="1" label="Kubernetes" />
+  <Node key="rev" col="1" row="2" label="Revision" />
+  <Node key="np" col="2" row="0" label="Node Pool" />
+  <Node key="cni" col="2" row="1" label="Azure CNI Overlay" />
+  <Node key="wid" col="2" row="2" label="Entra Workload ID" />
+  <Node key="zero" col="0" row="3" label="Scale to zero" />
+  <Node key="cs" col="1" row="3" label="Cold Start" />
+  <Edge from="container" to="k8s" />
+  <Edge from="k8s" to="np" />
+  <Edge from="k8s" to="cni" />
+  <Edge from="k8s" to="wid" />
+  <Edge from="container" to="rev" />
+  <Edge from="keda" to="k8s" label="scales pods for" dashed="true" />
+  <Edge from="zero" to="cs" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -178,13 +231,21 @@ flowchart LR
 
 ### Concepts — Compute Functions
 
-```mermaid
-flowchart LR
-  Trigger --> Fn[Function]
-  Binding --> Fn
-  Fn --> Durable[Durable Functions]
-  Plan[App Service Plan] --> App[App Service app]
-  App --> Slot[Deployment Slot]
+```svg
+<Panel>
+  <Node key="trigger" col="0" row="0" label="Trigger" />
+  <Node key="binding" col="0" row="1" label="Binding" />
+  <Node key="fn" col="1" row="0" label="Function" />
+  <Node key="durable" col="2" row="0" label="Durable Functions" />
+  <Node key="plan" col="0" row="2" label="App Service Plan" />
+  <Node key="app" col="1" row="2" label="App Service app" />
+  <Node key="slot" col="2" row="2" label="Deployment Slot" />
+  <Edge from="trigger" to="fn" />
+  <Edge from="binding" to="fn" />
+  <Edge from="fn" to="durable" />
+  <Edge from="plan" to="app" />
+  <Edge from="app" to="slot" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -250,31 +311,54 @@ Not every workload needs an orchestrator. Reaching for the simplest thing that m
 
 Networking is how traffic reaches your code and how your code reaches everything else. Azure's model is close enough to AWS's to be familiar and different enough in three specific places to catch people out: subnets span zones rather than sitting in one, outbound internet access must be arranged explicitly, and reaching a managed service privately depends entirely on DNS.
 
-```mermaid
-flowchart LR
-  I[Internet] --> FD[Front Door - global edge]
-  FD --> AG[Application Gateway - regional L7]
-  AG --> SN[Subnet inside a VNet]
-  SN --> App[Your application]
-  App --> PE[Private endpoint]
-  PE --> PaaS[Storage / SQL / Key Vault]
-  App --> NAT[NAT Gateway] --> Out[Outbound internet]
+```svg
+<Panel>
+  <Node key="internet" col="0" row="0" label="Internet" />
+  <Node key="frontdoor" col="1" row="0" label="Front Door&#10;- global edge" />
+  <Node key="appgw" col="2" row="0" label="Application Gateway&#10;- regional L7" />
+  <Node key="subnet" col="3" row="0" label="Subnet inside a VNet" />
+  <Node key="app" col="0" row="1" label="Your application" />
+  <Node key="pe" col="1" row="1" label="Private endpoint" />
+  <Node key="paas" col="2" row="1" label="Storage / SQL / Key Vault" />
+  <Node key="nat" col="1" row="2" label="NAT Gateway" />
+  <Node key="out" col="2" row="2" label="Outbound internet" />
+  <Edge from="internet" to="frontdoor" />
+  <Edge from="frontdoor" to="appgw" />
+  <Edge from="appgw" to="subnet" />
+  <Edge from="subnet" to="app" fromSide="bottom" toSide="top" />
+  <Edge from="app" to="pe" />
+  <Edge from="pe" to="paas" />
+  <Edge from="app" to="nat" />
+  <Edge from="nat" to="out" />
+</Panel>
 ```
 
 ### Concepts — Inside the VNet
 
-```mermaid
-flowchart TD
-  VNet --> AS[Address Space]
-  AS --> Subnet
-  Subnet --> NSG
-  ASG --> NSG
-  ST[Service Tag] --> NSG
-  Subnet --> UDR[User-Defined Route]
-  UDR -. forces traffic through .-> FW[Azure Firewall]
-  Subnet --> NAT[NAT Gateway]
-  Subnet --> PE[Private Endpoint]
-  PE --> PDZ[Private DNS Zone]
+```svg
+<Panel flow="TD">
+  <Node key="vnet" col="2" row="0" colspan="2" label="VNet" />
+  <Node key="as" col="2" row="1" colspan="2" label="Address Space" />
+  <Node key="asg" col="0" row="3" label="ASG" />
+  <Node key="st" col="1" row="2" label="Service Tag" />
+  <Node key="subnet" col="2" row="2" colspan="2" label="Subnet" />
+  <Node key="nsg" col="1" row="3" label="NSG" />
+  <Node key="udr" col="2" row="3" label="User-Defined Route" />
+  <Node key="nat" col="3" row="3" label="NAT Gateway" />
+  <Node key="pe" col="4" row="3" label="Private Endpoint" />
+  <Node key="fw" col="2" row="4" label="Azure Firewall" />
+  <Node key="pdz" col="4" row="4" label="Private DNS Zone" />
+  <Edge from="vnet" to="as" />
+  <Edge from="as" to="subnet" />
+  <Edge from="subnet" to="nsg" />
+  <Edge from="asg" to="nsg" />
+  <Edge from="st" to="nsg" />
+  <Edge from="subnet" to="udr" />
+  <Edge from="udr" to="fw" label="forces traffic through" dashed="true" />
+  <Edge from="subnet" to="nat" />
+  <Edge from="subnet" to="pe" />
+  <Edge from="pe" to="pdz" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -293,18 +377,32 @@ flowchart TD
 
 ### Concepts — Edge and Connections
 
-```mermaid
-flowchart LR
-  User --> FD[Front Door]
-  WAF --> FD
-  HP[Health Probe] -. gates .-> FD
-  TM[Traffic Manager] -. answers the lookup only .-> User
-  AR[Alias Record] --> FD
-  VNet --> Peer[VNet Peering]
-  Peer --> VWAN[Virtual WAN]
-  VWAN --> ER[ExpressRoute]
-  SE[Service Endpoint] -. weaker alternative to .-> PE[Private Endpoint]
-  PLS[Private Link Service] --> PE
+```svg
+<Panel>
+  <Node key="tm" col="0" row="0" label="Traffic Manager" />
+  <Node key="waf" col="1" row="0" label="WAF" />
+  <Node key="user" col="1" row="1" label="User" />
+  <Node key="ar" col="1" row="2" label="Alias Record" />
+  <Node key="hp" col="2" row="0" label="Health Probe" />
+  <Node key="fd" col="2" row="1" label="Front Door" />
+  <Node key="se" col="3" row="0" label="Service Endpoint" />
+  <Node key="pls" col="3" row="2" label="Private Link Service" />
+  <Node key="pe" col="4" row="1" label="Private Endpoint" />
+  <Node key="vnet" col="0" row="3" label="VNet" />
+  <Node key="peer" col="1" row="3" label="VNet Peering" />
+  <Node key="vwan" col="2" row="3" label="Virtual WAN" />
+  <Node key="er" col="3" row="3" label="ExpressRoute" />
+  <Edge from="user" to="fd" />
+  <Edge from="waf" to="fd" />
+  <Edge from="hp" to="fd" label="gates" dashed="true" />
+  <Edge from="tm" to="user" label="answers the lookup only" dashed="true" />
+  <Edge from="ar" to="fd" />
+  <Edge from="vnet" to="peer" />
+  <Edge from="peer" to="vwan" />
+  <Edge from="vwan" to="er" />
+  <Edge from="se" to="pe" label="weaker alternative to" dashed="true" />
+  <Edge from="pls" to="pe" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -393,17 +491,29 @@ Somewhere to keep things. Azure separates storage by shape: objects in a storage
 
 ### Concepts — Storage
 
-```mermaid
-flowchart TD
-  SA[Storage Account] --> BC[Blob Container]
-  SA --> Red[LRS / ZRS / GRS / GZRS]
-  SA --> ADLS[ADLS Gen2]
-  SA --> DPR[Data Plane Role]
-  SA --> SAS[User-Delegation SAS]
-  BC --> AT[Access Tier]
-  AT --> LP[Lifecycle Policy]
-  AF[Azure Files] --> SA
-  MD[Managed Disk] --> P2[Premium SSD v2]
+```svg
+<Panel flow="TD">
+  <Node key="af" col="2" row="0" label="Azure Files" />
+  <Node key="sa" col="2" row="1" label="Storage Account" />
+  <Node key="bc" col="0" row="2" label="Blob Container" />
+  <Node key="red" col="1" row="2" label="LRS / ZRS / GRS / GZRS" />
+  <Node key="adls" col="2" row="2" label="ADLS Gen2" />
+  <Node key="dpr" col="3" row="2" label="Data Plane Role" />
+  <Node key="sas" col="4" row="2" label="User-Delegation SAS" />
+  <Node key="at" col="0" row="3" label="Access Tier" />
+  <Node key="lp" col="0" row="4" label="Lifecycle Policy" />
+  <Node key="md" col="3" row="4" label="Managed Disk" />
+  <Node key="p2" col="4" row="4" label="Premium SSD v2" />
+  <Edge from="sa" to="bc" />
+  <Edge from="sa" to="red" />
+  <Edge from="sa" to="adls" />
+  <Edge from="sa" to="dpr" />
+  <Edge from="sa" to="sas" />
+  <Edge from="bc" to="at" />
+  <Edge from="at" to="lp" />
+  <Edge from="af" to="sa" />
+  <Edge from="md" to="p2" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -422,16 +532,27 @@ flowchart TD
 
 ### Concepts — Data Stores
 
-```mermaid
-flowchart LR
-  LS[Logical Server] --> DB[Azure SQL database]
-  DB --> ST[Service Tier]
-  DB --> FG[Failover Group]
-  Cosmos[Cosmos DB] --> PK[Partition Key]
-  PK --> HP[Hot Partition]
-  Cosmos --> RU[RU/s]
-  Cosmos --> SC[Session Consistency]
-  Cosmos --> CF[Change Feed]
+```svg
+<Panel>
+  <Node key="ls" col="0" row="0" rowspan="2" label="Logical Server" />
+  <Node key="db" col="1" row="0" rowspan="2" label="Azure SQL database" />
+  <Node key="st" col="2" row="0" label="Service Tier" />
+  <Node key="fg" col="2" row="1" label="Failover Group" />
+  <Node key="cosmos" col="0" row="3" rowspan="2" label="Cosmos DB" />
+  <Node key="pk" col="1" row="2" label="Partition Key" />
+  <Node key="hp" col="2" row="2" label="Hot Partition" />
+  <Node key="ru" col="1" row="3" label="RU/s" />
+  <Node key="sc" col="1" row="4" label="Session Consistency" />
+  <Node key="cf" col="1" row="5" label="Change Feed" />
+  <Edge from="ls" to="db" />
+  <Edge from="db" to="st" />
+  <Edge from="db" to="fg" />
+  <Edge from="cosmos" to="pk" />
+  <Edge from="pk" to="hp" />
+  <Edge from="cosmos" to="ru" />
+  <Edge from="cosmos" to="sc" />
+  <Edge from="cosmos" to="cf" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -501,29 +622,51 @@ Four services that people confuse constantly. Choosing correctly between them is
 
 The one-line version: **Storage Queues** for a simple work handoff, **Service Bus** for messages you must not lose or reorder, **Event Grid** for reacting to things that happened, and **Event Hubs** for high-volume streams you may need to replay.
 
-```mermaid
-flowchart TD
-  Q{What are you sending?} -->|a job for a worker, nothing fancy| SQ[Storage Queues]
-  Q -->|a business message that must not be lost or reordered| SB[Service Bus]
-  Q -->|a notification that something happened| EG[Event Grid]
-  Q -->|a high-volume stream you may replay| EH[Event Hubs]
+```svg
+<Panel>
+  <Node key="q" col="0" row="1" rowspan="2" label="What are you sending?" shape="diamond" />
+  <Node key="sq" col="3" row="0" label="Storage Queues" />
+  <Node key="sb" col="3" row="1" label="Service Bus" />
+  <Node key="eg" col="3" row="2" label="Event Grid" />
+  <Node key="eh" col="3" row="3" label="Event Hubs" />
+  <Edge from="q" to="sq" label="a job for a worker, nothing fancy" />
+  <Edge from="q" to="sb" label="a business message that must not be lost or reordered" />
+  <Edge from="q" to="eg" label="a notification that something happened" />
+  <Edge from="q" to="eh" label="a high-volume stream you may replay" />
+</Panel>
 ```
 
 ### Concepts — Messaging and Events
 
-```mermaid
-flowchart TD
-  SQ[Storage Queue] --> VT[Visibility Timeout]
-  SB[Service Bus] --> PL[Peek-Lock]
-  SB --> TS[Topic and Subscription]
-  SB --> Sess[Session]
-  SB --> DD[Duplicate Detection]
-  PL --> DLQ[Dead-Letter Queue]
-  EG[Event Grid] --> SysT[System Topic]
-  EH[Event Hubs] --> Part[Partition]
-  Part --> CG[Consumer Group]
-  CG --> CP[Checkpoint]
-  EH --> Cap[Capture]
+```svg
+<Panel flow="TD">
+  <Node key="sq" col="0" row="0" label="Storage Queue" />
+  <Node key="sb" col="2" row="0" colspan="2" label="Service Bus" />
+  <Node key="vt" col="0" row="1" label="Visibility Timeout" />
+  <Node key="ts" col="1" row="1" label="Topic and Subscription" />
+  <Node key="sess" col="2" row="1" label="Session" />
+  <Node key="dd" col="3" row="1" label="Duplicate Detection" />
+  <Node key="pl" col="4" row="1" label="Peek-Lock" />
+  <Node key="dlq" col="4" row="2" label="Dead-Letter Queue" />
+  <Node key="eg" col="0" row="3" label="Event Grid" />
+  <Node key="eh" col="1" row="3" colspan="2" label="Event Hubs" />
+  <Node key="syst" col="0" row="4" label="System Topic" />
+  <Node key="cap" col="1" row="4" label="Capture" />
+  <Node key="part" col="2" row="4" label="Partition" />
+  <Node key="cg" col="3" row="4" label="Consumer Group" />
+  <Node key="cp" col="4" row="4" label="Checkpoint" />
+  <Edge from="sq" to="vt" />
+  <Edge from="sb" to="pl" />
+  <Edge from="sb" to="ts" />
+  <Edge from="sb" to="sess" />
+  <Edge from="sb" to="dd" />
+  <Edge from="pl" to="dlq" />
+  <Edge from="eg" to="syst" />
+  <Edge from="eh" to="part" />
+  <Edge from="part" to="cg" />
+  <Edge from="cg" to="cp" />
+  <Edge from="eh" to="cap" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -572,19 +715,32 @@ Identity in Azure is two systems that share a name and are frequently confused. 
 
 ### Concepts — Identity and Access
 
-```mermaid
-flowchart TD
-  Entra[Entra ID] --> AR[App Registration]
-  AR --> SP[Service Principal]
-  Entra --> ER[Entra Role]
-  Entra --> CA[Conditional Access]
-  CA --> PIM
-  SP --> RA[Role Assignment]
-  RBAC[Azure RBAC Role] --> RA
-  Scope --> RA
-  SAI[System-Assigned Identity] --> RA
-  UAI[User-Assigned Identity] --> RA
-  DAC[DefaultAzureCredential] -. fetches a token for .-> SAI
+```svg
+<Panel flow="TD">
+  <Node key="entra" col="1" row="0" label="Entra ID" />
+  <Node key="ca" col="0" row="1" label="Conditional Access" />
+  <Node key="er" col="1" row="1" label="Entra Role" />
+  <Node key="ar" col="2" row="1" label="App Registration" />
+  <Node key="dac" col="3" row="1" colspan="2" label="DefaultAzureCredential" />
+  <Node key="pim" col="0" row="2" label="PIM" />
+  <Node key="rbac" col="1" row="2" label="Azure RBAC Role" />
+  <Node key="sp" col="2" row="2" label="Service Principal" />
+  <Node key="sai" col="4" row="2" label="System-Assigned Identity" />
+  <Node key="uai" col="1" row="3" label="User-Assigned Identity" />
+  <Node key="ra" col="2" row="3" label="Role Assignment" />
+  <Node key="scope" col="3" row="3" label="Scope" />
+  <Edge from="entra" to="ar" />
+  <Edge from="ar" to="sp" />
+  <Edge from="entra" to="er" />
+  <Edge from="entra" to="ca" />
+  <Edge from="ca" to="pim" />
+  <Edge from="sp" to="ra" />
+  <Edge from="rbac" to="ra" />
+  <Edge from="scope" to="ra" />
+  <Edge from="sai" to="ra" />
+  <Edge from="uai" to="ra" />
+  <Edge from="dac" to="sai" label="fetches a token for" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -602,13 +758,21 @@ flowchart TD
 
 ### Concepts — Secrets and Keys
 
-```mermaid
-flowchart LR
-  KV[Key Vault] --> SD[Soft Delete]
-  SD --> PP[Purge Protection]
-  KV --> KVR[Key Vault Reference]
-  KV --> MH[Managed HSM]
-  FC[Federated Credential] -. removes the stored secret from .-> Pipeline
+```svg
+<Panel>
+  <Node key="kv" col="0" row="1" label="Key Vault" />
+  <Node key="sd" col="1" row="0" label="Soft Delete" />
+  <Node key="kvr" col="1" row="1" label="Key Vault Reference" />
+  <Node key="mh" col="1" row="2" label="Managed HSM" />
+  <Node key="pp" col="2" row="0" label="Purge Protection" />
+  <Node key="fc" col="0" row="3" label="Federated Credential" />
+  <Node key="pipeline" col="2" row="3" label="Pipeline" />
+  <Edge from="kv" to="sd" />
+  <Edge from="sd" to="pp" />
+  <Edge from="kv" to="kvr" />
+  <Edge from="kv" to="mh" />
+  <Edge from="fc" to="pipeline" label="removes the stored secret from" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -664,18 +828,29 @@ Two jobs that share a toolset: seeing what is happening, and constraining what i
 
 ### Concepts — Observability
 
-```mermaid
-flowchart TD
-  Res[Resource] --> DS[Diagnostic Setting]
-  DS --> LAW[Log Analytics Workspace]
-  DCR[Data Collection Rule] --> LAW
-  LAW --> KQL
-  Res --> Metric
-  Metric --> AG[Action Group]
-  KQL --> AG
-  AI[Application Insights] --> LAW
-  OTel[OpenTelemetry] --> AI
-  Sampling -. discards part of .-> AI
+```svg
+<Panel flow="TD">
+  <Node key="res" col="0" row="0" colspan="2" label="Resource" />
+  <Node key="otel" col="3" row="0" label="OpenTelemetry" />
+  <Node key="sampling" col="4" row="0" label="Sampling" />
+  <Node key="metric" col="0" row="1" label="Metric" />
+  <Node key="ds" col="1" row="1" label="Diagnostic Setting" />
+  <Node key="dcr" col="2" row="1" label="Data Collection Rule" />
+  <Node key="ai" col="3" row="1" label="Application Insights" />
+  <Node key="law" col="2" row="2" label="Log Analytics Workspace" />
+  <Node key="kql" col="2" row="3" label="KQL" />
+  <Node key="ag" col="1" row="3" label="Action Group" />
+  <Edge from="res" to="ds" />
+  <Edge from="ds" to="law" />
+  <Edge from="dcr" to="law" />
+  <Edge from="law" to="kql" />
+  <Edge from="res" to="metric" />
+  <Edge from="metric" to="ag" />
+  <Edge from="kql" to="ag" />
+  <Edge from="ai" to="law" />
+  <Edge from="otel" to="ai" />
+  <Edge from="sampling" to="ai" label="discards part of" dashed="true" fromSide="left" toSide="right" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -692,17 +867,32 @@ flowchart TD
 
 ### Concepts — Governance
 
-```mermaid
-flowchart TD
-  Pol[Azure Policy] --> PE[Policy Effect]
-  PE --> RT[Remediation Task]
-  Pol --> Init[Initiative]
-  Arc[Azure Arc] --> Pol
-  MC[Machine Configuration] --> Pol
-  Writes[Every control-plane write] --> AL[Activity Log]
-  Def[Defender for Cloud] --> Score[Secure score]
-  Bastion[Azure Bastion] --> Shell[Shell with no public IP]
-  RH[Resource Health] --> One[One resource, right now]
+```svg
+<Panel flow="TD">
+  <Node key="arc" col="0" row="0" label="Azure Arc" />
+  <Node key="mc" col="1" row="0" label="Machine Configuration" />
+  <Node key="pol" col="0" row="1" colspan="2" label="Azure Policy" />
+  <Node key="pe" col="0" row="2" label="Policy Effect" />
+  <Node key="init" col="1" row="2" label="Initiative" />
+  <Node key="rt" col="0" row="3" label="Remediation Task" />
+  <Node key="writes" col="3" row="0" label="Every control-plane write" />
+  <Node key="al" col="4" row="0" label="Activity Log" />
+  <Node key="def" col="3" row="1" label="Defender for Cloud" />
+  <Node key="score" col="4" row="1" label="Secure score" />
+  <Node key="bastion" col="3" row="2" label="Azure Bastion" />
+  <Node key="shell" col="4" row="2" label="Shell with no public IP" />
+  <Node key="rh" col="3" row="3" label="Resource Health" />
+  <Node key="one" col="4" row="3" label="One resource, right now" />
+  <Edge from="pol" to="pe" />
+  <Edge from="pe" to="rt" />
+  <Edge from="pol" to="init" />
+  <Edge from="arc" to="pol" />
+  <Edge from="mc" to="pol" />
+  <Edge from="writes" to="al" />
+  <Edge from="def" to="score" />
+  <Edge from="bastion" to="shell" />
+  <Edge from="rh" to="one" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -765,18 +955,33 @@ Everything above describes what you can create. This section is about creating i
 
 ### Concepts — Infrastructure as Code and Delivery
 
-```mermaid
-flowchart LR
-  Bicep -->|transpiles to| ARMT[ARM Template]
-  Bicep --> WI[What-If]
-  Terraform --> SF[State File]
-  Module --> Bicep
-  Module --> Terraform
-  Portal[Hand edits in the portal] --> Drift
-  GI[Golden Image] --> BG[Blue/Green Deployment]
-  GI --> Can[Canary Deployment]
-  Digest -. pins .-> GI
-  GitOps -. reconciles a cluster to .-> Git[A Git repository]
+```svg
+<Panel>
+  <Node key="module" col="0" row="1" rowspan="2" label="Module" />
+  <Node key="bicep" col="1" row="1" label="Bicep" />
+  <Node key="terraform" col="1" row="2" label="Terraform" />
+  <Node key="armt" col="2" row="0" label="ARM Template" />
+  <Node key="wi" col="2" row="1" label="What-If" />
+  <Node key="sf" col="2" row="2" label="State File" />
+  <Node key="digest" col="0" row="3" label="Digest" />
+  <Node key="gi" col="1" row="3" label="Golden Image" />
+  <Node key="bg" col="2" row="3" label="Blue/Green Deployment" />
+  <Node key="can" col="2" row="4" label="Canary Deployment" />
+  <Node key="gitops" col="4" row="0" label="GitOps" />
+  <Node key="git" col="4" row="1" label="A Git repository" />
+  <Node key="portal" col="4" row="3" label="Hand edits in the portal" />
+  <Node key="drift" col="4" row="4" label="Drift" />
+  <Edge from="bicep" to="armt" label="transpiles to" />
+  <Edge from="bicep" to="wi" />
+  <Edge from="terraform" to="sf" />
+  <Edge from="module" to="bicep" />
+  <Edge from="module" to="terraform" />
+  <Edge from="portal" to="drift" />
+  <Edge from="gi" to="bg" />
+  <Edge from="gi" to="can" />
+  <Edge from="digest" to="gi" label="pins" dashed="true" />
+  <Edge from="gitops" to="git" label="reconciles a cluster to" dashed="true" />
+</Panel>
 ```
 
 | Concept | Definition |
@@ -865,16 +1070,28 @@ Once a machine exists, something has to put software and settings on it — unle
 
 ### Concepts — Resilience and Recovery
 
-```mermaid
-flowchart LR
-  LZ[Landing Zone] --> HS[Hub-and-Spoke]
-  LZ --> SV[Subscription Vending]
-  Blast[Blast Radius] -. bounded by .-> Bounds[Subscription, Region, Availability Zone]
-  RTO --> Pick{Recovery strategy}
-  RPO --> Pick
-  Pick --> AB[Azure Backup]
-  Pick --> ZR[Zone-Redundant]
-  Pick --> ASR[Azure Site Recovery]
+```svg
+<Panel>
+  <Node key="lz" col="0" row="0" rowspan="2" label="Landing Zone" />
+  <Node key="hs" col="1" row="0" label="Hub-and-Spoke" />
+  <Node key="sv" col="1" row="1" label="Subscription Vending" />
+  <Node key="blast" col="0" row="2" colspan="2" label="Blast Radius" />
+  <Node key="bounds" col="0" row="3" colspan="2" label="Subscription, Region, Availability Zone" />
+  <Node key="rto" col="0" row="4" label="RTO" />
+  <Node key="rpo" col="0" row="6" label="RPO" />
+  <Node key="pick" col="1" row="5" label="Recovery strategy" shape="diamond" />
+  <Node key="ab" col="2" row="4" label="Azure Backup" />
+  <Node key="zr" col="2" row="5" label="Zone-Redundant" />
+  <Node key="asr" col="2" row="6" label="Azure Site Recovery" />
+  <Edge from="lz" to="hs" />
+  <Edge from="lz" to="sv" />
+  <Edge from="blast" to="bounds" label="bounded by" dashed="true" />
+  <Edge from="rto" to="pick" />
+  <Edge from="rpo" to="pick" />
+  <Edge from="pick" to="ab" />
+  <Edge from="pick" to="zr" />
+  <Edge from="pick" to="asr" />
+</Panel>
 ```
 
 | Concept | Definition |

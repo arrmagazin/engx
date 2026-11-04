@@ -15,9 +15,19 @@ Node.js runs JavaScript on the server: one thread executes your code, an event l
 | **TypeScript** | Runs `.ts` files directly by stripping types (stable) |
 | **Built in** | `fetch`, `WebSocket`, Web Streams, `AbortController`, test runner, watch mode, `.env` loading |
 
-```mermaid
-flowchart LR
-    T[timers] --> P[pending callbacks] --> PO[poll: I/O] --> C["check: setImmediate"] --> CL[close callbacks] --> T
+```svg
+<Panel flow="LR">
+  <Node key="timers" col="0" row="0" label="timers" />
+  <Node key="pending" col="1" row="0" label="pending callbacks" />
+  <Node key="poll" col="2" row="0" label="poll: I/O" />
+  <Node key="check" col="2" row="1" label="check: setImmediate" />
+  <Node key="close" col="1" row="1" label="close callbacks" />
+  <Edge from="timers" to="pending" />
+  <Edge from="pending" to="poll" />
+  <Edge from="poll" to="check" />
+  <Edge from="check" to="close" />
+  <Edge from="close" to="timers" fromSide="left" toSide="bottom" />
+</Panel>
 ```
 
 After every callback, Node drains the `process.nextTick` queue and then the promise microtask queue, before the loop moves on. A callback that runs long — a big `JSON.parse`, a sync crypto call, a tight loop — stalls every other request on the process.

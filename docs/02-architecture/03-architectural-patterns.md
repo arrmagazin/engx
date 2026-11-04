@@ -32,12 +32,18 @@ The oldest of these, and the default most systems reach without deciding to: div
 | **Domain** | Entities, values, and the rules that govern them | Data access, in the classic form |
 | **Data access** | Persistence, external system clients, message publishing | The database driver or SDK |
 
-```mermaid
-flowchart TB
-  P[Presentation] --> A[Application]
-  A --> D[Domain]
-  D --> DA[Data access]
-  DA --> DB[(Database)]
+```svg
+<Panel flow="TD">
+  <Node key="p" col="0" row="0" label="Presentation" />
+  <Node key="a" col="0" row="1" label="Application" />
+  <Node key="d" col="0" row="2" label="Domain" />
+  <Node key="da" col="0" row="3" label="Data access" />
+  <Node key="db" col="0" row="4" label="Database" shape="db" />
+  <Edge from="p" to="a" />
+  <Edge from="a" to="d" />
+  <Edge from="d" to="da" />
+  <Edge from="da" to="db" />
+</Panel>
 ```
 
 Two decisions make a layered design meaningful. Leave either implicit and the result is a diagram nobody can violate.
@@ -65,15 +71,16 @@ DDD is a way of making design decisions, not a code structure of its own. Layere
 | **Anti-corruption layer** | Translation code at a context's edge that keeps another context's model out | Billing turns a Sales lead into its own account type |
 | **Subdomain** | A part of the business, classed by its value as core, supporting, or generic | Core: pricing, built by the strongest team. Supporting: internal reporting, kept simple. Generic: email delivery, bought |
 
-```mermaid
-flowchart LR
-  subgraph SalesContext [Sales context]
-    SC["Customer: a lead with a sales stage"]
-  end
-  subgraph BillingContext [Billing context]
-    ACL[Anti-corruption layer] --> BC["Customer: an account with a balance"]
-  end
-  SC -->|DealWon event| ACL
+```svg
+<Panel>
+  <Group col="0" row="0" label="Sales context" />
+  <Group col="2" row="0" colspan="3" label="Billing context" />
+  <Node key="sc" col="0" row="0" label="Customer: a lead with a sales stage" />
+  <Node key="acl" col="2" row="0" label="Anti-corruption layer" />
+  <Node key="bc" col="3" row="0" colspan="2" label="Customer: an account with a balance" />
+  <Edge from="acl" to="bc" />
+  <Edge from="sc" to="acl" label="DealWon event" />
+</Panel>
 ```
 
 **Tactical design** gives the building blocks for the model inside one bounded context.
@@ -122,12 +129,17 @@ Model–View–Controller comes from Trygve Reenskaug's work on Smalltalk-80 in 
 | **View** | Rendering the model for a user or a client | The presentation or the device changes |
 | **Controller** | Turning an input into a call on the model, and choosing the next view | The interaction or the route changes |
 
-```mermaid
-flowchart LR
-  U([User]) -->|input| C[Controller]
-  C -->|calls| M[Model]
-  M -->|state| V[View]
-  V -->|renders| U
+```svg
+<Panel>
+  <Node key="user" col="0" row="0" label="User" shape="pill" />
+  <Node key="controller" col="1" row="0" label="Controller" />
+  <Node key="model" col="1" row="1" label="Model" />
+  <Node key="view" col="0" row="1" label="View" />
+  <Edge from="user" to="controller" label="input" />
+  <Edge from="controller" to="model" label="calls" />
+  <Edge from="model" to="view" label="state" />
+  <Edge from="view" to="user" label="renders" />
+</Panel>
 ```
 
 Two variants are worth naming, because their names are used loosely:
@@ -151,17 +163,25 @@ Hexagonal architecture, also called ports and adapters, was described by [Alista
 | **Driven port** | An interface the application calls to reach the outside world | `OrderRepository`, `PaymentGateway` |
 | **Driven adapter** | An implementation of a driven port for one technology | Postgres repository, Stripe client |
 
-```mermaid
-flowchart LR
-  subgraph Core [Application core]
-    DP([Driving port]) --> DOM[Domain and use cases]
-    DOM --> SP([Driven port])
-  end
-  HTTP[HTTP adapter] --> DP
-  CLI[CLI adapter] --> DP
-  TEST[Test harness] --> DP
-  SP --> PG[Postgres adapter]
-  SP --> STR[Payment adapter]
+```svg
+<Panel>
+  <Group col="1" row="1" colspan="3" label="Application core" />
+  <Node key="http" col="0" row="0" label="HTTP adapter" />
+  <Node key="cli" col="0" row="1" label="CLI adapter" />
+  <Node key="test" col="0" row="2" label="Test harness" />
+  <Node key="dp" col="1" row="1" label="Driving port" shape="pill" />
+  <Node key="dom" col="2" row="1" label="Domain and use cases" />
+  <Node key="sp" col="3" row="1" label="Driven port" shape="pill" />
+  <Node key="pg" col="4" row="0" label="Postgres adapter" />
+  <Node key="str" col="4" row="2" label="Payment adapter" />
+  <Edge from="dp" to="dom" />
+  <Edge from="dom" to="sp" />
+  <Edge from="http" to="dp" />
+  <Edge from="cli" to="dp" />
+  <Edge from="test" to="dp" />
+  <Edge from="sp" to="pg" />
+  <Edge from="sp" to="str" />
+</Panel>
 ```
 
 The whole pattern rests on one rule: every arrow points inward, so the core names the interfaces and the adapters implement them. That makes it checkable, exactly as the [logical view](02-architectural-views.md#logical-view) demands: an import of a web framework, an ORM, or an SDK inside the core package is a violation a dependency linter can fail the build on. It is the [Dependency Inversion Principle](../05-coding/05-design-principles.md#solid-principles-of-object-oriented-design) applied at the component boundary instead of between classes.
@@ -199,15 +219,24 @@ Monolith describes deployment, not quality. It is the correct starting shape for
 | **C** | Cloud-native SaaS | Units run on managed infrastructure that scales on demand, or are bought as SaaS that the vendor upgrades | No team patches or upgrades a component it did not write |
 | **H** | Headless | The front end is separate from the back end and reaches it only through the `APIs` | A new channel — mobile app, kiosk, voice — is added without changing a back-end unit |
 
-```mermaid
-flowchart LR
-  WEB[Web shop] --> GW[API gateway]
-  APP[Mobile app] --> GW
-  KIOSK[In-store kiosk] --> GW
-  GW --> CAT[Catalog service]
-  GW --> CART[Cart service]
-  GW --> CMS[Content SaaS]
-  GW --> PAY[Payment SaaS]
+```svg
+<Panel>
+  <Node key="web" col="0" row="0" label="Web shop" />
+  <Node key="app" col="0" row="1" label="Mobile app" />
+  <Node key="kiosk" col="0" row="2" label="In-store kiosk" />
+  <Node key="gw" col="1" row="1" rowspan="2" label="API gateway" />
+  <Node key="cat" col="2" row="0" label="Catalog service" />
+  <Node key="cart" col="2" row="1" label="Cart service" />
+  <Node key="cms" col="2" row="2" label="Content SaaS" />
+  <Node key="pay" col="2" row="3" label="Payment SaaS" />
+  <Edge from="web" to="gw" />
+  <Edge from="app" to="gw" />
+  <Edge from="kiosk" to="gw" />
+  <Edge from="gw" to="cat" />
+  <Edge from="gw" to="cart" />
+  <Edge from="gw" to="cms" />
+  <Edge from="gw" to="pay" />
+</Panel>
 ```
 
 Headless plus API-first is the hexagonal idea at system scale: every front end is a driving adapter, and the `APIs` are the driving ports.

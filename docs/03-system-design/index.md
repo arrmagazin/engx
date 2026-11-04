@@ -7,16 +7,25 @@ tags: [architecture, system-design]
 
 **System design** is the *process* that turns architectural decisions into a specification developers can implement directly: database schemas, `API` endpoints, algorithms, data structures, and the components chosen to run them. It works one level below [System Architecture](../02-architecture/index.md), which decides what the parts are and stops there.
 
-```mermaid
-flowchart LR
-  Principles --> Architecture
-  Constraints --> Architecture
-  Architecture --> Decisions
-  Decisions --> SystemDesign["System Design"]
-  SystemDesign --> Blueprint
-  Blueprint --> Implementation
-  Implementation --> Measures
-  Measures --> Architecture
+```svg
+<Panel>
+  <Node key="principles" col="0" row="0" label="Principles" />
+  <Node key="constraints" col="0" row="1" label="Constraints" />
+  <Node key="architecture" col="1" row="0" label="Architecture" />
+  <Node key="decisions" col="2" row="0" label="Decisions" />
+  <Node key="system-design" col="3" row="0" label="System Design" />
+  <Node key="blueprint" col="3" row="1" label="Blueprint" />
+  <Node key="implementation" col="2" row="1" label="Implementation" />
+  <Node key="measures" col="1" row="1" label="Measures" />
+  <Edge from="principles" to="architecture" />
+  <Edge from="constraints" to="architecture" />
+  <Edge from="architecture" to="decisions" />
+  <Edge from="decisions" to="system-design" />
+  <Edge from="system-design" to="blueprint" />
+  <Edge from="blueprint" to="implementation" />
+  <Edge from="implementation" to="measures" />
+  <Edge from="measures" to="architecture" />
+</Panel>
 ```
 
 ## In This Chapter

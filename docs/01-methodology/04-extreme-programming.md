@@ -37,11 +37,15 @@ A Practice in this sense is a *behavior*, not a recommendation. The evaluative s
 
 A Value in this sense is a *criterion* for behavior. The economic sense — the worth a `Stakeholder` gains — is defined as [Value](00-core_concepts.md#what-a-solution-is-for) in `Core concepts`.
 
-```mermaid
-flowchart LR
-    V["5 Values<br/>universal, unfalsifiable"] --> P["14 Principles<br/>domain-specific"]
-    P --> Pr["24 Practices<br/>context-specific, observable"]
-    Pr -. "hold accountable" .-> V
+```svg
+<Panel flow="LR">
+  <Node key="values" col="0" row="0" label="5 Values" note="universal, unfalsifiable" />
+  <Node key="principles" col="1" row="1" label="14 Principles" note="domain-specific" />
+  <Node key="practices" col="2" row="0" label="24 Practices" note="context-specific, observable" />
+  <Edge from="values" to="principles" fromSide="bottom" />
+  <Edge from="principles" to="practices" toSide="bottom" />
+  <Edge from="practices" to="values" label="hold accountable" dashed="true" />
+</Panel>
 ```
 
 ## The Five Values
@@ -113,14 +117,29 @@ The second edition splits the practices into thirteen primary and eleven corolla
 | **Negotiated Scope Contract** | Contracts hold time, cost, and quality fixed and treat scope as the variable, agreed step by step |
 | **Pay-Per-Use** | Charge for use rather than per version or per upgrade, so revenue tracks the value actually delivered |
 
-```mermaid
-flowchart TD
-    Start(["Adopt XP"]) --> Prim["Primary practices<br/>each safe alone"]
-    Prim --> TMB["Ten-Minute Build"] --> CI["Continuous Integration"]
-    CI --> SCB["Single Code Base"] --> DD["Daily Deployment"]
-    Prim --> WT["Whole Team"] --> TC["Team Continuity"] --> ST["Shrinking Teams"]
-    DD --> Cor["Corollary practices<br/>need the foundation"]
-    ST --> Cor
+```svg
+<Panel flow="TD">
+  <Node key="start" col="0" row="0" colspan="2" label="Adopt XP" shape="pill" />
+  <Node key="primary" col="0" row="1" colspan="2" label="Primary practices" note="each safe alone" />
+  <Node key="build" col="0" row="2" label="Ten-Minute Build" />
+  <Node key="ci" col="0" row="3" label="Continuous Integration" />
+  <Node key="codebase" col="0" row="4" label="Single Code Base" />
+  <Node key="deploy" col="0" row="5" label="Daily Deployment" />
+  <Node key="team" col="1" row="2" label="Whole Team" />
+  <Node key="continuity" col="1" row="3" label="Team Continuity" />
+  <Node key="shrinking" col="1" row="4" label="Shrinking Teams" />
+  <Node key="corollary" col="0" row="6" colspan="2" label="Corollary practices" note="need the foundation" />
+  <Edge from="start" to="primary" />
+  <Edge from="primary" to="build" />
+  <Edge from="build" to="ci" />
+  <Edge from="ci" to="codebase" />
+  <Edge from="codebase" to="deploy" />
+  <Edge from="primary" to="team" />
+  <Edge from="team" to="continuity" />
+  <Edge from="continuity" to="shrinking" />
+  <Edge from="deploy" to="corollary" />
+  <Edge from="shrinking" to="corollary" />
+</Panel>
 ```
 
 ## How the Practices Have Held Up

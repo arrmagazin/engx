@@ -15,12 +15,20 @@ Next.js is a React framework that decides, per component, where HTML is produced
 | **Caching** | Opt-in with `'use cache'` under Cache Components, which becomes the default in Next.js 17 |
 | **Request interception** | `proxy.ts`, which replaced `middleware.ts` in 16.0 |
 
-```mermaid
-flowchart LR
-    B[Browser] --> P[proxy.ts] --> R{Route}
-    R -->|page.tsx| S[Static shell, from a CDN]
-    S -. streams .-> D[Dynamic parts, rendered per request]
-    R -->|route.ts| H[Route Handler]
+```svg
+<Panel flow="LR">
+  <Node key="browser" col="0" row="0" rowspan="2" label="Browser" />
+  <Node key="proxy" col="1" row="0" rowspan="2" label="proxy.ts" />
+  <Node key="route" col="2" row="0" rowspan="2" label="Route" shape="diamond" />
+  <Node key="static" col="3" row="0" label="Static shell," note="from a CDN" />
+  <Node key="dynamic" col="4" row="0" label="Dynamic parts," note="rendered per request" />
+  <Node key="handler" col="3" row="1" label="Route Handler" />
+  <Edge from="browser" to="proxy" />
+  <Edge from="proxy" to="route" />
+  <Edge from="route" to="static" label="page.tsx" />
+  <Edge from="static" to="dynamic" label="streams" dashed="true" />
+  <Edge from="route" to="handler" label="route.ts" />
+</Panel>
 ```
 
 ## Setup
@@ -74,9 +82,20 @@ Folders under `app/` are URL segments. A segment becomes public only when it hol
 
 Within one segment, the special files nest in a fixed order; a child segment renders inside its parent's `page` position.
 
-```mermaid
-flowchart LR
-  L[layout] --> T[template] --> E[error boundary] --> S[loading = Suspense] --> N[not-found boundary] --> P[page or child layout]
+```svg
+<Panel flow="LR">
+  <Node key="layout" col="0" row="0" label="layout" />
+  <Node key="template" col="1" row="0" label="template" />
+  <Node key="error" col="2" row="0" label="error boundary" />
+  <Node key="loading" col="0" row="1" label="loading = Suspense" />
+  <Node key="not-found" col="1" row="1" label="not-found boundary" />
+  <Node key="page" col="2" row="1" label="page or child layout" />
+  <Edge from="layout" to="template" />
+  <Edge from="template" to="error" />
+  <Edge from="error" to="loading" fromSide="bottom" toSide="top" />
+  <Edge from="loading" to="not-found" />
+  <Edge from="not-found" to="page" />
+</Panel>
 ```
 
 ```tsx
@@ -149,12 +168,18 @@ Layouts and pages are Server Components. They render to the RSC payload — the 
 | Use secrets and `API` keys | Effects and custom hooks |
 | Keep large dependencies out of the bundle | Browser APIs: `window`, `localStorage` |
 
-```mermaid
-flowchart TD
-    Page["page.tsx · server"] --> Header["Header · server"]
-    Page --> Like["LikeButton · client"]
-    Page --> Modal["Modal · client"]
-    Modal -->|children| Cart["Cart · server, rendered before it is passed"]
+```svg
+<Panel flow="TD">
+  <Node key="page" col="1" row="0" label="page.tsx · server" />
+  <Node key="header" col="0" row="1" label="Header · server" />
+  <Node key="like" col="1" row="1" label="LikeButton · client" />
+  <Node key="modal" col="2" row="1" label="Modal · client" />
+  <Node key="cart" col="2" row="2" label="Cart · server," note="rendered before it is passed" />
+  <Edge from="page" to="header" />
+  <Edge from="page" to="like" />
+  <Edge from="page" to="modal" />
+  <Edge from="modal" to="cart" label="children" />
+</Panel>
 ```
 
 ```tsx
@@ -256,16 +281,23 @@ export async function createPost(formData: FormData) {
 <form action={createPost}><input name="title" /><button>Create</button></form>
 ```
 
-```mermaid
-sequenceDiagram
-    participant B as Browser
-    participant A as Server Action
-    participant D as Database
-    B->>A: POST form data
-    A->>A: check the session
-    A->>D: write
-    A->>A: updateTag('posts')
-    A-->>B: new UI and data, in one round trip
+```svg
+<Panel flow="TD">
+  <Node key="b" col="0" row="0" label="Browser" />
+  <Node key="a" col="1" row="0" colspan="2" label="Server Action" />
+  <Node key="d" col="3" row="0" label="Database" />
+  <Node key="b1" col="0" row="1" shape="point" />
+  <Node key="a1" col="1" row="1" colspan="2" shape="point" />
+  <Node key="a2" col="1" row="2" colspan="2" shape="point" />
+  <Node key="d2" col="3" row="2" shape="point" />
+  <Node key="a3" col="1" row="3" colspan="2" shape="point" />
+  <Node key="b3" col="0" row="3" shape="point" />
+  <Edge from="b1" to="a1" label="POST form data" />
+  <Edge from="a1" to="a2" label="check the session" />
+  <Edge from="a2" to="d2" label="write" />
+  <Edge from="a2" to="a3" label="updateTag('posts')" />
+  <Edge from="a3" to="b3" label="new UI and data, in one round trip" dashed="true" />
+</Panel>
 ```
 
 - ⚠️ Every Server Function is a public `POST` endpoint, reachable without your UI. Check authentication and authorization **inside each one**; a proxy matcher does not cover it reliably.

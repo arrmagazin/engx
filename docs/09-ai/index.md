@@ -28,16 +28,22 @@ tags: [ai, machine-learning, llm, agentic-ai]
 | **Agentic AI** | An LLM that plans, acts via tools, and observes results in a loop | Autonomy through the perceive-decide-act cycle |
 | **Multi-Agent Systems (MAS)** | Multiple coordinating agents solving a shared goal | Division of labor and communication |
 
-```mermaid
-graph TD
-  AI[Artificial Intelligence]
-  ML[Machine Learning]
-  DL[Deep Learning]
-  FM[Foundation Models]
-  LLM[Large Language Models]
-  AG[Agentic AI]
-  MAS[Multi-Agent Systems]
-  AI --> ML --> DL --> FM --> LLM --> AG --> MAS
+```svg
+<Panel flow="TD">
+  <Node key="ai" col="0" row="0" label="Artificial Intelligence" />
+  <Node key="ml" col="0" row="1" label="Machine Learning" />
+  <Node key="dl" col="0" row="2" label="Deep Learning" />
+  <Node key="fm" col="0" row="3" label="Foundation Models" />
+  <Node key="llm" col="0" row="4" label="Large Language Models" />
+  <Node key="agentic" col="0" row="5" label="Agentic AI" />
+  <Node key="mas" col="0" row="6" label="Multi-Agent Systems" />
+  <Edge from="ai" to="ml" />
+  <Edge from="ml" to="dl" />
+  <Edge from="dl" to="fm" />
+  <Edge from="fm" to="llm" />
+  <Edge from="llm" to="agentic" />
+  <Edge from="agentic" to="mas" />
+</Panel>
 ```
 
 ## Glossary

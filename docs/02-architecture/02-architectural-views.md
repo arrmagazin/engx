@@ -23,24 +23,40 @@ The four views here map onto that tradition, with technology in place of the dev
 | **Deployment View** | Where does it run, and on what? *(operations, SRE, security)* | Topology diagrams, environment maps, network and trust boundaries |
 | **Technology View** | What is it built from, and how exactly? *(implementers, reviewers)* | Specifications, ADRs, prototypes, `API` and schema definitions |
 
-```mermaid
-mindmap
-  root((Architecture))
-    Logical
-      Components
-      Layers
-      Tiers
-    Process
-      Roles
-      Behavior
-      Data Flow
-    Deployment
-      Environment
-      Integration
-    Technology
-      Specs
-      Prototypes
-      Designs
+```svg
+<Panel>
+  <Node key="root" col="2" row="2" rowspan="2" label="Architecture" shape="circle" tone="primary" />
+  <Node key="logical" col="1" row="1" label="Logical" shape="round" />
+  <Node key="components" col="0" row="0" label="Components" shape="pill" />
+  <Node key="layers" col="0" row="1" label="Layers" shape="pill" />
+  <Node key="tiers" col="0" row="2" label="Tiers" shape="pill" />
+  <Node key="process" col="1" row="4" label="Process" shape="round" />
+  <Node key="roles" col="0" row="3" label="Roles" shape="pill" />
+  <Node key="behavior" col="0" row="4" label="Behavior" shape="pill" />
+  <Node key="data-flow" col="0" row="5" label="Data Flow" shape="pill" />
+  <Node key="deployment" col="3" row="1" label="Deployment" shape="round" />
+  <Node key="environment" col="4" row="0" label="Environment" shape="pill" />
+  <Node key="integration" col="4" row="2" label="Integration" shape="pill" />
+  <Node key="technology" col="3" row="4" label="Technology" shape="round" />
+  <Node key="specs" col="4" row="3" label="Specs" shape="pill" />
+  <Node key="prototypes" col="4" row="4" label="Prototypes" shape="pill" />
+  <Node key="designs" col="4" row="5" label="Designs" shape="pill" />
+  <Edge from="root" to="logical" arrow="none" />
+  <Edge from="root" to="process" arrow="none" />
+  <Edge from="root" to="deployment" arrow="none" />
+  <Edge from="root" to="technology" arrow="none" />
+  <Edge from="logical" to="components" arrow="none" />
+  <Edge from="logical" to="layers" arrow="none" />
+  <Edge from="logical" to="tiers" arrow="none" />
+  <Edge from="process" to="roles" arrow="none" />
+  <Edge from="process" to="behavior" arrow="none" />
+  <Edge from="process" to="data-flow" arrow="none" />
+  <Edge from="deployment" to="environment" arrow="none" />
+  <Edge from="deployment" to="integration" arrow="none" />
+  <Edge from="technology" to="specs" arrow="none" />
+  <Edge from="technology" to="prototypes" arrow="none" />
+  <Edge from="technology" to="designs" arrow="none" />
+</Panel>
 ```
 
 ## Logical View

@@ -18,10 +18,22 @@ Empirical Approach
 Method Tailoring
 : Adapting the development approach to the situation of a specific project rather than adopting a process whole
 
-```mermaid
-flowchart LR
-  Plan --> Build --> Ship --> Feedback --> Adapt --> Plan
-  Adapt --> Reflect --> Plan
+```svg
+<Panel flow="LR">
+  <Node key="build" col="0" row="0" label="Build" />
+  <Node key="ship" col="1" row="0" label="Ship" />
+  <Node key="feedback" col="2" row="0" label="Feedback" />
+  <Node key="plan" col="0" row="1" label="Plan" />
+  <Node key="adapt" col="1" row="1" label="Adapt" />
+  <Node key="reflect" col="0" row="2" label="Reflect" />
+  <Edge from="plan" to="build" />
+  <Edge from="build" to="ship" />
+  <Edge from="ship" to="feedback" />
+  <Edge from="feedback" to="adapt" fromSide="bottom" />
+  <Edge from="adapt" to="plan" />
+  <Edge from="adapt" to="reflect" />
+  <Edge from="reflect" to="plan" />
+</Panel>
 ```
 
 ## The Manifesto Values

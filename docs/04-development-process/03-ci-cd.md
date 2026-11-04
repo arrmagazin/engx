@@ -7,14 +7,20 @@ tags: [devops, ci-cd, development-process]
 
 Continuous integration (CI) *verifies* every commit against the shared mainline; continuous delivery (CD) *moves* each verified build toward production. This guide covers both, and the environment stages a change passes through before it reaches users.
 
-```mermaid
-flowchart LR
-    Code[Code] --> Build[Build]
-    Build --> Test[Test]
-    Test -->|pass| Deploy[Deploy]
-    Test -->|fail| Code
-    Deploy --> Monitor[Monitor]
-    Monitor -->|regression| Code
+```svg
+<Panel>
+  <Node key="code" col="0" row="1" label="Code" />
+  <Node key="build" col="1" row="1" label="Build" />
+  <Node key="test" col="2" row="1" label="Test" />
+  <Node key="deploy" col="3" row="1" label="Deploy" />
+  <Node key="monitor" col="3" row="2" label="Monitor" />
+  <Edge from="code" to="build" />
+  <Edge from="build" to="test" />
+  <Edge from="test" to="deploy" label="pass" />
+  <Edge from="test" to="code" label="fail" fromSide="top" toSide="top" />
+  <Edge from="deploy" to="monitor" />
+  <Edge from="monitor" to="code" label="regression" fromSide="left" toSide="bottom" />
+</Panel>
 ```
 
 | Aspect | CI | CD |

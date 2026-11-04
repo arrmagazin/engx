@@ -38,11 +38,15 @@ Timely
 
 Write a failing test first, make it pass with the simplest code that works, then improve the design. The test defines the contract before the implementation exists, so the code is testable by construction, and no line ships without a test that was *seen* to fail.
 
-```mermaid
-graph LR
-    R["Red — write a failing test"] --> G["Green — make it pass"]
-    G --> F["Refactor — clean it up"]
-    F --> R
+```svg
+<Panel>
+  <Node key="red" col="0" row="0" colspan="2" label="Red — write a failing test" tone="error" />
+  <Node key="green" col="2" row="0" colspan="2" label="Green — make it pass" tone="success" />
+  <Node key="refactor" col="1" row="1" colspan="2" label="Refactor — clean it up" />
+  <Edge from="red" to="green" />
+  <Edge from="green" to="refactor" fromSide="bottom" toSide="right" />
+  <Edge from="refactor" to="red" fromSide="left" toSide="bottom" />
+</Panel>
 ```
 
 | Step | Goal | Rule |

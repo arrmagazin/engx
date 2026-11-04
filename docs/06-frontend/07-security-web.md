@@ -45,24 +45,40 @@ Changes from the 2021 edition:
 - Mishandling of Exceptional Conditions is new.
 - Supply chain risk grew from Vulnerable and Outdated Components into its own category at A03.
 
-```mermaid
-mindmap
-  root((OWASP Top 10 2025))
-    Access
-      A01 Broken Access Control
-      A07 Authentication Failures
-    Design and configuration
-      A02 Security Misconfiguration
-      A06 Insecure Design
-    Supply chain and integrity
-      A03 Software Supply Chain Failures
-      A08 Data Integrity Failures
-    Data and input
-      A04 Cryptographic Failures
-      A05 Injection
-    Operations
-      A09 Logging and Alerting Failures
-      A10 Exceptional Conditions
+```svg
+<Panel>
+  <Node key="root" col="2" row="2" rowspan="2" label="OWASP Top 10 2025" shape="circle" tone="primary" />
+  <Node key="access" col="1" row="0" rowspan="2" label="Access" shape="round" />
+  <Node key="a01" col="0" row="0" label="A01 Broken Access Control" shape="pill" />
+  <Node key="a07" col="0" row="1" label="A07 Authentication Failures" shape="pill" />
+  <Node key="design" col="1" row="2" rowspan="2" label="Design and configuration" shape="round" />
+  <Node key="a02" col="0" row="2" label="A02 Security Misconfiguration" shape="pill" />
+  <Node key="a06" col="0" row="3" label="A06 Insecure Design" shape="pill" />
+  <Node key="supply" col="1" row="4" rowspan="2" label="Supply chain and integrity" shape="round" />
+  <Node key="a03" col="0" row="4" label="A03 Software Supply Chain Failures" shape="pill" />
+  <Node key="a08" col="0" row="5" label="A08 Data Integrity Failures" shape="pill" />
+  <Node key="data" col="3" row="1" rowspan="2" label="Data and input" shape="round" />
+  <Node key="a04" col="4" row="1" label="A04 Cryptographic Failures" shape="pill" />
+  <Node key="a05" col="4" row="2" label="A05 Injection" shape="pill" />
+  <Node key="ops" col="3" row="3" rowspan="2" label="Operations" shape="round" />
+  <Node key="a09" col="4" row="3" label="A09 Logging and Alerting Failures" shape="pill" />
+  <Node key="a10" col="4" row="4" label="A10 Exceptional Conditions" shape="pill" />
+  <Edge from="root" to="access" arrow="none" />
+  <Edge from="root" to="design" arrow="none" />
+  <Edge from="root" to="supply" arrow="none" />
+  <Edge from="root" to="data" arrow="none" />
+  <Edge from="root" to="ops" arrow="none" />
+  <Edge from="access" to="a01" arrow="none" />
+  <Edge from="access" to="a07" arrow="none" />
+  <Edge from="design" to="a02" arrow="none" />
+  <Edge from="design" to="a06" arrow="none" />
+  <Edge from="supply" to="a03" arrow="none" />
+  <Edge from="supply" to="a08" arrow="none" />
+  <Edge from="data" to="a04" arrow="none" />
+  <Edge from="data" to="a05" arrow="none" />
+  <Edge from="ops" to="a09" arrow="none" />
+  <Edge from="ops" to="a10" arrow="none" />
+</Panel>
 ```
 
 ## Common Vulnerabilities
@@ -100,18 +116,28 @@ An attacker tricks an authenticated user into sending an unintended request thro
 
 **Attack:** user visits a malicious page → browser sends the user's cookies to the victim's bank → bank processes the request.
 
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant M as Malicious Site
-    participant B as Browser
-    participant V as Victim App
-    U->>V: login (session cookie set)
-    U->>M: visit page
-    M->>B: form auto-submit to V
-    B->>V: request + cookie
-    V->>V: process as authenticated
-    Note over B,V: CSRF token / SameSite blocks this
+```svg
+<Panel flow="TD">
+  <Node key="u" col="0" row="0" label="User" />
+  <Node key="m" col="1" row="0" label="Malicious Site" />
+  <Node key="b" col="2" row="0" label="Browser" />
+  <Node key="v" col="3" row="0" label="Victim App" />
+  <Node key="u1" col="0" row="1" shape="point" />
+  <Node key="v1" col="3" row="1" shape="point" />
+  <Node key="u2" col="0" row="2" shape="point" />
+  <Node key="m2" col="1" row="2" shape="point" />
+  <Node key="m3" col="1" row="3" shape="point" />
+  <Node key="b3" col="2" row="3" shape="point" />
+  <Node key="b4" col="2" row="4" shape="point" />
+  <Node key="v4" col="3" row="4" shape="point" />
+  <Node key="v5" col="3" row="5" shape="point" />
+  <Node key="note" col="2" row="6" colspan="2" label="CSRF token / SameSite blocks this" tone="warning" />
+  <Edge from="u1" to="v1" label="login (session cookie set)" />
+  <Edge from="u2" to="m2" label="visit page" />
+  <Edge from="m3" to="b3" label="form auto-submit to V" />
+  <Edge from="b4" to="v4" label="request + cookie" />
+  <Edge from="v4" to="v5" label="process as authenticated" />
+</Panel>
 ```
 
 ```javascript

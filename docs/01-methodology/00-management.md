@@ -39,18 +39,24 @@ Monitoring
 
 ### The loop
 
-```mermaid
-graph TD
-    S["Strategy — why"]
-    R["Roadmap — what, roughly when"]
-    B["Backlog — ordered work items"]
-    P["Plan — scope vs. capacity"]
-    E["Execution — daily flow"]
-    D["Delivery — release"]
-    F["Feedback — metrics, retro, users"]
-    S --> R --> B --> P --> E --> D --> F
-    F -->|"re-prioritize"| B
-    F -->|"correct direction"| S
+```svg
+<Panel flow="TD">
+  <Node key="strategy" col="0" row="0" label="Strategy —&#10;why" />
+  <Node key="roadmap" col="0" row="1" label="Roadmap —&#10;what, roughly when" />
+  <Node key="backlog" col="0" row="2" label="Backlog —&#10;ordered work items" />
+  <Node key="plan" col="0" row="3" label="Plan —&#10;scope vs. capacity" />
+  <Node key="execution" col="1" row="3" label="Execution —&#10;daily flow" />
+  <Node key="delivery" col="1" row="2" label="Delivery —&#10;release" />
+  <Node key="feedback" col="1" row="1" label="Feedback — metrics, retro, users" />
+  <Edge from="strategy" to="roadmap" />
+  <Edge from="roadmap" to="backlog" />
+  <Edge from="backlog" to="plan" />
+  <Edge from="plan" to="execution" />
+  <Edge from="execution" to="delivery" />
+  <Edge from="delivery" to="feedback" />
+  <Edge from="feedback" to="backlog" label="re-prioritize" fromSide="left" toSide="right" />
+  <Edge from="feedback" to="strategy" label="correct direction" fromSide="top" toSide="right" />
+</Panel>
 ```
 
 | Stage | Input → Output | Cadence |
@@ -264,12 +270,17 @@ Divide and Conquer
 Risk
 : Uncertain event that would affect an objective, sized as probability multiplied by impact
 
-```mermaid
-graph LR
-    ID["Identify"] --> AS["Assess — probability × impact"]
-    AS --> PL["Plan response"]
-    PL --> MO["Monitor"]
-    MO --> ID
+```svg
+<Panel flow="LR">
+  <Node key="identify" col="0" row="0" label="Identify" />
+  <Node key="assess" col="1" row="0" colspan="2" label="Assess — probability × impact" />
+  <Node key="plan" col="1" row="1" colspan="2" label="Plan response" />
+  <Node key="monitor" col="0" row="1" label="Monitor" />
+  <Edge from="identify" to="assess" />
+  <Edge from="assess" to="plan" />
+  <Edge from="plan" to="monitor" />
+  <Edge from="monitor" to="identify" />
+</Panel>
 ```
 
 | Response | When to use |

@@ -57,12 +57,17 @@ Embedding
 
 Training repeats four steps over batches of examples. A failure in any step shows up the same way — a model that will not improve — so seeing them as one cycle explains most practical problems.
 
-```mermaid
-graph LR
-  F[Forward pass] --> L[Loss]
-  L --> B[Backpropagation]
-  B --> U[Weight update]
-  U --> F
+```svg
+<Panel>
+  <Node key="forward" col="0" row="0" label="Forward pass" />
+  <Node key="loss" col="1" row="0" label="Loss" />
+  <Node key="backprop" col="1" row="1" label="Backpropagation" />
+  <Node key="update" col="0" row="1" label="Weight update" />
+  <Edge from="forward" to="loss" />
+  <Edge from="loss" to="backprop" />
+  <Edge from="backprop" to="update" />
+  <Edge from="update" to="forward" />
+</Panel>
 ```
 
 1. **Forward pass.** Input flows through the layers, and the network emits a prediction.

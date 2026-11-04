@@ -18,14 +18,21 @@ An **Agent** is an [LLM](03-llm.md) inside a loop where it can **reason**, **act
 | **Planning** | Decomposing goals into ordered subtasks |
 | **Loop / Controller** | The perceive → decide → act → observe cycle, with a stopping condition |
 
-```mermaid
-stateDiagram-v2
-  [*] --> Perceive
-  Perceive --> Decide: context
-  Decide --> Act: tool call
-  Act --> Observe: result
-  Observe --> Perceive: continue
-  Observe --> [*]: goal met
+```svg
+<Panel caption="The agent loop">
+  <Node key="start" col="0" row="0" shape="point" />
+  <Node key="perceive" col="1" row="0" label="Perceive" shape="round" tone="primary" />
+  <Node key="decide" col="2" row="0" label="Decide" shape="round" />
+  <Node key="act" col="3" row="0" label="Act" shape="round" />
+  <Node key="observe" col="3" row="1" label="Observe" shape="round" />
+  <Node key="end" col="4" row="1" shape="point" />
+  <Edge from="start" to="perceive" />
+  <Edge from="perceive" to="decide" label="context" />
+  <Edge from="decide" to="act" label="tool call" />
+  <Edge from="act" to="observe" label="result" />
+  <Edge from="observe" to="perceive" label="continue" fromSide="left" toSide="bottom" />
+  <Edge from="observe" to="end" label="goal met" />
+</Panel>
 ```
 
 ## Common Agent Patterns
@@ -64,25 +71,42 @@ A **Multi-Agent System** coordinates several specialized agents, each with its o
 | **Blackboard** | Agents read/write a shared workspace asynchronously |
 | **Network / Swarm** | Peer agents communicate freely without a central controller |
 
-```mermaid
-mindmap
-  root((MAS))
-    Orchestrator-Worker
-      Lead
-      Workers
-    Hierarchical
-      Supervisor
-      Sub-agents
-    Sequential Pipeline
-      Stage 1
-      Stage 2
-    Debate
-      Proposer
-      Critic
-    Blackboard
-      Shared store
-    Swarm
-      Peer agents
+```svg
+<Panel>
+  <Node key="mas" col="2" row="2" rowspan="2" label="MAS" shape="circle" tone="primary" />
+  <Node key="ow" col="1" row="0" label="Orchestrator-Worker" shape="round" />
+  <Node key="lead" col="0" row="0" label="Lead" shape="pill" />
+  <Node key="workers" col="0" row="1" label="Workers" shape="pill" />
+  <Node key="hier" col="1" row="2" label="Hierarchical" shape="round" />
+  <Node key="supervisor" col="0" row="2" label="Supervisor" shape="pill" />
+  <Node key="subagents" col="0" row="3" label="Sub-agents" shape="pill" />
+  <Node key="seq" col="1" row="4" label="Sequential Pipeline" shape="round" />
+  <Node key="stage1" col="0" row="4" label="Stage 1" shape="pill" />
+  <Node key="stage2" col="0" row="5" label="Stage 2" shape="pill" />
+  <Node key="debate" col="3" row="0" label="Debate" shape="round" />
+  <Node key="proposer" col="4" row="0" label="Proposer" shape="pill" />
+  <Node key="critic" col="4" row="1" label="Critic" shape="pill" />
+  <Node key="board" col="3" row="2" label="Blackboard" shape="round" />
+  <Node key="store" col="4" row="2" label="Shared store" shape="pill" />
+  <Node key="swarm" col="3" row="4" label="Swarm" shape="round" />
+  <Node key="peers" col="4" row="4" label="Peer agents" shape="pill" />
+  <Edge from="mas" to="ow" arrow="none" />
+  <Edge from="mas" to="hier" arrow="none" />
+  <Edge from="mas" to="seq" arrow="none" />
+  <Edge from="mas" to="debate" arrow="none" />
+  <Edge from="mas" to="board" arrow="none" />
+  <Edge from="mas" to="swarm" arrow="none" />
+  <Edge from="ow" to="lead" arrow="none" />
+  <Edge from="ow" to="workers" arrow="none" />
+  <Edge from="hier" to="supervisor" arrow="none" />
+  <Edge from="hier" to="subagents" arrow="none" />
+  <Edge from="seq" to="stage1" arrow="none" />
+  <Edge from="seq" to="stage2" arrow="none" />
+  <Edge from="debate" to="proposer" arrow="none" />
+  <Edge from="debate" to="critic" arrow="none" />
+  <Edge from="board" to="store" arrow="none" />
+  <Edge from="swarm" to="peers" arrow="none" />
+</Panel>
 ```
 
 | Concern | Why it matters |

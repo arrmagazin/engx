@@ -16,16 +16,26 @@ This guide covers the techniques that speed up the render path and the network. 
 
 The [DOM and the browser APIs](02-browser-technologies.md) themselves are covered separately.
 
-```mermaid
-flowchart LR
-    HTML[HTML] --> DOM
-    CSS[CSS] --> CSSOM
-    DOM --> Render[Render Tree]
-    CSSOM --> Render
-    Render --> Layout
-    Layout --> Paint
-    Paint --> Composite
-    JS[JS] -.blocks parsing.-> HTML
+```svg
+<Panel>
+  <Node key="js" col="0" row="1" label="JS" />
+  <Node key="html" col="1" row="0" label="HTML" />
+  <Node key="css" col="1" row="1" label="CSS" />
+  <Node key="dom" col="2" row="0" label="DOM" />
+  <Node key="cssom" col="2" row="1" label="CSSOM" />
+  <Node key="render" col="3" row="0" label="Render Tree" />
+  <Node key="layout" col="4" row="0" label="Layout" />
+  <Node key="paint" col="4" row="1" label="Paint" />
+  <Node key="composite" col="3" row="1" label="Composite" />
+  <Edge from="html" to="dom" />
+  <Edge from="css" to="cssom" />
+  <Edge from="dom" to="render" />
+  <Edge from="cssom" to="render" />
+  <Edge from="render" to="layout" />
+  <Edge from="layout" to="paint" />
+  <Edge from="paint" to="composite" />
+  <Edge from="js" to="html" label="blocks parsing" dashed="true" fromSide="top" toSide="left" />
+</Panel>
 ```
 
 Inline the CSS the first screen needs, and load the rest without blocking the render:
