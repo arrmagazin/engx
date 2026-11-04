@@ -10,9 +10,9 @@ These are the core concepts the rest of the book builds on, explores in depth, a
 ## Abstract terms
 
 System
-: A set of interacting *parts* inside a boundary that separates it from its *environment* — the whole shows behavior none of its parts has alone
+: A set of interacting *parts* inside a boundary that separates it from its `Environment` — the whole shows behavior none of its parts has alone
 
-    > such as software, a machine, a team, an organization
+    > such as software, a machine, a `Team`, an organization
 
 Environment (Context)
 : Everything outside a `System`'s boundary that affects it or is affected by it
@@ -40,6 +40,13 @@ Metric
 Process
 : A sequence of *steps* that changes a `System`'s `State`, taking in `Ingress` and producing an `Outcome`
 
+Constraint
+: A *limit*, imposed by the `Environment`, on the `States` a `System` may take or the `Processes` it may run — given, not chosen by the `System`
+
+    > such as laws, physics, budget, deadline, `Platform`, available skills
+    >
+    > unlike a `Requirement`, it does not come from an `Objective` — it narrows the ways to reach one
+
 Progress
 : A *change* of a `System`'s `State` toward a target over time, shown by a `Metric`
 
@@ -53,6 +60,29 @@ Sustainability
 : The ability of a `System` to keep its `State` within acceptable limits *over time*, without using up what it depends on in itself or its `Environment`
 
 ## What a solution is for
+
+```svg
+<Panel caption="From a Need to Success">
+  <Node key="stakeholder" col="0" row="0" label="Stakeholder" note="Customer · End-User" shape="round" />
+  <Node key="need" col="1" row="0" label="Need" />
+  <Node key="goal" col="2" row="0" label="Goal" />
+  <Node key="objective" col="3" row="0" label="Objective" />
+  <Node key="requirement" col="4" row="0" label="Requirement" />
+  <Node key="solution" col="1" row="1" label="Solution" tone="primary" />
+  <Node key="value" col="2" row="1" label="Value" />
+  <Node key="satisfaction" col="3" row="1" label="Satisfaction" />
+  <Node key="success" col="4" row="1" label="Success" shape="round" tone="success" />
+  <Edge from="stakeholder" to="need" label="has" />
+  <Edge from="need" to="goal" label="drives" />
+  <Edge from="goal" to="objective" label="measured" />
+  <Edge from="objective" to="requirement" label="broken&#10;down" />
+  <Edge from="goal" to="value" label="expects" dashed="true" />
+  <Edge from="solution" to="value" label="brings" />
+  <Edge from="value" to="satisfaction" label="judged" />
+  <Edge from="requirement" to="success" label="verified" />
+  <Edge from="satisfaction" to="success" label="confirmed" />
+</Panel>
+```
 
 Solution
 : A specific *way* of bringing `Value` to `Stakeholders`:
@@ -76,10 +106,17 @@ End-User
 Value
 : The *worth* a `Stakeholder` gains in terms of their business
 
-    > such as: needs covered, capability or benefits gained, constraints matched, time or money saved, problem solved, risk removed
+    > such as: `Needs` covered, capability or benefits gained, `Constraints` matched, time or money saved, problem solved, risk removed
+
+Need
+: A *lack* of something a `Stakeholder` must have to run their business — it exists before, and apart from, any `Solution`
+
+    > such as being paid on time, finding information fast, complying with a law
+    >
+    > it is the *problem*; a `Goal` is the `Value` expected from solving it
 
 Goal
-: A `Stakeholder`'s *expectation* of `Value`, set in a business context (what, when, where, how)
+: A `Stakeholder`'s *expectation* of `Value`, set in a business `Environment` (what, when, where, how)
 
     > it is *directional*, *predictive*, and too coarse to *verify* on its own
 
@@ -99,7 +136,7 @@ Requirement
 Success
 : The `Outcome` in which the verified `State` meets every `Requirement` and key `Stakeholders` confirm their `Satisfaction` —
 
-    > Value received, not scope delivered
+    > `Value` received, not scope delivered
 
 ## How a solution is made
 
@@ -107,7 +144,7 @@ Product
 : `Solution` as a tangible or digital *artifact* made to be owned or used by others: software, device, facility, guidance
 
 Service
-: `Solution` as a *means* of delivering outcomes `Stakeholders` want through ongoing interaction, without them owning the specific costs and risks
+: `Solution` as a *means* of delivering `Outcomes` `Stakeholders` want through ongoing interaction, without them owning the specific costs and risks
 
 Team
 : A small *group* of people with complementary skills, committed to shared `Goals` and mutually accountable for reaching them
@@ -120,7 +157,7 @@ Resources
 Design
 : The *activity* and *result* of deciding WHAT a `Solution` should be and WHY —
 
-    its structure, behavior, and interactions — shaped by `End-User` needs/constraints
+    its structure, behavior, and interactions — shaped by `End-User` `Needs` and `Constraints`
 
 Delivery
 : The *process* of bringing a `Solution` into use, so that `Stakeholders` actually receive its `Value`; it ends there, not at handover
@@ -134,7 +171,7 @@ Platform
     > such as languages, runtimes, operating systems, cloud services, tools, ecosystems
 
 Paradigm
-: A shared, opinionated *model* of thinking — concepts, assumptions, and preferred methods — that frames how a problem is seen and how knowledge is applied to solve it
+: A shared, opinionated *model* of thinking — concepts, assumptions, and preferred `Methods` — that frames how a problem is seen and how knowledge is applied to solve it
 
     > rooted in science, math, and domain expertise: e.g. object-oriented, functional, event-driven
 
@@ -146,7 +183,7 @@ Methodology
 ## How work is run
 
 Decision
-: An accountable *choice* of one option among weighed alternatives in a given context
+: An accountable *choice* of one option among weighed alternatives in a given `Environment`
 
     > with its tradeoffs agreed and its risks and costs accepted up front
 
@@ -154,27 +191,27 @@ Strategy
 : A context-free, generalized *approach* to reaching a `Goal` — a set of values and principles for making reasonable `Decisions` ("why")
 
 Method
-: An organized set of predefined *rules* that control how a process runs in a given context
+: An organized set of predefined *rules* that control how a `Process` runs in a given `Environment`
 
 Best Practice
-: A `Method` accepted as superior to others because it reliably produces better outcomes in its context
+: A `Method` accepted as superior to others because it reliably produces better `Outcomes` in its `Environment`
 
 Framework
 : A `Method` that offers predefined *options* a user chooses from, so the results become predictable
 
 Technology
-: The practical application of knowledge as reusable *means* — methods, techniques, and tools — that make a process controllable and its results *reproducible* and *verifiable*
+: The practical application of knowledge as reusable *means* — `Methods`, techniques, and tools — that make a `Process` controllable and its results *reproducible* and *verifiable*
 
 Management
 : The *process* of making `Decisions`, leading `Teams`, and allocating `Resources` to reach `Goals`
 
-    - through people, process, and priorities
-    - within limits of time, budget, capacity, and quality
+    - through people, `Process`, and priorities
+    - within `Constraints` of time, budget, capacity, and quality
     - concerned with planning, organizing, governance, control, optimizing, securing, tracking, and growth
-    - that turns `Goals` into predictably delivered outcomes
+    - that turns `Goals` into predictably delivered `Outcomes`
 
 Management bodies
-: The *people* involved in the `Management` process
+: The *people* involved in the `Management` `Process`
 
     - leadership sets direction and motivates — `Strategy`
     - operations management allocates, sequences, and controls
