@@ -33,19 +33,21 @@ Common ground
 ```
 
 System (Game)
-: A set of *parts*, interacting closely within a boundary, each plays its *role* in a stable, predictable way — thus, the whole shows behavior none of its parts has alone
+: a mental *concept* of a whole as a close *interaction* between *parts*(parties)
+within *boundaries*, where each plays its stable *role* —
+thus, the whole shows *predictable* behavior none of its parts has alone
 
     > such as software, a machine, a `Team`, an organization
     >
-    > parts that have an *identity* are entities; the rest are objects
+    > parts that have an *identity* are entities; the rest are items
 
 Environment (Context)
-: Everything outside a `System`'s boundary that affects it or is affected by it
+: Everything outside a `System`'s *boundaries* that affects it or is affected by it
 
-    > such as users, other systems, hardware, markets, laws, time, place, weather
+    > such as other systems, people, hardware, markets, laws, time, place, weather
 
 Constraint
-: A *limit*, imposed by the `Environment`, on the `States` a `System` may take or the `Processes` it may run — given, not chosen by the `System`
+: A *limit*, imposed on the `States` a `System` may take or the `Processes` it may run — given outside, not chosen by the `System`
 
     > such as laws, physics, budget, deadline, `Platform`, available skills
     >
@@ -73,7 +75,7 @@ State
 : The *measured values* of a `System`'s `Attributes` at a point in time
 
 Process
-: A sequence of *steps* that changes a `System`'s `State`, taking in `Ingress` and producing an `Gain`/`Outcome`
+: a set of *interactions* within a `System` as a sequence of interdependent *steps* that changes a its `State`, taking in `Ingress` and producing an `Gain`/`Outcome`
 
 Efficiency
 : The *ratio* of the `Outcome` a `Process` produces to the `Ingress` it consumes — more `Outcome` for the same `Ingress`, or the same for less
