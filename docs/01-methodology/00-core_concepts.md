@@ -6,7 +6,7 @@ tags: [introduction, engineering]
 ---
 
 Common ground
-: The shared understanding that parties need before they can work together
+: The shared understanding that parties need before they can work together and build upon
 
     > this page gives the book its common ground: the terms the rest of the book builds on and uses without redefining
 
@@ -32,8 +32,8 @@ Common ground
 </Panel>
 ```
 
-System
-: A set of *parts* within a boundary, interacting in a stable, predictable way — the whole shows behavior none of its parts has alone
+System (Game)
+: A set of *parts*, interacting closely within a boundary, each plays its *role* in a stable, predictable way — thus, the whole shows behavior none of its parts has alone
 
     > such as software, a machine, a `Team`, an organization
     >
@@ -44,14 +44,20 @@ Environment (Context)
 
     > such as users, other systems, hardware, markets, laws, time, place, weather
 
+Constraint
+: A *limit*, imposed by the `Environment`, on the `States` a `System` may take or the `Processes` it may run — given, not chosen by the `System`
+
+    > such as laws, physics, budget, deadline, `Platform`, available skills
+    >
+    > unlike a `Requirement`, it does not come from an `Objective` — it narrows the ways to reach one
+
 Ingress/Egress
 : Everything that *enters* or *leaves* a `System` across its boundary with its `Environment`
 
     > such as data, requests, energy, materials, money, people's effort
 
 Gain/Outcome
-: The *effect* produced by interaction with its `Environment` —
-a change in structure or capacity of a `System`, not just `Ingress`/`Egress`
+: The *effect* produced by interaction with its `Environment` — a change in structure or capacity of a `System`, not just `Ingress`/`Egress`
 
     > such as a problem solved, a user served, money earned, waste produced
 
@@ -67,17 +73,18 @@ State
 : The *measured values* of a `System`'s `Attributes` at a point in time
 
 Process
-: A sequence of *steps* that changes a `System`'s `State`, taking in `Ingress` and producing an `Outcome`
+: A sequence of *steps* that changes a `System`'s `State`, taking in `Ingress` and producing an `Gain`/`Outcome`
 
-Constraint
-: A *limit*, imposed by the `Environment`, on the `States` a `System` may take or the `Processes` it may run — given, not chosen by the `System`
+Efficiency
+: The *ratio* of the `Outcome` a `Process` produces to the `Ingress` it consumes — more `Outcome` for the same `Ingress`, or the same for less
 
-    > such as laws, physics, budget, deadline, `Platform`, available skills
-    >
-    > unlike a `Requirement`, it does not come from an `Objective` — it narrows the ways to reach one
+Capability
+: The *ability* of a `System` to run a given `Process` and produce its `Outcome` within its `Constraints`
+
+    > such as serving a thousand users at once, shipping a release a day, reading a new file format
 
 Growth
-: A *increase* of a `System`'s efficiency and capabilities
+: An *increase* of a `System`'s `Efficiency` and `Capabilities`
 
 Progress
 : `Growth` made by small, *gradual* changes to how a `System`'s `Processes` already work
@@ -157,7 +164,7 @@ Satisfaction
 ```
 
 Solution
-: A specific *way* of bringing `Value` to someone.
+: A specific *way* of bringing `Value` to someone
 
     > intentionally designed, made, proven and delivered by a `Team`; its results are observable and measurable
 
@@ -173,7 +180,7 @@ End-User
 : The `Stakeholder` who directly *uses* the `Solution`; not necessarily the `Customer` who pays for it
 
 Requirement
-: A *verifiable* boundary on a `Solution`, that must hold to achieve `Success`
+: A *verifiable* boundary on a `Solution`, that must hold to achieve `Goals`
 
     > it gives "enough" a *falsifiable* test, which stands in for opinion but does not replace it
 
