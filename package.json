@@ -48,6 +48,7 @@
     "build": "npx --yes npm-run-all --parallel build:*",
     "build:ts": "bun ../arrmatura-books/scripts/build.ts",
     "build:index": "bun ../proton/ops/index-docs.ts docs",
+    "build:sitemap": "bun ../proton/ops/sitemap.ts https://software-engineering.web.app docs",
     "build:css": "npx --yes @tailwindcss/cli -i index.css -o \"$PWD/www/dist/index.css\"",
     "book": "bun ../arrmatura-books/book/build.ts",
     "gates": "npm run check",

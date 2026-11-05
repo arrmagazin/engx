@@ -16,3 +16,5 @@ Disallow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://software-engineering.web.app/sitemap.xml
