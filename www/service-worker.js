@@ -24,17 +24,39 @@ const filters = [
   "https://cdn.jsdelivr.net/",
 ];
 
-// Site files: network first, so a deploy shows at once; the cache answers offline.
+// App shell and code: network first, so a deploy shows at once; the cache answers offline.
 // Every route of the single-page app is index.html, kept under "/".
-const fromSite = async (cache, request) => {
-  const key = request.mode === "navigate" ? "/" : request;
+const isAppCode = (request) => {
+  const { pathname } = new URL(request.url);
+  return request.mode === "navigate" || pathname.startsWith("/dist/") || pathname === "/index.json";
+};
+
+const fetchAndStore = async (cache, key, request) => {
+  const response = await fetch(request);
+  if (response.ok) await cache.put(key, response.clone());
+  return response;
+};
+
+const networkFirst = async (cache, key, request) => {
   try {
-    const response = await fetch(request);
-    if (response.ok) await cache.put(key, response.clone());
-    return response;
+    return await fetchAndStore(cache, key, request);
   } catch {
     return (await cache.match(key)) ?? offlineResponse(request);
   }
+};
+
+// Content and static files (docs, images): answer from the cache at once, refresh it in the background.
+const staleWhileRevalidate = async (cache, key, request, event) => {
+  const cached = await cache.match(key);
+  const refresh = fetchAndStore(cache, key, request);
+  if (!cached) return refresh.catch(() => offlineResponse(request));
+  event.waitUntil(refresh.catch(() => {}));
+  return cached;
+};
+
+const fromSite = (cache, request, event) => {
+  const key = request.mode === "navigate" ? "/" : request;
+  return (isAppCode(request) ? networkFirst : staleWhileRevalidate)(cache, key, request, event);
 };
 
 // CDN files: cache first. Stylesheets load without CORS and come back opaque (status 0): keep them too.
@@ -61,7 +83,7 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches
       .open(CACHE_NAME)
-      .then((cache) => handle(cache, request))
+      .then((cache) => handle(cache, request, event))
       .catch((error) => {
         console.error("Error in fetch:", error);
         return offlineResponse(request);
