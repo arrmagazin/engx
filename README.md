@@ -5,3 +5,11 @@ A reference book on software engineering. It covers the vocabulary, practices, a
 **Read it at <https://software-engineering.web.app>.**
 
 © 2026 Irvin Oldman. Licensed under [CC BY-NC-SA 4.0](LICENSE.md).
+
+## Purpose
+
+Give newcomers a solid start in software engineering.
+
+## Goals
+
+- Introduce newcomers to the basics of software engineering

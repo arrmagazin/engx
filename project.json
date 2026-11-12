@@ -2,10 +2,6 @@
   "id": "engx",
   "name": "engx",
   "description": "Introduction to Software Engineering",
-  "purpose": "Give newcomers a solid start in software engineering.",
-  "goals": [
-    "Introduce newcomers to the basics of software engineering"
-  ],
   "status": "maintain",
   "domain": "edu",
   "symbol": "⚙️",

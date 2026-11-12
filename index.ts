@@ -1,4 +1,4 @@
-import { launchBook } from "../arrmatura-books";
+import { launchBook } from "../../libs/arrmatura-books";
 import components from "./index.xml";
 import pkg from "./package.json";
 import glossary from "./www/glossary.json";
