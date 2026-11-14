@@ -20,9 +20,9 @@ Software engineering rests on computer science and applied mathematics, and cove
 
 ## Languages and Computation
 
-- Programming Languages and Type Systems — [Programming Paradigms](../05-coding/01-programming-paradigms.md)
+- Programming Languages and Type Systems — [Programming Paradigms](../05-programming-paradigms/01-programming-paradigms.md)
 - Compilers, Interpreters, and Runtimes
-- Concurrency and Parallel Computing — [Concurrency Patterns](../05-coding/06-design-patterns.md#concurrency-patterns)
+- Concurrency and Parallel Computing — [Concurrency Patterns](../06-coding/02-design-patterns.md#concurrency-patterns)
 - Quantum Computing
 
 ## Systems and Infrastructure
@@ -34,7 +34,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Computer Networking
 - Telecommunications
 - Internet and Web Protocols — [Client-Server Communication](../03-system-design/06-client-server.md)
-- Cloud and Platform Engineering — [Clouds](../08-clouds/index.md)
+- Cloud and Platform Engineering — [Clouds](../09-clouds/index.md)
 
 ## Data and Intelligence
 
@@ -42,13 +42,13 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Databases and Storage Engines — [Databases](../03-system-design/02-databases.md)
 - Data Engineering and Analytics
 - Search and Information Retrieval — [Canonical Systems](../03-system-design/08-canonical-systems.md)
-- Machine Learning — [Machine Learning Foundations](../09-ai/01-machine-learning.md)
-- AI Engineering — [Artificial Intelligence](../09-ai/index.md)
+- Machine Learning — [Machine Learning Foundations](../10-ai/01-machine-learning.md)
+- AI Engineering — [Artificial Intelligence](../10-ai/index.md)
 
 ## Security and Trust
 
 - Cryptography
-- Application and Infrastructure Security — [Web Application Security](../06-frontend/07-security-web.md)
+- Application and Infrastructure Security — [Web Application Security](../07-frontend/07-security-web.md)
 - Identity, Privacy, and Compliance
 
 ## Engineering Practice
@@ -58,14 +58,14 @@ Software engineering rests on computer science and applied mathematics, and cove
 - Requirements and Product Design
 - Quality Assurance and `Testing` — [Quality Assurance](../04-development-process/04-quality-assurance.md) and [Testing](../04-development-process/05-testing.md)
 - DevOps, SRE, and Operations — [CI/CD](../04-development-process/03-ci-cd.md)
-- Performance Engineering — [Performance Optimization](../06-frontend/03-performance-optimization.md)
+- Performance Engineering — [Performance Optimization](../07-frontend/03-performance-optimization.md)
 - Maintenance and Evolution — [Technical Debt](../04-development-process/08-technical-debt.md)
-- Engineering Management and Process — [Humans and Teams](../10-humans/index.md) and [Methodology](../01-methodology/index.md)
+- Engineering Management and Process — [Humans and Teams](../11-humans/index.md) and [Methodology](../01-methodology/index.md)
 
 ## Human-Facing Systems
 
 - Human-Computer Interaction
 - Graphic and Web Design
 - Media Content and Visualization
-- Accessibility and Internationalization — [Accessibility (WCAG)](../06-frontend/06-accessibility-wcag.md)
+- Accessibility and Internationalization — [Accessibility (WCAG)](../07-frontend/06-accessibility-wcag.md)
 - Gaming, Metaverses, and Extended Reality

@@ -4,10 +4,10 @@ A personal engineering knowledge base written as markdown, organized as a number
 
 ## Structure
 
-- `docs/` — the book: eleven numbered folders plus one root entry point, `docs/index.md`. `docs/08-clouds/_references/` holds the three single-cloud handbooks the Clouds chapter was distilled from; the chapter index links them, so they follow the same conventions and checkers as every other doc.
+- `docs/` — the book: twelve numbered folders plus one root entry point, `docs/index.md`. `docs/09-clouds/_references/` holds the three single-cloud handbooks the Clouds chapter was distilled from; the chapter index links them, so they follow the same conventions and checkers as every other doc.
 - `README.md` — the repository's front page, written for a human, not an agent.
 
-**The numbering rule.** Folder prefixes are unique and encode reading order: `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-coding`, `06-frontend`, `07-backend`, `08-clouds`, `09-ai`, `10-humans`. `11` is unused — a gap left by an earlier reorganization, not a placeholder. Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
+**The numbering rule.** Folder prefixes are unique and encode reading order: `01-methodology`, `02-architecture`, `03-system-design`, `04-development-process`, `05-programming-paradigms`, `06-coding`, `07-frontend`, `08-backend`, `09-clouds`, `10-ai`, `11-humans`, then `99-appendices`. Docs sit one folder deep, apart from `_` folders, which the book leaves out: the book builder orders and nests chapters by the first path segment only, so a sub-folder inside a chapter comes out in the wrong order (the paradigm guides were lifted out of `05-coding/` to a chapter of their own on 2026-11-14 for that reason). Inside each folder, `index.md` is the chapter overview and links every one of its siblings; the rest are numbered in the order they are read. Every folder and file name is kebab-case. Preserve all of this when adding a file, and don't renumber existing files without a reason.
 
 ## Checkers
 

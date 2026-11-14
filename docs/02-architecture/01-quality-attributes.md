@@ -38,7 +38,7 @@ Security keeps data and functions away from anyone not entitled to them, whether
 | **Input Validation** | Allowlist approach |
 | **Secure by Default** | HTTPS, secure cookies out of the box |
 
-See [Web Application Security](../06-frontend/07-security-web.md).
+See [Web Application Security](../07-frontend/07-security-web.md).
 
 ## System Qualities
 
@@ -56,4 +56,4 @@ See [Web Application Security](../06-frontend/07-security-web.md).
 | --------- | ------------- |
 | **Usability** | Users can learn the system without help and reach their goals quickly, with no surprises along the way |
 | **i18n / L10n** | Internationalization — building so that language and region can vary — and localization, adapting to one of them |
-| **[Accessibility](../06-frontend/06-accessibility-wcag.md)** | Usable by people with disabilities, including through assistive technology |
+| **[Accessibility](../07-frontend/06-accessibility-wcag.md)** | Usable by people with disabilities, including through assistive technology |

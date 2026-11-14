@@ -1156,7 +1156,7 @@ The order matters, because engineers habitually start with the smallest lever.
 
 ## Diagrams to Draw
 
-Being able to sketch these while talking is worth more than being able to recognise them. How to practise narrating a diagram while drawing it is covered in [Interview Technique](../../10-humans/21-interview.md); what follows is the Azure-specific content.
+Being able to sketch these while talking is worth more than being able to recognise them. How to practise narrating a diagram while drawing it is covered in [Interview Technique](../../11-humans/21-interview.md); what follows is the Azure-specific content.
 
 ### Landing Zone and Hub-Spoke
 
@@ -1264,7 +1264,7 @@ Points to make while drawing:
 
 ## Trade-Offs — The "It Depends on X" Answers
 
-A good trade-off answer names the deciding variable first, then argues both sides, then commits. The general technique is in [Interview Technique](../../10-humans/21-interview.md); these are the Azure pairs worth having ready. The sample answers here and in [Interview Rehearsal](#interview-rehearsal) are illustrations, not real accounts; describe only work you have done.
+A good trade-off answer names the deciding variable first, then argues both sides, then commits. The general technique is in [Interview Technique](../../11-humans/21-interview.md); these are the Azure pairs worth having ready. The sample answers here and in [Interview Rehearsal](#interview-rehearsal) are illustrations, not real accounts; describe only work you have done.
 
 ### Bicep versus Terraform
 
@@ -1341,7 +1341,7 @@ This handbook groups the usual ground of an Azure infrastructure interview into 
 
 ### Behavioural Stories
 
-The story structure, the two rules for telling one, and the two stories asked in every loop whatever the cloud are in [Interview Technique](../../10-humans/21-interview.md). What follows is Azure-specific.
+The story structure, the two rules for telling one, and the two stories asked in every loop whatever the cloud are in [Interview Technique](../../11-humans/21-interview.md). What follows is Azure-specific.
 
 #### Worked Example — Automation
 
@@ -1433,4 +1433,4 @@ Mappings are approximate. Where the two services differ in shape, the third colu
 - [GCP Handbook](gcp-handbook.md) covers the third platform, where a global VPC and an inherited resource hierarchy change several of the answers given here.
 - [Containers — Core Concepts and Orchestration](../../03-system-design/05-containers.md) explains the ideas behind AKS and Container Apps for readers who want the concepts before the products.
 - [CI/CD](../../04-development-process/03-ci-cd.md) covers the pipeline concepts the delivery section here assumes.
-- [Interview Technique](../../10-humans/21-interview.md) covers how to actually deliver the trade-off answers and stories above.
+- [Interview Technique](../../11-humans/21-interview.md) covers how to actually deliver the trade-off answers and stories above.

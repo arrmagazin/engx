@@ -1502,7 +1502,7 @@ Cloud-native is not "runs on a cloud"; it is a set of habits that assume elastic
 - **Everything as code.** Infrastructure, pipelines, policies, dashboards and alerts. If it exists only because someone clicked, it is gone after the person leaves.
 - **Observability from the start.** Structured logs, traces through OpenTelemetry, SLOs with error budgets. Instrumentation added during an incident arrives too late to help with it.
 
-See [Containers and Orchestration](../../03-system-design/05-containers.md) for the patterns underneath, and [The Twelve-Factor App](../../05-coding/index.md) for the application-side rules these assume.
+See [Containers and Orchestration](../../03-system-design/05-containers.md) for the patterns underneath, and [The Twelve-Factor App](../../06-coding/index.md) for the application-side rules these assume.
 
 ## Resilience and Recovery
 
@@ -1868,4 +1868,4 @@ Two habits make this table safe to use. Check the **boundary** — a project is 
 - [CI/CD](../../04-development-process/03-ci-cd.md) — the delivery practice the pipeline section applies.
 - [Caching](../../03-system-design/03-caching.md) — what to put in Memorystore, and what not to.
 - [System Design](../../03-system-design/index.md) — the design vocabulary underneath all three clouds.
-- [Interview](../../10-humans/21-interview.md) — how to use the trade-off sections above under questioning.
+- [Interview](../../11-humans/21-interview.md) — how to use the trade-off sections above under questioning.

@@ -29,13 +29,14 @@ Three rules shape the content:
 | **[System Architecture](02-architecture/index.md)** | Architecture as a discipline, the views it is described through, and the quality attributes it is judged against |
 | **[System Design](03-system-design/index.md)** | Databases, caching, messaging, containers, client-server communication, data formats, and worked designs of canonical systems |
 | **[Development Process](04-development-process/index.md)** | Version control, code review, CI/CD, quality assurance, testing, debugging, and technical debt |
-| **[Coding](05-coding/index.md)** | Paradigms, design principles, design patterns, code smells, and code quality |
-| **[Frontend](06-frontend/index.md)** | Application types, browser technologies, performance, accessibility, and web application security |
-| **[Backend](07-backend/index.md)** | Distilled references for mainstream server stacks: Java and Spring Boot, Node.js, and .NET |
-| **[Clouds](08-clouds/index.md)** | Every cloud concept as AWS, Azure and Google Cloud each implement it, the service-name lookup between them, and the differences that change a design |
-| **[Artificial Intelligence](09-ai/index.md)** | The layered stack from machine learning through large language models to agents |
-| **[Humans and Teams](10-humans/index.md)** | Leading a team, the roles and the employee lifecycle, growing and keeping people, and knowledge sharing |
-| **[Interview Technique](10-humans/21-interview.md)** | Material specific to interview loops: story structure, diagram narration, and the system design framework |
+| **[Paradigms](05-programming-paradigms/index.md)** | Imperative, object-oriented, declarative, functional, and reactive programming, plus metaprogramming and AOP |
+| **[Coding](06-coding/index.md)** | Design principles, design patterns, code smells, and code quality |
+| **[Frontend](07-frontend/index.md)** | Application types, browser technologies, performance, accessibility, and web application security |
+| **[Backend](08-backend/index.md)** | Distilled references for mainstream server stacks: Java and Spring Boot, Node.js, and .NET |
+| **[Clouds](09-clouds/index.md)** | Every cloud concept as AWS, Azure and Google Cloud each implement it, the service-name lookup between them, and the differences that change a design |
+| **[Artificial Intelligence](10-ai/index.md)** | The layered stack from machine learning through large language models to agents |
+| **[Humans and Teams](11-humans/index.md)** | Leading a team, the roles and the employee lifecycle, growing and keeping people, and knowledge sharing |
+| **[Interview Technique](11-humans/21-interview.md)** | Material specific to interview loops: story structure, diagram narration, and the system design framework |
 
 ---
 

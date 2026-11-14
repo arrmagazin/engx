@@ -59,7 +59,7 @@ A real system runs tens to thousands of containers across a fleet. The orchestra
   - *Canary* — send a small share of traffic to the new version first. It optimizes *detection* while the blast radius is small, and needs metrics good enough to tell the canary from the baseline.
 - **Autoscaling and restarts** — more replicas for stateless work; crash loops restarted with backoff, so a broken deploy does not hammer its dependencies.
 
-The managed versions across the three clouds are in [Compute — Containers](../08-clouds/01-concept-map.md#compute--containers).
+The managed versions across the three clouds are in [Compute — Containers](../09-clouds/01-concept-map.md#compute--containers).
 
 ## Design Implications
 

@@ -1576,7 +1576,7 @@ Points to make while drawing:
 
 ## Trade-Offs
 
-Every question of the form "X or Y?" has the same shape of answer: name the variable the decision turns on, give your default, and say what would make you switch. [Interview Technique](../../10-humans/21-interview.md) covers the pattern and the phrasing. The pairs below are the AWS ones worth having rehearsed. The sample answers are illustrations, not real accounts; describe only work you have done.
+Every question of the form "X or Y?" has the same shape of answer: name the variable the decision turns on, give your default, and say what would make you switch. [Interview Technique](../../11-humans/21-interview.md) covers the pattern and the phrasing. The pairs below are the AWS ones worth having rehearsed. The sample answers are illustrations, not real accounts; describe only work you have done.
 
 ### CloudFormation/CDK vs. Terraform
 
@@ -1649,4 +1649,4 @@ Each row names the variable that decides it; the section linked from the pair ho
 - [Azure Handbook](azure-handbook.md) maps the same ground onto the other major cloud, which is the fastest route in for anyone arriving from Azure.
 - [GCP Handbook](gcp-handbook.md) does the same for Google Cloud, and ends with an [AWS to Google Cloud service map](gcp-handbook.md#aws-to-google-cloud-service-map) that names where each analogy stops being true.
 - [CI/CD](../../04-development-process/03-ci-cd.md) covers the pipeline concepts that the delivery section here assumes.
-- [Interview Technique](../../10-humans/21-interview.md) covers how to deliver the trade-off answers above.
+- [Interview Technique](../../11-humans/21-interview.md) covers how to deliver the trade-off answers above.

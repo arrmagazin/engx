@@ -33,11 +33,11 @@ Every review type follows the same three-step cycle:
 2. **Approve** — if there is nothing to change, the review ends and the code merges into the main codebase.
 3. **Revise** — if changes are requested, the author addresses the feedback and resubmits for final approval.
 
-Agree on a turnaround time, or reviews stall the board. [The team lead guide](../10-humans/01-team-lead.md) gives one example setup: opening a pull request moves the ticket to a *Code Review* column automatically, the author assigns a peer, and the team agrees on a review window, such as four business hours.
+Agree on a turnaround time, or reviews stall the board. [The team lead guide](../11-humans/01-team-lead.md) gives one example setup: opening a pull request moves the ticket to a *Code Review* column automatically, the author assigns a peer, and the team agrees on a review window, such as four business hours.
 
 ## What Reviewers Check
 
-Five areas span both dimensions of [code quality](../05-coding/08-code-quality.md) — what the code does, and how it is organized.
+Five areas span both dimensions of [code quality](../06-coding/04-code-quality.md) — what the code does, and how it is organized.
 
 | Area | What to Verify |
 | --- | --- |

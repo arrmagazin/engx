@@ -177,7 +177,7 @@ test('applies the discount', () => {
 | **Request smuggling** | Never enable `insecureHTTPParser` |
 | **Debugger exposure** | No `--inspect` in production |
 
-The permission model (`--permission`, stable) denies file system, network, child process, and worker access unless granted with `--allow-fs-read`, `--allow-net` and the like. The docs call it a seat belt for trusted code, not a sandbox for hostile code. The attack classes themselves are in [Web Application Security](../06-frontend/07-security-web.md).
+The permission model (`--permission`, stable) denies file system, network, child process, and worker access unless granted with `--allow-fs-read`, `--allow-net` and the like. The docs call it a seat belt for trusted code, not a sandbox for hostile code. The attack classes themselves are in [Web Application Security](../07-frontend/07-security-web.md).
 
 ---
 
@@ -192,6 +192,6 @@ The permission model (`--permission`, stable) denies file system, network, child
 
 ## Related Guides
 
-- [Reactive Programming and FRP](../05-coding/03-reactive-programming.md) — event streams and back-pressure beyond Node's own streams
+- [Reactive Programming and FRP](../05-programming-paradigms/03-reactive-programming.md) — event streams and back-pressure beyond Node's own streams
 - [Messaging](../03-system-design/04-messaging.md) — queues and events between Node services
 - [Java and Spring Boot](01-java-spring.md) and [.NET and ASP.NET Core](03-dot-net.md) — the same concerns on thread-per-request stacks

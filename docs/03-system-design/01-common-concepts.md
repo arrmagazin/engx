@@ -7,7 +7,7 @@ tags: [architecture, system-design, interview, glossary]
 
 ## System Design Loop
 
-A framework for any system design question, and the signals that separate a senior or staff answer from a mid-level one. Its worked problems are in [Canonical Systems](../03-system-design/08-canonical-systems.md): eleven of them, each filed under the bottleneck it tests.
+A framework for any system design question, and the signals that separate a senior or staff answer from a mid-level one. Its worked problems are in [Canonical Systems](08-canonical-systems.md): eleven of them, each filed under the bottleneck it tests.
 
 Care about:
 

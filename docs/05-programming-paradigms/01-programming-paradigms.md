@@ -66,7 +66,7 @@ A prominent approach that treats computation as a side effect of stateful object
 | **Inheritance** | Mechanism that lets one class borrow or extend state and behavior from a base class |
 | **Polymorphism** | Mechanism that lets descendants override method implementations while keeping signatures and semantics |
 
-For language-agnostic design heuristics such as SOLID, GRASP, and DRY, see [Design Principles](05-design-principles.md).
+For language-agnostic design heuristics such as SOLID, GRASP, and DRY, see [Design Principles](../06-coding/01-design-principles.md).
 
 ### OOP Concepts
 

@@ -199,7 +199,7 @@ app.MapDelete("/todos/{id:int}", …).RequireAuthorization("admin");
 
 - For APIs, cookie authentication now returns `401`/`403` instead of redirecting to a login page (.NET 10).
 - ASP.NET Core Identity supports passkeys (WebAuthn) since .NET 10.
-- Keep secrets in user secrets during development and in a vault or environment variables in production, never in `appsettings.json`. The attack classes are in [Web Application Security](../06-frontend/07-security-web.md).
+- Keep secrets in user secrets during development and in a vault or environment variables in production, never in `appsettings.json`. The attack classes are in [Web Application Security](../07-frontend/07-security-web.md).
 
 ## Performance and Operations
 

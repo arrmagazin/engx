@@ -27,7 +27,7 @@ Standards
 | Standard | What it sets |
 | --- | --- |
 | **Coding conventions** | Naming formats (e.g., camelCase vs. snake_case) and directory layout, so any developer can read the code |
-| **Design principles** | Heuristics such as [SOLID](../05-coding/05-design-principles.md) that keep systems flexible and modular |
+| **Design principles** | Heuristics such as [SOLID](../06-coding/01-design-principles.md) that keep systems flexible and modular |
 | **Architecture rules** | Established conventions such as [REST](../03-system-design/06-client-server.md) and interchange formats such as JSON |
 
 ### 2. Operations & DevOps

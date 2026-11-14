@@ -9,7 +9,7 @@ How a client and a server exchange data: the network underneath, HTTP semantics,
 
 ## Network Terms
 
-Cloud network terms, in AWS names; the cross-cloud mapping is in [Networking — Inside the Network](../08-clouds/01-concept-map.md#networking--inside-the-network).
+Cloud network terms, in AWS names; the cross-cloud mapping is in [Networking — Inside the Network](../09-clouds/01-concept-map.md#networking--inside-the-network).
 
 - **Egress vs. ingress** — traffic leaving vs. entering. Clouds charge for egress, not ingress, and data theft is an egress problem, yet egress is filtered far less carefully.
 - **Private vs. public subnet** — only a public subnet routes to an internet gateway; a private one can still reach out through a NAT gateway.
@@ -62,7 +62,7 @@ A *safe* method is read-only; an *idempotent* one has the same effect sent twice
 | **HTTP/2** | Many streams over one TCP connection | Bounded by the peer's `SETTINGS_MAX_CONCURRENT_STREAMS` (at least 100 recommended) — a higher ceiling, not none |
 | **HTTP/3** | Streams over QUIC, on UDP | A lost packet stalls only its own stream |
 
-The version is a deployment choice: method and status semantics are the same in all three. Cache headers are in [HTTP Caching](../06-frontend/04-rendering-network-performance.md#http-caching); the same-origin policy and CORS in [Web Security](../06-frontend/07-security-web.md#same-origin-policy-and-cors).
+The version is a deployment choice: method and status semantics are the same in all three. Cache headers are in [HTTP Caching](../07-frontend/04-rendering-network-performance.md#http-caching); the same-origin policy and CORS in [Web Security](../07-frontend/07-security-web.md#same-origin-policy-and-cors).
 
 ### Request Waterfalls
 
@@ -151,7 +151,7 @@ One-way streaming from server to client over a single `text/event-stream` HTTP r
 | **Server-Sent Events** | Server to client (HTTP) | Built in, resuming from `Last-Event-ID` |
 | **WebSockets** | Both directions (TCP, after an HTTP upgrade) | Your code owns it |
 
-Take the simplest option that carries the traffic: plain [Fetch](../06-frontend/02-browser-technologies.md) requests for most screens, Server-Sent Events for a server-driven stream, and WebSockets only when the client must push as freely as the server.
+Take the simplest option that carries the traffic: plain [Fetch](../07-frontend/02-browser-technologies.md) requests for most screens, Server-Sent Events for a server-driven stream, and WebSockets only when the client must push as freely as the server.
 
 ## References
 
