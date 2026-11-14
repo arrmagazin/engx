@@ -33,9 +33,7 @@ Common ground
 ```
 
 System (Game)
-: a mental *concept* of a whole as a close *interaction* between *parts*(parties)
-within *boundaries*, where each plays its stable *role* —
-thus, the whole shows *predictable* behavior none of its parts has alone
+: a mental *concept* of a whole as a close *interaction* between *parts*(parties) within *boundaries*, where each plays its stable *role* — thus, the whole shows *predictable* behavior none of its parts has alone
 
     > such as software, a machine, a `Team`, an organization
     >
