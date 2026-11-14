@@ -5,7 +5,9 @@ description: Covers programming paradigms — the survey, then functional, react
 tags: [coding, programming-paradigms]
 ---
 
-A paradigm decides how data and code are organized, accessed, and changed. Start with the survey: it covers the main families and defines the OOP pillars. The other three guides each take one family the survey only names, and go deeper.
+A paradigm is *mental model* that decides of what computation is, how to code, how to treat data.
+
+Start with the survey: it covers the main families and defines the OOP pillars. The other three guides each take one family the survey only names, and go deeper.
 
 ---
 
