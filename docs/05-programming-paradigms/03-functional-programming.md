@@ -5,7 +5,7 @@ description: Defines functional programming's core terms—purity, composition, 
 tags: [coding, programming-paradigms, functional-programming]
 ---
 
-This guide continues [Programming Paradigms](01-programming-paradigms.md) with functional programming: a paradigm that treats computation as the declarative composition of pure (mathematical) functions.
+This guide continues [Paradigms](index.md) with functional programming: a paradigm that treats computation as the declarative composition of pure (mathematical) functions.
 
 ## Functions and Purity
 
@@ -90,4 +90,4 @@ Recursion
 Tail Recursion
 : Recursion whose recursive call is the last step of the function, so a compiler that eliminates tail calls can run it as a loop
 
-*See also*: [Programming Paradigms](01-programming-paradigms.md) · [Reactive Programming and FRP](03-reactive-programming.md)
+*See also*: [Paradigms](index.md) · [Functional Reactive Programming](05-frp.md)

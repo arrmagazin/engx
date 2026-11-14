@@ -26,7 +26,7 @@ Four of these docs describe overlapping ground. Each term has one home; everywhe
 
 | Boundary | Rule |
 | --- | --- |
-| **Principle vs. OOP pillar** | A design principle is a language-agnostic heuristic that applies whether or not the language has objects; it lives in [Design Principles](01-design-principles.md). Abstraction, encapsulation, inheritance, and polymorphism are properties of the object model itself; they live in [Programming Paradigms](../05-programming-paradigms/01-programming-paradigms.md) |
+| **Principle vs. OOP pillar** | A design principle is a language-agnostic heuristic that applies whether or not the language has objects; it lives in [Design Principles](01-design-principles.md). Abstraction, encapsulation, inheritance, and polymorphism are properties of the object model itself; they live in [Object-Oriented Programming](../05-programming-paradigms/02-oop.md) |
 | **Anti-pattern vs. smell** | An anti-pattern names a solution people choose that reliably ends badly; it belongs in [Design Patterns](02-design-patterns.md). A smell names a symptom in existing code that points at a deeper problem; it belongs in [Code Smells](03-code-smells.md) |
 | **Metric vs. smell** | A metric is a number computed from the code, such as cyclomatic complexity or class coupling, and lives in [Code Quality](04-code-quality.md). A smell is a pattern a reader recognizes. A metric can point at a smell; it is not one |
 

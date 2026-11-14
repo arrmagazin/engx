@@ -1,11 +1,11 @@
 ---
 type: Guide
-title: Reactive Programming and FRP
-description: Covers reactive programming over data streams and its functional form, FRP, with operators, rate control, and trade-offs.
-tags: [coding, programming-paradigms, reactive-programming, frp]
+title: Reactive Programming
+description: Covers reactive programming over data streams: stream concepts, operators, rate control, and reactive systems.
+tags: [coding, programming-paradigms, reactive-programming]
 ---
 
-This guide continues [Programming Paradigms](01-programming-paradigms.md) with the reactive family: programs that react to data streams, and the functional formulation of the same ideas.
+This guide continues [Paradigms](index.md) with the reactive family: programs that react to data streams.
 
 ## Reactive Programming
 
@@ -96,53 +96,4 @@ The *Reactive Manifesto* applies the same idea at architecture scale:
 
 *Implementations*: RxJS/RxJava/Rx.NET, Project Reactor, Akka Streams, Kafka Streams, Reactive Streams (`java.util.concurrent.Flow`, added in Java 9)
 
-*See also*: [Functional Reactive Programming](#functional-reactive-programming-frp) — the pure-function, time-explicit formulation of these ideas
-
-## Functional Reactive Programming (FRP)
-
-A combination of the functional and reactive paradigms. Values that change over time are first-class and are transformed by pure functions, instead of being updated by callbacks that mutate shared state.
-
-### FRP Concepts
-
-Behavior (Signal)
-: Value continuously defined over time: `Behavior a = Time -> a`
-
-Event Stream
-: Discrete sequence of timestamped occurrences: `Event a = [(Time, a)]`
-
-Declarative Time
-: Time as an explicit input of the model, not an implicit side effect of execution order
-
-Combinator
-: Pure HOF building new behaviors or streams from existing ones (`map`, `filter`, `merge`, `scan`, `switch`)
-
-Lifting
-: Applying an ordinary function to time-varying values, producing a time-varying result
-
-Sampling
-: Reading a behavior's value at the moments given by an event stream
-
-Accumulation (`scan`/`fold`)
-: Deriving state from a stream by folding past occurrences — the only sanctioned form of state
-
-Glitch-Freedom
-: Guarantee that dependents observe a consistent snapshot; no intermediate values from partial propagation
-
-### Variants
-
-| Variant | Description |
-| --------- | ------------- |
-| **Classical FRP** | Continuous behaviors + discrete events with denotational semantics (Fran, Reactive) |
-| **Arrowized FRP** | Signal functions (`Signal a -> Signal b`) composed as arrows, avoiding space/time leaks (Yampa) |
-| **Discrete / "RX-style"** | Push-based streams without continuous time; pragmatic and widely deployed (RxJS, Reactor, Combine) |
-| **Signal-based UI** | Fine-grained dependency graph of signals with automatic recomputation (SolidJS, Svelte runes, Angular signals) |
-
-### FRP Trade-offs
-
-| Aspect | Note |
-| -------- | ------ |
-| **Strengths** | Explicit data flow, composability, no manual subscription bookkeeping, testable as pure transformations |
-| **Costs** | Steep learning curve, hard debugging (stack traces lost in the graph), memory/space leaks from retained histories |
-| **Applicability** | UI state, animation, telemetry, event processing, robotics, and simulation |
-
-*See also*: [Functional Programming](02-functional-programming.md) for the concepts used here, such as HOF · [Metaprogramming and AOP](04-metaprogramming.md)
+*See also*: [Functional Reactive Programming](05-frp.md) — the pure-function, time-explicit formulation of these ideas

@@ -20,7 +20,7 @@ Software engineering rests on computer science and applied mathematics, and cove
 
 ## Languages and Computation
 
-- Programming Languages and Type Systems — [Programming Paradigms](../05-programming-paradigms/01-programming-paradigms.md)
+- Programming Languages and Type Systems — [Programming Paradigms](../05-programming-paradigms/index.md)
 - Compilers, Interpreters, and Runtimes
 - Concurrency and Parallel Computing — [Concurrency Patterns](../06-coding/02-design-patterns.md#concurrency-patterns)
 - Quantum Computing

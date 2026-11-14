@@ -1,11 +1,11 @@
 ---
 type: Guide
-title: Metaprogramming and AOP
-description: Covers metaprogramming—code that reads, generates, or transforms code—and aspect-oriented programming built on it.
-tags: [coding, programming-paradigms, metaprogramming, aop]
+title: Metaprogramming
+description: Covers metaprogramming—code that reads, generates, or transforms code—with its stages, techniques, and trade-offs.
+tags: [coding, programming-paradigms, metaprogramming]
 ---
 
-This guide continues [Programming Paradigms](01-programming-paradigms.md) with programs that treat code as data, and with aspect-oriented programming, which is built on them.
+This guide continues [Paradigms](index.md) with programs that treat code as data.
 
 ## Metaprogramming
 
@@ -102,35 +102,6 @@ The same goal can be reached at different points in the lifecycle, with very dif
 
 *Guidance*: prefer the earliest stage that solves the problem — a generic or template before a macro, a macro before an annotation processor, an annotation processor before runtime reflection. Use the dynamic option only when the shape of the code is truly unknown until execution.
 
-*See also*: [Aspect-Oriented Programming (AOP)](#aspect-oriented-programming-aop) — its join points, advice, and weaving are built almost entirely on the load-time and run-time stages above.
+*See also*: [Aspect-Oriented Programming](07-aop.md) — its join points, advice, and weaving are built almost entirely on the load-time and run-time stages above.
 
-## Aspect-Oriented Programming (AOP)
-
-Some requirements — logging, transactions, retries, authorization, tracing — cannot be localized in any single `Class` or `Function`. They cut across many, so the dominant decomposition repeats the same lines at every call site and tangles them with the core logic. AOP makes the scattered requirement itself a first-class unit: defined once, and attached where it applies by a declarative rule instead of an explicit call.
-
-Cross-Cutting Concern
-: Requirement whose implementation would otherwise be scattered across many unrelated units and tangled with their primary logic
-
-Join Point
-: Well-defined moment in program execution where extra behavior may be attached: a method call or execution, a field access, an exception being thrown
-
-Pointcut
-: Predicate selecting a set of `Join Points` by signature, annotation, or type hierarchy, so the targets are described rather than enumerated
-
-Advice
-: Code to run at the selected moments, ordered relative to them as `before`, `after`, `after throwing`, or `around` — the last wrapping the target and free to skip or replace it
-
-Aspect
-: Unit bundling one or more `Pointcuts` with their `Advice` and any state they share, playing the role a class plays in OOP
-
-Weaving
-: Act of merging that extra behavior into the target program, done at compile time, at load time, or at run time through generated proxies
-
-Introduction
-: Adding members or a supertype to an existing class from outside its own definition, also called an inter-type declaration
-
-*Implementations*: AspectJ (compile-time and load-time weaving), Spring AOP (runtime proxies, limited to method execution on managed beans), PostSharp, and the interceptor chains of most DI containers.
-
-The trade-off is the one [Metaprogramming](#metaprogramming) always carries: an `Aspect` applies with no mark at the call site, so the code that is read is no longer the code that runs. Reserve AOP for concerns that are truly uniform across many units, and keep `Pointcuts` narrow enough that a reader can predict where they fire.
-
-*See also*: [Programming Paradigms](01-programming-paradigms.md) · [Reactive Programming and FRP](03-reactive-programming.md)
+*See also*: [Paradigms](index.md) · [Reactive Programming](04-reactive-programming.md)
