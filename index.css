@@ -2,9 +2,9 @@
    layout. The design follows apple.com: values measured from its stylesheet on 2026-10-26. */
 @import "tailwindcss";
 
-@source "../arrmatura-books/node_modules/arrmatura-web/**/*.xml";
-@source "../arrmatura-books/cml/**/*.xml";
-@source "../arrmatura-books/node_modules/arrmatura-markdown/cml/**/*.xml";
+@source "../../libs/arrmatura-web/modules/**/*.xml";
+@source "../../libs/arrmatura-books/cml/**/*.xml";
+@source "../../libs/arrmatura-markdown/cml/**/*.xml";
 @source "./www/index.html";
 
 @plugin "daisyui" {
