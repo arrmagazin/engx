@@ -31,13 +31,13 @@
   },
   "hotPort": 8192,
   "scripts": {
-    "link": "../../libs/proton/ops/link-modules.sh",
+    "link": "proton link-modules",
     "postinstall": "npm run link",
     "start": "export PORT=${PORT:-8092} && npm run stop && npm run glossary && npx --yes npm-run-all --parallel start:*",
     "start:serve": "bun ../../libs/arrmatura-books/scripts/serve.ts",
     "start:css": "npm run build:css -- --watch",
     "start:index": "npm run build:index -- --watch",
-    "start:hot": "bun node_modules/proton/hot/server/main.ts www/dist $(jq .hotPort package.json)",
+    "start:hot": "proton hot www/dist $(jq .hotPort package.json)",
     "start:open": "npx --yes wait-on http://localhost:${PORT:-8092} && open http://localhost:${PORT:-8092}/",
     "stop": "lsof -t -sTCP:LISTEN -i tcp:${PORT:-8092},$(jq .hotPort package.json) | xargs -r kill -9",
     "check": "npx --yes npm-run-all --continue-on-error check:*",
@@ -49,9 +49,9 @@
     "prebuild": "npm run glossary",
     "build": "npx --yes npm-run-all --parallel build:*",
     "build:ts": "bun ../../libs/arrmatura-books/scripts/build.ts",
-    "build:index": "bun node_modules/proton/ops/index-docs.ts docs",
-    "build:sitemap": "bun node_modules/proton/ops/sitemap.ts https://software-engineering.web.app docs",
-    "build:css": "npx --yes @tailwindcss/cli -i index.css -o \"$PWD/www/dist/index.css\"",
+    "build:index": "proton index-docs docs",
+    "build:sitemap": "proton sitemap https://software-engineering.web.app docs",
+    "build:css": "proton build-css",
     "book": "bun ../../libs/arrmatura-books/book/build.ts",
     "gates": "npm run check",
     "predeploy": "npm run build",
@@ -63,9 +63,8 @@
     ]
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.3.5",
     "daisyui": "^5.7.50",
-    "esbuild": "^0.28.2",
+    "proton": "file://../../libs/proton",
     "tailwindcss": "^4.3.3"
   }
 }
