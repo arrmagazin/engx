@@ -3,6 +3,7 @@
 @import "tailwindcss";
 
 @source "../../libs/arrmatura-web/modules/**/*.xml";
+@source not "../../libs/arrmatura-web/{gallery,**/*.demo.xml,**/*.e2e.ts}";
 @source "../../libs/arrmatura-books/cml/**/*.xml";
 @source "../../libs/arrmatura-markdown/cml/**/*.xml";
 @source "./www/index.html";
