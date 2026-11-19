@@ -3,7 +3,7 @@ import components from "./index.xml";
 import pkg from "./package.json";
 import glossary from "./www/glossary.json";
 
-const { author, copyright, description, displayName, hotPort, keywords, name } = pkg;
+const { author, copyright, description, displayName, keywords, name } = pkg;
 const logo = "/favicon.svg";
 const {
   storeUrl,
@@ -19,4 +19,4 @@ const book = {
   scope: "docs",
 };
 
-launchBook({ app, book, hotPort, glossary, components });
+launchBook({ app, book, glossary, components });

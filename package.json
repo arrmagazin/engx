@@ -29,17 +29,15 @@
     ],
     "coverPhoto": "cover.png"
   },
-  "hotPort": 8192,
   "scripts": {
     "link": "proton link-modules",
     "postinstall": "npm run link",
     "start": "export PORT=${PORT:-8092} && npm run stop && npm run glossary && npx --yes npm-run-all --parallel start:*",
-    "start:serve": "bun ../../libs/arrmatura-books/scripts/serve.ts",
+    "start:serve": "proton serve --hot",
     "start:css": "npm run build:css -- --watch",
     "start:index": "npm run build:index -- --watch",
-    "start:hot": "proton hot www/dist $(jq .hotPort package.json)",
     "start:open": "npx --yes wait-on http://localhost:${PORT:-8092} && open http://localhost:${PORT:-8092}/",
-    "stop": "lsof -t -sTCP:LISTEN -i tcp:${PORT:-8092},$(jq .hotPort package.json) | xargs -r kill -9",
+    "stop": "lsof -t -sTCP:LISTEN -i tcp:${PORT:-8092} | xargs -r kill -9",
     "check": "npx --yes npm-run-all --continue-on-error check:*",
     "check:frontmatter": "git ls-files 'docs/*.md' | xargs bun ../../libs/arrmatura-books/scripts/check-okf-frontmatter.ts",
     "check:glossary": "git ls-files 'docs/*.md' | xargs bun ../../libs/arrmatura-books/scripts/check-glossary.ts",
@@ -48,7 +46,7 @@
     "glossary": "git ls-files 'docs/*.md' | xargs bun ../../libs/arrmatura-books/scripts/build-glossary.ts",
     "prebuild": "npm run glossary",
     "build": "npx --yes npm-run-all --parallel build:*",
-    "build:ts": "bun ../../libs/arrmatura-books/scripts/build.ts",
+    "build:ts": "proton build",
     "build:index": "proton index-docs docs",
     "build:sitemap": "proton sitemap https://software-engineering.web.app docs",
     "build:css": "proton build-css",
@@ -63,8 +61,13 @@
     ]
   },
   "devDependencies": {
+    "arrmatura": "file://../../libs/arrmatura",
+    "arrmatura-books": "file://../../libs/arrmatura-books",
+    "arrmatura-markdown": "file://../../libs/arrmatura-markdown",
+    "arrmatura-web": "file://../../libs/arrmatura-web",
     "daisyui": "^5.7.50",
     "proton": "file://../../libs/proton",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "ultimus": "file://../../libs/ultimus"
   }
 }
